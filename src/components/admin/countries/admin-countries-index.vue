@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import router from "/src/router.js"
 import {
   countries, currentCountry, textLoadOrFailForVue,

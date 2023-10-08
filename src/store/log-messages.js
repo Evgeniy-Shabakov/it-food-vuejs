@@ -43,6 +43,15 @@ export function formDoneLogMessage(urlPrefix, res, data) {
       else if (res.config.method == 'delete')
         message.text = `Ресторан "${data.title}" удален`
       return message
+
+    case 'categories':
+      if (res.config.method == 'post')
+        message.text = `Категория "${data.title}" добавлена`
+      else if (res.config.method == 'patch')
+        message.text = `Категория "${data.oldTitle}" изменена на "${data.title}"`
+      else if (res.config.method == 'delete')
+        message.text = `Категория "${data.title}" удалена`
+      return message
   }
 }
 

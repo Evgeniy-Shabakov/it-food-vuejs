@@ -12,6 +12,9 @@ export const currentCity = ref()
 export const restaurants = ref()
 export const currentRestaurant = ref()
 
+export const categories = ref()
+export const currentCategory = ref()
+
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
 export function getModelsAxios(urlPrefix) {
@@ -22,6 +25,7 @@ export function getModelsAxios(urlPrefix) {
                 if (urlPrefix == 'countries') countries.value = res.data.data
                 else if (urlPrefix == 'cities') cities.value = res.data.data
                 else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
+                else if (urlPrefix == 'categories') categories.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -40,6 +44,7 @@ export function getModelAxios(urlPrefix, id) {
                 if (urlPrefix == 'countries') currentCountry.value = res.data.data
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
+                else if (urlPrefix == 'categories') currentCategory.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -74,6 +79,7 @@ export function updateModelAxios(urlPrefix, data) {
                 if (urlPrefix == 'countries') currentCountry.value = res.data.data
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
+                else if (urlPrefix == 'categories') currentCategory.value = res.data.data
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)
@@ -93,6 +99,7 @@ export function deleteModelAxios(urlPrefix, data) {
                 if (urlPrefix == 'countries') currentCountry.value = null
                 else if (urlPrefix == 'cities') currentCity.value = null
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = null
+                else if (urlPrefix == 'categories') currentCategory.value = null
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)

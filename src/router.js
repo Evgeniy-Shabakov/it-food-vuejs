@@ -73,6 +73,27 @@ const routes = [
                 component: () => import('./components/admin/restaurants/admin-restaurants-edit.vue'),
                 name: 'admin.restaurants.edit'
             },
+
+            {
+                path: 'categories',
+                component: () => import('./components/admin/categories/admin-categories-index.vue'),
+                name: 'admin.categories.index'
+            },
+            {
+                path: 'categories/create',
+                component: () => import('./components/admin/categories/admin-categories-create.vue'),
+                name: 'admin.categories.create'
+            },
+            {
+                path: 'categories/:id',
+                component: () => import('./components/admin/categories/admin-categories-show.vue'),
+                name: 'admin.categories.show'
+            },
+            {
+                path: 'categories/:id/edit',
+                component: () => import('./components/admin/categories/admin-categories-edit.vue'),
+                name: 'admin.categories.edit'
+            },
         ],
 
     },

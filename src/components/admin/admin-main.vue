@@ -18,7 +18,7 @@ function setColor(type) {
     <router-link to="/admin/countries">Страны</router-link>
     <router-link to="/admin/cities">Города</router-link>
     <router-link to="/admin/restaurants">Рестораны</router-link>
-    <a href="#">Категории</a>
+    <router-link to="/admin/categories">Категории</router-link>
     <a href="#">Товары</a>
   </div>
   <!-- Page content -->
