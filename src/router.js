@@ -1,0 +1,89 @@
+import * as VueRouter from 'vue-router';
+
+const routes = [
+    {
+        path: '/',
+        component: () => import('./components/client/client-main.vue'),
+        name: 'client.main',
+    },
+    {
+        path: '/admin',
+        component: () => import('./components/admin/admin-main.vue'),
+        name: 'admin.main',
+        children: [
+            {
+                path: 'countries',
+                component: () => import('./components/admin/countries/admin-countries-index.vue'),
+                name: 'admin.countries.index'
+            },
+            {
+                path: 'countries/create',
+                component: () => import('./components/admin/countries/admin-countries-create.vue'),
+                name: 'admin.countries.create'
+            },
+            {
+                path: 'countries/:id',
+                component: () => import('./components/admin/countries/admin-countries-show.vue'),
+                name: 'admin.countries.show'
+            },
+            {
+                path: 'countries/:id/edit',
+                component: () => import('./components/admin/countries/admin-countries-edit.vue'),
+                name: 'admin.countries.edit'
+            },
+            
+            {
+                path: 'cities',
+                component: () => import('./components/admin/cities/admin-cities-index.vue'),
+                name: 'admin.cities.index'
+            },
+            {
+                path: 'cities/create',
+                component: () => import('./components/admin/cities/admin-cities-create.vue'),
+                name: 'admin.cities.create'
+            },
+            {
+                path: 'cities/:id',
+                component: () => import('./components/admin/cities/admin-cities-show.vue'),
+                name: 'admin.cities.show'
+            },
+            {
+                path: 'cities/:id/edit',
+                component: () => import('./components/admin/cities/admin-cities-edit.vue'),
+                name: 'admin.cities.edit'
+            },
+
+            {
+                path: 'restaurants',
+                component: () => import('./components/admin/restaurants/admin-restaurants-index.vue'),
+                name: 'admin.restaurants.index'
+            },
+            {
+                path: 'restaurants/create',
+                component: () => import('./components/admin/restaurants/admin-restaurants-create.vue'),
+                name: 'admin.restaurants.create'
+            },
+            {
+                path: 'restaurants/:id',
+                component: () => import('./components/admin/restaurants/admin-restaurants-show.vue'),
+                name: 'admin.restaurants.show'
+            },
+            {
+                path: 'restaurants/:id/edit',
+                component: () => import('./components/admin/restaurants/admin-restaurants-edit.vue'),
+                name: 'admin.restaurants.edit'
+            },
+        ],
+
+    },
+]
+
+const router = new VueRouter.createRouter({
+    history: VueRouter.createWebHistory(),
+    routes,
+})
+
+export default router
+
+
+
