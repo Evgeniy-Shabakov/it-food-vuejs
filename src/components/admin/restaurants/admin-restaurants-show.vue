@@ -123,49 +123,6 @@ function setColor(param) {
       </button>
     </div>
   </div>
-  <!-- <div v-if="currentRestaurant" class="admin-view-model">
-    <div>
-      <label>Наименование: </label>
-      <span>{{ currentRestaurant.title }}</span>
-    </div>
-    <div>
-      <label>Страна: </label>
-      <span>{{ currentRestaurant.city.country.title }}</span>
-    </div>
-    <div>
-      <label>Город: </label>
-      <span>{{ currentRestaurant.city.title }}</span>
-    </div>
-    <div>
-      <label>Адрес: </label>
-      <span> ул. {{ currentRestaurant.street }} дом {{ currentRestaurant.house_number }}
-        <span v-if="currentRestaurant.corps_number"> корпус {{ currentRestaurant.corps_number }} </span>
-        <span v-if="currentRestaurant.office_number"> кв./офис {{ currentRestaurant.office_number }} </span>
-      </span>
-    </div>
-    <div>
-      <label>Дополнительная информация: </label>
-      <span>{{ currentRestaurant.info }}</span>
-    </div>
-    <div>
-      <label>Доcтупен самовывоз: </label>
-      <i :class="setColor(currentRestaurant.pickup_available)" class="fa-solid fa-bag-shopping"></i>
-    </div>
-    <div>
-      <label>Доcтупна доставка: </label>
-      <i :class="setColor(currentRestaurant.delivery_available)" class="fa-solid fa-car-side"></i>
-    </div>
-    <div>
-      <label>Доcтупна подача в ресторане: </label>
-      <i :class="setColor(currentRestaurant.eating_area_available)" class="fa-solid fa-utensils"></i>
-    </div>
-    <div>
-      <label>Активен прием заказов: </label>
-      <span class="color-done" v-if="currentRestaurant.is_active">Активен</span>
-      <span class="color-error" v-else>Не активен</span>
-    </div>
-    
-  </div> -->
   <div v-else class="admin-view-model-load">
     {{ textLoadOrFailForVue }}
   </div>
