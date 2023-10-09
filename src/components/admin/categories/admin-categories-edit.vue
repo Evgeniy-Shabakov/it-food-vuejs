@@ -57,8 +57,10 @@ function updateCategoryVue(data) {
     <div class="invalid-text">{{ textErrorInputCategory }}</div>
 
     <div class="done-text">{{ textDone }}</div>
-    <button class="btn btn-view"
-      @click.prevent="updateCategoryVue({ id: currentCategory.id, title: inputedCategory })">Редактировать</button>
+    <button class="btn btn-view" @click.prevent="updateCategoryVue({
+      id: currentCategory.id,
+      title: inputedCategory
+    })">Редактировать</button>
   </form>
   <div v-show="currentCategory == null" class="admin-view-model-load">
     {{ textLoadOrFailForVue }}

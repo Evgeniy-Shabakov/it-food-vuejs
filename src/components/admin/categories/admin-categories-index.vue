@@ -2,7 +2,7 @@
 import router from "/src/router.js"
 import {
   categories, currentCategory, textLoadOrFailForVue,
-  getModelsAxios, deleteModelAxios
+  getModelsAxios, updateModelAxios, deleteModelAxios
 } from '/src/store/axios-helper.js'
 
 getModelsAxios('categories')
@@ -22,6 +22,22 @@ function deleteCategory(category) {
     .then((res) => { getModelsAxios('categories') })
     .catch((err) => { })
 }
+
+function decreaseNumberInList(category) {
+  category.number_in_list--
+  updateModelAxios('categories', category)
+    .then(() => {
+      getModelsAxios('categories')
+    })
+}
+
+function increaseNumberInList(category) {
+  category.number_in_list++
+  updateModelAxios('categories', category)
+    .then(() => {
+      getModelsAxios('categories')
+    })
+}
 </script>
 
 <template>
@@ -36,9 +52,18 @@ function deleteCategory(category) {
           <td>
             <h5>{{ category.title }}</h5>
           </td>
+          <td>
+            <button class="btn-up-down" @click.prevent="decreaseNumberInList(category)" type="button">
+              <i class="fa-solid fa-arrow-up"></i>
+            </button>
+            <button class="btn-up-down" @click.prevent="increaseNumberInList(category)" type="button">
+              <i class="fa-solid fa-arrow-down"></i>
+            </button>
+          </td>
           <td><button class="btn btn-view" @click.prevent="openCategoryShow(category)" type="button">Просмотреть</button>
           </td>
-          <td><button class="btn btn-edit" @click.prevent="openCategoryEdit(category)" type="button">Редактировать</button>
+          <td><button class="btn btn-edit" @click.prevent="openCategoryEdit(category)"
+              type="button">Редактировать</button>
           </td>
           <td><button class="btn btn-delete" @click.prevent="deleteCategory(category)" type="button">Удалить</button>
           </td>

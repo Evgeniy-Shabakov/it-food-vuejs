@@ -47,8 +47,10 @@ export function formDoneLogMessage(urlPrefix, res, data) {
     case 'categories':
       if (res.config.method == 'post')
         message.text = `Категория "${data.title}" добавлена`
-      else if (res.config.method == 'patch')
-        message.text = `Категория "${data.oldTitle}" изменена на "${data.title}"`
+      else if (res.config.method == 'patch') {
+        if (data.number_in_list) message.text = `Изменен порядок категории "${data.title}"`
+        else message.text = `Категория "${data.oldTitle}" изменена на "${data.title}"`
+      }
       else if (res.config.method == 'delete')
         message.text = `Категория "${data.title}" удалена`
       return message
