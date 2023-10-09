@@ -1,27 +1,18 @@
 <script setup>
-
+import { categories, getModelsAxios } from '/src/store/axios-helper.js'
+getModelsAxios('categories')
 </script>
 
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Пицца</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Закуски</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Десерты</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Напитки</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <div class="container">
+    <div class="menu">
+      <ul class="menu-nav">
+        <li v-for="category in categories" class="menu-nav-item">
+          <a class="menu-nav-item-link" href="#">{{ category.title }}</a>
+        </li>
+      </ul>
+      <button class="menu-btn-card">Корзина</button>
     </div>
+  </div>
 </template>
 

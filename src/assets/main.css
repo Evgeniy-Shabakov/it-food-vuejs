@@ -4,6 +4,53 @@
     box-sizing: border-box;
 }
 
+.container {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 550;
+}
+
+.menu-nav {
+    display: flex;
+    list-style: none;
+}
+
+.menu-nav-item{
+    padding: 22px 20px 22px 0px;
+}
+
+.menu-nav-item-link {
+    text-decoration: none;
+    color: black;
+}
+
+.menu-nav-item-link:hover {
+    text-decoration: none;
+    color: rgb(255, 105, 0);;
+}
+
+.menu-btn-card {
+    border: 0;
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: rgb(255, 105, 0);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: 550;
+}
+
+.menu-btn-card:hover {
+    cursor: pointer;
+    background-color: rgb(231, 97, 1);
+}
+
 body {
     font-family: Arial, sans-serif;
     font-size: 20px;
@@ -44,7 +91,7 @@ body {
 }
 
 .admin-index-table {
-    border-collapse:collapse; 
+    border-collapse: collapse;
     margin-bottom: 30px;
     text-align: center;
 }
@@ -176,11 +223,11 @@ select {
 }
 
 .admin-view-model table {
-    border-collapse:collapse;
+    border-collapse: collapse;
 }
 
-.admin-view-model table td{
-    padding: 10px; 
+.admin-view-model table td {
+    padding: 10px;
     border: 1px solid grey;
     max-width: 600px;
 }
