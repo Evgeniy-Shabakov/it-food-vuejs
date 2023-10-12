@@ -4,14 +4,21 @@ getModelsAxios('categories')
 </script>
 
 <template>
-  <div class="container">
-    <div class="menu">
-      <a v-for="category in categories" class="menu-item" href="#">{{ category.title }}</a>
+  <div class="categories">
+    <div class="container">
+      <div class="categories__inner">
+        <a v-for="category in categories" class="categories__item" href="#">{{ category.title }}</a>
+      </div>
     </div>
-    <button class="btn-cart">
-      <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
-    </button>
-    <div class="content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis odio repellendus rerum soluta
+  </div>
+  
+  <button class="btn-cart">
+    <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
+  </button>
+
+  <div class="content">
+    <div class="container">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis odio repellendus rerum soluta
       perferendis aut
       deserunt veritatis at, labore praesentium sint exercitationem expedita saepe quisquam nobis nihil quo! Itaque
       consectetur vero quisquam, id architecto mollitia dicta necessitatibus placeat nam molestiae at nemo tempora ea
@@ -55,7 +62,8 @@ getModelsAxios('categories')
       culpa commodi adipisci eos quam consectetur quis sequi exercitationem, necessitatibus quos voluptatem consequatur
       quia
       iusto officia nesciunt illo facere non labore ex obcaecati dicta? Alias quisquam dolorum corporis omnis corrupti ea
-      doloremque veniam? Maxime ipsa quasi temporibus numquam blanditiis.</div>
+      doloremque veniam? Maxime ipsa quasi temporibus numquam blanditiis.
+    </div>
   </div>
 </template>
 
