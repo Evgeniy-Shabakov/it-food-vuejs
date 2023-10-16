@@ -4,14 +4,40 @@ getModelsAxios('categories')
 </script>
 
 <template>
-  <div class="categories">
+  <div class="info">
+    <div class="container">
+      <div class="info__inner">
+        <a class="info__item" href="#">О нас</a>
+        <a class="info__item" href="#">Контакты</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <div class="header__inner__left">
+          <img class="header__logo" src="/icons8.png" alt="">
+          <div>
+            <h1 class="header__company-name">IT-Food</h1>
+            <div class="header__tagline">Build your own food delivery network</div>
+          </div>
+        </div>
+        <div class="header__inner_right">
+          <button class="header__button">Войти</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="categories">
     <div class="container">
       <div class="categories__inner">
         <a v-for="category in categories" class="categories__item" href="#">{{ category.title }}</a>
       </div>
     </div>
-  </div>
-  
+  </nav>
+
   <button class="btn-cart">
     <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
   </button>

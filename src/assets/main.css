@@ -26,6 +26,60 @@ body {
     }
 }
 
+.info {
+    font-size: 16px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+}
+
+.info__inner {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px 0px;
+}
+
+.info__item {
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    margin: 5px 15px 5px 0px;
+}
+
+.info__item:hover {
+    color: rgb(255, 105, 0);
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0px;   
+}
+
+.header__inner__left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header__logo {
+    height: 70px;
+}
+
+.header__button {
+    border: 0;
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: rgba(128, 128, 128, 0.158);
+    color: grey;
+    font-weight: 600;
+}
+
+.header__button:hover {
+    cursor: pointer;
+    color: black;
+}
+
 .categories {
     position: sticky;
     top: 0;

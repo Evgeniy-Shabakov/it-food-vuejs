@@ -17,6 +17,31 @@
         color: rgb(255, 105, 0);
     }
 
+    .info {
+        display: none;
+    }
+
+    .header__inner {
+        margin-top: 8px;
+        margin-bottom: 0px; 
+    }
+
+    .header__logo {
+        height: 40px;
+    }
+
+    .header__company-name {
+        font-size: 24px;
+    }
+
+    .header__tagline {
+        display: none;
+    }
+
+    .header__button {
+        display: none;
+    }
+
     .btn-cart {
         display: block;
         position: fixed;
