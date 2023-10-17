@@ -23,7 +23,7 @@
 
     .header__inner {
         margin-top: 8px;
-        margin-bottom: 0px; 
+        margin-bottom: 0px;
     }
 
     .header__logo {
@@ -40,6 +40,30 @@
 
     .header__button {
         display: none;
+    }
+
+    .header__btn-burger-menu {
+        display: block;
+        border: 0;
+        background: transparent;
+        font-size: 22px;
+        color: rgb(255, 105, 0);
+    }
+
+    .burger-menu {
+        position: fixed;
+        right: 0;
+        z-index: 10;
+        background-color: rgb(255, 105, 0);
+        border-radius: 10px;
+    }
+    
+    .burger-menu__item {
+        display: block;
+        color: white;
+        padding: 10px 5px;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .btn-cart {
@@ -73,10 +97,10 @@
     }
 
     .categories__item:first-child {
-        margin-left: 5%;
+        margin-left: 3%;
     }
 
     .categories__item:last-child {
-        margin-right: 5%;
+        margin-right: 3%;
     }
 }

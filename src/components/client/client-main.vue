@@ -1,6 +1,34 @@
 <script setup>
+import { ref, onMounted } from 'vue';
 import { categories, getModelsAxios } from '/src/store/axios-helper.js'
+
 getModelsAxios('categories')
+
+const btnBurgerMenu = ref(null)
+const burgerMenu = ref(null)
+
+onMounted(() => {
+  burgerMenu.value.hidden = true
+
+  btnBurgerMenu.value.addEventListener('click', function () {
+    if (burgerMenu.value.hidden) burgerMenu.value.hidden = false
+    else burgerMenu.value.hidden = true
+  })
+
+  document.addEventListener('click', function (event) {
+    if (btnBurgerMenu.value.contains(event.target)) return
+
+    if (!burgerMenu.value.contains(event.target)) {
+      burgerMenu.value.hidden = true
+    }
+  })
+
+  window.onscroll = function () {
+    if(burgerMenu.value.hidden) return
+    burgerMenu.value.hidden = true
+  }
+})
+
 </script>
 
 <template>
@@ -23,12 +51,24 @@ getModelsAxios('categories')
             <div class="header__tagline">Build your own food delivery network</div>
           </div>
         </div>
-        <div class="header__inner_right">
+        <div class="header__inner__right">
           <button class="header__button">Войти</button>
+          <button ref="btnBurgerMenu" class="header__btn-burger-menu"><i class="fa-solid fa-bars"></i></button>
         </div>
       </div>
     </div>
   </header>
+
+  <nav ref="burgerMenu" class="burger-menu">
+    <div class="container">
+      <div class="burger-menu__inner">
+        <a class="burger-menu__item" href="#">Москва (изменить город)</a>
+        <a class="burger-menu__item" href="#">Войти</a>
+        <a class="burger-menu__item" href="#">О нас</a>
+        <a class="burger-menu__item" href="#">Контакты</a>
+      </div>
+    </div>
+  </nav>
 
   <nav class="categories">
     <div class="container">

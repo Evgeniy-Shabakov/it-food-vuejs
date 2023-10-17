@@ -53,7 +53,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 15px 0px;   
+    margin: 15px 0px;
 }
 
 .header__inner__left {
@@ -78,6 +78,10 @@ body {
 .header__button:hover {
     cursor: pointer;
     color: black;
+}
+
+.header__btn-burger-menu {
+    display: none;
 }
 
 .categories {
