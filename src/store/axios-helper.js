@@ -15,6 +15,8 @@ export const currentRestaurant = ref()
 export const categories = ref()
 export const currentCategory = ref()
 
+export const company = ref()
+
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
 export function getModelsAxios(urlPrefix) {
@@ -45,6 +47,7 @@ export function getModelAxios(urlPrefix, id) {
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+                else if (urlPrefix == 'companies') company.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -80,6 +83,7 @@ export function updateModelAxios(urlPrefix, data) {
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+                else if (urlPrefix == 'companies') company.value = res.data.data
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)

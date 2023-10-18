@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { categories, getModelsAxios } from '/src/store/axios-helper.js'
+import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
 
+getModelAxios('companies', 1)
 getModelsAxios('categories')
 
 const btnBurgerMenu = ref(null)
@@ -24,7 +25,7 @@ onMounted(() => {
   })
 
   window.onscroll = function () {
-    if(burgerMenu.value.hidden) return
+    if (burgerMenu.value.hidden) return
     burgerMenu.value.hidden = true
   }
 })
@@ -45,10 +46,10 @@ onMounted(() => {
     <div class="container">
       <div class="header__inner">
         <div class="header__inner__left">
-          <img class="header__logo" src="/icons8.png" alt="">
+          <img v-if="company" class="header__logo" :src="company.logo_url" alt="">
           <div>
-            <h1 class="header__company-name">IT-Food</h1>
-            <div class="header__tagline">Build your own food delivery network</div>
+            <h1 v-if="company" class="header__company-name">{{ company.brand_title }}</h1>
+            <div v-if="company" class="header__tagline">{{ company.tagline }}</div>
           </div>
         </div>
         <div class="header__inner__right">

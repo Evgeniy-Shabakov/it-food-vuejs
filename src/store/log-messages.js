@@ -54,6 +54,11 @@ export function formDoneLogMessage(urlPrefix, res, data) {
       else if (res.config.method == 'delete')
         message.text = `Категория "${data.title}" удалена`
       return message
+
+    case 'compenies':
+      if (res.config.method == 'patch') 
+        message.text = `Данные компании отредактированы`
+      return message
   }
 }
 
