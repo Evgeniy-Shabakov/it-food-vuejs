@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
+import { setBrowserTitleAndIconForClient } from '/src/store/vue-use-helper'
+
+setBrowserTitleAndIconForClient()
 
 getModelAxios('companies', 1)
 getModelsAxios('categories')

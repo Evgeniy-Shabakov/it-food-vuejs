@@ -3,6 +3,9 @@ import router from "/src/router.js"
 import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MessageType } from '/src/store/message-type.js'
+import { setBrowserTitleAndIconForAdminPanel } from '/src/store/vue-use-helper'
+
+setBrowserTitleAndIconForAdminPanel()
 
 function setColor(type) {
   if (type == MessageType.Warning) return "bg-color-warning"
