@@ -55,9 +55,9 @@ export function formDoneLogMessage(urlPrefix, res, data) {
         message.text = `Категория "${data.title}" удалена`
       return message
 
-    case 'compenies':
-      if (res.config.method == 'patch') 
-        message.text = `Данные компании отредактированы`
+    case 'companies':
+      if (res.config.method == 'post')
+        message.text = `Данные компании отредактированы, чтобы увидеть изменения необходимо обновить страницу`
       return message
   }
 }

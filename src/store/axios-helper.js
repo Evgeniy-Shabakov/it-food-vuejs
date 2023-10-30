@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import axios from 'axios'
 import { serverApiUrl } from '/src/main.js'
@@ -75,6 +75,24 @@ export function storeModelAxios(urlPrefix, data) {
 }
 
 export function updateModelAxios(urlPrefix, data) {
+    if (urlPrefix == 'companies') {
+        data.append("_method", "PATCH");
+        return new Promise(function (resolve, reject) {
+            axios
+                .post(`${serverApiUrl}/${urlPrefix}/1`, data)
+                .then(res => {
+                    company.value = res.data.data
+                    res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
+                    addLogMessage(res.messageForVue)
+                    resolve(res)
+                })
+                .catch(err => {
+                    addLogMessage(formErrorLogMessage(err))
+                    reject(err)
+                })
+        })
+    }
+
     return new Promise(function (resolve, reject) {
         axios
             .patch(`${serverApiUrl}/${urlPrefix}/${data.id}`, data)
@@ -83,7 +101,6 @@ export function updateModelAxios(urlPrefix, data) {
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
-                else if (urlPrefix == 'companies') company.value = res.data.data
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)

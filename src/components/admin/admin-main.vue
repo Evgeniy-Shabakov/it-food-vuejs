@@ -1,11 +1,12 @@
 <script setup>
+import { onMounted, onUpdated } from "vue"
 import router from "/src/router.js"
 import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MessageType } from '/src/store/message-type.js'
-import { setBrowserTitleAndIconForAdminPanel } from '/src/store/vue-use-helper'
+import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
 
-setBrowserTitleAndIconForAdminPanel()
+setBrowserTitleForAdminPanel()
 
 function setColor(type) {
   if (type == MessageType.Warning) return "bg-color-warning"
@@ -13,16 +14,45 @@ function setColor(type) {
   else return "bg-color-done"
 }
 
+let navMenu
+let links
+
+onMounted(() => {
+  navMenu = document.getElementById('nav-menu');
+  links = navMenu.getElementsByTagName('a');
+
+  highlightLink()
+})
+
+onUpdated(() => {
+  highlightLink()
+})
+
+function highlightLink() {
+  for (let i = 0; i < links.length; i++) {
+    if (window.location.href == links[i].href) {
+      links[i].classList.add('active');
+    }
+    else if (window.location.href.includes(links[i].href) && i != 0 && i != links.length-1) {
+      links[i].classList.add('active');
+    }
+    else links[i].classList.remove('active');
+  }
+}
+
 </script>
 
 <template>
   <!-- Боковая панель -->
-  <div class="sidenav">
+  <div id="nav-menu" class="sidenav">
+    <router-link to="/admin">Главная</router-link>
+    <router-link to="/admin/companies/1/edit">Компания</router-link>
     <router-link to="/admin/countries">Страны</router-link>
     <router-link to="/admin/cities">Города</router-link>
     <router-link to="/admin/restaurants">Рестораны</router-link>
     <router-link to="/admin/categories">Категории</router-link>
     <a href="#">Товары</a>
+    <router-link to="/" target="_blank">Сайт</router-link>
   </div>
   <!-- Page content -->
   <div class="pagecontent">
@@ -165,6 +195,10 @@ function setColor(type) {
 }
 
 .sidenav a:hover {
+  color: #f1f1f1;
+}
+
+a.active {
   color: #f1f1f1;
 }
 

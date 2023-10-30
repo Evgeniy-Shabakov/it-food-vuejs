@@ -12,6 +12,12 @@ const routes = [
         name: 'admin.main',
         children: [
             {
+                path: 'companies/:id/edit',
+                component: () => import('./components/admin/companies/admin-companies-edit.vue'),
+                name: 'admin.companies.edit'
+            },
+
+            {
                 path: 'countries',
                 component: () => import('./components/admin/countries/admin-countries-index.vue'),
                 name: 'admin.countries.index'
@@ -31,7 +37,7 @@ const routes = [
                 component: () => import('./components/admin/countries/admin-countries-edit.vue'),
                 name: 'admin.countries.edit'
             },
-            
+
             {
                 path: 'cities',
                 component: () => import('./components/admin/cities/admin-cities-index.vue'),

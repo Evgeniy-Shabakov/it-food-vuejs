@@ -114,6 +114,27 @@ select {
     margin-bottom: 5px;
 }
 
+.admin-forms__div-img-btn {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.admin-forms__div-img-btn__favicon {
+    height: 50px;
+    width: 50px;
+}
+
+.admin-forms__div-img-btn__logo {
+    height: 100px;
+    min-width: 10px;
+}
+
+#admin-forms__div-img-btn__btn {
+    margin-top: 0px;
+}
+
 .admin-forms input[type=checkbox] {
     display: inline-block;
     width: 25px;
