@@ -100,6 +100,27 @@ const routes = [
                 component: () => import('./components/admin/categories/admin-categories-edit.vue'),
                 name: 'admin.categories.edit'
             },
+
+            {
+                path: 'products',
+                component: () => import('./components/admin/products/admin-products-index.vue'),
+                name: 'admin.products.index'
+            },
+            {
+                path: 'products/create',
+                component: () => import('./components/admin/products/admin-products-create.vue'),
+                name: 'admin.products.create'
+            },
+            {
+                path: 'products/:id',
+                component: () => import('./components/admin/products/admin-products-show.vue'),
+                name: 'admin.products.show'
+            },
+            {
+                path: 'products/:id/edit',
+                component: () => import('./components/admin/products/admin-products-edit.vue'),
+                name: 'admin.products.edit'
+            },
         ],
 
     },

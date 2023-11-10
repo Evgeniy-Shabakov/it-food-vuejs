@@ -71,9 +71,18 @@
     width: 100px;
     padding: 2px 5px 2px 5px;
     overflow: hidden;
+    white-space: nowrap;
+}
+
+.admin-index-table img {
+    width: 70px;
+    padding: 10px;
+    padding-right: 15px;
 }
 
 .admin-index-table td:first-child {
+    display: flex;
+    align-items: center;
     min-width: 200px;
     max-width: 200px;
     font-size: 22px;
@@ -129,6 +138,11 @@ select {
 .admin-forms__div-img-btn__logo {
     height: 100px;
     min-width: 10px;
+}
+
+.admin-forms__div-img-btn__product {
+    height: 100px;
+    min-width: 50px;
 }
 
 #admin-forms__div-img-btn__btn {
@@ -196,6 +210,10 @@ select {
 
 .admin-view-model span {
     font-weight: 700;
+}
+
+.admin-view-model img {
+    height: 100px;
 }
 
 .admin-view-model table {

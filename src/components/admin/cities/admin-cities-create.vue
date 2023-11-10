@@ -64,8 +64,7 @@ function storeCityVue(data) {
   <h2>Добавление города</h2>
   <form v-show="countries" class="admin-forms">
     <label class="required">Страна</label>
-    <select v-model="selectedCountry"
-      @click.prevent="textErrorSelectCountry = ''; textDone = ''">
+    <select v-model="selectedCountry" @click.prevent="textErrorSelectCountry = ''; textDone = ''">
       <option v-for="country in countries" :value="country">{{ country.title }}</option>
     </select>
     <div class="invalid-text">{{ textErrorSelectCountry }}</div>
@@ -76,8 +75,10 @@ function storeCityVue(data) {
     <div class="invalid-text">{{ textErrorInputCity }}</div>
 
     <div class="done-text">{{ textDone }}</div>
-    <button class="btn btn-view"
-      @click.prevent="storeCityVue({ title: inputedCity, country_id: selectedCountry.id })">Добавить</button>
+    <button class="btn btn-view" @click.prevent="storeCityVue({
+      title: inputedCity,
+      country_id: selectedCountry.id
+    })">Добавить</button>
   </form>
   <div v-show="countries == null" class="admin-view-model-load">
     {{ textLoadOrFailForVue }}

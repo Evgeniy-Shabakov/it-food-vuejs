@@ -47,6 +47,7 @@ else {
 function updateCompany(data) {
   const formData = new FormData();
 
+  formData.append("id", data.id);
   formData.append("title", data.title);
   formData.append("brand_title", data.brand_title);
   formData.append("tagline", data.tagline);

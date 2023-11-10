@@ -3,6 +3,8 @@ import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/sto
 import axios from 'axios'
 import { serverApiUrl } from '/src/main.js'
 
+export const company = ref()
+
 export const countries = ref()
 export const currentCountry = ref()
 
@@ -15,7 +17,8 @@ export const currentRestaurant = ref()
 export const categories = ref()
 export const currentCategory = ref()
 
-export const company = ref()
+export const products = ref()
+export const currentProduct = ref()
 
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
@@ -28,6 +31,7 @@ export function getModelsAxios(urlPrefix) {
                 else if (urlPrefix == 'cities') cities.value = res.data.data
                 else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
                 else if (urlPrefix == 'categories') categories.value = res.data.data
+                else if (urlPrefix == 'products') products.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -47,6 +51,7 @@ export function getModelAxios(urlPrefix, id) {
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+                else if (urlPrefix == 'products') currentProduct.value = res.data.data
                 else if (urlPrefix == 'companies') company.value = res.data.data
                 resolve(res)
             })
@@ -61,7 +66,7 @@ export function getModelAxios(urlPrefix, id) {
 export function storeModelAxios(urlPrefix, data) {
     return new Promise(function (resolve, reject) {
         axios
-            .post(`${serverApiUrl}/${urlPrefix}/`, data)
+            .post(`${serverApiUrl}/${urlPrefix}`, data)
             .then(res => {
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
@@ -75,13 +80,14 @@ export function storeModelAxios(urlPrefix, data) {
 }
 
 export function updateModelAxios(urlPrefix, data) {
-    if (urlPrefix == 'companies') {
+    if (urlPrefix == 'companies' || urlPrefix == 'products') {
         data.append("_method", "PATCH");
         return new Promise(function (resolve, reject) {
             axios
-                .post(`${serverApiUrl}/${urlPrefix}/1`, data)
+                .post(`${serverApiUrl}/${urlPrefix}/${data.get('id')}`, data)
                 .then(res => {
-                    company.value = res.data.data
+                    if (urlPrefix == 'companies') company.value = res.data.data
+                    if (urlPrefix == 'products') currentProduct.value = res.data.data
                     res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                     addLogMessage(res.messageForVue)
                     resolve(res)
@@ -121,6 +127,7 @@ export function deleteModelAxios(urlPrefix, data) {
                 else if (urlPrefix == 'cities') currentCity.value = null
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = null
                 else if (urlPrefix == 'categories') currentCategory.value = null
+                else if (urlPrefix == 'products') currentProduct.value = null
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)

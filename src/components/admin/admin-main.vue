@@ -51,7 +51,7 @@ function highlightLink() {
     <router-link to="/admin/cities">Города</router-link>
     <router-link to="/admin/restaurants">Рестораны</router-link>
     <router-link to="/admin/categories">Категории</router-link>
-    <a href="#">Товары</a>
+    <router-link to="/admin/products">Товары</router-link>
     <router-link to="/" target="_blank">Сайт</router-link>
   </div>
   <!-- Page content -->
