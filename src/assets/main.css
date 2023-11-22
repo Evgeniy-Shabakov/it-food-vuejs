@@ -1,7 +1,17 @@
+:root {
+    --scroll-padding-top: 65px;
+  }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* border: solid 2px orange; */
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--scroll-padding-top);
 }
 
 body {
@@ -87,7 +97,7 @@ body {
 .categories {
     position: sticky;
     top: 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 550;
     background: white;
     border-bottom: 1px solid rgba(128, 128, 128, 0.7);
@@ -97,6 +107,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     padding: 8px 0;
+    position: relative;
 }
 
 .categories__item {
@@ -111,8 +122,101 @@ body {
     color: rgb(255, 105, 0);
 }
 
+.cart {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: solid 2px rgba(255, 166, 0, 0.7);
+    border-radius: 5px;
+    background: white;
+    width: 23%;
+    padding: 15px;
+    margin-top: var(--scroll-padding-top);
+}
+
 .content {
-    margin-top: 15px;
+    
+}
+
+.content__inner {
+    padding: 0 0 25px 0;
+    width: 75%;
+}
+
+.content__products {
+    
+}
+
+.content__inner h2:first-child {
+    /* padding-top: 0px; */
+    margin-top: 20px;
+}
+
+.content__products__category-title {
+    margin-top: 45px;
+    margin-bottom: 30px;
+}
+
+.content__products__category-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.product-card {
+    /* border: solid 2px orange; */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card__image {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.product-card__title {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 550;
+}
+
+.product-card__description-short {
+    margin-top: 10px;
+    font-size: 14px;
+    color: grey;
+}
+
+.product-card__price-and-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.product-card__price {
+    font-size: 17px;
+}
+
+.product-card__btn-cart {
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 30px;
+    background-color: rgb(255, 105, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.product-card__btn-cart:hover {
+    cursor: pointer;
+    background-color: rgb(231, 97, 1);
+}
+
+.product-card__btn-cart:active {
+    cursor: pointer;
+    background-color: rgb(231, 97, 200);
 }
 
 .btn-cart {
