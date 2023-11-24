@@ -112,9 +112,9 @@ onMounted(() => {
         <template v-for="category in categories">
           <template v-if="category.products.length > 0">
 
-            <h2 :id="category.title" class="content__products__category-title">{{ category.title }}</h2>
+            <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
-            <section class="content__products__category-section">
+            <section class="content__category-products">
               <div class="product-card" v-for="product in category.products">
 
                 <div>
