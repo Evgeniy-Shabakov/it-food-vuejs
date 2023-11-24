@@ -12,7 +12,12 @@
         margin: 3px 10px 3px 0px;
     }
 
+    /* переопределяю ховер чтобы не выделялся при клике */
     .categories__item:hover {
+        color: rgb(75, 74, 74);
+    }
+
+    .categories__item.active {
         background-color: rgba(255, 166, 0, 0.281);
         color: rgb(255, 105, 0);
     }
@@ -57,7 +62,7 @@
         background-color: rgb(255, 105, 0);
         border-radius: 10px;
     }
-    
+
     .burger-menu__item {
         display: block;
         color: white;

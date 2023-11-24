@@ -1,6 +1,6 @@
 :root {
     --scroll-padding-top: 65px;
-  }
+}
 
 * {
     margin: 0;
@@ -114,11 +114,16 @@ body {
     text-decoration: none;
     color: black;
     white-space: nowrap;
+    /*убирает базовое синие выделение при клике на телефоне */
     -webkit-tap-highlight-color: transparent;
     margin: 5px 15px 5px 0px;
 }
 
 .categories__item:hover {
+    color: rgb(255, 105, 0);
+}
+
+.categories__item.active {
     color: rgb(255, 105, 0);
 }
 
@@ -134,9 +139,7 @@ body {
     margin-top: var(--scroll-padding-top);
 }
 
-.content {
-    
-}
+.content {}
 
 .content__inner {
     padding: 0 0 25px 0;

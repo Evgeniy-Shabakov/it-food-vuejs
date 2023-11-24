@@ -17,6 +17,35 @@ getModelsAxios('categories')
     let divCategories = document.querySelector('.categories');
     let scrollPaddingTop = divCategories.offsetHeight + 20 + 'px'
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
+
+    //Блок выделения меню категорий - Start
+    let contentSections = document.querySelectorAll('.content__category-title')
+    let categoriesItems = document.querySelectorAll('.categories__item')
+
+    selectMenu() //выделение меню при старте
+
+    categoriesItems.forEach((el, i) => {
+      el.addEventListener('click', () => {
+        categoriesItems.forEach(el => el.classList.remove('active'))
+        categoriesItems[i].classList.add('active')
+        window.removeEventListener('scroll', selectMenu) //чтобы не выделялись пункты меню во время автоскролле
+      })
+    })
+
+    window.addEventListener('scroll', selectMenu) //выделение пункта меню при скролле
+    //активация прослушивания скролла после клика по меню
+    window.addEventListener('scrollend', () => window.addEventListener('scroll', selectMenu))
+
+    function selectMenu() {
+      let scrollDistance = window.scrollY
+      contentSections.forEach((el, i) => {
+        if (el.offsetTop <= scrollDistance + 400) {
+          categoriesItems.forEach(el => el.classList.remove('active'))
+          categoriesItems[i].classList.add('active')
+        }
+      })
+    }
+    //Блок выделения меню категорий - End
   })
 
 const btnBurgerMenu = ref(null)
