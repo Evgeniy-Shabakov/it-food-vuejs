@@ -8,9 +8,14 @@ setBrowserTitleForClient()
 getModelAxios('companies', 1)
 getModelsAxios('categories')
   .then(() => {
+    //убираем из списка неактивные продукты чтобы не отображались
+    categories.value.forEach(category => {
+      category.products = category.products.filter(product => product.is_active == true)
+    })
+
+    //изменяем отступ при скролле для меню категорий в зависимости от высоты меню
     let divCategories = document.querySelector('.categories');
-    let scrollPaddingTop = divCategories.offsetHeight + 20 +'px'
-    console.log(scrollPaddingTop);
+    let scrollPaddingTop = divCategories.offsetHeight + 20 + 'px'
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
   })
 
@@ -115,8 +120,8 @@ onMounted(() => {
             <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
             <section class="content__category-products">
-              <div class="product-card" v-for="product in category.products">
 
+              <div class="product-card" v-for="product in category.products">
                 <div>
                   <img class="product-card__image" :src="product.image_url" alt="">
                   <p class="product-card__title"> {{ product.title }}</p>
@@ -127,8 +132,8 @@ onMounted(() => {
                   <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
                   <button type="button" class="product-card__btn-cart">В корзину</button>
                 </div>
-
               </div>
+
             </section>
 
           </template>
