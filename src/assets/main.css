@@ -119,8 +119,11 @@ body {
     margin: 5px 15px 5px 0px;
 }
 
-.categories__item:hover {
-    color: rgb(255, 105, 0);
+
+@media (hover: hover) { /*чтобы работало только на компе с мышкой */
+    .categories__item:hover {
+        color: rgb(255, 105, 0);
+    }
 }
 
 .categories__item.active {

@@ -1,17 +1,26 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 
 setBrowserTitleForClient()
 
+let contentSections
+let categoriesItems
+
+onUpdated(() => {
+  contentSections = document.querySelectorAll('.content__category-title')
+  categoriesItems = document.querySelectorAll('.categories__item')
+})
+
 getModelAxios('companies', 1)
 getModelsAxios('categories')
   .then(() => {
-    //убираем из списка неактивные продукты чтобы не отображались
+    //убираем из списка неактивные продукты и пустые категории чтобы не отображались
     categories.value.forEach(category => {
       category.products = category.products.filter(product => product.is_active == true)
     })
+    categories.value = categories.value.filter(category => category.products.length > 0)
 
     //изменяем отступ при скролле для меню категорий в зависимости от высоты меню
     let divCategories = document.querySelector('.categories');
@@ -19,8 +28,8 @@ getModelsAxios('categories')
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
 
     //Блок выделения меню категорий - Start
-    let contentSections = document.querySelectorAll('.content__category-title')
-    let categoriesItems = document.querySelectorAll('.categories__item')
+    contentSections = document.querySelectorAll('.content__category-title')
+    categoriesItems = document.querySelectorAll('.categories__item')
 
     selectMenu() //выделение меню при старте
 
