@@ -1,17 +1,12 @@
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted } from 'vue';
 import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 
 setBrowserTitleForClient()
 
-let contentSections
-let categoriesItems
-
-onUpdated(() => {
-  contentSections = document.querySelectorAll('.content__category-title')
-  categoriesItems = document.querySelectorAll('.categories__item')
-})
+let categoriesItems = ref([])
+let contentSections = ref([])
 
 getModelAxios('companies', 1)
 getModelsAxios('categories')
@@ -28,15 +23,12 @@ getModelsAxios('categories')
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
 
     //Блок выделения меню категорий - Start
-    contentSections = document.querySelectorAll('.content__category-title')
-    categoriesItems = document.querySelectorAll('.categories__item')
-
     selectMenu() //выделение меню при старте
 
-    categoriesItems.forEach((el, i) => {
+    categoriesItems.value.forEach((el, i) => {
       el.addEventListener('click', () => {
-        categoriesItems.forEach(el => el.classList.remove('active'))
-        categoriesItems[i].classList.add('active')
+        categoriesItems.value.forEach(el => el.classList.remove('active'))
+        categoriesItems.value[i].classList.add('active')
         window.removeEventListener('scroll', selectMenu) //чтобы не выделялись пункты меню во время автоскролле
       })
     })
@@ -47,10 +39,10 @@ getModelsAxios('categories')
 
     function selectMenu() {
       let scrollDistance = window.scrollY
-      contentSections.forEach((el, i) => {
+      contentSections.value.forEach((el, i) => {
         if (el.offsetTop <= scrollDistance + 400) {
-          categoriesItems.forEach(el => el.classList.remove('active'))
-          categoriesItems[i].classList.add('active')
+          categoriesItems.value.forEach(el => el.classList.remove('active'))
+          categoriesItems.value[i].classList.add('active')
         }
       })
     }
@@ -127,7 +119,7 @@ onMounted(() => {
     <div class="container">
       <div class="categories__inner">
 
-        <a v-for="category in categories" class="categories__item" :href="'#' + category.title">
+        <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
           {{ category.title }}</a>
 
         <div class="cart">
@@ -152,12 +144,12 @@ onMounted(() => {
     <div class="container">
       <div class="content__inner">
 
-        <template v-for="category in categories">
+        <section ref="contentSections" v-for="category in categories">
           <template v-if="category.products.length > 0">
 
             <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
-            <section class="content__category-products">
+            <div class="content__category-products">
 
               <div class="product-card" v-for="product in category.products">
                 <div>
@@ -172,13 +164,14 @@ onMounted(() => {
                 </div>
               </div>
 
-            </section>
+            </div>
 
           </template>
-        </template>
+        </section>
 
       </div>
     </div>
   </main>
+
 </template>
 
