@@ -144,29 +144,25 @@ onMounted(() => {
     <div class="container">
       <div class="content__inner">
 
-        <section ref="contentSections" v-for="category in categories">
-          <template v-if="category.products.length > 0">
+        <section v-for="category in categories" ref="contentSections">
 
-            <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
+          <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
-            <div class="content__category-products">
+          <div class="content__category-products">
+            <div class="product-card" v-for="product in category.products">
+              
+                <img class="product-card__image" :src="product.image_url" alt="">
+                <p class="product-card__title"> {{ product.title }}</p>
+                <p class="product-card__description-short"> {{ product.description_short }}</p>
+              
 
-              <div class="product-card" v-for="product in category.products">
-                <div>
-                  <img class="product-card__image" :src="product.image_url" alt="">
-                  <p class="product-card__title"> {{ product.title }}</p>
-                  <p class="product-card__description-short"> {{ product.description_short }}</p>
-                </div>
-
-                <div class="product-card__price-and-btn">
-                  <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                  <button type="button" class="product-card__btn-cart">В корзину</button>
-                </div>
+              <div class="product-card__price-and-btn">
+                <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
+                <button class="product-card__btn-cart" type="button">В корзину</button>
               </div>
-
             </div>
+          </div>
 
-          </template>
         </section>
 
       </div>

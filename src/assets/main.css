@@ -120,7 +120,9 @@ body {
 }
 
 
-@media (hover: hover) { /*чтобы работало только на компе с мышкой */
+@media (hover: hover) {
+
+    /*чтобы работало только на компе с мышкой */
     .categories__item:hover {
         color: rgb(255, 105, 0);
     }
@@ -169,7 +171,7 @@ body {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .product-card__image {
@@ -187,13 +189,14 @@ body {
     margin-top: 10px;
     font-size: 14px;
     color: grey;
+    margin-bottom: 30px;
 }
 
 .product-card__price-and-btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 30px;
+    margin-top: auto;
 }
 
 .product-card__price {
@@ -210,14 +213,19 @@ body {
     font-weight: 500;
 }
 
-.product-card__btn-cart:hover {
-    cursor: pointer;
-    background-color: rgb(231, 97, 1);
+/*чтобы работало только на компе с мышкой */
+@media (hover: hover) {
+    .product-card__btn-cart:hover {
+        cursor: pointer;
+        background-color: rgb(231, 97, 1);
+    }
 }
 
 .product-card__btn-cart:active {
     cursor: pointer;
-    background-color: rgb(231, 97, 200);
+    background-color: rgba(255, 106, 0, 0.801);
+    /*убирает базовое синие выделение при клике на телефоне */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .btn-cart {
