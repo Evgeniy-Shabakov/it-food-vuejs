@@ -1,12 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 
 setBrowserTitleForClient()
 
-let categoriesItems = ref([])
-let contentSections = ref([])
+const categoriesMenu = ref()
+const categoriesItems = ref([])
+const contentSections = ref([])
+
+onUpdated(() => {
+  // console.log('onUpdated')
+})
 
 getModelAxios('companies', 1)
 getModelsAxios('categories')
@@ -18,9 +23,13 @@ getModelsAxios('categories')
     categories.value = categories.value.filter(category => category.products.length > 0)
 
     //изменяем отступ при скролле для меню категорий в зависимости от высоты меню
-    let divCategories = document.querySelector('.categories');
-    let scrollPaddingTop = divCategories.offsetHeight + 20 + 'px'
-    document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
+    //высота меняется несколько раз при загрузке странице и категорий с продуктами
+
+    setTimeout(() => { //таймаут так как DOM обновляется с задержкой
+      let scrollPaddingTop = categoriesMenu.value.offsetHeight + 20 + 'px'
+      document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
+      console.log(categoriesMenu.value.offsetHeight)
+    }, 0,3 * 1000)
 
     //Блок выделения меню категорий - Start
     selectMenu() //выделение меню при старте
@@ -115,13 +124,12 @@ onMounted(() => {
     </div>
   </nav>
 
-  <nav class="categories">
+  <nav class="categories" ref="categoriesMenu">
     <div class="container">
       <div class="categories__inner">
 
         <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
           {{ category.title }}</a>
-
         <div class="cart">
           <h2>Корзина</h2>
           <div>Пицца 1</div>
@@ -150,11 +158,11 @@ onMounted(() => {
 
           <div class="content__category-products">
             <div class="product-card" v-for="product in category.products">
-              
-                <img class="product-card__image" :src="product.image_url" alt="">
-                <p class="product-card__title"> {{ product.title }}</p>
-                <p class="product-card__description-short"> {{ product.description_short }}</p>
-              
+
+              <img class="product-card__image" :src="product.image_url" alt="">
+              <p class="product-card__title"> {{ product.title }}</p>
+              <p class="product-card__description-short"> {{ product.description_short }}</p>
+
 
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
@@ -168,6 +176,5 @@ onMounted(() => {
       </div>
     </div>
   </main>
-
 </template>
 
