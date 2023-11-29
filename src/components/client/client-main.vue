@@ -9,10 +9,6 @@ const categoriesMenu = ref()
 const categoriesItems = ref([])
 const contentSections = ref([])
 
-onUpdated(() => {
-  // console.log('onUpdated')
-})
-
 getModelAxios('companies', 1)
 getModelsAxios('categories')
   .then(() => {
@@ -27,9 +23,8 @@ getModelsAxios('categories')
 
     setTimeout(() => { //таймаут так как DOM обновляется с задержкой
       let scrollPaddingTop = categoriesMenu.value.offsetHeight + 20 + 'px'
-      document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop);
-      console.log(categoriesMenu.value.offsetHeight)
-    }, 0,3 * 1000)
+      document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop)
+    }, 0, 3 * 1000)
 
     //Блок выделения меню категорий - Start
     selectMenu() //выделение меню при старте
@@ -152,7 +147,7 @@ onMounted(() => {
     <div class="container">
       <div class="content__inner">
 
-        <section v-for="category in categories" ref="contentSections">
+        <section v-for="category in categories" class="content__category-sections" ref="contentSections">
 
           <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
@@ -162,12 +157,11 @@ onMounted(() => {
               <img class="product-card__image" :src="product.image_url" alt="">
               <p class="product-card__title"> {{ product.title }}</p>
               <p class="product-card__description-short"> {{ product.description_short }}</p>
-
-
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
                 <button class="product-card__btn-cart" type="button">В корзину</button>
               </div>
+              
             </div>
           </div>
 
