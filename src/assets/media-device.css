@@ -1,4 +1,4 @@
-@media (max-width: 979px) {
+@media (max-width: 1300px) {
     .container {
         width: 90%;
     }
@@ -83,10 +83,14 @@
         font-size: 20px;
     }
 
-    .cart {
+    .cart-panel {
         display: none;
     }
 
+    .cart-panel__total-order {
+        display: none;
+    }
+    
     .content__inner {
         width: 100%;
     }

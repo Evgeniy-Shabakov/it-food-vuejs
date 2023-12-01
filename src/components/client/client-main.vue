@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 
@@ -8,6 +8,7 @@ setBrowserTitleForClient()
 const categoriesMenu = ref()
 const categoriesItems = ref([])
 const contentSections = ref([])
+const productsInCart = ref([])
 
 getModelAxios('companies', 1)
 getModelsAxios('categories')
@@ -78,19 +79,46 @@ onMounted(() => {
   }
 })
 
+function addProductToCart(product) {
+  if (productsInCart.value.includes(product)) {
+    product.countInCart++
+  }
+  else {
+    product.countInCart = 1
+    productsInCart.value.push(product)
+  }
+}
+
+function reduceCountProductInCart(product) {
+  if (product.countInCart == 0) return
+  product.countInCart--
+}
+
+function removeProductFromCart(product) {
+  let index = productsInCart.value.indexOf(product)
+  if (index !== -1) productsInCart.value.splice(index, 1);
+}
+
+const totalPrice = computed(() => {
+  let total = 0
+  productsInCart.value.forEach(element => {
+    total += element.countInCart*element.price_default
+  })
+  return total
+})
 </script>
 
 <template>
-  <section class="info">
-    <div class="container">
-      <div class="info__inner">
-        <a class="info__item" href="#">О нас</a>
-        <a class="info__item" href="#">Контакты</a>
-      </div>
-    </div>
-  </section>
-
   <header class="header">
+    <section class="info">
+      <div class="container">
+        <div class="info__inner">
+          <a class="info__item" href="#">О нас</a>
+          <a class="info__item" href="#">Контакты</a>
+        </div>
+      </div>
+    </section>
+
     <div class="container">
       <div class="header__inner">
         <div class="header__inner__left">
@@ -106,18 +134,22 @@ onMounted(() => {
         </div>
       </div>
     </div>
-  </header>
 
-  <nav ref="burgerMenu" class="burger-menu">
-    <div class="container">
-      <div class="burger-menu__inner">
-        <a class="burger-menu__item" href="#">Москва (изменить город)</a>
-        <a class="burger-menu__item" href="#">Войти</a>
-        <a class="burger-menu__item" href="#">О нас</a>
-        <a class="burger-menu__item" href="#">Контакты</a>
+    <nav ref="burgerMenu" class="burger-menu">
+      <div class="container">
+        <div class="burger-menu__inner">
+          <a class="burger-menu__item" href="#">Москва (изменить город)</a>
+          <a class="burger-menu__item" href="#">Войти</a>
+          <a class="burger-menu__item" href="#">О нас</a>
+          <a class="burger-menu__item" href="#">Контакты</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+
+    <button class="btn-cart">
+      <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
+    </button>
+  </header>
 
   <nav class="categories" ref="categoriesMenu">
     <div class="container">
@@ -125,23 +157,40 @@ onMounted(() => {
 
         <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
           {{ category.title }}</a>
-        <div class="cart">
-          <h2>Корзина</h2>
-          <div>Пицца 1</div>
-          <div>Пицца 1</div>
-          <div>Пицца 1</div>
-          <div>Пицца 1</div>
-          <div>Итого</div>
-          <button>Заказать</button>
+
+        <div class="cart-panel">
+          <div class="cart-panel__header">Корзина</div>
+
+          <div class="cart-panel__product-section" v-for="product in productsInCart">
+
+            <img class="cart-panel__product-img" :src="product.image_url" alt="">
+            <div class="cart-panel__product-title">{{ product.title }}</div>
+            <button class="cart-panel__product-btn-helpers" @click="removeProductFromCart(product)">
+              <i class="fa-solid fa-trash-can"></i></button>
+
+            <div class="cart-panel__product-count-price">
+              <button class="cart-panel__product-btn-helpers" @click="reduceCountProductInCart(product)">
+                <i class="fa-solid fa-minus"></i></button>
+              <div>{{ product.countInCart }}</div>
+              <button class="cart-panel__product-btn-helpers" @click="addProductToCart(product)">
+                <i class="fa-solid fa-plus"></i></button>
+              <div>x {{ Number(product.price_default) }}р</div>
+            </div>
+
+            <div class="cart-panel__product-total">{{ Number(product.countInCart) * Number(product.price_default) }}р
+            </div>
+
+          </div>
+
+        </div>
+        <div class="cart-panel__total-order">
+          <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
+          <button class="cart-panel__btn-order">Заказать</button>
         </div>
       </div>
 
     </div>
   </nav>
-
-  <button class="btn-cart">
-    <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
-  </button>
 
   <main class="content">
     <div class="container">
@@ -159,9 +208,9 @@ onMounted(() => {
               <p class="product-card__description-short"> {{ product.description_short }}</p>
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                <button class="product-card__btn-cart" type="button">В корзину</button>
+                <button class="product-card__btn-cart" @click="addProductToCart(product)" type="button">В корзину</button>
               </div>
-              
+
             </div>
           </div>
 
