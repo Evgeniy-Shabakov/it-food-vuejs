@@ -313,6 +313,7 @@ body {
 
 .product-card__price {
     font-size: 17px;
+    white-space: nowrap;
 }
 
 .product-card__btn-cart {
@@ -322,6 +323,7 @@ body {
     background-color: rgb(255, 105, 0);
     color: rgb(255, 255, 255);
     font-size: 15px;
+    white-space: nowrap;
 }
 
 /*чтобы работало только на компе с мышкой */
