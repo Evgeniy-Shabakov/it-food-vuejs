@@ -102,10 +102,20 @@ function removeProductFromCart(product) {
 const totalPrice = computed(() => {
   let total = 0
   productsInCart.value.forEach(element => {
-    total += element.countInCart*element.price_default
+    total += element.countInCart * element.price_default
   })
   return total
 })
+
+const totalCountInCart = computed(() => {
+  let total = 0
+  productsInCart.value.forEach(element => {
+    total += element.countInCart
+  })
+  return total
+})
+
+
 </script>
 
 <template>
@@ -146,9 +156,6 @@ const totalPrice = computed(() => {
       </div>
     </nav>
 
-    <button class="btn-cart">
-      <i class="fa-solid fa-cart-shopping btn-cart-icon"></i>Корзина
-    </button>
   </header>
 
   <nav class="categories" ref="categoriesMenu">
@@ -208,7 +215,15 @@ const totalPrice = computed(() => {
               <p class="product-card__description-short"> {{ product.description_short }}</p>
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                <button class="product-card__btn-cart" @click="addProductToCart(product)" type="button">В корзину</button>
+                <button v-if="product.countInCart == 0 || product.countInCart == undefined" class="product-card__btn-cart"
+                  @click="addProductToCart(product)" type="button">В корзину</button>
+                <div v-else class="cart-panel__product-count-price">
+                  <button class="cart-panel__product-btn-helpers" @click="reduceCountProductInCart(product)">
+                    <i class="fa-solid fa-minus"></i></button>
+                  <div>{{ product.countInCart }}</div>
+                  <button class="cart-panel__product-btn-helpers" @click="addProductToCart(product)">
+                    <i class="fa-solid fa-plus"></i></button>
+                </div>
               </div>
 
             </div>
@@ -219,5 +234,20 @@ const totalPrice = computed(() => {
       </div>
     </div>
   </main>
+
+  <div class="bottom-device-menu">
+    <div class="container">
+      <div class="bottom-device-menu__inner">
+        <a href="#"><i class="fa-regular fa-circle-up bottom-device-menu__icon"></i></a>
+        <a><i class="fa-solid fa-user bottom-device-menu__icon"></i></a>
+        <a><i class="fa-solid fa-cart-shopping bottom-device-menu__icon">
+            <div v-if="totalCountInCart" class="bottom-device-menu__product-count-in-cart">
+              {{ totalCountInCart }}
+            </div>
+          </i>
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
 
