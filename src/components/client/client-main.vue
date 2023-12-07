@@ -95,6 +95,7 @@ function reduceCountProductInCart(product) {
 }
 
 function removeProductFromCart(product) {
+  product.countInCart = 0;
   let index = productsInCart.value.indexOf(product)
   if (index !== -1) productsInCart.value.splice(index, 1);
 }
@@ -216,12 +217,13 @@ const totalCountInCart = computed(() => {
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
                 <button v-if="product.countInCart == 0 || product.countInCart == undefined" class="product-card__btn-cart"
-                  @click="addProductToCart(product)" type="button">В корзину</button>
-                <div v-else class="cart-panel__product-count-price">
-                  <button class="cart-panel__product-btn-helpers" @click="reduceCountProductInCart(product)">
+                  @click="addProductToCart(product)" type="button">В корзину
+                </button>
+                <div v-else class="product-card__plus-count-minus">
+                  <button class="product-card__btns-plus-minus" @click="reduceCountProductInCart(product)">
                     <i class="fa-solid fa-minus"></i></button>
                   <div>{{ product.countInCart }}</div>
-                  <button class="cart-panel__product-btn-helpers" @click="addProductToCart(product)">
+                  <button class="product-card__btns-plus-minus" @click="addProductToCart(product)">
                     <i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>

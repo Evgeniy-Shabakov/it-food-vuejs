@@ -138,13 +138,6 @@
         border-radius: 50%;
         padding-top: 4px;
     }
-
-    .cart-panel__product-btn-helpers {
-        background-color: rgb(255, 105, 0);
-        font-size: 15px;
-        border-radius: 50%;
-        padding: 10px 12px;
-    }
 }
 
 @media (max-width: 522px) {
