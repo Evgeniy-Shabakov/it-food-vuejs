@@ -87,8 +87,24 @@
         display: none;
     }
 
+    .cart-panel-device {
+        margin: 10px 15px 132px 15px;
+    }
+
     .cart-panel__total-order {
         display: none;
+    }
+
+    .cart-panel__total-order-device {
+        position: fixed;
+        bottom: 48px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background-color: white;
+        border-top: 1px solid grey;
     }
 
     .content__inner {

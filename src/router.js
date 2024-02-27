@@ -5,6 +5,18 @@ const routes = [
         path: '/',
         component: () => import('./components/client/client-main.vue'),
         name: 'client.main',
+        children: [
+            {
+                path: '/',
+                component: () => import('./components/client/client-menu.vue'),
+                name: 'client.menu'
+            },
+            {
+                path: '/cart',
+                component: () => import('./components/client/client-cart.vue'),
+                name: 'client.cart'
+            },
+        ]
     },
     {
         path: '/admin',
