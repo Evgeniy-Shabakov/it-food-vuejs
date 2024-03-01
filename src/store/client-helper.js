@@ -26,15 +26,21 @@ export function addProductToCart(product) {
         product.countInCart = 1
         productsInCart.value.push(product)
     }
+
+    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
 
 export function reduceCountProductInCart(product) {
     if (product.countInCart == 0) return
     product.countInCart--
+
+    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
 
 export function removeProductFromCart(product) {
     product.countInCart = 0;
     let index = productsInCart.value.indexOf(product)
     if (index !== -1) productsInCart.value.splice(index, 1);
+
+    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }

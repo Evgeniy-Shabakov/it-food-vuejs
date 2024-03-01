@@ -14,16 +14,6 @@ const categoriesItems = ref([])
 const contentSections = ref([])
 
 getModelAxios('companies', 1)
-if (categories.value == null) getModelsAxios('categories')
-  .then(() => {
-    //убираем из списка неактивные продукты и пустые категории чтобы не отображались
-    categories.value.forEach(category => {
-      category.products = category.products.filter(product => product.is_active == true)
-    })
-    categories.value = categories.value.filter(category => category.products.length > 0)
-
-
-  })
 
 const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
