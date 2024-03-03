@@ -4,7 +4,8 @@ import { company, categories, getModelAxios, getModelsAxios } from '/src/store/a
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import {
   productsInCart, totalPrice,
-  addProductToCart, reduceCountProductInCart, removeProductFromCart
+  minusProductInCartForCartPanel, minusProductInCartForMenuPage,
+  plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
 
 setBrowserTitleForClient()
@@ -137,10 +138,10 @@ onUpdated(() => {
               <i class="fa-solid fa-trash-can"></i></button>
 
             <div class="cart-panel__product-count-price">
-              <button class="cart-panel__product-btn-helpers" @click="reduceCountProductInCart(product)">
+              <button class="cart-panel__product-btn-helpers" @click="minusProductInCartForCartPanel(product)">
                 <i class="fa-solid fa-minus"></i></button>
               <div>{{ product.countInCart }}</div>
-              <button class="cart-panel__product-btn-helpers" @click="addProductToCart(product)">
+              <button class="cart-panel__product-btn-helpers" @click="plusProductToCart(product)">
                 <i class="fa-solid fa-plus"></i></button>
               <div>x {{ Number(product.price_default) }}р</div>
             </div>
@@ -177,13 +178,13 @@ onUpdated(() => {
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
                 <button v-if="product.countInCart == 0 || product.countInCart == undefined" class="product-card__btn-cart"
-                  @click="addProductToCart(product)" type="button">В корзину
+                  @click="plusProductToCart(product)" type="button">В корзину
                 </button>
                 <div v-else class="product-card__plus-count-minus">
-                  <button class="product-card__btns-plus-minus" @click="reduceCountProductInCart(product)">
+                  <button class="product-card__btns-plus-minus" @click="minusProductInCartForMenuPage(product)">
                     <i class="fa-solid fa-minus"></i></button>
                   <div>{{ product.countInCart }}</div>
-                  <button class="product-card__btns-plus-minus" @click="addProductToCart(product)">
+                  <button class="product-card__btns-plus-minus" @click="plusProductToCart(product)">
                     <i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>

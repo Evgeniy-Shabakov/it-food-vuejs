@@ -1,7 +1,8 @@
 <script setup>
 import {
   productsInCart, totalPrice,
-  addProductToCart, reduceCountProductInCart, removeProductFromCart
+  minusProductInCartForCartPanel,
+  plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
 
 </script>
@@ -18,10 +19,10 @@ import {
         <i class="fa-solid fa-trash-can"></i></button>
 
       <div class="cart-panel__product-count-price">
-        <button class="cart-panel__product-btn-helpers" @click="reduceCountProductInCart(product)">
+        <button class="cart-panel__product-btn-helpers" @click="minusProductInCartForCartPanel(product)">
           <i class="fa-solid fa-minus"></i></button>
         <div>{{ product.countInCart }}</div>
-        <button class="cart-panel__product-btn-helpers" @click="addProductToCart(product)">
+        <button class="cart-panel__product-btn-helpers" @click="plusProductToCart(product)">
           <i class="fa-solid fa-plus"></i></button>
         <div>x {{ Number(product.price_default) }}р</div>
       </div>

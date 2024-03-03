@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 export const productsInCart = ref([])
 
@@ -18,7 +19,7 @@ export const totalPrice = computed(() => {
     return total
 })
 
-export function addProductToCart(product) {
+export function plusProductToCart(product) {
     if (productsInCart.value.includes(product)) {
         product.countInCart++
     }
@@ -30,10 +31,18 @@ export function addProductToCart(product) {
     localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
 
-export function reduceCountProductInCart(product) {
+export function minusProductInCartForCartPanel(product) {
     if (product.countInCart == 0) return
     product.countInCart--
 
+    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+}
+
+export function minusProductInCartForMenuPage(product) {
+    product.countInCart--
+
+    if(product.countInCart <= 0) removeProductFromCart(product)
+    
     localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
 
