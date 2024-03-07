@@ -30,7 +30,7 @@ if (categories.value == null) getModelsAxios('categories')
 
 </script>
 
-<template>
+<template> 
   <router-view></router-view>
 
   <div class="bottom-device-menu">

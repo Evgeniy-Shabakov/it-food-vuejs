@@ -141,7 +141,22 @@ const routes = [
 const router = new VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) { //скролл к сохраненной позиции
+        if (scrollPositions[to.name])
+            return { top: scrollPositions[to.name], behavior: 'instant' }
+        else
+            return { top: 0, behavior: 'instant' }
+    },
 })
+
+//массив и сохранение скролла перед каждым роутом
+const scrollPositions = Object.create(null)
+
+router.beforeEach((to, from, next) => {
+    scrollPositions[from.name] = window.scrollY
+    next()
+})
+
 
 export default router
 
