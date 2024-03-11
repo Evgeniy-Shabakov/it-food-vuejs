@@ -142,10 +142,15 @@ const router = new VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) { //скролл к сохраненной позиции
-        if (scrollPositions[to.name])
+        if (to.name === from.name) {     //сохранить скролл при клике по кнопке тожей вкладки
+            scrollPositions[from.name] = window.scrollY
+        }
+        if (scrollPositions[to.name]) {
             return { top: scrollPositions[to.name], behavior: 'instant' }
-        else
+        }
+        else {
             return { top: 0, behavior: 'instant' }
+        }
     },
 })
 
