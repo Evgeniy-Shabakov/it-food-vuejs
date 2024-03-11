@@ -29,13 +29,13 @@ if (categories.value == null) getModelsAxios('categories')
     }
   })
 
-function test() {
-  console.log(1111111);
-}
-
 const orderPanel = ref(null)
+const orderPanelBackdrop = ref(null)
 
 function openOrderPanel() {
+  if (window.getComputedStyle(orderPanel.value).display != 'none') return
+
+  orderPanelBackdrop.value.style.display = 'block'
   orderPanel.value.show()
   document.body.classList.add('lock')
 
@@ -46,6 +46,7 @@ function openOrderPanel() {
 
 function closeOrderPanel() {
   document.body.classList.remove('lock')
+  orderPanelBackdrop.value.style.display = 'none'
   if (orderPanel.value) orderPanel.value.close()
 
   document.removeEventListener('click', checkClickAndCloseOrderPanel)
@@ -66,9 +67,11 @@ function checkClickAndCloseOrderPanel(e) {
 <template>
   <router-view @btn-order-pressed="openOrderPanel()"></router-view>
 
-  <dialog class="order-panel" ref="orderPanel">
-    Привет мир!
-  </dialog>
+  <div class="order-panel-backdrop" ref="orderPanelBackdrop">
+    <dialog class="order-panel" ref="orderPanel">
+      Привет мир!
+    </dialog>
+  </div>
 
   <div class="bottom-device-menu">
     <div class="container">

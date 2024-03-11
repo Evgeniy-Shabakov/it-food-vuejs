@@ -369,10 +369,20 @@ body {
     display: none;
 }
 
-.order-panel {
+.order-panel-backdrop {
     position: fixed;
     top: 0;
     width: 100%;
-    height: calc(100% - 48px);
-    overflow-y: scroll;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+.order-panel {
+    position: fixed;
+    top: 25%;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+    padding: 15px;
 }

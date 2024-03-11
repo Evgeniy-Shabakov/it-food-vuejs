@@ -137,6 +137,13 @@
         border-radius: 50%;
         padding-top: 4px;
     }
+
+    .order-panel {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: calc(100% - 48px);
+    }
 }
 
 @media (max-width: 522px) {
