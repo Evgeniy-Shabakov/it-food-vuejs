@@ -1,41 +1,13 @@
 <script setup>
-import { ref } from 'vue';
 import {
   productsInCart, totalPrice,
   minusProductInCartForCartPanel,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
 
-const orderPanel = ref(null)
-
-function openOrderPanel() {
-  orderPanel.value.show()
-  document.body.classList.add('lock')
-
-  setTimeout(() => {
-    document.addEventListener('click', checkClickAndCloseOrderPanel)
-  }, 1000)
-}
-
-function closeOrderPanel() {
-  document.body.classList.remove('lock')
-  if (orderPanel.value) orderPanel.value.close()
-
-  document.removeEventListener('click', checkClickAndCloseOrderPanel)
-}
-
-function checkClickAndCloseOrderPanel(e) {
-  if (e.composedPath().includes(orderPanel.value)) return //если клик по панели, то ничего не делать
-  else closeOrderPanel()
-}
+const emit = defineEmits(['btnOrderPressed']);
 
 </script>
-
-<style>
-.lock {
-  overflow: hidden;
-}
-</style>
 
 <template>
 
@@ -62,14 +34,10 @@ function checkClickAndCloseOrderPanel(e) {
       </div>
 
     </div>
-
   </div>
+  
   <div class="cart-panel__total-order-device">
     <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-    <button class="cart-panel__btn-order" @click.prevent="openOrderPanel()">Заказать</button>
+    <button class="cart-panel__btn-order" @click.prevent="$emit('btnOrderPressed')">Заказать</button>
   </div>
-
-  <dialog class="order-panel" ref="orderPanel">
-    Привет мир!
-  </dialog>
 </template>

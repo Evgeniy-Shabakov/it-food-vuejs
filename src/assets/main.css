@@ -368,3 +368,11 @@ body {
 .bottom-device-menu {
     display: none;
 }
+
+.order-panel {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: calc(100% - 48px);
+    overflow-y: scroll;
+}

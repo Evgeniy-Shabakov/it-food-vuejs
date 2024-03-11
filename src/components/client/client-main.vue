@@ -1,5 +1,6 @@
 <script setup>
 import { totalCountInCart } from '/src/store/client-helper.js'
+import { ref } from 'vue';
 import { useRoute } from 'vue-router'
 import { categories, getModelsAxios } from '/src/store/axios-helper.js'
 import { productsInCart } from '/src/store/client-helper.js'
@@ -28,10 +29,46 @@ if (categories.value == null) getModelsAxios('categories')
     }
   })
 
+function test() {
+  console.log(1111111);
+}
+
+const orderPanel = ref(null)
+
+function openOrderPanel() {
+  orderPanel.value.show()
+  document.body.classList.add('lock')
+
+  setTimeout(() => {
+    document.addEventListener('click', checkClickAndCloseOrderPanel)
+  }, 100)
+}
+
+function closeOrderPanel() {
+  document.body.classList.remove('lock')
+  if (orderPanel.value) orderPanel.value.close()
+
+  document.removeEventListener('click', checkClickAndCloseOrderPanel)
+}
+
+function checkClickAndCloseOrderPanel(e) {
+  if (e.composedPath().includes(orderPanel.value)) return //если клик по панели, то ничего не делать
+  else closeOrderPanel()
+}
 </script>
 
-<template> 
-  <router-view></router-view>
+<style>
+.lock {
+  overflow: hidden;
+}
+</style>
+
+<template>
+  <router-view @btn-order-pressed="openOrderPanel()"></router-view>
+
+  <dialog class="order-panel" ref="orderPanel">
+    Привет мир!
+  </dialog>
 
   <div class="bottom-device-menu">
     <div class="container">
@@ -50,4 +87,3 @@ if (categories.value == null) getModelsAxios('categories')
     </div>
   </div>
 </template>
-

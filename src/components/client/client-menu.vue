@@ -78,6 +78,9 @@ onUpdated(() => {
   }
   //Блок выделения меню категорий - End
 })
+
+const emit = defineEmits(['btnOrderPressed']);
+
 </script>
 
 <template>
@@ -150,11 +153,11 @@ onUpdated(() => {
             </div>
 
           </div>
-
         </div>
+
         <div class="cart-panel__total-order">
           <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-          <button class="cart-panel__btn-order">Заказать</button>
+          <button class="cart-panel__btn-order" @click.prevent="$emit('btnOrderPressed')">Заказать</button>
         </div>
       </div>
 
