@@ -138,11 +138,19 @@
         padding-top: 4px;
     }
 
+    .order-panel-backdrop {
+        background-color: rgba(0, 0, 0, 0.0);
+    }
+
     .order-panel {
         position: fixed;
         top: 0;
         width: 100%;
         height: calc(100% - 48px);
+    }
+
+    .order-panel-lock-scroll {
+        padding-right: 0px;
     }
 }
 

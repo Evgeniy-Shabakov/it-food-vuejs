@@ -29,6 +29,7 @@ if (categories.value == null) getModelsAxios('categories')
     }
   })
 
+//открытие и закрытие панели заказа - СТАРТ
 const orderPanel = ref(null)
 const orderPanelBackdrop = ref(null)
 
@@ -37,7 +38,7 @@ function openOrderPanel() {
 
   orderPanelBackdrop.value.style.display = 'block'
   orderPanel.value.show()
-  document.body.classList.add('lock')
+  document.body.classList.add('order-panel-lock-scroll')
 
   setTimeout(() => {
     document.addEventListener('click', checkClickAndCloseOrderPanel)
@@ -45,7 +46,7 @@ function openOrderPanel() {
 }
 
 function closeOrderPanel() {
-  document.body.classList.remove('lock')
+  document.body.classList.remove('order-panel-lock-scroll')
   orderPanelBackdrop.value.style.display = 'none'
   if (orderPanel.value) orderPanel.value.close()
 
@@ -56,13 +57,8 @@ function checkClickAndCloseOrderPanel(e) {
   if (e.composedPath().includes(orderPanel.value)) return //если клик по панели, то ничего не делать
   else closeOrderPanel()
 }
+//открытие и закрытие панели заказа - СТОП
 </script>
-
-<style>
-.lock {
-  overflow: hidden;
-}
-</style>
 
 <template>
   <router-view @btn-order-pressed="openOrderPanel()"></router-view>

@@ -386,3 +386,8 @@ body {
     margin: 0 auto;
     padding: 15px;
 }
+
+.order-panel-lock-scroll {
+    overflow: hidden;
+    padding-right: 17px; /*ширина скрола, чтобы не было смещения */
+}
