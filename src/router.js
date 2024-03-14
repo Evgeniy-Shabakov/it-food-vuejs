@@ -9,12 +9,24 @@ const routes = [
             {
                 path: '/',
                 component: () => import('./components/client/client-menu.vue'),
-                name: 'client.menu'
+                name: 'client.menu',
+                children: [
+                    {
+                        path: '/order-panel',
+                        component: () => import('./components/client/client-order-panel.vue'),
+                        name: 'client.menu.order-panel'
+                    },
+                ]
             },
             {
                 path: '/cart',
                 component: () => import('./components/client/client-cart.vue'),
                 name: 'client.cart'
+            },
+            {
+                path: '/order-panel',
+                component: () => import('./components/client/client-order-panel.vue'),
+                name: 'client.order-panel'
             },
         ]
     },
@@ -159,6 +171,11 @@ const scrollPositions = Object.create(null)
 
 router.beforeEach((to, from, next) => {
     scrollPositions[from.name] = window.scrollY
+
+    if (to.name == 'client.menu.order-panel'){
+        scrollPositions[to.name] = window.scrollY
+    }
+    
     next()
 })
 

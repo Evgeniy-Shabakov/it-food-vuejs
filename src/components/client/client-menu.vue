@@ -7,6 +7,7 @@ import {
   minusProductInCartForCartPanel, minusProductInCartForMenuPage,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
+import router from '../../router';
 
 setBrowserTitleForClient()
 
@@ -78,9 +79,6 @@ onUpdated(() => {
   }
   //Блок выделения меню категорий - End
 })
-
-const emit = defineEmits(['btnOrderPressed']);
-
 </script>
 
 <template>
@@ -157,7 +155,9 @@ const emit = defineEmits(['btnOrderPressed']);
 
         <div class="cart-panel__total-order">
           <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-          <button class="cart-panel__btn-order" @click.prevent="$emit('btnOrderPressed')">Заказать</button>
+          <router-link :to="{ name: 'client.menu.order-panel' }">
+            <button class="cart-panel__btn-order">Заказать</button>
+          </router-link>
         </div>
       </div>
 
@@ -180,8 +180,8 @@ const emit = defineEmits(['btnOrderPressed']);
               <p class="product-card__description-short"> {{ product.description_short }}</p>
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                <button v-if="product.countInCart == 0 || product.countInCart == undefined" class="product-card__btn-cart"
-                  @click="plusProductToCart(product)" type="button">В корзину
+                <button v-if="product.countInCart == 0 || product.countInCart == undefined"
+                  class="product-card__btn-cart" @click="plusProductToCart(product)" type="button">В корзину
                 </button>
                 <div v-else class="product-card__plus-count-minus">
                   <button class="product-card__btns-plus-minus" @click="minusProductInCartForMenuPage(product)">
@@ -199,6 +199,7 @@ const emit = defineEmits(['btnOrderPressed']);
 
       </div>
     </div>
+
+    <router-view></router-view>
   </main>
 </template>
-

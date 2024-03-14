@@ -4,9 +4,6 @@ import {
   minusProductInCartForCartPanel,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
-
-const emit = defineEmits(['btnOrderPressed']);
-
 </script>
 
 <template>
@@ -35,9 +32,11 @@ const emit = defineEmits(['btnOrderPressed']);
 
     </div>
   </div>
-  
+
   <div class="cart-panel__total-order-device">
     <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-    <button class="cart-panel__btn-order" @click.prevent="$emit('btnOrderPressed')">Заказать</button>
+    <router-link :to="{ name: 'client.order-panel' }">
+      <button class="cart-panel__btn-order">Заказать</button>
+    </router-link>
   </div>
 </template>
