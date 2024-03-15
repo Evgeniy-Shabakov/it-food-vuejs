@@ -1,0 +1,19 @@
+@media (max-width: 1300px) {
+    .burger-menu {
+        position: fixed;
+        right: 0;
+        z-index: 10;
+        background-color: rgb(255, 105, 0);
+        border-radius: 10px;
+    }
+
+    .burger-menu__item {
+        display: block;
+        color: white;
+        padding: 10px 5px;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+@media (max-width: 522px) {}

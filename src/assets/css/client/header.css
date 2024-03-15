@@ -1,0 +1,67 @@
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.header__inner__left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header__logo {
+    height: 70px;
+}
+
+.header__button {
+    border: 0;
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: rgba(128, 128, 128, 0.158);
+    color: grey;
+    font-weight: 600;
+}
+
+.header__button:hover {
+    cursor: pointer;
+    color: black;
+}
+
+.header__btn-burger-menu {
+    display: none;
+}
+
+@media (max-width: 1300px) {
+    .header__inner {
+        margin-top: 8px;
+        margin-bottom: 0px;
+    }
+
+    .header__logo {
+        height: 40px;
+    }
+
+    .header__company-name {
+        font-size: 24px;
+    }
+
+    .header__tagline {
+        display: none;
+    }
+
+    .header__button {
+        display: none;
+    }
+
+    .header__btn-burger-menu {
+        display: block;
+        border: 0;
+        background: transparent;
+        font-size: 22px;
+        color: rgb(255, 105, 0);
+    }
+}
+
+@media (max-width: 522px) {}

@@ -1,0 +1,67 @@
+.order-panel-backdrop {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.order-panel {
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid orange;
+    background-color: white;
+}
+
+.order-panel__title {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.order-panel__form {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 48px);
+    justify-content: space-between;
+
+}
+
+.order-panel__btn-order {
+    margin: 0 10px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 30px;
+    background-color: rgb(255, 105, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.order-panel-lock-scroll {
+    overflow: hidden;
+    /*ширина скрола, чтобы не было смещения */
+    padding-right: 17px;
+}
+
+@media (max-width: 1300px) {
+    .order-panel-backdrop {
+        background-color: rgba(0, 0, 0, 0.0);
+    }
+
+    .order-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 48px);
+    }
+
+    .order-panel-lock-scroll {
+        padding-right: 0px;
+    }
+}

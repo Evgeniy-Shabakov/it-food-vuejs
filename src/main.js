@@ -1,7 +1,4 @@
-import './assets/fontawesome-free-6.4.2-web/css/all.css'
-import './assets/main.css'
-import './assets/media-device.css'
-import './assets/admin.css'
+import './css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

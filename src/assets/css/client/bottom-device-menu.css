@@ -1,0 +1,50 @@
+.bottom-device-menu {
+    display: none;
+}
+
+@media (max-width: 1300px) {
+    .bottom-device-menu {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: white;
+        border-top: 1px solid grey;
+
+    }
+
+    .bottom-device-menu__inner {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .bottom-device-menu__icon {
+        position: relative;
+        font-size: 25px;
+        color: grey;
+    }
+
+    .bottom-device-menu__icon:active {
+        cursor: pointer;
+        color: rgb(231, 97, 1);
+    }
+
+    .bottom-device-menu__product-count-in-cart {
+        position: absolute;
+        top: -30%;
+        right: -30%;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        font-size: 10px;
+        font-weight: 500;
+        color: white;
+        background-color: rgb(255, 105, 0);
+        border-radius: 50%;
+        padding-top: 4px;
+    }
+}
+
+@media (max-width: 522px) {}
