@@ -33,10 +33,6 @@
 
 }
 
-.order-panel__label {
-    display: none;
-}
-
 .order-panel__adress {
     display: block;
     width: 100%;

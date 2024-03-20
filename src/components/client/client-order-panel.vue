@@ -36,11 +36,8 @@ router.beforeEach((to, from, next) => {
       <h3 class="order-panel__title">Оформление заказа</h3>
       <div class="order-panel__form">
         <div>
-          <label class="order-panel__label">Адрес</label>
-          <input class="order-panel__adress" type="adress" placeholder="Введите адрес">
-
-          <label class="order-panel__label">Телефон</label>
-          <input class="order-panel__phone" type="phone" placeholder="Введите номер телефона">
+          <input class="order-panel__adress" type="text" placeholder="Введите адрес">
+          <input class="order-panel__phone" type="tel" placeholder="Введите номер телефона">
         </div>
 
         <button class="order-panel__btn-order">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
