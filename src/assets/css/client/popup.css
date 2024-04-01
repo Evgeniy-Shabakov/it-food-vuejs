@@ -54,6 +54,10 @@
         border: none;
     }
 
+    /* .popup__inner {
+        height: calc(100vh - 48px);
+    } */
+
     .popup-lock-scroll {
         padding-right: 0px;
     }
