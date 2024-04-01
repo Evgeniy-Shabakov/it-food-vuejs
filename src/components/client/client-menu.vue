@@ -1,13 +1,12 @@
 <script setup>
 import { ref, onMounted, onUpdated } from 'vue';
-import { company, categories, getModelAxios, getModelsAxios } from '/src/store/axios-helper.js'
+import { company, categories, getModelAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import {
   productsInCart, totalPrice,
   minusProductInCartForCartPanel, minusProductInCartForMenuPage,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
-import router from '../../router';
 
 setBrowserTitleForClient()
 

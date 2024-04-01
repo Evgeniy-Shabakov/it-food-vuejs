@@ -1,4 +1,5 @@
 import './css'
+import './viewport-height-helper'
 
 import { createApp } from 'vue'
 import App from './App.vue'
