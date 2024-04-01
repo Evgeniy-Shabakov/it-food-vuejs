@@ -12,7 +12,7 @@
 .order-panel__form {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 48px);
+    /* height: calc(100% - 48px); */
     justify-content: space-between;
 }
 

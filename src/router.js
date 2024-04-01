@@ -17,12 +17,12 @@ const routes = [
                         name: 'client.menu.popup',
                         children: [
                             {
-                                path: '/order-panel',
+                                path: '/popup/order-panel',
                                 component: () => import('./components/client/order-panel.vue'),
                                 name: 'client.menu.popup.order-panel'
                             },
                             {
-                                path: '/login-panel',
+                                path: '/popup/login-panel',
                                 component: () => import('./components/client/login-panel.vue'),
                                 name: 'client.menu.popup.login-panel'
                             },
