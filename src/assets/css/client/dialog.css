@@ -64,6 +64,7 @@
 @media (max-width: 1300px) {
     .dialog {
         height: calc(100vh - 48px);
+        max-height: calc(-webkit-fill-available - 48px);
     }
 }
 
