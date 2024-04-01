@@ -12,9 +12,21 @@ const routes = [
                 name: 'client.menu',
                 children: [
                     {
-                        path: '/order-panel',
-                        component: () => import('./components/client/client-order-panel.vue'),
-                        name: 'client.menu.order-panel'
+                        path: '/popup',
+                        component: () => import('./components/client/client-popup.vue'),
+                        name: 'client.menu.popup',
+                        children: [
+                            {
+                                path: '/order-panel',
+                                component: () => import('./components/client/order-panel.vue'),
+                                name: 'client.menu.popup.order-panel'
+                            },
+                            {
+                                path: '/login-panel',
+                                component: () => import('./components/client/login-panel.vue'),
+                                name: 'client.menu.popup.login-panel'
+                            },
+                        ]
                     },
                 ]
             },
@@ -25,8 +37,13 @@ const routes = [
             },
             {
                 path: '/order-panel',
-                component: () => import('./components/client/client-order-panel.vue'),
+                component: () => import('./components/client/order-panel.vue'),
                 name: 'client.order-panel'
+            },
+            {
+                path: '/login-panel',
+                component: () => import('./components/client/login-panel.vue'),
+                name: 'client.login-panel'
             },
         ]
     },
@@ -172,7 +189,7 @@ const scrollPositions = Object.create(null)
 router.beforeEach((to, from, next) => {
     scrollPositions[from.name] = window.scrollY
 
-    if (to.name == 'client.menu.order-panel'){
+    if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel'){
         scrollPositions[to.name] = window.scrollY
     }
     

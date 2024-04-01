@@ -102,7 +102,9 @@ onUpdated(() => {
           </div>
         </div>
         <div class="header__inner__right">
-          <button class="header__button">Войти</button>
+          <router-link :to="{ name: 'client.menu.popup.login-panel' }">
+            <button class="header__button">Войти</button>
+          </router-link>
           <button ref="btnBurgerMenu" class="header__btn-burger-menu"><i class="fa-solid fa-bars"></i></button>
         </div>
       </div>
@@ -155,7 +157,7 @@ onUpdated(() => {
 
         <div class="cart-panel__total-order">
           <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-          <router-link :to="{ name: 'client.menu.order-panel' }">
+          <router-link :to="{ name: 'client.menu.popup.order-panel' }">
             <button class="cart-panel__btn-order">Заказать</button>
           </router-link>
         </div>

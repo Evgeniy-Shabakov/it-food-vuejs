@@ -36,9 +36,14 @@ if (categories.value == null) getModelsAxios('categories')
     <div class="container">
       <div class="bottom-device-menu__inner">
         <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }"><i
-            class="fa-regular fa-circle-up bottom-device-menu__icon"></i></router-link>
+            class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
+        </router-link>
         <a v-else href="#"><i class="fa-regular fa-circle-up bottom-device-menu__icon"></i></a>
-        <a><i class="fa-solid fa-user bottom-device-menu__icon"></i></a>
+
+        <router-link :to="{ name: 'client.login-panel' }">
+          <i class="fa-solid fa-user bottom-device-menu__icon"></i>
+        </router-link>
+
         <router-link :to="{ name: 'client.cart' }"><i class="fa-solid fa-cart-shopping bottom-device-menu__icon">
             <div v-if="totalCountInCart" class="bottom-device-menu__product-count-in-cart">
               {{ totalCountInCart }}

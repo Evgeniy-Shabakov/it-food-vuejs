@@ -1,8 +1,3 @@
-.order-panel {
-    width: 100%;
-    height: 100%;
-    padding: 15px;
-}
 
 .order-panel__title {
     text-align: center;
@@ -60,9 +55,6 @@
 }
 
 @media (max-width: 1300px) {
-    .order-panel {
-        height: calc(100vh - 48px);
-    }
 }
 
 @media (max-width: 522px) {}
