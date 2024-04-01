@@ -63,7 +63,7 @@
 
 @media (max-width: 1300px) {
     .dialog {
-        height: calc(var(--viewport-height) - 48px);
+        height: calc(var(--vh-mobile, 1vh) * 100 - 48px);
     }
 }
 

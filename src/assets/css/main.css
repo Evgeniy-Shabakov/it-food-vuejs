@@ -1,6 +1,6 @@
 :root {
     --scroll-padding-top: 65px;
-    --viewport-height: 100vh;
+    --vh-mobile: 1vh;
 }
 
 * {
