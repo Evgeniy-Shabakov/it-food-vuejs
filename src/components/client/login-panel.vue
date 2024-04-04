@@ -9,12 +9,12 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 async function login() {
-  await axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie')
+  await axios.get(`${serverUrl}/sanctum/csrf-cookie`)
     .then(res => {
       console.log(res)
     })
   await axios
-    .post(`http://127.0.0.1:8000/send-verify-code`, { phone: inputedPhone.value })
+    .post(`${serverUrl}/send-verify-code`, { phone: inputedPhone.value })
     .then(res => {
       console.log(res);
       
