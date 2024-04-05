@@ -1,7 +1,9 @@
 import { ref } from 'vue';
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import axios from 'axios'
-import { serverApiUrl } from '/src/main.js'
+import { serverApiUrl } from '/src/config.js'
+
+axios.defaults.baseURL = serverApiUrl
 
 export const company = ref()
 
@@ -25,7 +27,7 @@ export const textLoadOrFailForVue = ref('Загрузка данных...')
 export function getModelsAxios(urlPrefix) {
     return new Promise(function (resolve, reject) {
         axios
-            .get(`${serverApiUrl}/${urlPrefix}`)
+            .get(`/${urlPrefix}`)
             .then(res => {
                 if (urlPrefix == 'countries') countries.value = res.data.data
                 else if (urlPrefix == 'cities') cities.value = res.data.data
@@ -45,7 +47,7 @@ export function getModelsAxios(urlPrefix) {
 export function getModelAxios(urlPrefix, id) {
     return new Promise(function (resolve, reject) {
         axios
-            .get(`${serverApiUrl}/${urlPrefix}/${id}`)
+            .get(`/${urlPrefix}/${id}`)
             .then(res => {
                 if (urlPrefix == 'countries') currentCountry.value = res.data.data
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
@@ -66,7 +68,7 @@ export function getModelAxios(urlPrefix, id) {
 export function storeModelAxios(urlPrefix, data) {
     return new Promise(function (resolve, reject) {
         axios
-            .post(`${serverApiUrl}/${urlPrefix}`, data)
+            .post(`/${urlPrefix}`, data)
             .then(res => {
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
@@ -84,7 +86,7 @@ export function updateModelAxios(urlPrefix, data) {
         data.append("_method", "PATCH");
         return new Promise(function (resolve, reject) {
             axios
-                .post(`${serverApiUrl}/${urlPrefix}/${data.get('id')}`, data)
+                .post(`/${urlPrefix}/${data.get('id')}`, data)
                 .then(res => {
                     if (urlPrefix == 'companies') company.value = res.data.data
                     if (urlPrefix == 'products') currentProduct.value = res.data.data
@@ -101,7 +103,7 @@ export function updateModelAxios(urlPrefix, data) {
 
     return new Promise(function (resolve, reject) {
         axios
-            .patch(`${serverApiUrl}/${urlPrefix}/${data.id}`, data)
+            .patch(`/${urlPrefix}/${data.id}`, data)
             .then(res => {
                 if (urlPrefix == 'countries') currentCountry.value = res.data.data
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
@@ -121,7 +123,7 @@ export function updateModelAxios(urlPrefix, data) {
 export function deleteModelAxios(urlPrefix, data) {
     return new Promise(function (resolve, reject) {
         axios
-            .delete(`${serverApiUrl}/${urlPrefix}/${data.id}`)
+            .delete(`/${urlPrefix}/${data.id}`)
             .then(res => {
                 if (urlPrefix == 'countries') currentCountry.value = null
                 else if (urlPrefix == 'cities') currentCity.value = null

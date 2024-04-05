@@ -1,18 +1,19 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { serverUrl } from '/src/main.js'
+import { serverUrl } from '/src/config.js'
 
 const inputedPhone = ref('')
 
+axios.defaults.baseURL = serverUrl
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
 async function login() {
-  await axios.get(`${serverUrl}/sanctum/csrf-cookie`)
+  await axios.get('/sanctum/csrf-cookie')
 
   await axios
-    .post(`${serverUrl}/send-verify-code`, { phone: inputedPhone.value })
+    .post('/send-verify-code', { phone: inputedPhone.value })
     .then(res => {
       alert(res.data)
     })
