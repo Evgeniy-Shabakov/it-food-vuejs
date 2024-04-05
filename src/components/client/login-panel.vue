@@ -10,19 +10,12 @@ axios.defaults.withXSRFToken = true;
 
 async function login() {
   await axios.get(`${serverUrl}/sanctum/csrf-cookie`)
-    .then(res => {
-      console.log(res)
-    })
+
   await axios
     .post(`${serverUrl}/send-verify-code`, { phone: inputedPhone.value })
     .then(res => {
-      console.log(res);
-      
+      alert(res.data)
     })
-    .catch(err => {
-      
-    })
-
 }
 </script>
 
@@ -33,7 +26,7 @@ async function login() {
         <input v-model="inputedPhone" class="dialog__phone" type="tel" placeholder="Введите номер телефона">
       </div>
 
-      <button @click.prevent="login()" class="dialog__btn-submit">Отправить код</button>
+      <button @click.prevent="login" class="dialog__btn-submit">Отправить код</button>
     </div>
   </div>
 </template>
