@@ -18,6 +18,10 @@ async function sendVerifyCode() {
     .then(res => {
       alert(res.data)
     })
+    .catch(err => {
+      console.log(err.response.data.message);
+      alert(err.response.data.message);
+    })
 }
 
 function login() {
@@ -26,8 +30,21 @@ function login() {
     .then(res => {
       alert('Успешный вход')
     })
-    .catch(err=>{
-      alert('Неуспешный вход')
+    .catch(err => {
+      console.log(err.response.data.message);
+      alert(err.response.data.message)
+    })
+}
+
+function logout() {
+  axios
+    .delete('/logout')
+    .then(res => {
+      alert('Успешный выход')
+    })
+    .catch(err => {
+      console.log(err.response.data.message);
+      alert(err.response.data.message)
     })
 }
 
@@ -37,14 +54,15 @@ function login() {
   <div class="dialog">
     <div class="dialog__form">
       <div>
-        <input v-model="inputedPhone" class="dialog__phone" type="tel" placeholder="Введите номер телефона">
+        <input v-model="inputedPhone" class="dialog__phone" type="text" placeholder="Введите номер телефона">
       </div>
       <div>
         <input v-model="inputedCode" class="dialog__phone" type="text" placeholder="Введите код подтверждения">
       </div>
 
-      <button @click.prevent="sendVerifyCode" class="dialog__btn-submit">Отправить код</button>
+      <button @click.prevent="sendVerifyCode" class="dialog__btn-submit">Отправить код подтверждения</button>
       <button @click.prevent="login" class="dialog__btn-submit">Подтвердить</button>
+      <button @click.prevent="logout" class="dialog__btn-submit">Выйти</button>
     </div>
   </div>
 </template>
