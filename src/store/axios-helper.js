@@ -4,6 +4,8 @@ import axios from 'axios'
 import { serverApiUrl } from '/src/config.js'
 
 axios.defaults.baseURL = serverApiUrl
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 
 export const company = ref()
 
