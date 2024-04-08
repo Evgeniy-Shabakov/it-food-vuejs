@@ -78,7 +78,7 @@ export function formDoneLogMessage(urlPrefix, res, data) {
 
 export function formErrorLogMessage(err) {
   let message = {}
-
+console.log(err);
   switch (err.code) {
     case 'ERR_NETWORK':
       message.text = 'Нет доступа к серверу'
@@ -86,7 +86,9 @@ export function formErrorLogMessage(err) {
       return message
 
     case 'ERR_BAD_REQUEST':
-      if (err.response.status == 403) message.text = err.response.data //текст с бэка, сначала удалите дочерние объекты
+      if (err.response.status == 401 || err.response.status == 419) message.text = 'Необходимо войти в систему'
+      else if (err.response.status == 403) message.text = 'Недостаточно прав пользователя'
+      else if (err.response.status == 405) message.text = err.response.data //текст с бэка, сначала удалите дочерние объекты
       else if (err.response.status == 404) message.text = 'Нет данных на сервере'
       else if (err.response.status == 422) message.text = 'Неверно введенные данные'
       else message.text = err.message
