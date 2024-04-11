@@ -4,6 +4,7 @@ import './assets/css/main.css'
 import './assets/css/admin/admin.css'
 import './assets/css/admin/index-list-element.css'
 import './assets/css/admin/index-list-employee.css'
+import './assets/css/admin/create-form.css'
 
 import './assets/css/client/container.css'
 import './assets/css/client/info.css'

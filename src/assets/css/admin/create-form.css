@@ -1,0 +1,27 @@
+.create-form {
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.create-form__label {
+    display: inline-block;
+    width: 100px;
+    margin-right: 15px;
+}
+
+.create-form__required::after {
+    content: "*";
+    color: red;
+}
+
+.create-form__input {
+    padding: 7px 10px;
+    width: 400px;
+    font-size: 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.create-form__btn {
+    margin-top: 15px;
+}
