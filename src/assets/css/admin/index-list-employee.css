@@ -1,0 +1,14 @@
+.index-list-employee__phone{
+    width: 20%;
+}
+
+.index-list-employee__roles{
+    display: flex;
+    flex-wrap: wrap;
+    width: 25%; 
+}
+
+.index-list-employee__roles_element{
+    padding-right: 10px;
+    white-space: nowrap; 
+}

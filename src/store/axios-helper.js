@@ -24,6 +24,9 @@ export const currentCategory = ref()
 export const products = ref()
 export const currentProduct = ref()
 
+export const employees = ref()
+export const currentEmployee = ref()
+
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
 export function getModelsAxios(urlPrefix) {
@@ -36,6 +39,7 @@ export function getModelsAxios(urlPrefix) {
                 else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
                 else if (urlPrefix == 'categories') categories.value = res.data.data
                 else if (urlPrefix == 'products') products.value = res.data.data
+                else if (urlPrefix == 'employees') employees.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -57,6 +61,7 @@ export function getModelAxios(urlPrefix, id) {
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
                 else if (urlPrefix == 'products') currentProduct.value = res.data.data
                 else if (urlPrefix == 'companies') company.value = res.data.data
+                else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
@@ -111,6 +116,7 @@ export function updateModelAxios(urlPrefix, data) {
                 else if (urlPrefix == 'cities') currentCity.value = res.data.data
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
                 else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+                else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)
@@ -132,6 +138,7 @@ export function deleteModelAxios(urlPrefix, data) {
                 else if (urlPrefix == 'restaurants') currentRestaurant.value = null
                 else if (urlPrefix == 'categories') currentCategory.value = null
                 else if (urlPrefix == 'products') currentProduct.value = null
+                else if (urlPrefix == 'employees') currentEmployee.value = null
                 res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
                 addLogMessage(res.messageForVue)
                 resolve(res)

@@ -59,6 +59,27 @@ const routes = [
             },
 
             {
+                path: 'employees',
+                component: () => import('./components/admin/employees/admin-employees-index.vue'),
+                name: 'admin.employees.index'
+            },
+            {
+                path: 'employees/create',
+                component: () => import('./components/admin/employees/admin-employees-create.vue'),
+                name: 'admin.employees.create'
+            },
+            {
+                path: 'employees/:id',
+                component: () => import('./components/admin/employees/admin-employees-show.vue'),
+                name: 'admin.employees.show'
+            },
+            {
+                path: 'employees/:id/edit',
+                component: () => import('./components/admin/employees/admin-employees-edit.vue'),
+                name: 'admin.employees.edit'
+            },
+
+            {
                 path: 'countries',
                 component: () => import('./components/admin/countries/admin-countries-index.vue'),
                 name: 'admin.countries.index'

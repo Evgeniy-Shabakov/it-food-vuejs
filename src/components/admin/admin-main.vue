@@ -46,6 +46,7 @@ function highlightLink() {
   <!-- Боковая панель -->
   <div id="nav-menu" class="sidenav">
     <router-link to="/admin">Главная</router-link>
+    <router-link to="/admin/employees">Сотрудники</router-link>
     <router-link to="/admin/companies/1/edit">Компания</router-link>
     <router-link to="/admin/countries">Страны</router-link>
     <router-link to="/admin/cities">Города</router-link>
