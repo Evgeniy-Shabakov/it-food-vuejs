@@ -2,25 +2,25 @@
 import router from "/src/router.js"
 import { useRoute } from 'vue-router'
 import {
-  currentCategory, textLoadOrFailForVue,
+  currentEmployee, textLoadOrFailForVue,
   getModelAxios, deleteModelAxios
 } from '/src/store/axios-helper.js'
 
 //проверка если роут загружается из закладки или обновления страницы
-if (currentCategory.value == null) {
-  getModelAxios('categories', useRoute().params.id)
+if (currentEmployee.value == null) {
+  getModelAxios('employees', useRoute().params.id)
     .then((res) => { })
     .catch((err) => { })
 }
 
-function openCategoryEdit() {
-  router.push({ name: 'admin.categories.edit', params: { id: currentCategory.id } })
+function openEmployeeEdit() {
+  router.push({ name: 'admin.employees.edit', params: { id: currentEmployee.value.id } })
 }
 
-function deleteCategory() {
-  deleteModelAxios('categories', currentCategory.value)
+function deleteEmployee() {
+  deleteModelAxios('employees', currentEmployee.value)
     .then((res) => {
-      router.push({ name: 'admin.categories.index' })
+      router.push({ name: 'admin.employees.index' })
     })
     .catch((err) => { }) //пустые обработчики, чтобы не было ошибок не пойманных промисов
 }
@@ -28,17 +28,25 @@ function deleteCategory() {
 </script>
 
 <template>
-  <h2>Данные категории</h2>
-  <div v-if="currentCategory" class="admin-view-model">
+  <h2>Данные сотрудника</h2>
+  <div v-if="currentEmployee" class="admin-view-model">
     <div>
-      <label>Наименование: </label>
-      <span>{{ currentCategory.title }}</span>
+      <label>ФИО: </label>
+      <span>{{ currentEmployee.last_name }} {{ currentEmployee.first_name }} {{ currentEmployee.surname }}</span>
     </div>
     <div>
-      <button class="btn btn-edit" @click.prevent="openCategoryEdit" type="button">
+      <label>Телефон: </label>
+      <span>{{ currentEmployee.user.phone }}</span>
+    </div>
+    <div>
+      <label>Разрешения: </label>
+      <span v-for="role in currentEmployee.roles">{{ role.title + ' ' }}</span>
+    </div>
+    <div>
+      <button class="btn btn-edit" @click.prevent="openEmployeeEdit" type="button">
         Редактировать
       </button>
-      <button class="btn btn-delete" @click.prevent="deleteCategory" type="button">
+      <button class="btn btn-delete" @click.prevent="deleteEmployee" type="button">
         Удалить
       </button>
     </div>

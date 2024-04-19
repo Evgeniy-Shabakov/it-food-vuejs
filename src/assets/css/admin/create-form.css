@@ -19,9 +19,13 @@
     width: 400px;
     font-size: 18px;
     border-radius: 10px;
+    margin-right: 15px;
     margin-bottom: 15px;
 }
-
 .create-form__btn {
-    margin-top: 15px;
+    margin-top: 35px;
+}
+
+.create-form__text-done {
+    margin-left: 25px;
 }

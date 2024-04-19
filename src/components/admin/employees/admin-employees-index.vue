@@ -2,10 +2,10 @@
 import router from "/src/router.js"
 import {
   employees, currentEmployee, textLoadOrFailForVue,
-  getModelsAxios, updateModelAxios, deleteModelAxios
+  getModelsAxios, deleteModelAxios
 } from '/src/store/axios-helper.js'
 
-getModelsAxios('employees').then(res => { console.log(res); })
+getModelsAxios('employees')
 
 function openEmployeShow(employee) {
   currentEmployee.value = employee
@@ -35,10 +35,13 @@ function deleteEmploye(employee) {
   <div v-if="employees">
 
     <div v-for="employee in employees" class="index-list-element">
-      <span class="index-list-element__name index-list-employee__phone">{{ employee.phone }}</span>
+      <span class="index-list-element__name index-list-employee__full-name">
+        {{ employee.last_name }} {{ employee.first_name }} {{ employee.surname }}
+      </span>
+      <span class="index-list-employee__phone">{{ employee.user.phone }}</span>
       <div class="index-list-employee__roles">
         <span class="index-list-employee__roles_element" v-for="role in employee.roles">
-          {{ role.title }} 
+          {{ role.title }}
         </span>
       </div>
       <button class="btn btn-view" @click.prevent="openEmployeShow(employee)" type="button">Просмотреть</button>

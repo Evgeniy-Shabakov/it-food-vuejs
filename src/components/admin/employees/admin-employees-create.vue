@@ -1,8 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import router from "/src/router"
+import { ref, onMounted, onUpdated } from 'vue';
 import {
-  textLoadOrFailForVue,
+  roles, textLoadOrFailForVue,
   getModelsAxios, storeModelAxios
 } from '/src/store/axios-helper.js'
 
@@ -13,31 +12,30 @@ const inputedLastName = ref('')
 const inputedSurname = ref('')
 const inputedPhone = ref('')
 const inputedJob = ref('')
+const selectedRoles = ref([])
+
 
 const textErrorInputFirstName = ref('')
 const textErrorInputLastName = ref('')
 const textErrorInputSurname = ref('')
 const textErrorInputPhone = ref('')
 const textErrorInputJob = ref('')
+const textErrorSelectedRoles = ref('')
 
 const textDone = ref('')
 
-const roles = ref()
-
 getModelsAxios('roles')
-  .then(res => {
-    roles.value = res.data.data
-    console.log(res);
-  })
-
+  
 onMounted(() => { fieldInputFirstName.value.focus() })
 
 function storeEmployee(data) {
-  textErrorInputFirstName = ref('')
-  textErrorInputLastName = ref('')
-  textErrorInputSurname = ref('')
-  textErrorInputPhone = ref('')
-  textErrorInputJob = ref('')
+
+  textErrorInputFirstName.value = ''
+  textErrorInputLastName.value = ''
+  textErrorInputSurname.value = ''
+  textErrorInputPhone.value = ''
+  textErrorInputJob.value = ''
+  textErrorSelectedRoles.value = ''
 
   textDone.value = ''
 
@@ -48,6 +46,7 @@ function storeEmployee(data) {
       inputedSurname.value = ''
       inputedPhone.value = ''
       inputedJob.value = ''
+      selectedRoles.value = []
 
       textDone.value = res.messageForVue.text
     })
@@ -67,7 +66,9 @@ function storeEmployee(data) {
       if (err.response.data.errors.job) {
         textErrorInputJob.value = err.response.data.errors.job[0]
       }
-
+      if (err.response.data.errors.role_ids) {
+        textErrorSelectedRoles.value = err.response.data.errors.role_ids[0]
+      }
     })
 }
 </script>
@@ -77,47 +78,60 @@ function storeEmployee(data) {
 
   <form v-show="roles" class="create-form">
 
-    <label class="create-form__label create-form__required">Имя</label>
-    <input class="create-form__input" ref="fieldInputFirstName" type="text" v-model="inputedFirstName"
-      placeholder="Введите имя" @click.prevent="textErrorInputFirstName = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputFirstName }}</div>
+    <div>
+      <label class="create-form__label create-form__required">Имя</label>
+      <input class="create-form__input" ref="fieldInputFirstName" type="text" v-model="inputedFirstName"
+        placeholder="Введите имя" @click.prevent="textErrorInputFirstName = ''; textDone = ''">
+      <span class="invalid-text">{{ textErrorInputFirstName }}</span>
+    </div>
 
-    <label class="create-form__label create-form__required">Фамилия</label>
-    <input class="create-form__input" type="text" v-model="inputedLastName" placeholder="Введите фамилию"
-      @click.prevent="textErrorInputLastName = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputLastName }}</div>
+    <div>
+      <label class="create-form__label create-form__required">Фамилия</label>
+      <input class="create-form__input" type="text" v-model="inputedLastName" placeholder="Введите фамилию"
+        @click.prevent="textErrorInputLastName = ''; textDone = ''">
+      <span class="invalid-text">{{ textErrorInputLastName }}</span>
+    </div>
 
-    <label class="create-form__label">Отчество</label>
-    <input class="create-form__input" type="text" v-model="inputedSurname" placeholder="Введите отчество"
-      @click.prevent="textErrorInputSurname = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputSurname }}</div>
+    <div>
+      <label class="create-form__label">Отчество</label>
+      <input class="create-form__input" type="text" v-model="inputedSurname" placeholder="Введите отчество"
+        @click.prevent="textErrorInputSurname = ''; textDone = ''">
+      <span class="invalid-text">{{ textErrorInputSurname }}</span>
+    </div>
 
-    <label class="create-form__label create-form__required">Телефон</label>
-    <input class="create-form__input" type="text" v-model="inputedPhone" placeholder="Введите телефон"
-      @click.prevent="textErrorInputPhone = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputPhone }}</div>
+    <div>
+      <label class="create-form__label create-form__required">Телефон</label>
+      <input class="create-form__input" type="text" v-model="inputedPhone" placeholder="Введите телефон"
+        @click.prevent="textErrorInputPhone = ''; textDone = ''">
+      <span class="invalid-text">{{ textErrorInputPhone }}</span>
+    </div>
 
-    <label class="create-form__label">Должность</label>
-    <input class="create-form__input" type="text" v-model="inputedJob" placeholder="Введите должность"
-      @click.prevent="textErrorInputJob = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputJob }}</div>
+    <div>
+      <label class="create-form__label">Должность</label>
+      <input class="create-form__input" type="text" v-model="inputedJob" placeholder="Введите должность"
+        @click.prevent="textErrorInputJob = ''; textDone = ''">
+      <span class="invalid-text">{{ textErrorInputJob }}</span>
+    </div>
 
-    <label class="create-form__label">Разрешения</label>
-    <template v-for="role in roles">
-      <input type="checkbox" v-model="inputedPickupAvailable"
+    <label class="create-form__label create-form__required">Разрешения:</label>
+    <span class="invalid-text">{{ textErrorSelectedRoles }}</span>
+    <div class="create-form-employee__checkbox" v-for="role in roles">
+      <input v-model="selectedRoles" :value="role.id" class="create-form-employee__checkbox_input" type="checkbox"
         @click="textErrorInputPickupAvailable = ''; textDone = ''">
-        <span> {{ role.title }}</span>
-    </template>
-
-    <div class="done-text">{{ textDone }}</div>
+      <span class="create-form-employee__checkbox_title"> {{ role.title }}</span>
+      <span class="create-form-employee__checkbox_description"> {{ role.description }}</span>
+    </div>
 
     <button class="btn btn-view create-form__btn" @click.prevent="storeEmployee({
-      first_name: inputedTitle,
-      last_name: selectedCity.id,
-      surname: inputedStreet,
-      phone: inputedHouseNumber,
-      job: inputedCorpsNumber,
+      first_name: inputedFirstName,
+      last_name: inputedLastName,
+      surname: inputedSurname,
+      phone: inputedPhone,
+      job: inputedJob,
+      role_ids: selectedRoles,
     })">Добавить</button>
+
+    <span class=" create-form__text-done done-text">{{ textDone }}</span>
   </form>
 
   <div v-show="roles == null" class="admin-view-model-load">

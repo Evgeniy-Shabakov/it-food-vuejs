@@ -69,6 +69,15 @@ export function formDoneLogMessage(urlPrefix, res, data) {
         message.text = `Товар "${data.title}" удален`
       return message
 
+    case 'employees':
+      if (res.config.method == 'post')
+        message.text = `Сотрудник "${data.last_name} ${data.first_name} ${data.surname}" добавлен`
+      else if (res.config.method == 'patch')
+        message.text = `Сотрудник "${data.last_name} ${data.first_name} ${data.surname}" отредактирован`
+      else if (res.config.method == 'delete')
+        message.text = `Сотрудник "${data.last_name} ${data.first_name} ${data.surname}" удален`
+      return message
+
     default:
       message.text = `Запрос выполнен`
       return message
@@ -78,7 +87,7 @@ export function formDoneLogMessage(urlPrefix, res, data) {
 
 export function formErrorLogMessage(err) {
   let message = {}
-console.log(err);
+  console.log(err);
   switch (err.code) {
     case 'ERR_NETWORK':
       message.text = 'Нет доступа к серверу'

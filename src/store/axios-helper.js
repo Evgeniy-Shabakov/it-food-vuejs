@@ -7,7 +7,11 @@ axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
+export const currentAuthenticatedUser = ref()
+
 export const company = ref()
+
+export const roles = ref()
 
 export const countries = ref()
 export const currentCountry = ref()
@@ -40,6 +44,7 @@ export function getModelsAxios(urlPrefix) {
                 else if (urlPrefix == 'categories') categories.value = res.data.data
                 else if (urlPrefix == 'products') products.value = res.data.data
                 else if (urlPrefix == 'employees') employees.value = res.data.data
+                else if (urlPrefix == 'roles') roles.value = res.data.data
                 resolve(res)
             })
             .catch(err => {

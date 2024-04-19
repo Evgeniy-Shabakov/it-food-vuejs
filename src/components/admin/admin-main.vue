@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MessageType } from '/src/store/message-type.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
+import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
 
 setBrowserTitleForAdminPanel()
 
@@ -61,6 +62,7 @@ function highlightLink() {
     <div v-if="useRoute().name != 'admin.main'" class="btns-nav">
       <button @click.prevent="router.go(-1)">Назад</button>
       <button @click.prevent="router.push({ name: 'admin.main' })">На главную</button>
+      <span> {{ currentAuthenticatedUser }}</span>
     </div>
   </div>
   <!-- Нижняя панель для логов -->

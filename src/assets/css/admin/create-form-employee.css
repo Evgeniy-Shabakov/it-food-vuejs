@@ -1,0 +1,22 @@
+.create-form-employee__checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 115px;
+}
+
+.create-form-employee__checkbox_input {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+.create-form-employee__checkbox_title {
+    margin-left: 15px;
+    font-weight: 600;
+    width: 20%;
+}
+
+.create-form-employee__checkbox_description {
+    margin-left: 15px;
+}
