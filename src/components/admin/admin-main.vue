@@ -5,9 +5,11 @@ import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MessageType } from '/src/store/message-type.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
-import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { currentAuthenticatedUser, getAuthUser } from '/src/store/axios-helper.js'
 
 setBrowserTitleForAdminPanel()
+
+if(currentAuthenticatedUser.value == null) getAuthUser()
 
 function setColor(type) {
   if (type == MessageType.Warning) return "bg-color-warning"
@@ -45,16 +47,17 @@ function highlightLink() {
 
 <template>
   <!-- Боковая панель -->
-  <div id="nav-menu" class="sidenav">
-    <router-link to="/admin">Главная</router-link>
-    <router-link to="/admin/employees">Сотрудники</router-link>
-    <router-link to="/admin/companies/1/edit">Компания</router-link>
-    <router-link to="/admin/countries">Страны</router-link>
-    <router-link to="/admin/cities">Города</router-link>
-    <router-link to="/admin/restaurants">Рестораны</router-link>
-    <router-link to="/admin/categories">Категории</router-link>
-    <router-link to="/admin/products">Товары</router-link>
-    <router-link to="/" target="_blank">Сайт</router-link>
+  <div id="nav-menu" class="left-side-menu">
+    <div class="left-side-menu__current-user" v-if="currentAuthenticatedUser">{{ currentAuthenticatedUser.phone }}</div>
+    <router-link to="/admin" class="left-side-menu__link">Главная</router-link>
+    <router-link to="/admin/employees" class="left-side-menu__link">Сотрудники</router-link>
+    <router-link to="/admin/companies/1/edit" class="left-side-menu__link">Компания</router-link>
+    <router-link to="/admin/countries" class="left-side-menu__link">Страны</router-link>
+    <router-link to="/admin/cities" class="left-side-menu__link">Города</router-link>
+    <router-link to="/admin/restaurants" class="left-side-menu__link">Рестораны</router-link>
+    <router-link to="/admin/categories" class="left-side-menu__link">Категории</router-link>
+    <router-link to="/admin/products" class="left-side-menu__link">Товары</router-link>
+    <router-link to="/" target="_blank" class="left-side-menu__link">Сайт</router-link>
   </div>
   <!-- Page content -->
   <div class="pagecontent">
@@ -62,7 +65,6 @@ function highlightLink() {
     <div v-if="useRoute().name != 'admin.main'" class="btns-nav">
       <button @click.prevent="router.go(-1)">Назад</button>
       <button @click.prevent="router.push({ name: 'admin.main' })">На главную</button>
-      <span> {{ currentAuthenticatedUser }}</span>
     </div>
   </div>
   <!-- Нижняя панель для логов -->
@@ -103,17 +105,6 @@ function highlightLink() {
 .btns-nav button {
   margin-right: 5px;
   padding: 5px;
-}
-
-.sidenav {
-  height: 100%;
-  width: 20%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  padding-top: 20px;
 }
 
 .pagecontent {
@@ -187,33 +178,6 @@ function highlightLink() {
 
 .logpanel td:nth-child(5) {
   text-align: center;
-}
-
-.sidenav a {
-  padding: 0px 8px 6px 20px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-}
-
-.sidenav a:hover {
-  color: #f1f1f1;
-}
-
-a.active {
-  color: #f1f1f1;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidenav {
-    padding-top: 15px;
-  }
-
-  .sidenav a {
-    font-size: 18px;
-  }
 }
 </style>
 

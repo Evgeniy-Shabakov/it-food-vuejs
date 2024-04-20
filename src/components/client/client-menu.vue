@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted, onUpdated } from 'vue';
-import { company, categories, getModelAxios } from '/src/store/axios-helper.js'
+import {
+  company, categories, getModelAxios,
+  currentAuthenticatedUser, getAuthUser, logout
+} from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import {
   productsInCart, totalPrice,
@@ -15,6 +18,8 @@ const categoriesItems = ref([])
 const contentSections = ref([])
 
 getModelAxios('companies', 1)
+
+if(currentAuthenticatedUser.value == null) getAuthUser()
 
 const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
@@ -101,9 +106,15 @@ onUpdated(() => {
           </div>
         </div>
         <div class="header__inner__right">
-          <router-link :to="{ name: 'client.menu.popup.login-panel' }">
-            <button class="header__button">Войти</button>
-          </router-link>
+          <div v-if="currentAuthenticatedUser">
+            <router-link to="/admin" class="header__inner__right__link">Панель администратора</router-link>
+            <button @click.prevent="logout()" class="header__button">Выйти</button>
+          </div>
+          <div v-else>
+            <router-link :to="{ name: 'client.menu.popup.login-panel' }">
+              <button class="header__button">Войти</button>
+            </router-link>
+          </div>
           <button ref="btnBurgerMenu" class="header__btn-burger-menu"><i class="fa-solid fa-bars"></i></button>
         </div>
       </div>

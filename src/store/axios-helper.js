@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import axios from 'axios'
-import { serverApiUrl } from '/src/config.js'
+import { serverApiUrl, serverUrl } from '/src/config.js'
 
 axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
@@ -32,6 +32,73 @@ export const employees = ref()
 export const currentEmployee = ref()
 
 export const textLoadOrFailForVue = ref('Загрузка данных...')
+
+export function sendVerifyCode(data) {
+    return new Promise(async function (resolve, reject) {
+        await axios
+            .get(`${serverUrl}/sanctum/csrf-cookie`)
+            .catch(err => {
+                console.log(err);
+                reject(err)
+            })
+
+        await axios
+            .post(`${serverUrl}/send-verify-code`, data)
+            .then(res => {
+                resolve(res)
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err)
+            })
+    })
+}
+
+export function login(data) {
+    return new Promise(function (resolve, reject) {
+        axios
+            .post(`${serverUrl}/login`, data)
+            .then(res => {
+                currentAuthenticatedUser.value = res.data
+                resolve(res)
+            })
+            .catch(err => {
+                console.log(err);
+                reject(err)
+            })
+    })
+
+}
+
+export function logout() {
+    return new Promise(function (resolve, reject) {
+        axios
+            .delete(`${serverUrl}/logout`)
+            .then(res => {
+                currentAuthenticatedUser.value = null
+                resolve(res)
+            })
+            .catch(err => {
+                console.log(err.response.data.message);
+                reject(err)
+            })
+    })
+
+}
+
+export function getAuthUser() {
+    return new Promise(function (resolve, reject) {
+        axios
+            .get(`/get-auth-user`)
+            .then(res => {
+                currentAuthenticatedUser.value = res.data.data
+                resolve(res)
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
+}
 
 export function getModelsAxios(urlPrefix) {
     return new Promise(function (resolve, reject) {

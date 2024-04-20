@@ -15,6 +15,15 @@
     height: 70px;
 }
 
+.header__inner__right{
+    display: flex;
+    gap: 15px;
+}
+
+.header__inner__right__link{
+    margin-right: 15px;
+}
+
 .header__button {
     border: 0;
     border-radius: 30px;

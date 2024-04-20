@@ -6,6 +6,7 @@ import './assets/css/admin/index-list-element.css'
 import './assets/css/admin/index-list-employee.css'
 import './assets/css/admin/create-form.css'
 import './assets/css/admin/create-form-employee.css'
+import './assets/css/admin/left-side-menu.css'
 
 import './assets/css/client/container.css'
 import './assets/css/client/info.css'
