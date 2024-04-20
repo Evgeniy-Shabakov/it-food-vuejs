@@ -10,9 +10,16 @@
 }
 
 .left-side-menu__current-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: white;
-    padding: 0px 8px 20px 20px;
+    padding: 0px 20px 20px 20px;
     font-size: 18px;
+}
+
+.left-side-menu__current-user__btn {
+    padding: 5px
 }
 
 .left-side-menu__link {

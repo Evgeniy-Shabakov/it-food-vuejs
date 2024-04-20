@@ -5,11 +5,11 @@ import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MessageType } from '/src/store/message-type.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
-import { currentAuthenticatedUser, getAuthUser } from '/src/store/axios-helper.js'
+import { currentAuthenticatedUser, getAuthUser, logout } from '/src/store/axios-helper.js'
 
 setBrowserTitleForAdminPanel()
 
-if(currentAuthenticatedUser.value == null) getAuthUser()
+if (currentAuthenticatedUser.value == null) getAuthUser()
 
 function setColor(type) {
   if (type == MessageType.Warning) return "bg-color-warning"
@@ -36,19 +36,27 @@ function highlightLink() {
     if (window.location.href == links[i].href) {
       links[i].classList.add('active');
     }
-    else if (window.location.href.includes(links[i].href) && i != 0 && i != links.length-1) {
+    else if (window.location.href.includes(links[i].href) && i != 0 && i != links.length - 1) {
       links[i].classList.add('active');
     }
     else links[i].classList.remove('active');
   }
 }
 
+function logoutInAdminPanel(){
+  logout()
+  router.push({ name: 'client.menu' })
+}
 </script>
 
 <template>
   <!-- Боковая панель -->
   <div id="nav-menu" class="left-side-menu">
-    <div class="left-side-menu__current-user" v-if="currentAuthenticatedUser">{{ currentAuthenticatedUser.phone }}</div>
+    <div class="left-side-menu__current-user" v-if="currentAuthenticatedUser">
+      <span>{{ currentAuthenticatedUser.phone }}</span>
+      <button class="left-side-menu__current-user__btn" @click.prevent="logoutInAdminPanel()">Выйти</button>
+    </div>
+
     <router-link to="/admin" class="left-side-menu__link">Главная</router-link>
     <router-link to="/admin/employees" class="left-side-menu__link">Сотрудники</router-link>
     <router-link to="/admin/companies/1/edit" class="left-side-menu__link">Компания</router-link>
@@ -180,4 +188,3 @@ function highlightLink() {
   text-align: center;
 }
 </style>
-
