@@ -29,7 +29,7 @@ function initializeEmployee() {
   inputedFirstName.value = currentEmployee.value.first_name
   inputedLastName.value = currentEmployee.value.last_name
   inputedSurname.value = currentEmployee.value.surname
-  inputedPhone.value = currentEmployee.value.user.phone
+  inputedPhone.value = currentEmployee.value.user_phone
   inputedJob.value = currentEmployee.value.job
   selectedRoles.value = currentEmployee.value.roles.map(item => item.id)
 }

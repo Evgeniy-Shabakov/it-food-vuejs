@@ -18,10 +18,7 @@
 .header__inner__right{
     display: flex;
     gap: 15px;
-}
-
-.header__inner__right__link{
-    margin-right: 15px;
+    align-items: center;
 }
 
 .header__button {
@@ -61,6 +58,10 @@
     }
 
     .header__button {
+        display: none;
+    }
+
+    .header__inner__right{
         display: none;
     }
 

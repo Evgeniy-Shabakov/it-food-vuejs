@@ -38,7 +38,7 @@ function deleteEmploye(employee) {
       <span class="index-list-element__name index-list-employee__full-name">
         {{ employee.last_name }} {{ employee.first_name }} {{ employee.surname }}
       </span>
-      <span class="index-list-employee__phone">{{ employee.user.phone }}</span>
+      <span class="index-list-employee__phone">{{ employee.user_phone }}</span>
       <div class="index-list-employee__roles">
         <span class="index-list-employee__roles_element" v-for="role in employee.roles">
           {{ role.title }}

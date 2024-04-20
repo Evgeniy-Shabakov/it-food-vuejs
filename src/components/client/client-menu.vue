@@ -19,7 +19,7 @@ const contentSections = ref([])
 
 getModelAxios('companies', 1)
 
-if(currentAuthenticatedUser.value == null) getAuthUser()
+if (currentAuthenticatedUser.value == null) getAuthUser()
 
 const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
@@ -105,9 +105,10 @@ onUpdated(() => {
             <div v-if="company" class="header__tagline">{{ company.tagline }}</div>
           </div>
         </div>
-        <div class="header__inner__right">
-          <div v-if="currentAuthenticatedUser">
-            <router-link to="/admin" class="header__inner__right__link">Панель администратора</router-link>
+        <div>
+          <div v-if="currentAuthenticatedUser" class="header__inner__right">
+            <router-link v-if="currentAuthenticatedUser.employee" to="/admin">Панель администратора</router-link>
+            <span>{{ currentAuthenticatedUser.phone }}</span>
             <button @click.prevent="logout()" class="header__button">Выйти</button>
           </div>
           <div v-else>

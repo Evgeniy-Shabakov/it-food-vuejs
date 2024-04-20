@@ -36,7 +36,7 @@ function deleteEmployee() {
     </div>
     <div>
       <label>Телефон: </label>
-      <span>{{ currentEmployee.user.phone }}</span>
+      <span>{{ currentEmployee.user_phone }}</span>
     </div>
     <div>
       <label>Разрешения: </label>

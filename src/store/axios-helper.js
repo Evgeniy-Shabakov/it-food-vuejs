@@ -92,6 +92,7 @@ export function getAuthUser() {
             .get(`/get-auth-user`)
             .then(res => {
                 currentAuthenticatedUser.value = res.data.data
+                console.log(res.data.data)
                 resolve(res)
             })
             .catch(err => {
