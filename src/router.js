@@ -1,4 +1,5 @@
 import * as VueRouter from 'vue-router';
+import { getAuthUser, currentAuthenticatedUser } from '/src/store/axios-helper.js'
 
 const routes = [
     {
@@ -51,6 +52,29 @@ const routes = [
         path: '/admin',
         component: () => import('./components/admin/admin-main.vue'),
         name: 'admin.main',
+        beforeEnter: (to, from, next) => {
+            if (currentAuthenticatedUser.value) {
+                if (currentAuthenticatedUser.value.employee) next()
+                else {
+                    next('/')
+                }
+            }
+            else getAuthUser()
+                .then(res => {
+                    if (currentAuthenticatedUser.value) {
+                        if (currentAuthenticatedUser.value.employee) next()
+                        else {
+                            next('/')
+                        }
+                    }
+                    else {
+                        next('/')
+                    }
+                })
+                .catch(err => {
+                    next('/')
+                })
+        },
         children: [
             {
                 path: 'companies/:id/edit',
@@ -210,10 +234,10 @@ const scrollPositions = Object.create(null)
 router.beforeEach((to, from, next) => {
     scrollPositions[from.name] = window.scrollY
 
-    if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel'){
+    if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel') {
         scrollPositions[to.name] = window.scrollY
     }
-    
+
     next()
 })
 
