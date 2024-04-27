@@ -107,7 +107,9 @@ onUpdated(() => {
         </div>
         <div>
           <div v-if="currentAuthenticatedUser" class="header__inner__right">
-            <router-link v-if="currentAuthenticatedUser.employee" to="/admin">Панель администратора</router-link>
+            <router-link
+              v-if="currentAuthenticatedUser.employee && currentAuthenticatedUser.employee.hasAdminPanelAccess"
+              to="/admin">Панель администратора</router-link>
             <span>{{ currentAuthenticatedUser.phone }}</span>
             <button @click.prevent="logout()" class="header__button">Выйти</button>
           </div>

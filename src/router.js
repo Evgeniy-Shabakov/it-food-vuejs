@@ -54,7 +54,7 @@ const routes = [
         name: 'admin.main',
         beforeEnter: (to, from, next) => {
             if (currentAuthenticatedUser.value) {
-                if (currentAuthenticatedUser.value.employee) next()
+                if (currentAuthenticatedUser.value.employee.hasAdminPanelAccess) next()
                 else {
                     next('/')
                 }
@@ -62,7 +62,7 @@ const routes = [
             else getAuthUser()
                 .then(res => {
                     if (currentAuthenticatedUser.value) {
-                        if (currentAuthenticatedUser.value.employee) next()
+                        if (currentAuthenticatedUser.value.employee.hasAdminPanelAccess) next()
                         else {
                             next('/')
                         }
