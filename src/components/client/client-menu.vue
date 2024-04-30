@@ -6,7 +6,7 @@ import {
 } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import {
-  productsInCart, totalPrice,
+  productsInCart, totalProductPrice,
   minusProductInCartForCartPanel, minusProductInCartForMenuPage,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
@@ -169,7 +169,7 @@ onUpdated(() => {
         </div>
 
         <div class="cart-panel__total-order">
-          <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
+          <div class="cart-panel__total">Итого: {{ totalProductPrice }}р.</div>
           <router-link :to="{ name: 'client.menu.popup.order-panel' }">
             <button class="cart-panel__btn-order">Заказать</button>
           </router-link>

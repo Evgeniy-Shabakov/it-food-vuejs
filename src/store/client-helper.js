@@ -12,12 +12,23 @@ export const totalCountInCart = computed(() => {
     return total
 })
 
-export const totalPrice = computed(() => {
+export const totalProductPrice = computed(() => {
     let total = 0
     productsInCart.value.forEach(element => {
         total += element.countInCart * element.price_default
     })
     return total
+})
+
+export const deliveryPrice = computed(() => {
+    if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
+        return 0;
+
+    return selectedCity.value.delivery_price
+})
+
+export const totalPrice = computed(() => {
+    return totalProductPrice.value + deliveryPrice.value
 })
 
 export function plusProductToCart(product) {
@@ -42,8 +53,8 @@ export function minusProductInCartForCartPanel(product) {
 export function minusProductInCartForMenuPage(product) {
     product.countInCart--
 
-    if(product.countInCart <= 0) removeProductFromCart(product)
-    
+    if (product.countInCart <= 0) removeProductFromCart(product)
+
     localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
 
