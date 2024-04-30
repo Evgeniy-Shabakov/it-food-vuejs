@@ -110,6 +110,10 @@
     justify-self: end;
 }
 
+.cart-panel__min-order-value-for-delivery {
+    font-size: 12px;   
+}
+
 @media (max-width: 1300px) {
     .cart-panel {
         display: none;
@@ -126,6 +130,7 @@
     .cart-panel__total-order-device {
         position: fixed;
         bottom: 48px;
+        height: 68px;
         width: 100%;
         display: flex;
         justify-content: space-between;

@@ -1,5 +1,7 @@
 import { ref, computed } from 'vue';
 
+export const selectedCity = ref()
+
 export const productsInCart = ref([])
 
 export const totalCountInCart = computed(() => {

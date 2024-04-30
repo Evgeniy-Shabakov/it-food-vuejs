@@ -1,15 +1,28 @@
 <script setup>
+import { ref } from 'vue';
 import {
-  productsInCart, totalPrice,
+  selectedCity, productsInCart, totalPrice,
   minusProductInCartForCartPanel,
   plusProductToCart, removeProductFromCart
 } from '/src/store/client-helper.js'
+import { cities, getModelsAxios } from '/src/store/axios-helper.js'
+
+if (selectedCity.value == null) {
+  getModelsAxios('cities')
+    .then(res => {
+      selectedCity.value = cities.value[0]
+    })
+}
+
 </script>
 
 <template>
 
   <div class="cart-panel-device">
-    <div class="cart-panel__header">Корзина</div>
+    <div class="cart-panel__header">
+      <span>Корзина </span>
+      <span v-if="selectedCity">({{ selectedCity.title }})</span>
+    </div>
 
     <div class="cart-panel__product-section" v-for="product in productsInCart">
 
@@ -35,8 +48,22 @@ import {
 
   <div class="cart-panel__total-order-device">
     <div class="cart-panel__total">Итого: {{ totalPrice }}р.</div>
-    <router-link :to="{ name: 'client.order-panel' }">
-      <button class="cart-panel__btn-order">Заказать</button>
-    </router-link>
+
+    <template v-if="selectedCity">
+      <span v-if="totalPrice <= selectedCity.min_order_value_for_delivery"
+        class="cart-panel__min-order-value-for-delivery">
+        Минимальная сумма для доставки {{ selectedCity.min_order_value_for_delivery }}р.
+      </span>
+
+      <template v-if="totalPrice <= selectedCity.min_order_value_for_delivery">
+        <button class="cart-panel__btn-order btn-inactive">Заказать</button>
+      </template>
+      <template v-else>
+        <router-link :to="{ name: 'client.order-panel' }">
+          <button class="cart-panel__btn-order">Заказать</button>
+        </router-link>
+      </template>
+    </template>
+
   </div>
 </template>

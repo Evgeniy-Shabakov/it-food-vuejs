@@ -9,6 +9,7 @@ import './assets/css/admin/create-form.css'
 import './assets/css/admin/create-form-employee.css'
 import './assets/css/admin/left-side-menu.css'
 
+
 import './assets/css/client/container.css'
 import './assets/css/client/info.css'
 import './assets/css/client/header.css'
@@ -20,3 +21,4 @@ import './assets/css/client/product-card.css'
 import './assets/css/client/bottom-device-menu.css'
 import './assets/css/client/popup.css'
 import './assets/css/client/dialog.css'
+import './assets/css/client/client-main.css'
