@@ -37,6 +37,18 @@ function deleteCity() {
       <span>{{ currentCity.title }}</span>
     </div>
     <div>
+      <label>Минимальная сумма заказа для доставки: </label>
+      <span>{{ currentCity.min_order_value_for_delivery }}р.</span>
+    </div>
+    <div>
+      <label>Цена за доставку: </label>
+      <span>{{ currentCity.delivery_price }}р.</span>
+    </div>
+    <div>
+      <label>Сумма заказа для бесплатной доставки: </label>
+      <span>{{ currentCity.order_value_for_free_delivery }}р.</span>
+    </div>
+    <div>
       <button class="btn btn-edit" @click.prevent="openCityEdit" type="button">
         Редактировать
       </button>

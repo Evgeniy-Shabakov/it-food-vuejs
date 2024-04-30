@@ -1,0 +1,31 @@
+.index-list-city__country {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.index-list-city__header {
+    font-size: 12px;
+}
+
+.index-list-city__title {
+    width: 20%;
+}
+
+.index-list-city__min-order-value {
+    width: 10%;
+}
+
+.index-list-city__delivery-price {
+    width: 10%;
+}
+
+.index-list-city__order-value-delivery {
+    width: 10%;
+}
+
+.index-list-city__actions {
+    width: 50%;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}

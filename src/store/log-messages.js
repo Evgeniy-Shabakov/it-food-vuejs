@@ -35,7 +35,7 @@ export function formDoneLogMessage(urlPrefix, res, data) {
       if (res.config.method == 'post')
         message.text = `Город "${data.title}" добавлен`
       else if (res.config.method == 'patch')
-        message.text = `Город "${data.oldTitle}" изменен на "${data.title} - ${data.countryTitle}"`
+        message.text = `Город "${data.title} - ${data.countryTitle}" отредактирован`
       else if (res.config.method == 'delete')
         message.text = `Город "${data.title}" удален`
       return message

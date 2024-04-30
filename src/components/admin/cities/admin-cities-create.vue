@@ -10,9 +10,15 @@ const fieldInputCity = ref(null)
 
 const inputedCity = ref('')
 const selectedCountry = ref()
+const inputedMinOrderValueForDelivery = ref(0)
+const inputedDeliveryPrice = ref(0)
+const inputedOrderValueForFreeDelivery = ref(0)
 
 const textErrorInputCity = ref('')
 const textErrorSelectCountry = ref('')
+const textErrorInputMinOrderValueForDelivery = ref('')
+const textErrorInputDeliveryPrice = ref('')
+const textErrorInputOrderValueForFreeDelivery = ref('')
 const textDone = ref('')
 
 //проверка если роут загружается из закладки или обновления страницы
@@ -41,6 +47,10 @@ onMounted(() => { fieldInputCity.value.focus() })
 function storeCityVue(data) {
   textErrorInputCity.value = ''
   textErrorSelectCountry.value = ''
+  textErrorInputMinOrderValueForDelivery.value = ''
+  textErrorInputDeliveryPrice.value = ''
+  textErrorInputOrderValueForFreeDelivery.value = ''
+
   textDone.value = ''
 
   storeModelAxios('cities', data)
@@ -55,6 +65,18 @@ function storeCityVue(data) {
 
       if (err.response.data.errors.country_id) {
         textErrorSelectCountry.value = err.response.data.errors.country_id[0]
+      }
+
+      if (err.response.data.errors.min_order_value_for_delivery) {
+        textErrorInputMinOrderValueForDelivery.value = err.response.data.errors.min_order_value_for_delivery[0]
+      }
+
+      if (err.response.data.errors.delivery_price) {
+        textErrorInputDeliveryPrice.value = err.response.data.errors.delivery_price[0]
+      }
+
+      if (err.response.data.errors.order_value_for_free_delivery) {
+        textErrorInputOrderValueForFreeDelivery.value = err.response.data.errors.order_value_for_free_delivery[0]
       }
     })
 }
@@ -74,14 +96,32 @@ function storeCityVue(data) {
       @click.prevent="textErrorInputCity = ''; textDone = ''">
     <div class="invalid-text">{{ textErrorInputCity }}</div>
 
+    <label>Минимальная сумма заказа для доставки (укажите 0, если доставка осуществляется при любой сумме
+      заказа)</label>
+    <input type="number" min="1" step="any" v-model="inputedMinOrderValueForDelivery"
+      @click.prevent="textErrorInputMinOrderValueForDelivery = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputMinOrderValueForDelivery }}</div>
+
+    <label>Цена за доставку (укажите 0, если у вас бесплатная доставка)</label>
+    <input type="number" min="0" step="any" v-model="inputedDeliveryPrice"
+      @click.prevent="textErrorInputDeliveryPrice = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputDeliveryPrice }}</div>
+
+    <label>Сумма заказа для бесплатной доставки</label>
+    <input type="number" min="1" step="any" v-model="inputedOrderValueForFreeDelivery"
+      @click.prevent="textErrorInputOrderValueForFreeDelivery = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputOrderValueForFreeDelivery }}</div>
+
     <div class="done-text">{{ textDone }}</div>
     <button class="btn btn-view" @click.prevent="storeCityVue({
       title: inputedCity,
-      country_id: selectedCountry.id
+      country_id: selectedCountry.id,
+      min_order_value_for_delivery: inputedMinOrderValueForDelivery,
+      delivery_price: inputedDeliveryPrice,
+      order_value_for_free_delivery: inputedOrderValueForFreeDelivery
     })">Добавить</button>
   </form>
   <div v-show="countries == null" class="admin-view-model-load">
     {{ textLoadOrFailForVue }}
   </div>
 </template>
-
