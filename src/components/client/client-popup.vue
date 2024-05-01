@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { totalPrice } from '/src/store/client-helper.js'
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
