@@ -142,7 +142,7 @@ onUpdated(() => {
           {{ category.title }}</a>
 
         <div class="cart-panel">
-          <cart-component></cart-component>
+          <CartComponent />
         </div>
       </div>
 
