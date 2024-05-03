@@ -3,5 +3,5 @@ import CartComponent from './cart-component.vue';
 </script>
 
 <template>
-  <CartComponent />
+  <cart-component></cart-component>
 </template>
