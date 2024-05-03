@@ -64,9 +64,12 @@ function setColor(param) {
                   <span class="color-error" v-else>Не активен</span>
                 </td>
                 <td>
-                  <i :class="setColor(restaurant.pickup_available)" class="fa-solid fa-bag-shopping"></i>
-                  <i :class="setColor(restaurant.delivery_available)" class="fa-solid fa-car-side"></i>
-                  <i :class="setColor(restaurant.eating_area_available)" class="fa-solid fa-utensils"></i>
+                  <i :class="setColor(restaurant.pick_up_available)" class="fa-solid fa-bag-shopping"></i>
+                  <i :class="setColor(restaurant.delivery_available)" class="fa-solid fa-truck-fast"></i>
+                  <i :class="setColor(restaurant.pick_up_available_at_the_restaurant_counter)" class="fa-solid fa-chalkboard-user"></i>
+                  <i :class="setColor(restaurant.delivery_available_at_the_restaurant_to_the_table)" class="fa-solid fa-solar-panel"></i>
+                  <i :class="setColor(restaurant.pick_up_available_at_the_car_window)" class="fa-solid fa-car"></i>
+                  <i :class="setColor(restaurant.delivery_available_in_the_parking_to_car)" class="fa-solid fa-square-parking"></i>
                 </td>
                 <td>
                   <button class="btn btn-view" @click.prevent="openRestaurantShow(restaurant)" type="button">Просмотреть

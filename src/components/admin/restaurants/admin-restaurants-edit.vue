@@ -15,9 +15,12 @@ const inputedHouseNumber = ref()
 const inputedCorpsNumber = ref()
 const inputedOfficeNumber = ref()
 const inputedInfo = ref()
+const inputedPickUpAvailable = ref(false)
 const inputedDeliveryAvailable = ref(false)
-const inputedPickupAvailable = ref(false)
-const inputedEatingAreaAvailable = ref(false)
+const inputedPickUpAvailableAtTheRestaurantCounter = ref(false)
+const inputedDeliveryAvailableAtTheRestaurantToTheTable = ref(false)
+const inputedPickUpAvailableAtTheCarWindow = ref(false)
+const inputedDeliveryAvailableInTheParkingToCar = ref(false)
 const inputedIsActive = ref(false)
 
 const textErrorInputTitle = ref('')
@@ -27,14 +30,17 @@ const textErrorInputHouseNumber = ref('')
 const textErrorInputCorpsNumber = ref('')
 const textErrorInputOfficeNumber = ref('')
 const textErrorInputInfo = ref('')
+const textErrorInputPickUpAvailable = ref('')
 const textErrorInputDeliveryAvailable = ref('')
-const textErrorInputPickupAvailable = ref('')
-const textErrorInputEatingAreaAvailable = ref('')
+const textErrorInputPickUpAvailableAtTheRestaurantCounter = ref('')
+const textErrorInputDeliveryAvailableAtTheRestaurantToTheTable = ref('')
+const textErrorInputPickUpAvailableAtTheCarWindow = ref('')
+const textErrorInputDeliveryAvailableInTheParkingToCar = ref('')
 const textErrorInputIsActive = ref('')
 
 const textDone = ref('')
 
-function initializeRestaurant(){
+function initializeRestaurant() {
   inputedTitle.value = currentRestaurant.value.title
   selectedCity.value = currentRestaurant.value.city
   inputedStreet.value = currentRestaurant.value.street
@@ -42,9 +48,14 @@ function initializeRestaurant(){
   inputedCorpsNumber.value = currentRestaurant.value.corps_number
   inputedOfficeNumber.value = currentRestaurant.value.office_number
   inputedInfo.value = currentRestaurant.value.info
+  inputedPickUpAvailable.value = Boolean(currentRestaurant.value.pick_up_available)
   inputedDeliveryAvailable.value = Boolean(currentRestaurant.value.delivery_available)
-  inputedPickupAvailable.value = Boolean(currentRestaurant.value.pickup_available)
-  inputedEatingAreaAvailable.value = Boolean(currentRestaurant.value.eating_area_available)
+  inputedPickUpAvailableAtTheRestaurantCounter.value = Boolean(currentRestaurant.value.pick_up_available_at_the_restaurant_counter)
+  inputedDeliveryAvailableAtTheRestaurantToTheTable.value = Boolean(currentRestaurant.value.delivery_available_at_the_restaurant_to_the_table)
+  inputedPickUpAvailableAtTheCarWindow.value = Boolean(currentRestaurant.value.pick_up_available_at_the_car_window)
+  inputedDeliveryAvailableInTheParkingToCar.value = Boolean(currentRestaurant.value.delivery_available_in_the_parking_to_car)
+
+
   inputedIsActive.value = Boolean(currentRestaurant.value.is_active)
 }
 
@@ -74,9 +85,12 @@ function updateRestaurant(data) {
   textErrorInputCorpsNumber.value = ''
   textErrorInputOfficeNumber.value = ''
   textErrorInputInfo.value = ''
+  textErrorInputPickUpAvailable.value = ''
   textErrorInputDeliveryAvailable.value = ''
-  textErrorInputPickupAvailable.value = ''
-  textErrorInputEatingAreaAvailable.value = ''
+  textErrorInputPickUpAvailableAtTheRestaurantCounter.value = ''
+  textErrorInputDeliveryAvailableAtTheRestaurantToTheTable.value = ''
+  textErrorInputPickUpAvailableAtTheCarWindow.value = ''
+  textErrorInputDeliveryAvailableInTheParkingToCar.value = ''
   textErrorInputIsActive.value = ''
 
   textDone.value = ''
@@ -107,14 +121,23 @@ function updateRestaurant(data) {
       if (err.response.data.errors.info) {
         textErrorInputInfo.value = err.response.data.errors.info[0]
       }
+      if (err.response.data.errors.pick_up_available) {
+        textErrorInputPickUpAvailable.value = err.response.data.errors.pick_up_available[0]
+      }
       if (err.response.data.errors.delivery_available) {
         textErrorInputDeliveryAvailable.value = err.response.data.errors.delivery_available[0]
       }
-      if (err.response.data.errors.pickup_available) {
-        textErrorInputPickupAvailable.value = err.response.data.errors.pickup_available[0]
+      if (err.response.data.errors.pick_up_available_at_the_restaurant_counter) {
+        textErrorInputPickUpAvailableAtTheRestaurantCounter.value = err.response.data.errors.pick_up_available_at_the_restaurant_counter[0]
       }
-      if (err.response.data.errors.eating_area_available) {
-        textErrorInputEatingAreaAvailable.value = err.response.data.errors.eating_area_available[0]
+      if (err.response.data.errors.delivery_available_at_the_restaurant_to_the_table) {
+        textErrorInputDeliveryAvailableAtTheRestaurantToTheTable.value = err.response.data.errors.delivery_available_at_the_restaurant_to_the_table[0]
+      }
+      if (err.response.data.errors.pick_up_available_at_the_car_window) {
+        textErrorInputPickUpAvailableAtTheCarWindow.value = err.response.data.errors.pick_up_available_at_the_car_window[0]
+      }
+      if (err.response.data.errors.delivery_available_in_the_parking_to_car) {
+        textErrorInputDeliveryAvailableInTheParkingToCar.value = err.response.data.errors.delivery_available_in_the_parking_to_car[0]
       }
       if (err.response.data.errors.is_active) {
         textErrorInputIsActive.value = err.response.data.errors.is_active[0]
@@ -168,18 +191,33 @@ function updateRestaurant(data) {
     <div class="invalid-text">{{ textErrorInputInfo }}</div>
 
     <span class="required">Доступен самовывоз:</span>
-    <input type="checkbox" v-model="inputedPickupAvailable" @click="textErrorInputPickupAvailable = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputPickupAvailable }}</div>
-    
+    <input type="checkbox" v-model="inputedPickUpAvailable" @click="textErrorInputPickUpAvailable = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputPickUpAvailable }}</div>
+
     <span class="required">Доступна доставка:</span>
     <input type="checkbox" v-model="inputedDeliveryAvailable"
       @click="textErrorInputDeliveryAvailable = ''; textDone = ''">
     <div class="invalid-text">{{ textErrorInputDeliveryAvailable }}</div>
 
-    <span class="required">Доступна подача в ресторане:</span>
-    <input type="checkbox" v-model="inputedEatingAreaAvailable"
-      @click="textErrorInputEatingAreaAvailable = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputEatingAreaAvailable }}</div>
+    <span class="required">Доступна выдача в ресторане у прилавка:</span>
+    <input type="checkbox" v-model="inputedPickUpAvailableAtTheRestaurantCounter"
+      @click="textErrorInputPickUpAvailableAtTheRestaurantCounter = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputPickUpAvailableAtTheRestaurantCounter }}</div>
+
+    <span class="required">Доступна подача в ресторане к столу:</span>
+    <input type="checkbox" v-model="inputedDeliveryAvailableAtTheRestaurantToTheTable"
+      @click="textErrorInputDeliveryAvailableAtTheRestaurantToTheTable = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputDeliveryAvailableAtTheRestaurantToTheTable }}</div>
+
+    <span class="required">Доступна выдача в окне для автомобилей:</span>
+    <input type="checkbox" v-model="inputedPickUpAvailableAtTheCarWindow"
+      @click="textErrorInputPickUpAvailableAtTheCarWindow = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputPickUpAvailableAtTheCarWindow }}</div>
+
+    <span class="required">Доступна подача на парковку к машине:</span>
+    <input type="checkbox" v-model="inputedDeliveryAvailableInTheParkingToCar"
+      @click="textErrorInputDeliveryAvailableInTheParkingToCar = ''; textDone = ''">
+    <div class="invalid-text">{{ textErrorInputDeliveryAvailableInTheParkingToCar }}</div>
 
     <span class="required">Активировать прием заказов:</span>
     <input type="checkbox" v-model="inputedIsActive" @click="textErrorInputIsActive = ''; textDone = ''">
@@ -195,9 +233,12 @@ function updateRestaurant(data) {
       corps_number: inputedCorpsNumber,
       office_number: inputedOfficeNumber,
       info: inputedInfo,
+      pick_up_available: inputedPickUpAvailable,
       delivery_available: inputedDeliveryAvailable,
-      pickup_available: inputedPickupAvailable,
-      eating_area_available: inputedEatingAreaAvailable,
+      pick_up_available_at_the_restaurant_counter: inputedPickUpAvailableAtTheRestaurantCounter,
+      delivery_available_at_the_restaurant_to_the_table: inputedDeliveryAvailableAtTheRestaurantToTheTable,
+      pick_up_available_at_the_car_window: inputedPickUpAvailableAtTheCarWindow,
+      delivery_available_in_the_parking_to_car: inputedDeliveryAvailableInTheParkingToCar,
       is_active: inputedIsActive
     })">Редактировать</button>
   </form>
@@ -205,4 +246,3 @@ function updateRestaurant(data) {
     {{ textLoadOrFailForVue }}
   </div>
 </template>
-

@@ -74,10 +74,10 @@ function setColor(param) {
       </tr>
       <tr>
         <td>
-          Доcтупен самовывоз:
+          Доступен самовывоз:
         </td>
         <td>
-          <i :class="setColor(currentRestaurant.pickup_available)" class="fa-solid fa-bag-shopping"></i>
+          <i :class="setColor(currentRestaurant.pick_up_available)" class="fa-solid fa-bag-shopping"></i>
         </td>
       </tr>
       <tr>
@@ -90,10 +90,34 @@ function setColor(param) {
       </tr>
       <tr>
         <td>
-          Доступна подача в ресторане:
+          Доступна выдача в ресторане у прилавка:
         </td>
         <td>
-          <i :class="setColor(currentRestaurant.eating_area_available)" class="fa-solid fa-utensils"></i>
+          <i :class="setColor(currentRestaurant.pick_up_available_at_the_restaurant_counter)" class="fa-solid fa-chalkboard-user"></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Доступна подача в ресторане к столу:
+        </td>
+        <td>
+          <i :class="setColor(currentRestaurant.delivery_available_at_the_restaurant_to_the_table)" class="fa-solid fa-solar-panel"></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Доступна выдача в окне для автомобилей:
+        </td>
+        <td>
+          <i :class="setColor(currentRestaurant.pick_up_available_at_the_car_window)" class="fa-solid fa-car"></i>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Доступна подача на парковку к машине:
+        </td>
+        <td>
+          <i :class="setColor(currentRestaurant.delivery_available_in_the_parking_to_car)" class="fa-solid fa-square-parking"></i>
         </td>
       </tr>
       <tr>
