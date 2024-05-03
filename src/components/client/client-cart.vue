@@ -1,7 +1,7 @@
 <script setup>
-import cart from './cart-compoment.vue';
+import CartComponent from './cart-compoment.vue';
 </script>
 
 <template>
-  <cart></cart>
+  <CartComponent></CartComponent>
 </template>

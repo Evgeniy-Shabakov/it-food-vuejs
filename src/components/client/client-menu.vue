@@ -7,7 +7,7 @@ import {
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
 
-import cart from './cart-compoment.vue';
+import CartComponent from './cart-compoment.vue';
 
 setBrowserTitleForClient()
 
@@ -142,7 +142,7 @@ onUpdated(() => {
           {{ category.title }}</a>
 
         <div class="cart-panel">
-          <cart></cart>
+          <CartComponent></CartComponent>
         </div>
       </div>
 
