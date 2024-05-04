@@ -27,7 +27,7 @@ function chekingCities() {
 </script>
 
 <template>
-  
+  <div v-if="selectedCity">
     <div class="cart-panel__order-settings-section">
       <select v-model="selectedCity">
         <optgroup v-for="country in countries" :label="country.title">
@@ -102,5 +102,8 @@ function chekingCities() {
         </template>
       </div>
     </div>
+  </div>
+
+  <div v-else>Идет загрузка данных...</div>
   
 </template>
