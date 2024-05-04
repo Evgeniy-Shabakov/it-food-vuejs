@@ -24,7 +24,7 @@ export const deliveryPrice = computed(() => {
     if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
         return 0;
 
-    return selectedCity.value.delivery_price
+    return Number(selectedCity.value.delivery_price)
 })
 
 export const totalPrice = computed(() => {
