@@ -21,10 +21,14 @@ export const totalProductPrice = computed(() => {
 })
 
 export const deliveryPrice = computed(() => {
-    if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
-        return 0;
-
-    return selectedCity.value.delivery_price
+    if(selectedCity.value) {
+        if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
+            return 0;
+    
+        return selectedCity.value.delivery_price
+    }
+    
+    return 0;
 })
 
 export const totalPrice = computed(() => {
