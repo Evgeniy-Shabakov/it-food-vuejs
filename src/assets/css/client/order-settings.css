@@ -1,0 +1,29 @@
+.order-settings {
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    
+}
+
+.order-settings__radio-button {
+    display: inline-block;
+}
+
+.order-settings__radio-button__input {
+    opacity: 0;
+    position: absolute;
+    margin-left: -9999px;
+}
+
+.order-settings__radio-button__label {
+    display: inline-block;
+    padding: 3px 5px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.order-settings__radio-button__input:checked+label {
+    background-color: var(--color-primary);
+}

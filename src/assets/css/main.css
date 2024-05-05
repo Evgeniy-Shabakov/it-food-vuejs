@@ -1,6 +1,8 @@
 :root {
     --scroll-padding-top: 65px;
     --vh-mobile: 1vh;
+
+    --color-primary: rgb(255, 105, 0);;
 }
 
 * {

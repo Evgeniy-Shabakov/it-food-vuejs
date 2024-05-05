@@ -6,11 +6,13 @@
     margin-top: var(--scroll-padding-top);
 }
 
+.cart-panel__container {
+    width: 100%;
+    margin: 0 auto;
+}
+
 .cart-panel__order-settings-section {
-display: flex;
-justify-content: end;
-align-items: center;
-margin: 15px;
+    
 }
 
 .cart-panel__products-section {
@@ -156,15 +158,21 @@ margin: 15px;
         display: none;
     }
 
+    .cart-panel__container {
+        width: 90%;
+    }
+
     .cart-panel__products-section {
         border: 0px;
         height: 100%;
+        padding: 0px;
         margin-bottom: 121px;
     }
 
     .cart-panel__total-order-section {
         position: fixed;
         bottom: 48px;
+        left: 0;
         height: 68px;
         width: 100%;
         border-top: 1px solid grey;
