@@ -1,6 +1,48 @@
 import { ref, computed } from 'vue';
+import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
 
 export const selectedCity = ref()
+export const selectedRestaurant = ref()
+
+export const pickUpAvailableInSelectedCity = computed(() => {
+    if (restaurants.value == null) return false
+
+    for (let i = 0; i < restaurants.value.length; i++) {
+        if (restaurants.value[i].city.title === selectedCity.value.title) {
+            if (restaurants.value[i].pick_up_available)
+                return true
+        }
+    }
+    return false
+})
+
+export const deliveryAvailableInSelectedCity = computed(() => {
+    if (restaurants.value == null) return false
+
+    for (let i = 0; i < restaurants.value.length; i++) {
+        if (restaurants.value[i].city.title === selectedCity.value.title) {
+            if (restaurants.value[i].delivery_available)
+                return true
+        }
+    }
+    return false
+})
+
+export const restaurantAvailableInSelectedCity = computed(() => {
+    if (restaurants.value == null) return false
+
+    for (let i = 0; i < restaurants.value.length; i++) {
+        if (restaurants.value[i].city.title === selectedCity.value.title) {
+            if (restaurants.value[i].pick_up_available_at_the_restaurant_counter ||
+                restaurants.value[i].delivery_available_at_the_restaurant_to_the_table ||
+                restaurants.value[i].pick_up_available_at_the_car_window ||
+                restaurants.value[i].delivery_available_in_the_parking_to_car
+            )
+                return true
+        }
+    }
+    return false
+})
 
 export const productsInCart = ref([])
 

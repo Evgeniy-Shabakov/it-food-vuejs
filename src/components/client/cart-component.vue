@@ -1,10 +1,15 @@
 <script setup>
+import { ref } from 'vue';
 import {
-  selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
+  selectedCity, selectedRestaurant, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   minusProductInCartForCartPanel,
-  plusProductToCart, removeProductFromCart
+  plusProductToCart, removeProductFromCart,
+  deliveryAvailableInSelectedCity, pickUpAvailableInSelectedCity, restaurantAvailableInSelectedCity
 } from '/src/store/client-helper.js'
-import { countries, getModelsAxios } from '/src/store/axios-helper.js'
+import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
+import { OrderType } from '/src/store/order-type';
+
+const selectedOrderOption = ref(OrderType.Delivery)
 
 //проверка если роут загружается из закладки или обновления страницы
 if (countries.value == null) {
@@ -19,9 +24,22 @@ function chekingCities() {
   for (let i = 0; i < countries.value.length; i++) {
     if (countries.value[i].cities.length) {
       selectedCity.value = countries.value[i].cities[0]
-      return
+      setRestaurantByDefault()
+      break
     }
   }
+}
+
+function setRestaurantByDefault() {
+  getModelsAxios('restaurants')
+    .then(res => {
+      for (let i = 0; i < restaurants.value.length; i++) {
+        if (restaurants.value[i].city.title === selectedCity.value.title) {
+          selectedRestaurant.value = restaurants.value[i]
+          break
+        }
+      }
+    })
 }
 
 </script>
@@ -38,16 +56,16 @@ function chekingCities() {
         </select>
 
         <div class="order-settings">
-          <div class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option1" name="option" value="option1">
+          <div v-if="deliveryAvailableInSelectedCity" class="order-settings__radio-button">
+            <input class="order-settings__radio-button__input" type="radio" id="option1" :value=OrderType.Delivery v-model="selectedOrderOption">
             <label class="order-settings__radio-button__label" for="option1">Доставка</label>
           </div>
-          <div class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option2" name="option" value="option2">
+          <div v-if="pickUpAvailableInSelectedCity" class="order-settings__radio-button">
+            <input class="order-settings__radio-button__input" type="radio" id="option2" :value=OrderType.PickUp v-model="selectedOrderOption">
             <label class="order-settings__radio-button__label" for="option2">Самовывоз</label>
           </div>
-          <div class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option3" name="option" value="option3">
+          <div v-if="restaurantAvailableInSelectedCity" class="order-settings__radio-button">
+            <input class="order-settings__radio-button__input" type="radio" id="option3" :value=OrderType.InRestaurant v-model="selectedOrderOption">
             <label class="order-settings__radio-button__label" for="option3">В ресторане</label>
           </div>
         </div>
@@ -77,7 +95,7 @@ function chekingCities() {
 
         </div>
 
-        <div class="cart-panel__product-section cart-panel__delivery-section">
+        <div v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__product-section cart-panel__delivery-section">
           <i class="cart-panel__icon-delivery fa-solid fa-truck"></i>
           <div class="cart-panel__product-title">Доставка</div>
           <div class="cart-panel__product-total">{{ deliveryPrice }}р</div>
@@ -88,15 +106,15 @@ function chekingCities() {
       <div v-if="selectedCity" class="cart-panel__total-order-section">
 
         <div class="cart-panel__block-total">
-          <span class="cart-panel__total">Товары: </span>
-          <span class="cart-panel__total">{{ totalProductPrice }}р.</span>
-          <span class="cart-panel__total">Доставка: </span>
-          <span class="cart-panel__total">{{ deliveryPrice }}р.</span>
+          <span v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__total">Товары: </span>
+          <span v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__total">{{ totalProductPrice }}р.</span>
+          <span v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__total">Доставка: </span>
+          <span v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__total">{{ deliveryPrice }}р.</span>
           <span class="cart-panel__total">Итого: </span>
           <span class="cart-panel__total">{{ totalPrice }}р.</span>
         </div>
 
-        <div class="cart-panel__preview-order-message">
+        <div v-if="selectedOrderOption == OrderType.Delivery" class="cart-panel__preview-order-message">
           <div v-if="totalProductPrice < selectedCity.min_order_value_for_delivery">
             Минимальная сумма товаров для заказа {{ selectedCity.min_order_value_for_delivery }}р.
           </div>
