@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue';
 import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
+import { OrderType } from '/src/store/order-type';
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
+export const selectedOrderOption = ref(OrderType.Delivery)
 
 export const pickUpAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false
@@ -59,18 +61,21 @@ export const totalProductPrice = computed(() => {
     productsInCart.value.forEach(element => {
         total += element.countInCart * element.price_default
     })
-    return total
+    return Number(total)
 })
 
 export const deliveryPrice = computed(() => {
     if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
         return 0;
 
+    if (selectedOrderOption.value != OrderType.Delivery)
+        return 0;
+
     return Number(selectedCity.value.delivery_price)
 })
 
 export const totalPrice = computed(() => {
-    return totalProductPrice.value + deliveryPrice.value
+    return Number(totalProductPrice.value + deliveryPrice.value)
 })
 
 export function plusProductToCart(product) {

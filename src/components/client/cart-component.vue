@@ -4,12 +4,11 @@ import {
   selectedCity, selectedRestaurant, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   minusProductInCartForCartPanel,
   plusProductToCart, removeProductFromCart,
-  deliveryAvailableInSelectedCity, pickUpAvailableInSelectedCity, restaurantAvailableInSelectedCity
+  deliveryAvailableInSelectedCity, pickUpAvailableInSelectedCity, restaurantAvailableInSelectedCity,
+  selectedOrderOption
 } from '/src/store/client-helper.js'
 import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
 import { OrderType } from '/src/store/order-type';
-
-const selectedOrderOption = ref(OrderType.Delivery)
 
 //проверка если роут загружается из закладки или обновления страницы
 if (countries.value == null) {
