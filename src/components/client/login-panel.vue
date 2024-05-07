@@ -24,13 +24,13 @@ function sendVerifyCodeVue(data) {
       <input v-model="inputedCode" class="" type="text" placeholder="Введите код подтверждения">
     </div>
 
-    <button class="client-btn-submit" @click.prevent="sendVerifyCodeVue({
+    <button class="btn-submit" @click.prevent="sendVerifyCodeVue({
       phone: inputedPhone
     })">
       Отправить код подтверждения
     </button>
 
-    <button class="client-btn-submit" @click.prevent="login({
+    <button class="btn-submit" @click.prevent="login({
       phone: inputedPhone,
       password: inputedCode
     })">
