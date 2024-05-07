@@ -12,7 +12,7 @@ import { totalPrice } from '/src/store/client-helper.js'
         <input class="dialog__phone" type="tel" placeholder="Введите номер телефона">
       </div>
 
-      <button class="dialog__btn-submit">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
+      <button class="client-btn-submit">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
     </div>
   </div>
 </template>

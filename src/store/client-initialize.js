@@ -17,7 +17,6 @@ export async function initialize() {
 function initializeOrderOption() {
     if (localStorage.getItem('order-option')) {
         selectedOrderOption.value = JSON.parse(localStorage.getItem('order-option'))
-        console.log(selectedOrderOption.value);
     }
 }
 

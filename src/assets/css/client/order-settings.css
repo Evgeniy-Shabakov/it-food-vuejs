@@ -27,6 +27,6 @@
 }
 
 .order-settings__radio-button__input:checked+label {
-    background-color: var(--color-primary);
+    background-color: var(--color-selected);
     color: white;
 }

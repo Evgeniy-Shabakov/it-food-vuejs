@@ -100,7 +100,7 @@ import { OrderType } from '/src/store/order-type';
           </template>
           <template v-else>
             <router-link :to="{ name: 'client.menu.popup.order-panel' }">
-              <button class="cart-panel__btn-order">Оформить</button>
+              <button class="client-btn-submit">Оформить</button>
             </router-link>
           </template>
         </div>

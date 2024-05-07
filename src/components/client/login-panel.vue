@@ -14,27 +14,28 @@ function sendVerifyCodeVue(data) {
 </script>
 
 <template>
-  <div class="dialog">
-    <div class="dialog__form">
-      <div>
-        <input v-model="inputedPhone" class="dialog__phone" type="text" placeholder="Введите номер телефона">
-      </div>
-      <div>
-        <input v-model="inputedCode" class="dialog__phone" type="text" placeholder="Введите код подтверждения">
-      </div>
 
-      <button class="dialog__btn-submit" @click.prevent="sendVerifyCodeVue({
-        phone: inputedPhone
-      })">
-        Отправить код подтверждения
-      </button>
-
-      <button class="dialog__btn-submit" @click.prevent="login({
-        phone: inputedPhone,
-        password: inputedCode
-      })">
-        Подтвердить
-      </button>
+  <div class="">
+    <div>
+      <p class="">Введите номер телефона</p>
+      <input v-model="inputedPhone" class="" type="text" placeholder="Введите номер телефона">
     </div>
+    <div>
+      <input v-model="inputedCode" class="" type="text" placeholder="Введите код подтверждения">
+    </div>
+
+    <button class="client-btn-submit" @click.prevent="sendVerifyCodeVue({
+      phone: inputedPhone
+    })">
+      Отправить код подтверждения
+    </button>
+
+    <button class="client-btn-submit" @click.prevent="login({
+      phone: inputedPhone,
+      password: inputedCode
+    })">
+      Подтвердить
+    </button>
   </div>
+
 </template>

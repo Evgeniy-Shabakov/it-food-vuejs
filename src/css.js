@@ -1,4 +1,5 @@
 import './assets/fontawesome-free-6.4.2-web/css/all.css'
+import './assets/css/root.css'
 import './assets/css/main.css'
 
 import './assets/css/admin/admin.css'
@@ -24,3 +25,4 @@ import './assets/css/client/dialog.css'
 import './assets/css/client/client-main.css'
 import './assets/css/client/order-settings.css'
 import './assets/css/client/city-settings.css'
+import './assets/css/client/client-btn-submit.css'

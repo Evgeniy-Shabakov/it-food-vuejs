@@ -35,32 +35,6 @@
     margin-top: 10px;
 }
 
-.dialog__btn-submit {
-    margin: 0 10px;
-    padding: 10px 12px;
-    border: 0;
-    border-radius: 30px;
-    background-color: rgb(255, 105, 0);
-    color: rgb(255, 255, 255);
-    font-size: 17px;
-    white-space: nowrap;
-}
-
-/*чтобы работало только на компе с мышкой */
-@media (hover: hover) {
-    .dialog__btn-submit:hover {
-        cursor: pointer;
-        background-color: rgb(231, 97, 1);
-    }
-}
-
-.dialog__btn-submit:active {
-    cursor: pointer;
-    background-color: rgba(255, 106, 0, 0.801);
-    /*убирает базовое синие выделение при клике на телефоне */
-    -webkit-tap-highlight-color: transparent;
-}
-
 @media (max-width: 1300px) {
     .dialog {
         height: calc(var(--vh-mobile, 1vh) * 100 - 48px);

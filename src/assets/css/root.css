@@ -1,0 +1,24 @@
+:root {
+    --scroll-padding-top: 65px;
+    --vh-mobile: 1vh;
+
+    --color-primary: rgb(255, 105, 0);
+    --color-selected: rgb(253, 118, 22);
+
+    --btn-submit-font-size: 15px;
+    --btn-submit-back-color: rgb(255, 105, 0);
+    --btn-submit-back-color-hover: rgb(231, 97, 1);
+    --btn-submit-back-color-active: rgba(255, 106, 0, 0.801);
+    --btn-submit-text-color: rgb(255, 255, 255);
+    --btn-submit-text-color-hover: rgb(255, 255, 255);
+    --btn-submit-text-color-active: rgb(255, 255, 255);
+}
+
+
+
+
+
+
+
+
+
