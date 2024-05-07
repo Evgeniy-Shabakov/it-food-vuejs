@@ -1,44 +1,13 @@
 <script setup>
 import {
-  selectedCity, selectedRestaurant, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
+  selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   minusProductInCartForCartPanel,
   plusProductToCart, removeProductFromCart,
   deliveryAvailableInSelectedCity, pickUpAvailableInSelectedCity, restaurantAvailableInSelectedCity,
   selectedOrderOption
 } from '/src/store/client-helper.js'
-import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
+import { countries } from '/src/store/axios-helper.js'
 import { OrderType } from '/src/store/order-type';
-
-//проверка если роут загружается из закладки или обновления страницы
-if (countries.value == null) {
-  getModelsAxios('countries')
-    .then(res => {
-      chekingCities()
-    })
-}
-else chekingCities()
-
-function chekingCities() {
-  for (let i = 0; i < countries.value.length; i++) {
-    if (countries.value[i].cities.length) {
-      selectedCity.value = countries.value[i].cities[0]
-      setRestaurantByDefault()
-      break
-    }
-  }
-}
-
-function setRestaurantByDefault() {
-  getModelsAxios('restaurants')
-    .then(res => {
-      for (let i = 0; i < restaurants.value.length; i++) {
-        if (restaurants.value[i].city.title === selectedCity.value.title) {
-          selectedRestaurant.value = restaurants.value[i]
-          break
-        }
-      }
-    })
-}
 
 </script>
 

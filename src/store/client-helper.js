@@ -1,11 +1,18 @@
 import { ref, computed, watch } from 'vue';
-import { countries, restaurants, getModelsAxios } from '/src/store/axios-helper.js'
+import { restaurants } from '/src/store/axios-helper.js'
 import { OrderType } from '/src/store/order-type';
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
-
 export const selectedOrderOption = ref(OrderType.Delivery)
+
+watch(selectedCity, () => {
+    localStorage.setItem('city', JSON.stringify(selectedCity.value))
+})
+
+watch(selectedOrderOption, () => {
+    localStorage.setItem('order-option', JSON.stringify(selectedOrderOption.value))
+})
 
 export const pickUpAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false
@@ -47,15 +54,35 @@ export const restaurantAvailableInSelectedCity = computed(() => {
     return false
 })
 
+//при смене города сменить способ доставки на первый доступный
 watch([selectedCity, pickUpAvailableInSelectedCity, deliveryAvailableInSelectedCity, restaurantAvailableInSelectedCity], () => {
-    if (deliveryAvailableInSelectedCity.value) {
-        selectedOrderOption.value = OrderType.Delivery
+    if (localStorage.getItem('order-option')) {
+        //если способ доставки выбран и не поддерживается в новом городе, то сменить на первый доступный
+        if (selectedOrderOption.value == OrderType.Delivery && deliveryAvailableInSelectedCity.value == false ||
+            selectedOrderOption.value == OrderType.PickUp && pickUpAvailableInSelectedCity.value == false ||
+            selectedOrderOption.value == OrderType.InRestaurant && restaurantAvailableInSelectedCity.value == false
+        ) {
+            if (deliveryAvailableInSelectedCity.value) {
+                selectedOrderOption.value = OrderType.Delivery
+            }
+            else if (pickUpAvailableInSelectedCity.value) {
+                selectedOrderOption.value = OrderType.PickUp
+            }
+            else if (restaurantAvailableInSelectedCity.value) {
+                selectedOrderOption.value = OrderType.InRestaurant
+            }
+        }
     }
-    else if (pickUpAvailableInSelectedCity.value) {
-        selectedOrderOption.value = OrderType.PickUp
-    }
-    else if (restaurantAvailableInSelectedCity.value) {
-        selectedOrderOption.value = OrderType.InRestaurant
+    else {
+        if (deliveryAvailableInSelectedCity.value) {
+            selectedOrderOption.value = OrderType.Delivery
+        }
+        else if (pickUpAvailableInSelectedCity.value) {
+            selectedOrderOption.value = OrderType.PickUp
+        }
+        else if (restaurantAvailableInSelectedCity.value) {
+            selectedOrderOption.value = OrderType.InRestaurant
+        }
     }
 })
 
