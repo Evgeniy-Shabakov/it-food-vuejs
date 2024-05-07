@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import {
   selectedCity, selectedRestaurant, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   minusProductInCartForCartPanel,
@@ -128,11 +127,11 @@ function setRestaurantByDefault() {
 
         <div>
           <template v-if="totalProductPrice <= selectedCity.min_order_value_for_delivery">
-            <button class="cart-panel__btn-order btn-inactive">Заказать</button>
+            <button class="cart-panel__btn-order btn-inactive">Оформить</button>
           </template>
           <template v-else>
             <router-link :to="{ name: 'client.menu.popup.order-panel' }">
-              <button class="cart-panel__btn-order">Заказать</button>
+              <button class="cart-panel__btn-order">Оформить</button>
             </router-link>
           </template>
         </div>
