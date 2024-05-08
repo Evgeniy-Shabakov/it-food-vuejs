@@ -1,10 +1,11 @@
 .login-panel__container {
     width: 90%;
-    margin: 10px auto;
+    margin: auto;
+    height: 100%;
 }
 
-.login-panel{
-    margin-top: 30%;
+.login-panel {
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -12,10 +13,46 @@
     justify-content: space-between;
 }
 
-.login-panel__text {
-    text-align: center;
+.login-panel__text-input-section {
+    margin-top: 25%;
 }
 
-.login-panel__phone-input{
-    margin-top: 25px;
+.login-panel__btn-section {
+    margin-bottom: 25%;
 }
+
+.login-panel__title{
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.login-panel__text {
+    margin: auto;
+    margin-top: 15px;
+    text-align: center;
+    width: 70%;
+    font-size: 15px;
+}
+
+.login-panel__phone-input {
+    display: block;
+    margin: auto;
+    margin-top: 20%;
+}
+
+@media (max-width: 1300px) {
+    .login-panel__text-input-section {
+        margin-top: 50%;
+    }
+
+    .login-panel__btn-section {
+        margin-bottom: 15px;
+    }
+
+    .login-panel__phone-input {
+        margin-top: 25%;
+    }
+}
+
+@media (max-width: 522px) {}

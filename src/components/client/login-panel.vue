@@ -18,26 +18,26 @@ function sendVerifyCodeVue(data) {
   <div class="login-panel__container">
     <div class="login-panel">
 
-      <div>
-        <p class="login-panel__text">Для оформление заказа или входа в личный кабинет необходимо ввести номер телефона
-        </p>
-        <input v-model="inputedPhone" class="login-panel__phone-input" type="text" placeholder="Введите номер телефона">
+      <div class="login-panel__text-input-section">
+        <p class="login-panel__title">Введите номер телефона</p>
+        <p class="login-panel__text">для входа в личный кабинет или оформления заказа</p>
+        <input v-model="inputedPhone" class="login-panel__phone-input" type="text">
         <!-- <input v-model="inputedCode" class="" type="text" placeholder="Введите код подтверждения"> -->
       </div>
 
-      <div>
+      <div class="login-panel__btn-section">
         <button class="btn btn-submit" @click.prevent="sendVerifyCodeVue({
           phone: inputedPhone
         })">
           Отправить код подтверждения
         </button>
 
-        <button class="btn btn-submit" @click.prevent="login({
+        <!-- <button class="btn btn-submit" @click.prevent="login({
           phone: inputedPhone,
           password: inputedCode
         })">
           Подтвердить
-        </button>
+        </button> -->
       </div>
 
     </div>

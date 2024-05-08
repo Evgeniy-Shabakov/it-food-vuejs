@@ -18,7 +18,7 @@ initialize()
         </router-link>
         <a v-else href="#"><i class="fa-regular fa-circle-up bottom-device-menu__icon"></i></a>
 
-        <router-link :to="{ name: 'client.login-panel' }">
+        <router-link :to="{ name: 'client.menu.popup.login-panel' }">
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>
 
