@@ -102,11 +102,11 @@ import { OrderType } from '/src/store/order-type';
         <div>
           <template v-if="selectedOrderOption == OrderType.Delivery &&
             totalProductPrice <= selectedCity.min_order_value_for_delivery">
-            <button class="btn-submit btn-inactive">Оформить</button>
+            <button class="btn btn-inactive">Оформить</button>
           </template>
           <template v-else>
             <router-link :to="{ name: 'client.menu.popup.order-panel' }">
-              <button class="btn-submit">Оформить</button>
+              <button class="btn btn-submit">Оформить</button>
             </router-link>
           </template>
         </div>

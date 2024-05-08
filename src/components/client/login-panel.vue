@@ -26,13 +26,13 @@ function sendVerifyCodeVue(data) {
       </div>
 
       <div>
-        <button class="btn-submit" @click.prevent="sendVerifyCodeVue({
+        <button class="btn btn-submit" @click.prevent="sendVerifyCodeVue({
           phone: inputedPhone
         })">
           Отправить код подтверждения
         </button>
 
-        <button class="btn-submit" @click.prevent="login({
+        <button class="btn btn-submit" @click.prevent="login({
           phone: inputedPhone,
           password: inputedCode
         })">

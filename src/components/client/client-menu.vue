@@ -166,13 +166,13 @@ onUpdated(() => {
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
                 <button v-if="product.countInCart == 0 || product.countInCart == undefined"
-                  class="btn-submit" @click="plusProductToCart(product)" type="button">В корзину
+                  class="btn btn-submit" @click="plusProductToCart(product)" type="button">В корзину
                 </button>
                 <div v-else class="product-card__plus-count-minus">
-                  <button class="btn-submit" @click="minusProductInCartForMenuPage(product)">
+                  <button class="btn btn-submit" @click="minusProductInCartForMenuPage(product)">
                     <i class="fa-solid fa-minus"></i></button>
                   <div>{{ product.countInCart }}</div>
-                  <button class="btn-submit" @click="plusProductToCart(product)">
+                  <button class="btn btn-submit" @click="plusProductToCart(product)">
                     <i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
