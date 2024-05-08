@@ -1,0 +1,8 @@
+.btn-inactive {
+    background-color: grey;
+    color: white;
+}
+
+@media (max-width: 1300px) {}
+
+@media (max-width: 522px) {}

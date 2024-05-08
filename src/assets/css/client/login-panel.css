@@ -1,0 +1,21 @@
+.login-panel__container {
+    width: 90%;
+    margin: 10px auto;
+}
+
+.login-panel{
+    margin-top: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-panel__text {
+    text-align: center;
+}
+
+.login-panel__phone-input{
+    margin-top: 25px;
+}
