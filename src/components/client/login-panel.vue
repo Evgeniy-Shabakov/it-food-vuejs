@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { sendVerifyCode, login } from '/src/store/axios-helper.js'
+import PhoneInput from './phone-input-component.vue';
 
-const inputedPhone = ref('')
 const inputedCode = ref('')
 
 function sendVerifyCodeVue(data) {
@@ -11,6 +11,7 @@ function sendVerifyCodeVue(data) {
       inputedCode.value = res.data
     })
 }
+
 </script>
 
 <template>
@@ -21,7 +22,9 @@ function sendVerifyCodeVue(data) {
       <div class="login-panel__text-input-section">
         <p class="login-panel__title">Введите номер телефона</p>
         <p class="login-panel__text">для входа в личный кабинет или оформления заказа</p>
-        <input v-model="inputedPhone" class="login-panel__phone-input" type="text">
+        <div class="login-panel__phone-input">
+          <PhoneInput></PhoneInput>
+        </div>
         <!-- <input v-model="inputedCode" class="" type="text" placeholder="Введите код подтверждения"> -->
       </div>
 

@@ -1,0 +1,17 @@
+.phone-input {
+    font-size: 20px;
+}
+
+.phone-input__code {
+    margin-right: 5px;
+}
+
+.phone-input__phone {
+    font-size: 20px;
+    border: 0px;
+}
+
+.phone-input__phone:active, :hover, :focus {
+    outline: 0;
+    outline-offset: 0;
+}

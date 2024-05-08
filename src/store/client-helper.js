@@ -5,6 +5,7 @@ import { OrderType } from '/src/store/order-type';
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
 export const selectedOrderOption = ref(OrderType.Delivery)
+export const inputedPhone = ref('')
 
 watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))
