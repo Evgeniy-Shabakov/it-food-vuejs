@@ -29,7 +29,7 @@ function sendVerifyCodeVue(data) {
       </div>
 
       <div class="login-panel__btn-section">
-        <button class="btn btn-submit" @click.prevent="sendVerifyCodeVue({
+        <button class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue({
           phone: inputedPhone
         })">
           Отправить код подтверждения

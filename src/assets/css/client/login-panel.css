@@ -49,13 +49,19 @@
         margin-top: 50%;
     }
 
+    .login-panel__phone-input {
+        margin-top: 15px;
+    }
+
     .login-panel__btn-section {
         margin-bottom: 15px;
     }
 
-    .login-panel__phone-input {
-        margin-top: 35%;
+    .login-panel__btn-submit {
+        padding: 15px;
     }
+
+    
 }
 
 @media (max-width: 522px) {}
