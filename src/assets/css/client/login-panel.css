@@ -46,7 +46,7 @@
 
 @media (max-width: 1300px) {
     .login-panel__text-input-section {
-        margin-top: 50%;
+        margin-top: 25%;
     }
 
     .login-panel__phone-input {

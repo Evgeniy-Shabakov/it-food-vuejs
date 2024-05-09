@@ -27,7 +27,7 @@ onMounted(() => {
 
     <div class="phone-input">
         <span class="phone-input__code">+7</span>
-        <input ref="fieldInputPhone" v-model="inputedPhone" type="text" size="10" class="phone-input__phone"
+        <input ref="fieldInputPhone" v-model="inputedPhone" type="tel" size="10" class="phone-input__phone"
             placeholder="(000) 000-00-00" />
     </div>
 
