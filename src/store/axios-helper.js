@@ -1,7 +1,9 @@
 import { ref } from 'vue';
-import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import axios from 'axios'
+
+import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import { serverApiUrl, serverUrl } from '/src/config.js'
+import { inputedPhone } from '/src/store/user-input.js'
 
 axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
@@ -75,6 +77,7 @@ export function logout() {
         axios
             .delete(`${serverUrl}/logout`)
             .then(res => {
+                inputedPhone.value = ''
                 currentAuthenticatedUser.value = null
                 resolve(res)
             })

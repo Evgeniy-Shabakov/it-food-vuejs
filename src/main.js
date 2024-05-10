@@ -1,5 +1,5 @@
-import './css'
-import '/src/store/vh-mobile-helper'
+import './css.js'
+import '/src/store/vh-mobile-helper.js'
 
 import { createApp } from 'vue'
 import App from './App.vue'

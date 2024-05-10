@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { inputedCode } from '/src/store/client-helper.js'
+import { inputedCode } from '/src/store/user-input.js'
 import IMask from 'imask';
 
 const fieldInputCode = ref()
@@ -25,8 +25,8 @@ onMounted(() => {
 
 <template>
 
-    <div class="phone-input">
-        <input ref="fieldInputCode" v-model="inputedCode" type="tel" size="1" class="phone-input__phone"
+    <div class="code-input">
+        <input ref="fieldInputCode" v-model="inputedCode" type="tel" class="code-input__code"
             placeholder="0000" />
     </div>
 

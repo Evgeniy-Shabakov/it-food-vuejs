@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { sendVerifyCode, login } from '/src/store/axios-helper.js'
-import { inputedPhone, inputedCode } from '/src/store/client-helper.js'
+import { inputedPhone, inputedCode } from '/src/store/user-input.js'
 import PhoneInput from './phone-input-component.vue';
 import CodeInput from './code-input-component.vue';
 
@@ -12,18 +12,15 @@ const phoneNumberForServer = computed(() => {
 const openCode = ref(false)
 
 function sendVerifyCodeVue() {
-  let data = { 'phone': phoneNumberForServer.value }
+  inputedCode.value = ''
+  openCode.value = true
 
-  sendVerifyCode(data)
+  sendVerifyCode({ 'phone': phoneNumberForServer.value })
     .then((res) => {
-      openCode.value = true
-
-      inputedCode.value = res.data
-
-      // login({
-      //   phone: phoneNumberForServer.value,
-      //   password: inputedCode.value
-      // })
+      alert(res.data)
+    })
+    .catch((err) => {
+      openCode.value = false
     })
 }
 

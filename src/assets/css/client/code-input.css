@@ -1,0 +1,14 @@
+.code-input {
+    font-size: 20px;
+}
+
+.code-input__code {
+    font-size: 20px;
+    border: 0px;
+    width: 45px;
+}
+
+.code-input__phone:active, :hover, :focus {
+    outline: 0;
+    outline-offset: 0;
+}
