@@ -17,8 +17,6 @@ const contentSections = ref([])
 
 getModelAxios('companies', 1)
 
-if (currentAuthenticatedUser.value == null) getAuthUser()
-
 const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
 
@@ -108,8 +106,8 @@ onUpdated(() => {
             <router-link
               v-if="currentAuthenticatedUser.employee && currentAuthenticatedUser.employee.hasAdminPanelAccess"
               to="/admin">Панель администратора</router-link>
-            <span>{{ currentAuthenticatedUser.phone }}</span>
-            <button @click.prevent="logout()" class="header__button">Выйти</button>
+            <router-link to="/popup/user-panel">{{ currentAuthenticatedUser.phone }}</router-link>
+            <!-- <button @click.prevent="logout()" class="header__button">Выйти</button> -->
           </div>
           <div v-else>
             <router-link :to="{ name: 'client.menu.popup.login-panel' }">
@@ -165,8 +163,8 @@ onUpdated(() => {
               <p class="product-card__description-short"> {{ product.description_short }}</p>
               <div class="product-card__price-and-btn">
                 <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                <button v-if="product.countInCart == 0 || product.countInCart == undefined"
-                  class="btn btn-submit" @click="plusProductToCart(product)" type="button">В корзину
+                <button v-if="product.countInCart == 0 || product.countInCart == undefined" class="btn btn-submit"
+                  @click="plusProductToCart(product)" type="button">В корзину
                 </button>
                 <div v-else class="product-card__plus-count-minus">
                   <button class="btn btn-submit" @click="minusProductInCartForMenuPage(product)">

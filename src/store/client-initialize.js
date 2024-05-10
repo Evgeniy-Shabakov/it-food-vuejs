@@ -1,4 +1,4 @@
-import { categories, countries, restaurants, getModelsAxios, } from '/src/store/axios-helper.js'
+import { categories, countries, restaurants, getModelsAxios, getAuthUser } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderOption } from '/src/store/client-helper.js'
 
 export async function initialize() {
@@ -12,6 +12,8 @@ export async function initialize() {
     initializeOrderOption()
 
     initializeRestaurant()
+
+    getAuthUser()
 }
 
 function initializeOrderOption() {

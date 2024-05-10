@@ -27,6 +27,11 @@ const routes = [
                                 component: () => import('./components/client/login-panel.vue'),
                                 name: 'client.menu.popup.login-panel'
                             },
+                            {
+                                path: '/popup/user-panel',
+                                component: () => import('./components/client/user-panel.vue'),
+                                name: 'client.menu.popup.user-panel'
+                            },
                         ]
                     },
                 ]

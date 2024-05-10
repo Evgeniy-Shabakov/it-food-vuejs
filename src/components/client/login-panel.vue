@@ -1,9 +1,16 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { sendVerifyCode, login } from '/src/store/axios-helper.js'
+import { computed, ref, watch } from 'vue';
+import { currentAuthenticatedUser, sendVerifyCode, login } from '/src/store/axios-helper.js'
 import { inputedPhone, inputedCode } from '/src/store/user-input.js'
 import PhoneInput from './phone-input-component.vue';
 import CodeInput from './code-input-component.vue';
+import router from "/src/router.js"
+
+watch(currentAuthenticatedUser, () => {
+  if (currentAuthenticatedUser.value != null) {
+    router.push({ name: 'client.menu.popup.user-panel' })
+  }
+})
 
 const phoneNumberForServer = computed(() => {
   return '+7' + inputedPhone.value.replace(/[^+\d]/g, '')
