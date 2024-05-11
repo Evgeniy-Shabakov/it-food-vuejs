@@ -18,10 +18,12 @@ button:hover {
     cursor: pointer;
 }
 
-button:active {
+button,label:active {
     /*убирает базовое синие выделение при клике на телефоне */
     -webkit-tap-highlight-color: transparent;
 }
+
+
 
 
 
