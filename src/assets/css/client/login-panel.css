@@ -14,11 +14,17 @@
 }
 
 .login-panel__text-input-section {
-    margin-top: 25%;
+    margin-top: 20%;
 }
 
 .login-panel__btn-section {
-    margin-bottom: 25%;
+    text-align: center;
+    margin-bottom: 20%;
+}
+
+.login-panel__soglasie {
+    font-size: 15px;
+    margin-bottom: 15px;
 }
 
 .login-panel__title{
@@ -42,6 +48,13 @@
     border-radius: 30px;
     padding: 15px 20px;
     width: max-content;
+}
+
+.login-panel__code-error {
+    margin: 15px auto;
+    width: max-content;
+    font-size: 15px;
+    color: red;
 }
 
 @media (max-width: 1300px) {
