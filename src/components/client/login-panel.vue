@@ -1,16 +1,19 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { sendVerifyCode, login } from '/src/store/axios-helper.js'
-import { inputedPhone, inputedCode } from '/src/store/user-input.js'
-import {
-  timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed
-} from '/src/store/client-helper.js'
+import { inputedPhone, inputedCode } from '/src/store/login-panel-helper.js'
+import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
 import PhoneInput from './phone-input-component.vue';
 import CodeInput from './code-input-component.vue';
 import router from "/src/router.js"
 
 const openCode = ref(false)
 const codeError = ref(false)
+
+watch(inputedCode, () => {
+    if (inputedCode.value.length == 1)
+        codeError.value = false
+})
 
 const currentSecBeforeSendVerifyCodeAllowed = ref()
 
@@ -36,7 +39,7 @@ function startTimerForSendVerifyCodeAllowed(delayInSec) {
   timerForSendVerifyCodeAllowed.value = setInterval(() => {
 
     currentSecBeforeSendVerifyCodeAllowed.value = delayInSec - Math.round((new Date() - startTime) / 1000)
-    
+
     if (currentSecBeforeSendVerifyCodeAllowed.value < 1) {
       clearInterval(timerForSendVerifyCodeAllowed.value)
       timerForSendVerifyCodeAllowed.value = null
@@ -47,7 +50,7 @@ function startTimerForSendVerifyCodeAllowed(delayInSec) {
 }
 
 function sendVerifyCodeVue() {
-  inputedCode.value = ''
+  inputedCode.value = ' ' //нужен именно пробел, чтобы вызывался watch в CodeInput
   openCode.value = true
 
   startTimerForSendVerifyCodeAllowed(secBeforeSendVerifyCodeAllowed.value)
@@ -68,6 +71,7 @@ function loginVue() {
     })
     .catch(err => {
       codeError.value = true
+      inputedCode.value = ''
     })
 }
 
@@ -92,8 +96,6 @@ function loginVue() {
           <CodeInput class="login-panel__phone-input"></CodeInput>
           <div v-if="codeError" class="login-panel__code-error">данные не совпадают</div>
         </div>
-
-        <!-- <input v-model="inputedCode" class="" type="text" placeholder="Введите код подтверждения"> -->
       </div>
 
       <div class="login-panel__btn-section">
@@ -128,7 +130,7 @@ function loginVue() {
           </button>
           <div v-else>
             <div v-if="timerForSendVerifyCodeAllowed">
-              <p class="login-panel__soglasie">Если код не придет, его можно будет отпрвить
+              <p class="login-panel__soglasie">Если код не придет, его можно будет отправить
                 повторно через {{ currentSecBeforeSendVerifyCodeAllowed }}сек. </p>
               <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
                 Отправить код повторно

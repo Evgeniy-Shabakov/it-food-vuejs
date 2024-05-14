@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { inputedPhone } from '/src/store/user-input.js'
+import { inputedPhone } from '/src/store/login-panel-helper.js'
 import IMask from 'imask';
 
 const fieldInputPhone = ref()

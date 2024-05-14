@@ -1,11 +1,14 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { inputedCode } from '/src/store/user-input.js'
+import { inputedCode } from '/src/store/login-panel-helper.js'
 import IMask from 'imask';
 
 const fieldInputCode = ref()
 
 watch(inputedCode, () => {
+    if (inputedCode.value.length < 4)
+        fieldInputCode.value.focus()
+
     if (inputedCode.value.length === 4) {
         fieldInputCode.value.blur()
     }
@@ -18,7 +21,7 @@ onMounted(() => {
     const mask = IMask(fieldInputCode.value, maskOptions);
 
     if (inputedCode.value.length < 4)
-    fieldInputCode.value.focus()
+        fieldInputCode.value.focus()
 })
 
 </script>
@@ -26,8 +29,7 @@ onMounted(() => {
 <template>
 
     <div class="code-input">
-        <input ref="fieldInputCode" v-model="inputedCode" type="tel" class="code-input__code"
-            placeholder="0000" />
+        <input ref="fieldInputCode" v-model="inputedCode" type="tel" class="code-input__code" placeholder="0000" />
     </div>
 
 </template>

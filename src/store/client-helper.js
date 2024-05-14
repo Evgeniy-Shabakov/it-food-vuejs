@@ -6,9 +6,6 @@ export const selectedCity = ref()
 export const selectedRestaurant = ref()
 export const selectedOrderOption = ref(OrderType.Delivery)
 
-export const timerForSendVerifyCodeAllowed = ref(null)
-export const secBeforeSendVerifyCodeAllowed = ref(60)
-
 watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))
 })
