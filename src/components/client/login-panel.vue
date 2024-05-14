@@ -36,7 +36,7 @@ function startTimerForSendVerifyCodeAllowed(delayInSec) {
   timerForSendVerifyCodeAllowed.value = setInterval(() => {
 
     currentSecBeforeSendVerifyCodeAllowed.value = delayInSec - Math.round((new Date() - startTime) / 1000)
-    console.log(currentSecBeforeSendVerifyCodeAllowed.value);
+    
     if (currentSecBeforeSendVerifyCodeAllowed.value < 1) {
       clearInterval(timerForSendVerifyCodeAllowed.value)
       timerForSendVerifyCodeAllowed.value = null
