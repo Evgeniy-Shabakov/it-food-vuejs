@@ -5,7 +5,7 @@
 .code-input__code {
     font-size: 20px;
     border: 0px;
-    width: 45px;
+    width: 4ch;
 }
 
 .code-input__phone:active, :hover, :focus {

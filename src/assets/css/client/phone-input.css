@@ -9,7 +9,7 @@
 .phone-input__phone {
     font-size: 20px;
     border: 0px;
-    width: 145px;
+    /* width: 145px; */
 }
 
 .phone-input__phone:active, :hover, :focus {

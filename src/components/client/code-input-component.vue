@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
 
     <div class="code-input">
-        <input ref="fieldInputCode" v-model="inputedCode" type="tel" class="code-input__code" placeholder="0000" />
+        <input ref="fieldInputCode" v-model="inputedCode" type="tel" maxlength="4" class="code-input__code" placeholder="0000" />
     </div>
 
 </template>
