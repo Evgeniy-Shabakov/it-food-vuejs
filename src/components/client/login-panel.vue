@@ -65,7 +65,7 @@ function sendVerifyCodeVue() {
 }
 
 function loginVue() {
-  login({ phone: phoneNumberForServer.value, password: inputedCode.value })
+  login({ phone: phoneNumberForServer.value, sms_code: inputedCode.value })
     .then(res => {
       router.push({ name: 'client.menu.popup.user-panel' })
     })
