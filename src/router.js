@@ -42,16 +42,16 @@ const routes = [
                 component: () => import('./components/client/client-cart.vue'),
                 name: 'client.cart'
             },
-            {
-                path: '/order-panel',
-                component: () => import('./components/client/order-panel.vue'),
-                name: 'client.order-panel'
-            },
-            {
-                path: '/login-panel',
-                component: () => import('./components/client/login-panel.vue'),
-                name: 'client.login-panel'
-            },
+            // {
+            //     path: '/order-panel',
+            //     component: () => import('./components/client/order-panel.vue'),
+            //     name: 'client.order-panel'
+            // },
+            // {
+            //     path: '/login-panel',
+            //     component: () => import('./components/client/login-panel.vue'),
+            //     name: 'client.login-panel'
+            // },
         ]
     },
     {
