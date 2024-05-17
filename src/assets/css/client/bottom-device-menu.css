@@ -7,6 +7,7 @@
         display: block;
         position: fixed;
         bottom: 0;
+        height: 48px;
         width: 100%;
         background: white;
         border-top: 1px solid grey;
@@ -17,18 +18,33 @@
         display: flex;
         justify-content: space-between;
         padding: 10px 15px;
-        -webkit-tap-highlight-color: transparent;
     }
 
-    .bottom-device-menu__icon {
-        position: relative;
+    .bottom-device-menu__item {
+        flex: 1;
         font-size: 25px;
         color: grey;
     }
 
-    .bottom-device-menu__icon:active {
-        cursor: pointer;
+    .bottom-device-menu__item-1 {
+        text-align: left;
+    }
+
+    .bottom-device-menu__item-2 {
+        flex: 1.5;
+        text-align: center;
+    }
+
+    .bottom-device-menu__item-3 {
+        text-align: right;
+    }
+
+    .bottom-device-menu__item:active {
         color: rgb(231, 97, 1);
+    }
+
+    .bottom-device-menu__icon {
+        position: relative;
     }
 
     .bottom-device-menu__product-count-in-cart {
