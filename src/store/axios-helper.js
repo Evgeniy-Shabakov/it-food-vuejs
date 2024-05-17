@@ -94,10 +94,8 @@ export function getAuthUser() {
     return new Promise(function (resolve, reject) {
         axios
             .get(`/get-auth-user`)
-            .then(res => {
-                console.log(currentAuthenticatedUser.value);
+            .then(res => {                
                 currentAuthenticatedUser.value = res.data.data
-                console.log(currentAuthenticatedUser.value);
                 resolve(res)
             })
             .catch(err => {

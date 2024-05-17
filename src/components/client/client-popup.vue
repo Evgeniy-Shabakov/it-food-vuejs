@@ -17,22 +17,21 @@ onMounted(() => {
 //выход из панели заказа при клике вне панели заказа
 function checkClickAndClosePopup(e) {
   if (e.composedPath().includes(popupWindow.value)) return //если клик по панели, то ничего не делать
-  else router.back()
+  else exitPopup()
 }
 
-//действия при выходе из панели заказа (клик вне панели, кнопка назад или клик по ссылке)
-router.beforeEach((to, from, next) => {
+function exitPopup() {
   document.body.classList.remove('popup-lock-scroll')
   document.removeEventListener('click', checkClickAndClosePopup)
 
-  next()
-})
+  router.push({ name: 'client.menu' })
+}
 </script>
 
 <template>
   <div class="popup-backdrop">
     <div class="popup" ref="popupWindow">
-      <button class="popup__btn-close" @click.prevent="router.back()"><i class="fa-solid fa-xmark"></i></button>
+      <button class="popup__btn-close" @click.prevent="exitPopup()"><i class="fa-solid fa-xmark"></i></button>
       
       <router-view></router-view>
       
