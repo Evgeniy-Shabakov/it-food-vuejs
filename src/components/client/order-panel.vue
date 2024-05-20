@@ -1,5 +1,16 @@
 <script setup>
+import router from "/src/router.js"
+
+import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
 import { totalPrice } from '/src/store/client-helper.js'
+import { loginForOrder } from '/src/store/login-panel-helper.js'
+
+
+if (currentAuthenticatedUser.value == null) {
+  loginForOrder.value = true
+  router.push({ name: 'client.menu.popup.login-panel' })
+}
+
 
 </script>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { sendVerifyCode, login, currentAuthenticatedUser } from '/src/store/axios-helper.js'
-import { inputedPhone, inputedCode } from '/src/store/login-panel-helper.js'
+import { inputedPhone, inputedCode, loginForOrder } from '/src/store/login-panel-helper.js'
 import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
 import PhoneInput from './phone-input-component.vue';
 import CodeInput from './code-input-component.vue';
@@ -19,8 +19,8 @@ watch(currentAuthenticatedUser, () => {
 })
 
 watch(inputedCode, () => {
-    if (inputedCode.value.length == 1)
-        codeError.value = false
+  if (inputedCode.value.length == 1)
+    codeError.value = false
 })
 
 const currentSecBeforeSendVerifyCodeAllowed = ref()
@@ -75,7 +75,12 @@ function sendVerifyCodeVue() {
 function loginVue() {
   login({ phone: phoneNumberForServer.value, sms_code: inputedCode.value })
     .then(res => {
-      router.push({ name: 'client.menu.popup.user-panel' })
+      if (loginForOrder.value) {
+        loginForOrder.value = false
+        router.push({ name: 'client.menu.popup.order-panel' })
+      }
+      else
+        router.push({ name: 'client.menu.popup.user-panel' })
     })
     .catch(err => {
       codeError.value = true
