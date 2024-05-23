@@ -1,12 +1,12 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue'
 import { sendVerifyCode, login, currentAuthenticatedUser } from '/src/store/axios-helper.js'
 import { inputedPhone, inputedCode, loginForOrder } from '/src/store/login-panel-helper.js'
 import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
-import PhoneInput from './phone-input-component.vue';
-import CodeInput from './code-input-component.vue';
+import PhoneInput from './phone-input-component.vue'
+import CodeInput from './code-input-component.vue'
 import router from "/src/router.js"
-import { LoadingType } from '/src/store/loading-type';
+import { LoadingType } from '/src/store/loading-type'
 
 const openCode = ref(false)
 const codeError = ref(false)

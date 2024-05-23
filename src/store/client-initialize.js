@@ -1,5 +1,5 @@
 import { categories, countries, restaurants, getModelsAxios, getAuthUser } from '/src/store/axios-helper.js'
-import { selectedCity, productsInCart, selectedRestaurant, selectedOrderOption } from '/src/store/client-helper.js'
+import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType } from '/src/store/client-helper.js'
 
 export async function initialize() {
 
@@ -9,16 +9,16 @@ export async function initialize() {
 
     initializeCity()
 
-    initializeOrderOption()
+    initializeOrderType()
 
     initializeRestaurant()
 
     getAuthUser()
 }
 
-function initializeOrderOption() {
-    if (localStorage.getItem('order-option')) {
-        selectedOrderOption.value = JSON.parse(localStorage.getItem('order-option'))
+function initializeOrderType() {
+    if (localStorage.getItem('order-type')) {
+        selectedOrderType.value = JSON.parse(localStorage.getItem('order-type'))
     }
 }
 

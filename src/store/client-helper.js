@@ -4,14 +4,19 @@ import { OrderType } from '/src/store/order-type';
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
-export const selectedOrderOption = ref(OrderType.Delivery)
+export const selectedOrderType = ref(OrderType.Delivery)
+export const selectedAddressForDelivery = ref()
 
 watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))
 })
 
-watch(selectedOrderOption, () => {
-    localStorage.setItem('order-option', JSON.stringify(selectedOrderOption.value))
+watch(selectedOrderType, () => {
+    localStorage.setItem('order-type', JSON.stringify(selectedOrderType.value))
+})
+
+watch(selectedAddressForDelivery, () => {
+    localStorage.setItem('address-for-delivery', JSON.stringify(selectedAddressForDelivery.value))
 })
 
 export const pickUpAvailableInSelectedCity = computed(() => {
@@ -58,30 +63,30 @@ export const restaurantAvailableInSelectedCity = computed(() => {
 watch([selectedCity, pickUpAvailableInSelectedCity, deliveryAvailableInSelectedCity, restaurantAvailableInSelectedCity], () => {
     if (localStorage.getItem('order-option')) {
         //если способ доставки выбран и не поддерживается в новом городе, то сменить на первый доступный
-        if (selectedOrderOption.value == OrderType.Delivery && deliveryAvailableInSelectedCity.value == false ||
-            selectedOrderOption.value == OrderType.PickUp && pickUpAvailableInSelectedCity.value == false ||
-            selectedOrderOption.value == OrderType.InRestaurant && restaurantAvailableInSelectedCity.value == false
+        if (selectedOrderType.value == OrderType.Delivery && deliveryAvailableInSelectedCity.value == false ||
+            selectedOrderType.value == OrderType.PickUp && pickUpAvailableInSelectedCity.value == false ||
+            selectedOrderType.value == OrderType.InRestaurant && restaurantAvailableInSelectedCity.value == false
         ) {
             if (deliveryAvailableInSelectedCity.value) {
-                selectedOrderOption.value = OrderType.Delivery
+                selectedOrderType.value = OrderType.Delivery
             }
             else if (pickUpAvailableInSelectedCity.value) {
-                selectedOrderOption.value = OrderType.PickUp
+                selectedOrderType.value = OrderType.PickUp
             }
             else if (restaurantAvailableInSelectedCity.value) {
-                selectedOrderOption.value = OrderType.InRestaurant
+                selectedOrderType.value = OrderType.InRestaurant
             }
         }
     }
     else {
         if (deliveryAvailableInSelectedCity.value) {
-            selectedOrderOption.value = OrderType.Delivery
+            selectedOrderType.value = OrderType.Delivery
         }
         else if (pickUpAvailableInSelectedCity.value) {
-            selectedOrderOption.value = OrderType.PickUp
+            selectedOrderType.value = OrderType.PickUp
         }
         else if (restaurantAvailableInSelectedCity.value) {
-            selectedOrderOption.value = OrderType.InRestaurant
+            selectedOrderType.value = OrderType.InRestaurant
         }
     }
 })
@@ -105,7 +110,7 @@ export const totalProductPrice = computed(() => {
 })
 
 export const deliveryPrice = computed(() => {
-    if (selectedOrderOption.value != OrderType.Delivery)
+    if (selectedOrderType.value != OrderType.Delivery)
         return 0;
 
     if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)
