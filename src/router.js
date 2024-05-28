@@ -33,6 +33,11 @@ const routes = [
                                 component: () => import('./components/client/user-panel.vue'),
                                 name: 'client.menu.popup.user-panel'
                             },
+                            {
+                                path: '/popup/address-panel',
+                                component: () => import('./components/client/address-panel.vue'),
+                                name: 'client.menu.popup.address-panel'
+                            },
                         ]
                     },
                 ]

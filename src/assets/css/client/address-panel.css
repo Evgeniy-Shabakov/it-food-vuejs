@@ -1,0 +1,65 @@
+.address-panel {
+
+}
+
+.address-panel__label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 15px;
+    text-wrap: nowrap;
+}
+
+.address-panel__input {
+    margin-bottom: 25px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.address-panel__row-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.address-panel__street {
+    width: 100%;
+}
+
+.address-panel__hause-number {
+    width: 100%;
+}
+
+.address-panel__corps-number {
+    width: 100%;
+}
+
+.address-panel__apartment-number {
+    width: 100%;
+}
+
+.address-panel__enterence-number {
+    width: 100%;
+}
+
+.address-panel__floor {
+    width: 100%;
+}
+
+.address-panel__enterence-code {
+    width: 25%;
+}
+
+.address-panel__title {
+    width: 50%;
+}
+
+.address-panel__comment {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {
+    
+}
+
+@media (max-width: 522px) {}

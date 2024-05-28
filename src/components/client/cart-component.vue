@@ -9,6 +9,8 @@ import {
 import { countries } from '/src/store/axios-helper.js'
 import { OrderType } from '/src/store/order-type';
 
+import CitySelecte from './city-selecte-component.vue';
+
 </script>
 
 <template>
@@ -16,11 +18,7 @@ import { OrderType } from '/src/store/order-type';
     <div v-if="selectedCity">
       <div class="cart-panel__order-settings-section">
 
-        <select class="city-settings" v-model="selectedCity">
-          <optgroup v-for="country in countries" :label="country.title">
-            <option v-for="city in country.cities" :value="city">{{ city.title }}</option>
-          </optgroup>
-        </select>
+        <city-selecte></city-selecte>
 
         <div class="order-settings">
           <div v-if="deliveryAvailableInSelectedCity" class="order-settings__radio-button">

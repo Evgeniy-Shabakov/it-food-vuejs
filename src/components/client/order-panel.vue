@@ -68,7 +68,8 @@ function setAddressForDeliveryByDefault() {
         <div>{{ selectedCity.title }} - {{ selectedOrderType }}</div>
 
         <div v-if="selectedOrderType == OrderType.Delivery">
-          <select v-model="selectedAddressForDelivery">
+
+          <select v-if="currentAuthenticatedUser.addresses.length > 0" v-model="selectedAddressForDelivery">
             <option v-for="address in addressesInSelectedCity" :value="address">
               {{ address.street }}
               {{ address.house_number }}
@@ -76,9 +77,10 @@ function setAddressForDeliveryByDefault() {
               <span v-if="address.apartment_number"> - {{ address.apartment_number }}</span>
             </option>
           </select>
-          <button class="btn btn-submit">
-            Добавить новый адрес
-          </button>
+          <router-link :to="{ name: 'client.menu.popup.address-panel' }">
+            <button class="btn btn-submit">Добавить адрес доставки</button>
+          </router-link>
+
         </div>
 
         <div v-else-if="selectedOrderType == OrderType.PickUp">

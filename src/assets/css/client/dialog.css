@@ -1,9 +1,10 @@
 .dialog {
     width: 100%;
     height: 100%;
-    padding: 15px;
+    padding: 15px 25px;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .dialog__title {
@@ -16,23 +17,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.dialog__adress {
-    display: block;
-    width: 100%;
-    padding: 5px 10px;
-    font-size: 20px;
-    border-radius: 5px;
-}
-
-.dialog__phone {
-    display: block;
-    width: 100%;
-    padding: 5px 10px;
-    font-size: 20px;
-    border-radius: 5px;
-    margin-top: 10px;
 }
 
 @media (max-width: 1300px) {

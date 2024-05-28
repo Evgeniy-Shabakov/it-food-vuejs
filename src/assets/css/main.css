@@ -23,6 +23,11 @@ button,label,a:active {
     -webkit-tap-highlight-color: transparent;
 }
 
+.field-required:after {
+    content: "*";
+    color: red;
+}
+
 
 
 
