@@ -1,15 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { currentAuthenticatedUser, getAuthUser } from '/src/store/axios-helper.js'
+import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
 import { selectedCity } from '/src/store/client-helper.js'
 import CitySelecte from './city-selecte-component.vue';
-import { serverApiUrl } from '/src/config.js'
 import axios from 'axios'
 import router from "/src/router.js"
-
-axios.defaults.baseURL = serverApiUrl
-axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
 
 const fieldInputStreet = ref(null)
 
@@ -102,78 +97,86 @@ async function addAddress() {
 
         <city-selecte></city-selecte>
 
-        <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
-        <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
-          class="address-panel__input address-panel__street" @click.prevent="validationErrors.street = ''">
-        <div class="invalid-text">{{ validationErrors.street }}</div>
+        <div class="address-panel__input-section">
+          <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
+          <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
+            class="address-panel__input address-panel__street" @click.prevent="validationErrors.street = ''">
+          <div class="invalid-validation-text">{{ validationErrors.street }}</div>
+        </div>
 
         <div class="address-panel__row-group">
 
-          <div>
+          <div class="address-panel__input-section">
             <label class="address-panel__label field-required">Номер дома</label>
             <input type="text" v-model="inputedHouseNumber" class="address-panel__input address-panel__hause-number"
               @click.prevent="validationErrors.house_number = ''">
-            <div class="invalid-text">{{ validationErrors.house_number }}</div>
+            <div class="invalid-validation-text">{{ validationErrors.house_number }}</div>
           </div>
 
-          <div>
+          <div class="address-panel__input-section">
             <label class="address-panel__label">Корпус</label>
             <input type="text" v-model="inputedCorpsNumber" class="address-panel__input address-panel__corps-number"
               @click.prevent="validationErrors.corps_number = ''">
-            <div class="invalid-text">{{ validationErrors.corps_number }}</div>
+            <div class="invalid-validation-text">{{ validationErrors.corps_number }}</div>
           </div>
 
         </div>
 
         <div class="address-panel__row-group">
 
-          <div>
+          <div class="address-panel__input-section">
             <label class="address-panel__label">Квартира/офис</label>
             <input type="text" v-model="inputedApartmentNumber"
               class="address-panel__input address-panel__apartment-number"
               @click.prevent="validationErrors.apartment_number = ''">
-            <div class="invalid-text">{{ validationErrors.apartment_number }}</div>
+            <div class="invalid-validation-text">{{ validationErrors.apartment_number }}</div>
           </div>
 
-          <div>
+          <div class="address-panel__input-section">
             <label class="address-panel__label">Подъезд</label>
             <input type="number" v-model="inputedEnterenceNumber"
               class="address-panel__input address-panel__enterence-number"
               @click.prevent="validationErrors.entrance_number = ''">
-            <div class="invalid-text">{{ validationErrors.entrance_number }}</div>
+            <div class="invalid-validation-text">{{ validationErrors.entrance_number }}</div>
           </div>
 
-          <div>
+          <div class="address-panel__input-section">
             <label class="address-panel__label">Этаж</label>
             <input type="number" v-model="inputedFloor" class="address-panel__input address-panel__floor"
               @click.prevent="validationErrors.floor = ''">
-            <div class="invalid-text">{{ validationErrors.floor }}</div>
+            <div class="invalid-validation-text">{{ validationErrors.floor }}</div>
           </div>
 
         </div>
 
-        <label class="address-panel__label">Код от подъезда</label>
-        <input type="text" v-model="inputedEnterenceCode" class="address-panel__input address-panel__enterence-code"
-          @click.prevent="validationErrors.entrance_code = ''">
-        <div class="invalid-text">{{ validationErrors.entrance_code }}</div>
+        <div class="address-panel__input-section">
+          <label class="address-panel__label">Код от подъезда</label>
+          <input type="text" v-model="inputedEnterenceCode" class="address-panel__input address-panel__enterence-code"
+            @click.prevent="validationErrors.entrance_code = ''">
+          <div class="invalid-validation-text">{{ validationErrors.entrance_code }}</div>
+        </div>
 
-        <label class="address-panel__label">Название для адреса (дом, работа)</label>
-        <input type="text" v-model="inputedTitle" class="address-panel__input address-panel__title"
-          @click.prevent="validationErrors.title = ''">
-        <div class="invalid-text">{{ validationErrors.title }}</div>
+        <div class="address-panel__input-section">
+          <label class="address-panel__label">Название для адреса (дом, работа)</label>
+          <input type="text" v-model="inputedTitle" class="address-panel__input address-panel__title"
+            @click.prevent="validationErrors.title = ''">
+          <div class="invalid-validation-text">{{ validationErrors.title }}</div>
+        </div>
 
-        <label class="address-panel__label">Комментарий к адресу</label>
-        <textarea v-model="inputedComment" class="address-panel__input address-panel__comment"
-          @click.prevent="validationErrors.comment = ''"></textarea>
-        <div class="invalid-text">{{ validationErrors.comment }}</div>
+        <div class="address-panel__input-section">
+          <label class="address-panel__label">Комментарий к адресу</label>
+          <textarea v-model="inputedComment" class="address-panel__input address-panel__comment"
+            @click.prevent="validationErrors.comment = ''"></textarea>
+          <div class="invalid-validation-text">{{ validationErrors.comment }}</div>
+        </div>
 
       </div>
 
       <div>
-        <div v-if="blockAddAddress">
+        <div v-if="blockAddAddress" class="loading-event">
           Отправка данных...
         </div>
-        <button class="btn btn-submit" @click.prevent="addAddress()">
+        <button class="btn btn-submit address-panel__btn-add" @click.prevent="addAddress()">
           Добавить
         </button>
       </div>

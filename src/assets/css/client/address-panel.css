@@ -1,5 +1,5 @@
-.address-panel {
-
+.address-panel__input-section {
+    margin-bottom: 15px;
 }
 
 .address-panel__label {
@@ -10,7 +10,6 @@
 }
 
 .address-panel__input {
-    margin-bottom: 25px;
     padding: 5px 10px;
     font-size: 16px;
     border-radius: 10px;
@@ -55,6 +54,10 @@
 }
 
 .address-panel__comment {
+    width: 100%;
+}
+
+.address-panel__btn-add {
     width: 100%;
 }
 

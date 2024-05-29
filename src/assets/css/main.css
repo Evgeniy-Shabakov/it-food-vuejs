@@ -28,6 +28,15 @@ button,label,a:active {
     color: red;
 }
 
+.invalid-validation-text {
+    color: rgba(255, 0, 0);
+    font-size: 14px;
+}
+
+.loading-event {
+    text-align: center;
+}
+
 
 
 

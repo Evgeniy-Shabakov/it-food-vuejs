@@ -15,17 +15,20 @@ initialize()
     <div class="container">
       <div class="bottom-device-menu__inner">
 
-        <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }" class="bottom-device-menu__item bottom-device-menu__item-1">
+        <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }"
+          class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </router-link>
         <a v-else href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a>
 
-        <router-link v-if="currentAuthenticatedUser" :to="{ name: 'client.menu.popup.user-panel' }" class="bottom-device-menu__item bottom-device-menu__item-2">
+        <router-link v-if="currentAuthenticatedUser" :to="{ name: 'client.menu.popup.user-panel' }"
+          class="bottom-device-menu__item bottom-device-menu__item-2">
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>
-        <router-link v-else :to="{ name: 'client.menu.popup.login-panel' }" class="bottom-device-menu__item bottom-device-menu__item-2">
+        <router-link v-else :to="{ name: 'client.menu.popup.login-panel' }"
+          class="bottom-device-menu__item bottom-device-menu__item-2">
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>
 
