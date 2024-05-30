@@ -29,10 +29,12 @@ function checkClickAndClosePopup(e) {
 <template>
   <div class="popup-backdrop" ref="popupWindowBackdrop">
     <div class="popup" ref="popupWindow">
-      <button class="popup__btn-close" @click.prevent="router.push({ name: 'client.menu' })"><i class="fa-solid fa-xmark"></i></button>
+
+      <button class="popup__btn-close" @click.prevent="router.push({ name: 'client.menu' })"><i
+          class="fa-solid fa-xmark"></i></button>
 
       <router-view></router-view>
-
+      
     </div>
   </div>
 </template>

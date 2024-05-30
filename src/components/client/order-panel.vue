@@ -1,9 +1,11 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import router from "/src/router.js"
-
 import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
-import { totalPrice, selectedCity, selectedOrderType, selectedAddressForDelivery } from '/src/store/client-helper.js'
+import {
+  selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
+  selectedOrderType, selectedAddressForDelivery
+} from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { OrderType } from '/src/store/order-type';
 import { LoadingType } from '/src/store/loading-type';
@@ -59,43 +61,114 @@ function setAddressForDeliveryByDefault() {
 </script>
 
 <template>
-  <div class="dialog">
-    <h3 class="dialog__title">Оформление заказа</h3>
-    <div v-if="selectedCity && selectedOrderType && currentAuthenticatedUser
-      && currentAuthenticatedUser != LoadingType.Loading" class="dialog__form">
-      <div>
+  <h3 class="popup__title">Оформление заказа</h3>
 
-        <div>{{ selectedCity.title }} - {{ selectedOrderType }}</div>
+  <div v-if="selectedCity && selectedOrderType && currentAuthenticatedUser && addressesInSelectedCity
+    && currentAuthenticatedUser != LoadingType.Loading" class="order-panel">
 
-        <div v-if="selectedOrderType == OrderType.Delivery">
+    <div>
 
-          <select v-if="currentAuthenticatedUser.addresses.length > 0" v-model="selectedAddressForDelivery">
-            <option v-for="address in addressesInSelectedCity" :value="address">
-              {{ address.street }}
-              {{ address.house_number }}
-              <span v-if="address.corps_number">/ {{ address.corps_number }}</span>
-              <span v-if="address.apartment_number"> - {{ address.apartment_number }}</span>
-            </option>
-          </select>
-          <router-link :to="{ name: 'client.menu.popup.address-panel' }">
-            <button class="btn btn-submit">Добавить адрес доставки</button>
-          </router-link>
-
-        </div>
-
-        <div v-else-if="selectedOrderType == OrderType.PickUp">
-          Выберите точку самовывоза
-        </div>
-
-        <div v-else-if="selectedOrderType == OrderType.InRestaurant">
-          Выберите ресторан
-        </div>
-
+      <div class="order-panel__city-order-type">
+        {{ selectedCity.title }} - {{ selectedOrderType }}
       </div>
 
-      <button class="btn btn-submit">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
+      <template v-if="selectedOrderType == OrderType.Delivery">
+
+        <div v-if="addressesInSelectedCity.length > 0">
+          <label class="order-panel__label">Выбирите адрес доставки или добавьте новый</label>
+          <div class="order-panel__selecte-address-btn-add-section">
+
+            <select v-model="selectedAddressForDelivery" class="order-panel__selecte-address">
+              <option v-for="address in addressesInSelectedCity" :value="address">
+
+                <span v-if="address.title">{{ address.title }} -</span>
+                {{ address.street }}
+                {{ address.house_number }}
+                <span v-if="address.corps_number">/ {{ address.corps_number }}</span>
+                <span v-if="address.apartment_number"> - {{ address.apartment_number }}</span>
+
+              </option>
+            </select>
+
+            <router-link :to="{ name: 'client.menu.popup.address-panel' }">
+              <i class="order-panel__btn-add-address-mini btn btn-submit fa-solid fa-plus"></i>
+            </router-link>
+
+          </div>
+        </div>
+
+        <div v-else class="order-panel__btn-add-address-full">
+          <router-link :to="{ name: 'client.menu.popup.address-panel' }">
+            <button class="btn btn-submit">
+              Добавить адрес доставки
+            </button>
+          </router-link>
+        </div>
+
+        <div>
+          <label class="order-panel__label">Способ оплаты</label>
+          <select class="order-panel__payment-type">
+            <option value="value1" selected>Картой при получении</option>
+            <option value="value2">Наличными</option>
+          </select>
+        </div>
+
+        <label class="order-panel__label">Товары</label>
+
+        <div class="order-panel__products-section">
+
+          <template v-for="product in productsInCart">
+            <template v-if="product.countInCart > 0">
+
+              <img class="order-panel__product-img" :src="product.image_url" alt="">
+              <div>{{ product.title }}</div>
+              <div class="order-panel__count-price">
+                <span>{{ product.countInCart }}</span>
+                <span> x {{ Number(product.price_default) }}р</span>
+              </div>
+              <div class="order-panel__product-total">
+                {{ Number(product.countInCart) * Number(product.price_default) }}р
+              </div>
+
+            </template>
+          </template>
+
+        </div>
+
+      </template>
+
+
+      <div v-else-if="selectedOrderType == OrderType.PickUp">
+        Выберите точку самовывоза
+      </div>
+
+      <div v-else-if="selectedOrderType == OrderType.InRestaurant">
+        Выберите ресторан
+      </div>
+
+      <div class="order-panel__block-total">
+        <span v-if="selectedOrderType == OrderType.Delivery">Товары: </span>
+        <span v-if="selectedOrderType == OrderType.Delivery" class="order-panel__block-total_item-right">
+          {{ totalProductPrice }}р.
+        </span>
+        <span v-if="selectedOrderType == OrderType.Delivery">Доставка: </span>
+        <span v-if="selectedOrderType == OrderType.Delivery" class="order-panel__block-total_item-right">
+          {{ deliveryPrice }}р.
+        </span>
+        <span>Итого: </span>
+        <span class="order-panel__block-total_item-right">{{ totalPrice }}р.</span>
+      </div>
+
+      <div>
+        <label class="order-panel__label">Комментарий к заказу</label>
+        <textarea class="order-panel__comment"></textarea>
+      </div>
 
     </div>
-    <div v-else>Загрузка данных...</div>
+
+    <button class="btn btn-submit">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
+
   </div>
+  <div v-else>Загрузка данных...</div>
+
 </template>

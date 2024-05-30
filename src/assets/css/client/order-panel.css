@@ -1,0 +1,107 @@
+.order-panel{
+    height: calc(100% - var(--popup-title-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-panel__city-order-type {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-panel__selecte-address-btn-add-section {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.order-panel__label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 15px;
+    text-wrap: nowrap;
+    color: grey;
+}
+
+.order-panel__selecte-address {
+    width: 100%;
+    margin-bottom: 0px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.order-panel__btn-add-address-mini {
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 17px;
+    width: 27px;
+    text-align: center;
+}
+
+.order-panel__btn-add-address-full {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-panel__payment-type {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.order-panel__products-section {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 25px 2fr 1fr 1fr;
+    align-items: center;
+    font-size: 15px;
+    max-height: 200px;
+    overflow-x: hidden;
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.order-panel__product-img {
+    width: 25px;
+}
+
+.order-panel__count-price{
+    justify-self: center;
+}
+.order-panel__product-total{
+    justify-self: end;
+}
+
+.order-panel__block-total {
+    display: grid;
+    justify-content: end;
+    row-gap: 5px;
+    column-gap: 20px;
+    align-items: center;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: max-content;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.order-panel__block-total_item-right {
+    text-align: right;
+}
+
+.order-panel__comment {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+
+
