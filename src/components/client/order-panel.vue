@@ -66,9 +66,11 @@ function setAddressForDeliveryByDefault() {
 
     <div>
 
+
       <div class="order-panel__city-order-type">
-        {{ selectedCity.title }} - {{ selectedOrderType }}
+        {{ selectedCity.title }} - {{ selectedOrderType }} 
       </div>
+      <div class="order-panel__text-description">(оформление заказа)</div>
 
       <template v-if="selectedOrderType == OrderType.Delivery">
 

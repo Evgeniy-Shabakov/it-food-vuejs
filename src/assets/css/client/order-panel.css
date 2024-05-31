@@ -7,8 +7,15 @@
 
 .order-panel__city-order-type {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     font-weight: 700;
+}
+
+.order-panel__text-description{
+    text-align: center;
+    font-size: 15px;
+    text-wrap: nowrap;
+    margin-bottom: 20px;
 }
 
 .order-panel__selecte-address-btn-add-section {
@@ -109,6 +116,10 @@
 }
 
 @media (max-width: 1300px) {
+
+    .order-panel__text-description{
+        margin-bottom: 10px;
+    }
 
     .order-panel__products-section {
         max-height: max-content;

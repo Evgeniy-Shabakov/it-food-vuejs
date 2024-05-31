@@ -245,7 +245,8 @@ const scrollPositions = Object.create(null)
 router.beforeEach((to, from, next) => {
     scrollPositions[from.name] = window.scrollY
 
-    if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel') {
+    if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel'
+        || to.name == 'client.menu.popup.address-panel' || to.name == 'client.menu.popup.user-panel') {
         scrollPositions[to.name] = window.scrollY
     }
 
