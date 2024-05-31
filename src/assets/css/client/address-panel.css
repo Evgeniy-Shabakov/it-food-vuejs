@@ -1,5 +1,5 @@
 .address-panel {
-    height: calc(100% - var(--popup-title-height));
+    min-height: calc(100% - var(--popup-title-height));
     display: flex;
     flex-direction: column;
     justify-content: space-between;

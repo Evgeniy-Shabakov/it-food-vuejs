@@ -4,7 +4,7 @@ import router from "/src/router.js"
 import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
-  selectedOrderType, selectedAddressForDelivery
+  selectedOrderType, selectedAddressForDelivery, totalCountInCart
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { OrderType } from '/src/store/order-type';
@@ -61,8 +61,6 @@ function setAddressForDeliveryByDefault() {
 </script>
 
 <template>
-  <h3 class="popup__title">Оформление заказа</h3>
-
   <div v-if="selectedCity && selectedOrderType && currentAuthenticatedUser && addressesInSelectedCity
     && currentAuthenticatedUser != LoadingType.Loading" class="order-panel">
 
@@ -75,7 +73,7 @@ function setAddressForDeliveryByDefault() {
       <template v-if="selectedOrderType == OrderType.Delivery">
 
         <div v-if="addressesInSelectedCity.length > 0">
-          <label class="order-panel__label">Выбирите адрес доставки или добавьте новый</label>
+          <label class="order-panel__label">Выбирите адрес или добавьте новый</label>
           <div class="order-panel__selecte-address-btn-add-section">
 
             <select v-model="selectedAddressForDelivery" class="order-panel__selecte-address">
@@ -113,7 +111,7 @@ function setAddressForDeliveryByDefault() {
           </select>
         </div>
 
-        <label class="order-panel__label">Товары</label>
+        <label class="order-panel__label">Товары ({{ totalCountInCart }}шт.)</label>
 
         <div class="order-panel__products-section">
 
@@ -166,7 +164,9 @@ function setAddressForDeliveryByDefault() {
 
     </div>
 
-    <button class="btn btn-submit">ОФОРМИТЬ ЗА {{ totalPrice }}р.</button>
+    <div class="order-panel__total-order-section">
+      <button class="btn btn-submit order-panel__btn-order">ПОДТВЕРДИТЬ</button>
+    </div>
 
   </div>
   <div v-else>Загрузка данных...</div>

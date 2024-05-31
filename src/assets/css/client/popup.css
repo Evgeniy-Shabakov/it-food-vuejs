@@ -60,6 +60,7 @@
         width: 100%;
         height: calc(var(--vh-mobile, 1vh) * 100 - 47px);
         border: none;
+        border-radius: 0px;
     }
 
     .popup-lock-scroll {

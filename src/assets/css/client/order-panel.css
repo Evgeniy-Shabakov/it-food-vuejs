@@ -1,5 +1,5 @@
 .order-panel{
-    height: calc(100% - var(--popup-title-height));
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,6 +8,7 @@
 .order-panel__city-order-type {
     text-align: center;
     margin-bottom: 20px;
+    font-weight: 700;
 }
 
 .order-panel__selecte-address-btn-add-section {
@@ -60,7 +61,7 @@
     grid-template-columns: 25px 2fr 1fr 1fr;
     align-items: center;
     font-size: 15px;
-    max-height: 200px;
+    /* max-height: 200px; */
     overflow-x: hidden;
     border: 1px solid var(--color-primary);
     border-radius: 5px;
@@ -102,6 +103,31 @@
     width: 100%;
     margin-bottom: 15px;
 }
+
+.order-panel__btn-order {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {
+
+    .order-panel__comment {
+        margin-bottom: 68px;
+    }
+    .order-panel__total-order-section {
+        position: fixed;
+        bottom: 48px;
+        left: 0;
+        height: 68px;
+        width: 100%;
+        border-top: 1px solid grey;
+        padding: 5px 15px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 522px) {}
 
 
 

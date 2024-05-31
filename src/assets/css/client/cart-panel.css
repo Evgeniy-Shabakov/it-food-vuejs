@@ -66,16 +66,12 @@
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
     .cart-panel__product-btn-helpers:hover {
-        cursor: pointer;
         background-color: rgb(231, 97, 1);
     }
 }
 
 .cart-panel__product-btn-helpers:active {
-    cursor: pointer;
     background-color: rgba(255, 106, 0, 0.801);
-    /*убирает базовое синие выделение при клике на телефоне */
-    -webkit-tap-highlight-color: transparent;
 }
 
 .cart-panel__product-count-price {
