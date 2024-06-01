@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import axios from 'axios'
 import router from "/src/router.js"
 import CitySelecte from './city-selecte-component.vue';
@@ -32,8 +32,9 @@ const validationErrors = ref({
   comment: '',
 })
 
-onMounted(() => { 
-  if(fieldInputStreet.value) fieldInputStreet.value.focus() 
+let unwatchFn = watch(fieldInputStreet, () => {
+  fieldInputStreet.value.focus()
+  unwatchFn() // отключаем watch после установки фокуса
 })
 
 const blockAddAddress = ref(false)
@@ -97,7 +98,7 @@ async function addAddress() {
 
     <div>
       <div class="address-panel__title">
-        {{selectedCity.title}}
+        {{ selectedCity.title }}
       </div>
       <div class="address-panel__text-description">
         (добавление адреса)
@@ -111,7 +112,7 @@ async function addAddress() {
         <label class="address-panel__label field-required">Город</label>
         <city-selecte></city-selecte>
       </div> -->
-      
+
       <div class="address-panel__input-section">
         <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
         <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
