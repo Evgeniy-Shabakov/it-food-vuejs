@@ -90,11 +90,13 @@ async function addAddress() {
 </script>
 
 <template>
-  <h3 class="popup__title">Добавление адреса</h3>
-
   <div class="address-panel">
 
     <div>
+      <div class="address-panel__title">
+        Добавление адреса
+      </div>
+
       <city-selecte></city-selecte>
 
       <div class="address-panel__input-section">
@@ -163,7 +165,7 @@ async function addAddress() {
         <div class="invalid-validation-text">{{ validationErrors.title }}</div>
       </div>
 
-      <div class="address-panel__input-section">
+      <div>
         <label class="address-panel__label">Комментарий к адресу</label>
         <textarea v-model="inputedComment" class="address-panel__input address-panel__comment"
           @click.prevent="validationErrors.comment = ''"></textarea>
@@ -171,7 +173,7 @@ async function addAddress() {
       </div>
     </div>
 
-    <div>
+    <div class="address-panel__btn-section">
       <div v-if="blockAddAddress" class="loading-event">
         Отправка данных...
       </div>

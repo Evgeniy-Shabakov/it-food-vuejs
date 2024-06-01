@@ -11,8 +11,8 @@
 
 .popup {
     position: fixed;
-    width: 750px;
-    height: 750px;
+    width: 720px;
+    height: 720px;
     margin: 0 auto;
     border: 1px solid orange;
     border-radius: 15px;
@@ -59,7 +59,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: calc(var(--vh-mobile, 1vh) * 100 - 47px);
+        height: calc(var(--vh-mobile, 1vh) * 100 - 47px - 68px);
         border: none;
         border-radius: 0px;
     }

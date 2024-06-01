@@ -66,7 +66,6 @@ function setAddressForDeliveryByDefault() {
 
     <div>
 
-
       <div class="order-panel__city-order-type">
         {{ selectedCity.title }} - {{ selectedOrderType }} 
       </div>
@@ -166,8 +165,8 @@ function setAddressForDeliveryByDefault() {
 
     </div>
 
-    <div class="order-panel__total-order-section">
-      <button class="btn btn-submit order-panel__btn-order">ПОДТВЕРДИТЬ</button>
+    <div class="order-panel__btn-section">
+      <button class="btn btn-submit order-panel__btn-order">Подтвердить</button>
     </div>
 
   </div>

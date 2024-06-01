@@ -23,6 +23,10 @@ function logoutVue() {
     <p>{{ currentAuthenticatedUser.name }}</p>
     <p>{{ currentAuthenticatedUser.phone }}</p>
     <button @click.prevent="logoutVue()" class="">Выйти</button>
+
+    <div class="order-panel__btn-section">
+      <button class="btn btn-submit order-panel__btn-order">Повторить последний заказ</button>
+    </div>
   </div>
   <div v-else>Загрузка данных</div>
 </template>
