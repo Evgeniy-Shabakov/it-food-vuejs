@@ -82,6 +82,7 @@ async function addAddress() {
         title: errors.title ? errors.title[0] : '',
         comment: errors.comment ? errors.comment[0] : '',
       }
+
     })
 
   blockAddAddress.value = false
@@ -174,14 +175,16 @@ async function addAddress() {
     </div>
 
     <div class="address-panel__btn-section">
-      <div v-if="blockAddAddress" class="loading-event">
-        Отправка данных...
-      </div>
       <button class="btn btn-submit address-panel__btn-add" @click.prevent="addAddress()">
         Добавить
       </button>
     </div>
 
+
+    <div v-if="blockAddAddress" class="spinner-centr-display">
+      <div  class="spinner"></div>
+    </div>
+
   </div>
-  
+
 </template>

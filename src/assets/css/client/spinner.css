@@ -1,0 +1,38 @@
+.spinner-centr-display {
+    position: fixed;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+
+    /* Сделаем элемент круглым */
+    border-radius: 50%;
+
+    /* Одна из границ должна отличаться по цвету */
+    border: solid 5px #ddd;
+    border-left: solid 5px var(--color-primary);
+
+
+    animation-name: spin;
+    /* Применяем анимацию вращения */
+    animation-duration: 1s;
+    /* Период вращения */
+    animation-iteration-count: infinite;
+    /* Если не указать, то сделает только одно вращение */
+    animation-timing-function: linear;
+    /* Для того, чтобы вращение было равномерным */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
