@@ -67,7 +67,7 @@ function setAddressForDeliveryByDefault() {
     <div>
 
       <div class="order-panel__city-order-type">
-        {{ selectedCity.title }} - {{ selectedOrderType }} 
+        {{ selectedCity.title }} - {{ selectedOrderType }}
       </div>
       <div class="order-panel__text-description">(оформление заказа)</div>
 
@@ -170,6 +170,9 @@ function setAddressForDeliveryByDefault() {
     </div>
 
   </div>
-  <div v-else>Загрузка данных...</div>
+
+  <div v-else class="spinner-centr-display">
+    <div class="spinner"></div>
+  </div>
 
 </template>

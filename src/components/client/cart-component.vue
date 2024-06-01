@@ -18,7 +18,9 @@ import CitySelecte from './city-selecte-component.vue';
     <div v-if="selectedCity">
       <div class="cart-panel__order-settings-section">
 
-        <city-selecte></city-selecte>
+        <div class="cart-panel__city-selecte">
+          <city-selecte></city-selecte>
+        </div>
 
         <div class="order-settings">
           <div v-if="deliveryAvailableInSelectedCity" class="order-settings__radio-button">
@@ -108,10 +110,12 @@ import CitySelecte from './city-selecte-component.vue';
             </router-link>
           </template>
         </div>
-        
+
       </div>
     </div>
 
-    <div v-else>Идет загрузка данных...</div>
+    <div v-else class="spinner-centr-display">
+      <div class="spinner"></div>
+    </div>
   </div>
 </template>

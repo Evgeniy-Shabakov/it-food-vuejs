@@ -1,9 +1,7 @@
 .order-settings {
     display: flex;
     font-size: 16px;
-    margin-bottom: 15px;
     justify-content: space-between;
-    
 }
 
 .order-settings__radio-button {

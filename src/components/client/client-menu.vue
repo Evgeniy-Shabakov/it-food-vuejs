@@ -134,7 +134,7 @@ onUpdated(() => {
 
   <nav class="categories" ref="categoriesMenu">
     <div class="container">
-      <div class="categories__inner">
+      <div v-if="categories" class="categories__inner">
 
         <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
           {{ category.title }}</a>
@@ -142,6 +142,9 @@ onUpdated(() => {
         <div class="cart-panel">
           <cart-component></cart-component>
         </div>
+      </div>
+      <div v-else class="spinner-centr-display">
+        <div class="spinner"></div>
       </div>
 
     </div>

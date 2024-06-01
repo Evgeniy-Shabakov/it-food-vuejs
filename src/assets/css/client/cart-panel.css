@@ -12,7 +12,12 @@
 }
 
 .cart-panel__order-settings-section {
-    
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.cart-panel__city-selecte {
+    margin-bottom: 15px;
 }
 
 .cart-panel__products-section {

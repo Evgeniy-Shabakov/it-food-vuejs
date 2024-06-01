@@ -28,5 +28,7 @@ function logoutVue() {
       <button class="btn btn-submit order-panel__btn-order">Повторить последний заказ</button>
     </div>
   </div>
-  <div v-else>Загрузка данных</div>
+  <div v-else class="spinner-centr-display">
+    <div class="spinner"></div>
+  </div>
 </template>

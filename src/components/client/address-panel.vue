@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
-import { selectedCity } from '/src/store/client-helper.js'
-import CitySelecte from './city-selecte-component.vue';
 import axios from 'axios'
 import router from "/src/router.js"
+import CitySelecte from './city-selecte-component.vue';
+import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { selectedCity } from '/src/store/client-helper.js'
+
+
 
 const fieldInputStreet = ref(null)
 
@@ -98,8 +100,11 @@ async function addAddress() {
         Добавление адреса
       </div>
 
-      <city-selecte></city-selecte>
-
+      <div class="address-panel__input-section">
+        <label class="address-panel__label field-required">Город</label>
+        <city-selecte></city-selecte>
+      </div>
+      
       <div class="address-panel__input-section">
         <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
         <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
@@ -182,9 +187,8 @@ async function addAddress() {
 
 
     <div v-if="blockAddAddress" class="spinner-centr-display">
-      <div  class="spinner"></div>
+      <div class="spinner"></div>
     </div>
 
   </div>
-
 </template>
