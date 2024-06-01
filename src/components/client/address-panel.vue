@@ -6,8 +6,6 @@ import CitySelecte from './city-selecte-component.vue';
 import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
 import { selectedCity } from '/src/store/client-helper.js'
 
-
-
 const fieldInputStreet = ref(null)
 
 const inputedStreet = ref()
@@ -34,7 +32,9 @@ const validationErrors = ref({
   comment: '',
 })
 
-onMounted(() => { fieldInputStreet.value.focus() })
+onMounted(() => { 
+  if(fieldInputStreet.value) fieldInputStreet.value.focus() 
+})
 
 const blockAddAddress = ref(false)
 
@@ -93,17 +93,24 @@ async function addAddress() {
 </script>
 
 <template>
-  <div class="address-panel">
+  <div v-if="selectedCity" class="address-panel">
 
     <div>
       <div class="address-panel__title">
-        Добавление адреса
+        {{selectedCity.title}}
+      </div>
+      <div class="address-panel__text-description">
+        (добавление адреса)
       </div>
 
-      <div class="address-panel__input-section">
+      <!-- добавить возможность изменения города в личном кабинете,
+      пока добавить адрес в заказе можно только к текущему городу
+      -->
+
+      <!-- <div class="address-panel__input-section">
         <label class="address-panel__label field-required">Город</label>
         <city-selecte></city-selecte>
-      </div>
+      </div> -->
       
       <div class="address-panel__input-section">
         <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
@@ -190,5 +197,8 @@ async function addAddress() {
       <div class="spinner"></div>
     </div>
 
+  </div>
+  <div v-else class="spinner-centr-display">
+    <div class="spinner"></div>
   </div>
 </template>

@@ -7,8 +7,14 @@
 
 .address-panel__title {
     text-align: center;
-    margin-bottom: 20px;
     font-weight: 700;
+}
+
+.address-panel__text-description{
+    text-align: center;
+    font-size: 15px;
+    text-wrap: nowrap;
+    margin-bottom: 20px;
 }
 
 .address-panel__input-section {
@@ -75,7 +81,8 @@
 }
 
 @media (max-width: 1300px) {
-    .address-panel__title {
+
+    .address-panel__text-description{
         margin-bottom: 10px;
     }
 

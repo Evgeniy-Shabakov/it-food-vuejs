@@ -135,6 +135,10 @@
         display: none;
     }
 
+    .cart-panel__order-settings-section {
+        margin-top: 15px;
+    }
+
     .cart-panel__container {
         width: 90%;
     }
