@@ -71,6 +71,7 @@
     }
 
     .login-panel__btn-submit {
+        width: 100%;
         padding: 15px;
     }
 

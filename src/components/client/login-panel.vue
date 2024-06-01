@@ -117,41 +117,52 @@ function loginVue() {
           <div v-if="timerForSendVerifyCodeAllowed == null">
             <p class="login-panel__soglasie">Продолжая вы соглашаетесь со сбором, обработкой персональных данных и
               Пользовательским соглашением</p>
-            <button v-if="phoneNumberForServer.length == 12" class="btn btn-submit login-panel__btn-submit"
-              @click.prevent="sendVerifyCodeVue()">
-              ПРОДОЛЖИТЬ
-            </button>
+            <div v-if="phoneNumberForServer.length == 12" class="order-panel__btn-section">
+              <button class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue()">
+                ПРОДОЛЖИТЬ
+              </button>
+            </div>
 
-            <button v-else class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
-              ПРОДОЛЖИТЬ
-            </button>
+            <div v-else class="order-panel__btn-section">
+              <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+                ПРОДОЛЖИТЬ
+              </button>
+            </div>
+            <!-- <div class="order-panel__btn-section"></div> -->
           </div>
           <div v-else>
             <p class="login-panel__soglasie">Повторно отправить код можно через {{ currentSecBeforeSendVerifyCodeAllowed
               }}сек. </p>
-            <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
-              Отправить код повторно
-            </button>
+            <div class="order-panel__btn-section">
+              <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+                Отправить код повторно
+              </button>
+            </div>
           </div>
 
         </template>
 
         <template v-else>
-          <button v-if="inputedCode.length == 4" class="btn btn-submit login-panel__btn-submit"
-            @click.prevent="loginVue()">
-            Подтвердить код
-          </button>
+          <div v-if="inputedCode.length == 4" class="order-panel__btn-section">
+            <button class="btn btn-submit login-panel__btn-submit" @click.prevent="loginVue()">
+              Подтвердить код
+            </button>
+          </div>
           <div v-else>
             <div v-if="timerForSendVerifyCodeAllowed">
               <p class="login-panel__soglasie">Если код не придет, его можно будет отправить
                 повторно через {{ currentSecBeforeSendVerifyCodeAllowed }}сек. </p>
-              <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+              <div class="order-panel__btn-section">
+                <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+                  Отправить код повторно
+                </button>
+              </div>
+            </div>
+            <div v-else class="order-panel__btn-section">
+              <button class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue()">
                 Отправить код повторно
               </button>
             </div>
-            <button v-else class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue()">
-              Отправить код повторно
-            </button>
           </div>
         </template>
 
