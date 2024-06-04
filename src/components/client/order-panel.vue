@@ -52,7 +52,6 @@ function setAddressForDelivery() {
 function setAddressForDeliveryByDefault() {
   currentAuthenticatedUser.value.addresses.forEach((address) => {
     if (selectedCity.value.id === address.city.id) {
-      console.log(address);
       selectedAddressForDelivery.value = address
     }
   })
