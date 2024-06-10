@@ -43,7 +43,7 @@ function highlightLink() {
   }
 }
 
-function logoutInAdminPanel(){
+function logoutInAdminPanel() {
   logout()
   router.push({ name: 'client.menu' })
 }
@@ -67,14 +67,19 @@ function logoutInAdminPanel(){
     <router-link to="/admin/products" class="left-side-menu__link">Товары</router-link>
     <router-link to="/" target="_blank" class="left-side-menu__link">Сайт</router-link>
   </div>
+
   <!-- Page content -->
   <div class="pagecontent">
+
     <router-view></router-view>
+
     <div v-if="useRoute().name != 'admin.main'" class="btns-nav">
       <button @click.prevent="router.go(-1)">Назад</button>
       <button @click.prevent="router.push({ name: 'admin.main' })">На главную</button>
     </div>
+    
   </div>
+
   <!-- Нижняя панель для логов -->
   <div class="logpanel">
     <table>

@@ -40,58 +40,59 @@ function setColor(param) {
 </script>
 
 <template>
-  <div class="">
-    <h2>Ваши рестораны</h2>
-    <router-link :to="{ name: 'admin.restaurants.create' }">
-      <button class="btn admin-index-btn-add">Добавить новый ресторан</button>
-    </router-link>
-    <div v-if="cities">
-      <div v-for="city in cities">
-        <div v-if="city.restaurants.length > 0">
-          <table class="admin-index-table">
-            <thead>
-              <th colspan="6">
-                <h3>{{ city.title }}</h3>
-              </th>
-            </thead>
-            <tbody>
-              <tr v-for="restaurant in city.restaurants">
-                <td>
-                  <h5>{{ restaurant.title }}</h5>
-                </td>
-                <td>
-                  <span class="color-done" v-if="restaurant.is_active">Активен</span>
-                  <span class="color-error" v-else>Не активен</span>
-                </td>
-                <td>
-                  <i :class="setColor(restaurant.pick_up_available)" class="fa-solid fa-bag-shopping"></i>
-                  <i :class="setColor(restaurant.delivery_available)" class="fa-solid fa-truck-fast"></i>
-                  <i :class="setColor(restaurant.pick_up_available_at_the_restaurant_counter)" class="fa-solid fa-chalkboard-user"></i>
-                  <i :class="setColor(restaurant.delivery_available_at_the_restaurant_to_the_table)" class="fa-solid fa-solar-panel"></i>
-                  <i :class="setColor(restaurant.pick_up_available_at_the_car_window)" class="fa-solid fa-car"></i>
-                  <i :class="setColor(restaurant.delivery_available_in_the_parking_to_car)" class="fa-solid fa-square-parking"></i>
-                </td>
-                <td>
-                  <button class="btn btn-view" @click.prevent="openRestaurantShow(restaurant)" type="button">Просмотреть
-                  </button>
-                </td>
-                <td>
-                  <button class="btn btn-edit" @click.prevent="openRestaurantEdit(restaurant)" type="button">Редактировать
-                  </button>
-                </td>
-                <td>
-                  <button class="btn btn-delete" @click.prevent="deleteRestaurantVue(restaurant)" type="button">Удалить
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+  <h2>Ваши рестораны</h2>
+
+  <router-link :to="{ name: 'admin.restaurants.create' }">
+    <button class="btn admin-index-btn-add">Добавить новый ресторан</button>
+  </router-link>
+
+  <div v-if="cities">
+    <div v-for="city in cities">
+      <div v-if="city.restaurants.length > 0">
+
+        <h3 class="admin-restaurant-index__city-title">{{ city.title }}</h3>
+
+        <div v-for="restaurant in city.restaurants" class="admin-restaurant-index__restaurant">
+
+          <h5 class="admin-restaurant-index__restaurant_title">{{ restaurant.title }}</h5>
+
+
+          <span class="color-done" v-if="restaurant.is_active">Активен</span>
+          <span class="color-error" v-else>Не активен</span>
+
+          <div class="admin-restaurant-index__restaurant_icons-section">
+            <i :class="setColor(restaurant.delivery_available)" class="fa-solid fa-truck-fast"
+              title="доставка"></i>
+            <i :class="setColor(restaurant.pick_up_at_counter_available)" class="fa-solid fa-bag-shopping"
+              title="самовывоз (выдача у прилавка)"></i>
+            <i :class="setColor(restaurant.pick_up_at_car_window_available)" class="fa-solid fa-car"
+              title="самовывоз (выдача в окне для авто)"></i>
+            <i :class="setColor(restaurant.at_restaurant_at_counter_available)" class="fa-solid fa-chalkboard-user"
+              title="доступна подача в ресторане (выдача у прилавка)"></i>
+            <i :class="setColor(restaurant.at_restaurant_to_table_available)" class="fa-solid fa-solar-panel"
+              title="подача в ресторане (к столику)"></i>
+            <i :class="setColor(restaurant.at_restaurant_to_parking_available)" class="fa-solid fa-square-parking"
+              title="доставка на парковку у ресторана (к машине)"></i>
+          </div>
+
+          <button class="btn btn-view" @click.prevent="openRestaurantShow(restaurant)" type="button">Просмотреть
+          </button>
+
+          <button class="btn btn-edit" @click.prevent="openRestaurantEdit(restaurant)" type="button">Редактировать
+          </button>
+
+          <button class="btn btn-delete" @click.prevent="deleteRestaurantVue(restaurant)" type="button">Удалить
+          </button>
         </div>
+
       </div>
-    </div>
-    <div v-else class="admin-view-model-load">
-      {{ textLoadOrFailForVue }}
+
+
     </div>
   </div>
-</template>
 
+  <div v-else class="admin-view-model-load">
+    {{ textLoadOrFailForVue }}
+  </div>
+</template>

@@ -1,3 +1,5 @@
-export const LoadingType = {
-	Loading: "данные еще не загружены",
+export const LOADING_TYPE = {
+	loading: 'идет загрузка',
+	complete: 'загрузка завершена',
+	error: 'ошибка загрузка'
 }

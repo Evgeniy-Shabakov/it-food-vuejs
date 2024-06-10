@@ -9,6 +9,8 @@ import './assets/css/admin/index-list-city.css'
 import './assets/css/admin/create-form.css'
 import './assets/css/admin/create-form-employee.css'
 import './assets/css/admin/left-side-menu.css'
+import './assets/css/admin/admin-restaurant-show.css'
+import './assets/css/admin/admin-restaurant-index.css'
 
 
 import './assets/css/client/container.css'

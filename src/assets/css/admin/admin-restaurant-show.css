@@ -1,0 +1,8 @@
+.admin-restaurant-show__data {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 15px;
+    margin-bottom: 25px;
+    border: 1px solid grey;
+    padding: 15px;
+}

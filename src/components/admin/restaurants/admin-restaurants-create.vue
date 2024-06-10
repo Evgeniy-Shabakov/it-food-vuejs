@@ -1,94 +1,78 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive, watch } from 'vue';
 import router from "/src/router"
 import { countries, textLoadOrFailForVue, getModelsAxios, storeModelAxios } from '/src/store/axios-helper.js'
+import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
+import { LOADING_TYPE } from '/src/store/loading-type.js'
+import { loadCountries, getFirstCityId } from '/src/store/loading-helper.js'
 
-const fieldInputTitle = ref(null)
+let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
-const restaurantInputedData = ref({})
+const fieldInputTitle = ref()
 
-function initializeRestaurantInputedData() {
-  let cityId = restaurantInputedData.value.city_id
-  restaurantInputedData.value = {
-    city_id: cityId,
-    delivery_available: false,
-    pick_up_at_counter_available: false,
-    pick_up_at_car_window_available: false,
-    at_restaurant_at_counter_available: false,
-    at_restaurant_to_table_available: false,
-    at_restaurant_to_parking_available: false,
-    is_active: false,
+const restaurantInputedData = reactive({
+  initialize(cityId) {
+    this.title = null
+    this.city_id = cityId
+    this.street = null
+    this.house_number = null
+    this.corps_number = null
+    this.office_number = null
+    this.info = null
+    this.delivery_available = false
+    this.pick_up_at_counter_available = false
+    this.pick_up_at_car_window_available = false
+    this.at_restaurant_at_counter_available = false
+    this.at_restaurant_to_table_available = false
+    this.at_restaurant_to_parking_available = false
+    this.is_active = false
   }
-}
+})
 
 const validationErrors = ref({})
 
-const textDone = ref('')
+const textDone = ref(null)
 
-//проверка если роут загружается из закладки или обновления страницы
-if (countries.value == null) {
-  getModelsAxios('countries')
-    .then(res => {
-      chekingCities()
-      fieldInputTitle.value.focus()
-    })
-}
-else chekingCities()
+onMounted(async () => {
+  dataForComponentLoadingType.value = await loadCountries()
 
-function chekingCities() {
-  for (let i = 0; i < countries.value.length; i++) {
-    if (countries.value[i].cities.length) {
-      restaurantInputedData.value.city_id = countries.value[i].cities[0].id
-      return
-    }
+  if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
+
+  const firstCityId = getFirstCityId()
+
+  if (firstCityId == null) {
+    alert('Сначала добавьте города')
+    router.push({ name: 'admin.cities.create' })
+    return
   }
-  alert('Сначала добавьте города')
-  router.push({ name: 'admin.cities.create' })
-}
 
-onMounted(() => { 
-  initializeRestaurantInputedData()
-  fieldInputTitle.value.focus() 
+  restaurantInputedData.initialize(firstCityId)
+
+  let unwatchForFocus = watch(fieldInputTitle, () => {
+    fieldInputTitle.value.focus()
+    unwatchForFocus()
+  })
 })
 
 function storeRestaurant() {
   validationErrors.value = {}
-  textDone.value = ''
+  textDone.value = null
 
-  storeModelAxios('restaurants', restaurantInputedData.value)
+  storeModelAxios('restaurants', restaurantInputedData)
     .then(res => {
-      initializeRestaurantInputedData()
-
+      restaurantInputedData.initialize(restaurantInputedData.city_id)
       textDone.value = res.messageForVue.text
     })
     .catch(err => {
-      console.log(err);
-
-      let errors = err.response.data.errors
-
-      validationErrors.value = {
-        title: errors.title ? errors.title[0] : '',
-        city_id: errors.city_id ? errors.city_id[0] : '',
-        street: errors.street ? errors.street[0] : '',
-        house_number: errors.house_number ? errors.house_number[0] : '',
-        corps_number: errors.corps_number ? errors.corps_number[0] : '',
-        office_number: errors.office_number ? errors.office_number[0] : '',
-        info: errors.info ? errors.info[0] : '',
-        delivery_available: errors.delivery_available ? errors.delivery_available[0] : '',
-        pick_up_at_counter_available: errors.pick_up_at_counter_available ? errors.pick_up_at_counter_available[0] : '',
-        pick_up_at_car_window_available: errors.pick_up_at_car_window_available ? errors.pick_up_at_car_window_available[0] : '',
-        at_restaurant_at_counter_available: errors.at_restaurant_at_counter_available ? errors.at_restaurant_at_counter_available[0] : '',
-        at_restaurant_to_table_available: errors.at_restaurant_to_table_available ? errors.at_restaurant_to_table_available[0] : '',
-        at_restaurant_to_parking_available: errors.at_restaurant_to_parking_available ? errors.at_restaurant_to_parking_available[0] : '',
-        is_active: errors.is_active ? errors.is_active[0] : '',
-      }
+      validationErrors.value = err.response.data.errors
+      transformValidateErrorsForUI(validationErrors.value)
     })
 }
 </script>
 
 <template>
   <h2>Добавление ресторана</h2>
-  <form v-show="countries" class="admin-forms">
+  <form v-if="dataForComponentLoadingType === LOADING_TYPE.complete" class="admin-forms">
     <label class="required">Наименование</label>
     <input ref="fieldInputTitle" type="text" v-model="restaurantInputedData.title"
       placeholder="Введите название ресторана" @click.prevent="validationErrors.title = ''; textDone = ''">
@@ -150,7 +134,7 @@ function storeRestaurant() {
       @click="validationErrors.at_restaurant_at_counter_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.at_restaurant_at_counter_available }}</div>
 
-    <span class="required">Доступна подача в ресторане (к столику)</span>
+    <span class="required">Доступна подача в ресторане (к столику):</span>
     <input type="checkbox" v-model="restaurantInputedData.at_restaurant_to_table_available"
       @click="validationErrors.at_restaurant_to_table_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.at_restaurant_to_table_available }}</div>
@@ -172,7 +156,10 @@ function storeRestaurant() {
     </button>
 
   </form>
-  <div v-show="countries == null" class="admin-view-model-load">
-    {{ textLoadOrFailForVue }}
+  <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading" class="admin-view-model-load">
+    Загрузка данных...
+  </div>
+  <div v-else class="admin-view-model-load">
+    Ошибка загрузка данных. Попробуйте обновить страницу
   </div>
 </template>
