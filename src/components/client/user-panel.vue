@@ -2,7 +2,7 @@
 import { watch } from 'vue';
 import router from "/src/router.js"
 import { currentAuthenticatedUser, logout } from '/src/store/axios-helper.js'
-import { LOADING_TYPE } from '/src/store/loading-type'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились
 watch(currentAuthenticatedUser, () => {

@@ -2,7 +2,7 @@
 import { ref, onMounted, reactive, watch } from 'vue';
 import router from "/src/router.js"
 import { currentRestaurant, deleteModelAxios } from '/src/store/axios-helper.js'
-import { LOADING_TYPE } from '/src/store/loading-type.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { loadCurrentRestaurant, loadCountries } from '/src/store/loading-helper.js'
 
 let dataForComponentLoadingType = ref(LOADING_TYPE.loading)

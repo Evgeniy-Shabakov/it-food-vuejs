@@ -1,4 +1,4 @@
-import { LOADING_TYPE } from '/src/store/loading-type'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { countries, getModelsAxios, getModelAxios } from '/src/store/axios-helper.js'
 import { currentRestaurant } from './axios-helper';
 

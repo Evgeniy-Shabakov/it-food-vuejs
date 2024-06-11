@@ -6,7 +6,7 @@ import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/
 import PhoneInput from './phone-input-component.vue'
 import CodeInput from './code-input-component.vue'
 import router from "/src/router.js"
-import { LOADING_TYPE } from '/src/store/loading-type'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const openCode = ref(false)
 const codeError = ref(false)

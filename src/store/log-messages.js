@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { MessageType } from '/src/store/message-type.js'
+import { MESSAGE_TYPE } from '/src/store/data-types/message-type.js'
 
 export const logMessages = ref([])
 let id = 0
@@ -14,7 +14,7 @@ export function addLogMessage(message) {
 
 export function formDoneLogMessage(urlPrefix, res, data) {
   let message = {}
-  message.type = MessageType.Message
+  message.type = MESSAGE_TYPE.message
 
   switch (urlPrefix) {
     case 'companies':

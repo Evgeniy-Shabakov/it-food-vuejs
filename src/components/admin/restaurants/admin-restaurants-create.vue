@@ -3,7 +3,7 @@ import { ref, onMounted, reactive, watch } from 'vue';
 import router from "/src/router"
 import { countries, textLoadOrFailForVue, getModelsAxios, storeModelAxios } from '/src/store/axios-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
-import { LOADING_TYPE } from '/src/store/loading-type.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { loadCountries, getFirstCityId } from '/src/store/loading-helper.js'
 
 let dataForComponentLoadingType = ref(LOADING_TYPE.loading)

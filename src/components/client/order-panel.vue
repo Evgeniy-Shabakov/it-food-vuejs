@@ -7,8 +7,8 @@ import {
   selectedOrderType, selectedAddressForDelivery, totalCountInCart
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
-import { OrderType } from '/src/store/order-type';
-import { LOADING_TYPE } from '/src/store/loading-type'
+import { ORDER_TYPE } from '/src/store/data-types/order-type'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const addressesInSelectedCity = ref()
 
@@ -70,7 +70,7 @@ function setAddressForDeliveryByDefault() {
       </div>
       <div class="order-panel__text-description">(оформление заказа)</div>
 
-      <template v-if="selectedOrderType == OrderType.Delivery">
+      <template v-if="selectedOrderType == ORDER_TYPE.delivery">
 
         <div v-if="addressesInSelectedCity.length > 0">
           <label class="order-panel__label">Выбирите адрес или добавьте новый</label>
@@ -136,21 +136,21 @@ function setAddressForDeliveryByDefault() {
       </template>
 
 
-      <div v-else-if="selectedOrderType == OrderType.PickUp">
+      <div v-else-if="selectedOrderType == ORDER_TYPE.pickUp">
         Выберите точку самовывоза
       </div>
 
-      <div v-else-if="selectedOrderType == OrderType.InRestaurant">
+      <div v-else-if="selectedOrderType == ORDER_TYPE.inRestaurant">
         Выберите ресторан
       </div>
 
       <div class="order-panel__block-total">
-        <span v-if="selectedOrderType == OrderType.Delivery">Товары: </span>
-        <span v-if="selectedOrderType == OrderType.Delivery" class="order-panel__block-total_item-right">
+        <span v-if="selectedOrderType == ORDER_TYPE.delivery">Товары: </span>
+        <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="order-panel__block-total_item-right">
           {{ totalProductPrice }}р.
         </span>
-        <span v-if="selectedOrderType == OrderType.Delivery">Доставка: </span>
-        <span v-if="selectedOrderType == OrderType.Delivery" class="order-panel__block-total_item-right">
+        <span v-if="selectedOrderType == ORDER_TYPE.delivery">Доставка: </span>
+        <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="order-panel__block-total_item-right">
           {{ deliveryPrice }}р.
         </span>
         <span>Итого: </span>

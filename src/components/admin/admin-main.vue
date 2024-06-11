@@ -3,7 +3,7 @@ import { onMounted, onUpdated } from "vue"
 import router from "/src/router.js"
 import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
-import { MessageType } from '/src/store/message-type.js'
+import { MESSAGE_TYPE } from '/src/store/data-types/message-type.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
 import { currentAuthenticatedUser, getAuthUser, logout } from '/src/store/axios-helper.js'
 
@@ -12,8 +12,8 @@ setBrowserTitleForAdminPanel()
 if (currentAuthenticatedUser.value == null) getAuthUser()
 
 function setColor(type) {
-  if (type == MessageType.Warning) return "bg-color-warning"
-  else if (type == MessageType.Error) return "bg-color-error"
+  if (type == MESSAGE_TYPE.warning) return "bg-color-warning"
+  else if (type == MESSAGE_TYPE.error) return "bg-color-error"
   else return "bg-color-done"
 }
 

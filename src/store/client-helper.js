@@ -1,10 +1,10 @@
 import { ref, computed, watch } from 'vue';
 import { restaurants } from '/src/store/axios-helper.js'
-import { OrderType } from '/src/store/order-type';
+import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
-export const selectedOrderType = ref(OrderType.Delivery)
+export const selectedOrderType = ref(ORDER_TYPE.delivery)
 export const selectedAddressForDelivery = ref()
 
 watch(selectedCity, () => {
@@ -63,30 +63,30 @@ export const restaurantAvailableInSelectedCity = computed(() => {
 watch([selectedCity, pickUpAvailableInSelectedCity, deliveryAvailableInSelectedCity, restaurantAvailableInSelectedCity], () => {
     if (localStorage.getItem('order-option')) {
         //если способ доставки выбран и не поддерживается в новом городе, то сменить на первый доступный
-        if (selectedOrderType.value == OrderType.Delivery && deliveryAvailableInSelectedCity.value == false ||
-            selectedOrderType.value == OrderType.PickUp && pickUpAvailableInSelectedCity.value == false ||
-            selectedOrderType.value == OrderType.InRestaurant && restaurantAvailableInSelectedCity.value == false
+        if (selectedOrderType.value == ORDER_TYPE.delivery && deliveryAvailableInSelectedCity.value == false ||
+            selectedOrderType.value == ORDER_TYPE.pickUp && pickUpAvailableInSelectedCity.value == false ||
+            selectedOrderType.value == ORDER_TYPE.inRestaurant && restaurantAvailableInSelectedCity.value == false
         ) {
             if (deliveryAvailableInSelectedCity.value) {
-                selectedOrderType.value = OrderType.Delivery
+                selectedOrderType.value = ORDER_TYPE.delivery
             }
             else if (pickUpAvailableInSelectedCity.value) {
-                selectedOrderType.value = OrderType.PickUp
+                selectedOrderType.value = ORDER_TYPE.pickUp
             }
             else if (restaurantAvailableInSelectedCity.value) {
-                selectedOrderType.value = OrderType.InRestaurant
+                selectedOrderType.value = ORDER_TYPE.inRestaurant
             }
         }
     }
     else {
         if (deliveryAvailableInSelectedCity.value) {
-            selectedOrderType.value = OrderType.Delivery
+            selectedOrderType.value = ORDER_TYPE.delivery
         }
         else if (pickUpAvailableInSelectedCity.value) {
-            selectedOrderType.value = OrderType.PickUp
+            selectedOrderType.value = ORDER_TYPE.pickUp
         }
         else if (restaurantAvailableInSelectedCity.value) {
-            selectedOrderType.value = OrderType.InRestaurant
+            selectedOrderType.value = ORDER_TYPE.inRestaurant
         }
     }
 })
@@ -110,7 +110,7 @@ export const totalProductPrice = computed(() => {
 })
 
 export const deliveryPrice = computed(() => {
-    if (selectedOrderType.value != OrderType.Delivery)
+    if (selectedOrderType.value != ORDER_TYPE.delivery)
         return 0;
 
     if (totalProductPrice.value >= selectedCity.value.order_value_for_free_delivery)

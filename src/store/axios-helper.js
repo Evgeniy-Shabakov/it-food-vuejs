@@ -4,7 +4,7 @@ import axios from 'axios'
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import { serverApiUrl, serverUrl } from '/src/config.js'
 import { inputedPhone } from '/src/store/login-panel-helper.js'
-import { LOADING_TYPE } from '/src/store/loading-type'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;

@@ -7,7 +7,7 @@ import {
   selectedOrderType
 } from '/src/store/client-helper.js'
 import { countries } from '/src/store/axios-helper.js'
-import { OrderType } from '/src/store/order-type';
+import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
 import CitySelecte from './city-selecte-component.vue';
 
@@ -24,17 +24,17 @@ import CitySelecte from './city-selecte-component.vue';
 
         <div class="order-settings">
           <div v-if="deliveryAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option1" :value=OrderType.Delivery
+            <input class="order-settings__radio-button__input" type="radio" id="option1" :value=ORDER_TYPE.delivery
               v-model="selectedOrderType">
             <label class="order-settings__radio-button__label" for="option1">Доставка</label>
           </div>
           <div v-if="pickUpAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option2" :value=OrderType.PickUp
+            <input class="order-settings__radio-button__input" type="radio" id="option2" :value=ORDER_TYPE.pickUp
               v-model="selectedOrderType">
             <label class="order-settings__radio-button__label" for="option2">Самовывоз</label>
           </div>
           <div v-if="restaurantAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option3" :value=OrderType.InRestaurant
+            <input class="order-settings__radio-button__input" type="radio" id="option3" :value=ORDER_TYPE.inRestaurant
               v-model="selectedOrderType">
             <label class="order-settings__radio-button__label" for="option3">В ресторане</label>
           </div>
@@ -65,7 +65,7 @@ import CitySelecte from './city-selecte-component.vue';
 
         </div>
 
-        <div v-if="selectedOrderType == OrderType.Delivery"
+        <div v-if="selectedOrderType == ORDER_TYPE.delivery"
           class="cart-panel__product-section cart-panel__delivery-section">
           <i class="cart-panel__icon-delivery fa-solid fa-truck"></i>
           <div class="cart-panel__product-title">Доставка</div>
@@ -77,16 +77,16 @@ import CitySelecte from './city-selecte-component.vue';
       <div v-if="selectedCity" class="cart-panel__total-order-section">
 
         <div class="cart-panel__block-total">
-          <span v-if="selectedOrderType == OrderType.Delivery" class="cart-panel__total">Товары: </span>
-          <span v-if="selectedOrderType == OrderType.Delivery" class="cart-panel__total">{{ totalProductPrice
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__total">Товары: </span>
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__total">{{ totalProductPrice
             }}р.</span>
-          <span v-if="selectedOrderType == OrderType.Delivery" class="cart-panel__total">Доставка: </span>
-          <span v-if="selectedOrderType == OrderType.Delivery" class="cart-panel__total">{{ deliveryPrice }}р.</span>
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__total">Доставка: </span>
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__total">{{ deliveryPrice }}р.</span>
           <span class="cart-panel__total">Итого: </span>
           <span class="cart-panel__total">{{ totalPrice }}р.</span>
         </div>
 
-        <div v-if="selectedOrderType == OrderType.Delivery" class="cart-panel__preview-order-message">
+        <div v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__preview-order-message">
           <div v-if="totalProductPrice < selectedCity.min_order_value_for_delivery">
             Минимальная сумма товаров для заказа {{ selectedCity.min_order_value_for_delivery }}р.
           </div>
@@ -100,7 +100,7 @@ import CitySelecte from './city-selecte-component.vue';
         </div>
 
         <div>
-          <template v-if="selectedOrderType == OrderType.Delivery &&
+          <template v-if="selectedOrderType == ORDER_TYPE.delivery &&
             totalProductPrice <= selectedCity.min_order_value_for_delivery">
             <button class="btn btn-inactive">Оформить</button>
           </template>
