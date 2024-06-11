@@ -6,14 +6,14 @@ import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/
 import PhoneInput from './phone-input-component.vue'
 import CodeInput from './code-input-component.vue'
 import router from "/src/router.js"
-import { LoadingType } from '/src/store/loading-type'
+import { LOADING_TYPE } from '/src/store/loading-type'
 
 const openCode = ref(false)
 const codeError = ref(false)
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились
 watch(currentAuthenticatedUser, () => {
-  if (currentAuthenticatedUser.value && currentAuthenticatedUser.value != LoadingType.Loading) {
+  if (currentAuthenticatedUser.value && currentAuthenticatedUser.value != LOADING_TYPE.loading) {
     router.push({ name: 'client.menu.popup.user-panel' })
   }
 })

@@ -8,7 +8,7 @@ import {
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { OrderType } from '/src/store/order-type';
-import { LoadingType } from '/src/store/loading-type';
+import { LOADING_TYPE } from '/src/store/loading-type'
 
 const addressesInSelectedCity = ref()
 
@@ -27,7 +27,7 @@ watch(currentAuthenticatedUser, () => {
 
 function initialize() {
   if (currentAuthenticatedUser.value == null) return
-  if (currentAuthenticatedUser.value == LoadingType.Loading) return
+  if (currentAuthenticatedUser.value == LOADING_TYPE.loading) return
 
   addressesInSelectedCity.value = currentAuthenticatedUser.value.addresses
     .filter((address) => address.city.id === selectedCity.value.id)
@@ -61,7 +61,7 @@ function setAddressForDeliveryByDefault() {
 
 <template>
   <div v-if="selectedCity && selectedOrderType && currentAuthenticatedUser && addressesInSelectedCity
-    && currentAuthenticatedUser != LoadingType.Loading" class="order-panel">
+    && currentAuthenticatedUser != LOADING_TYPE.loading" class="order-panel">
 
     <div>
 

@@ -1,6 +1,6 @@
 import * as VueRouter from 'vue-router';
 import { getAuthUser, currentAuthenticatedUser } from '/src/store/axios-helper.js'
-import { LOADING_TYPE } from '/src/store/loading-type';
+import { LOADING_TYPE } from '/src/store/loading-type'
 
 const routes = [
     {
