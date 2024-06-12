@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { totalCountInCart } from '/src/store/client-helper.js'
 import { initialize } from '/src/store/client-initialize';
-import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { authUser } from '/src/store/axios-helper.js'
 
 initialize()
 
@@ -23,7 +23,7 @@ initialize()
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a>
 
-        <router-link v-if="currentAuthenticatedUser" :to="{ name: 'client.menu.popup.user-panel' }"
+        <router-link v-if="authUser" :to="{ name: 'client.menu.popup.user-panel' }"
           class="bottom-device-menu__item bottom-device-menu__item-2">
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>

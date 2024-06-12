@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import router from "/src/router.js"
-import { currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { authUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   selectedOrderType, selectedAddressForDelivery, totalCountInCart
@@ -10,9 +10,11 @@ import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
+let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
+
 const addressesInSelectedCity = ref()
 
-if (currentAuthenticatedUser.value == null) {
+if (authUser.value == null) {
   loginForOrder.value = true
   router.push({ name: 'client.menu.popup.login-panel' })
 }
@@ -21,15 +23,15 @@ onMounted(() => {
   initialize()
 })
 
-watch(currentAuthenticatedUser, () => {
+watch(authUser, () => {
   initialize()
 })
 
 function initialize() {
-  if (currentAuthenticatedUser.value == null) return
-  if (currentAuthenticatedUser.value == LOADING_TYPE.loading) return
+  if (authUser.value == null) return
+  if (authUser.value == LOADING_TYPE.loading) return
 
-  addressesInSelectedCity.value = currentAuthenticatedUser.value.addresses
+  addressesInSelectedCity.value = authUser.value.addresses
     .filter((address) => address.city.id === selectedCity.value.id)
 
   setAddressForDelivery()
@@ -50,7 +52,7 @@ function setAddressForDelivery() {
 }
 
 function setAddressForDeliveryByDefault() {
-  currentAuthenticatedUser.value.addresses.forEach((address) => {
+  authUser.value.addresses.forEach((address) => {
     if (selectedCity.value.id === address.city.id) {
       selectedAddressForDelivery.value = address
     }
@@ -60,8 +62,7 @@ function setAddressForDeliveryByDefault() {
 </script>
 
 <template>
-  <div v-if="selectedCity && selectedOrderType && currentAuthenticatedUser && addressesInSelectedCity
-    && currentAuthenticatedUser != LOADING_TYPE.loading" class="order-panel">
+  <div v-if="selectedCity && selectedOrderType && authUser" class="order-panel">
 
     <div>
 

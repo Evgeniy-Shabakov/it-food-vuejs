@@ -1,12 +1,12 @@
 <script setup>
 import { watch } from 'vue';
 import router from "/src/router.js"
-import { currentAuthenticatedUser, logout } from '/src/store/axios-helper.js'
+import { authUser, logout } from '/src/store/axios-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились
-watch(currentAuthenticatedUser, () => {
-  if (currentAuthenticatedUser.value == null) {
+watch(authUser, () => {
+  if (authUser.value == null) {
     router.push({ name: 'client.menu.popup.login-panel' })
   }
 })
@@ -19,9 +19,9 @@ function logoutVue() {
 </script>
 
 <template>
-  <div v-if="currentAuthenticatedUser && currentAuthenticatedUser != LOADING_TYPE.loading">
-    <p>{{ currentAuthenticatedUser.name }}</p>
-    <p>{{ currentAuthenticatedUser.phone }}</p>
+  <div v-if="authUser">
+    <p>{{ authUser.name }}</p>
+    <p>{{ authUser.phone }}</p>
     <button @click.prevent="logoutVue()" class="">Выйти</button>
 
     <div class="order-panel__btn-section">

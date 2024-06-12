@@ -2,7 +2,7 @@
 import { ref, onMounted, onUpdated } from 'vue';
 import {
   company, categories, getModelAxios,
-  currentAuthenticatedUser, getAuthUser, logout
+  authUser, getAuthUser, logout
 } from '/src/store/axios-helper.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
@@ -102,11 +102,11 @@ onUpdated(() => {
           </div>
         </div>
         <div>
-          <div v-if="currentAuthenticatedUser" class="header__inner__right">
+          <div v-if="authUser" class="header__inner__right">
             <router-link
-              v-if="currentAuthenticatedUser.employee && currentAuthenticatedUser.employee.hasAdminPanelAccess"
+              v-if="authUser.employee && authUser.employee.hasAdminPanelAccess"
               to="/admin">Панель администратора</router-link>
-            <router-link to="/popup/user-panel">{{ currentAuthenticatedUser.phone }}</router-link>
+            <router-link to="/popup/user-panel">{{ authUser.phone }}</router-link>
             <!-- <button @click.prevent="logout()" class="header__button">Выйти</button> -->
           </div>
           <div v-else>

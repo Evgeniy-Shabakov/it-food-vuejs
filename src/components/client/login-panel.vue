@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { sendVerifyCode, login, currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { sendVerifyCode, login, authUser } from '/src/store/axios-helper.js'
 import { inputedPhone, inputedCode, loginForOrder } from '/src/store/login-panel-helper.js'
 import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
 import PhoneInput from './phone-input-component.vue'
@@ -12,8 +12,8 @@ const openCode = ref(false)
 const codeError = ref(false)
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились
-watch(currentAuthenticatedUser, () => {
-  if (currentAuthenticatedUser.value && currentAuthenticatedUser.value != LOADING_TYPE.loading) {
+watch(authUser, () => {
+  if (authUser.value) {
     router.push({ name: 'client.menu.popup.user-panel' })
   }
 })

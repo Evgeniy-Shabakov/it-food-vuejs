@@ -1,5 +1,8 @@
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
-import { countries, getModelsAxios, getModelAxios } from '/src/store/axios-helper.js'
+import {
+	countries, currentAuthenticatedUser,
+	getModelsAxios, getModelAxios
+} from '/src/store/axios-helper.js'
 import { currentRestaurant } from './axios-helper';
 
 export async function loadCountries() {
@@ -16,6 +19,18 @@ export async function loadCountries() {
 
 export async function loadCurrentRestaurant(id) {
 	if (currentRestaurant.value) return LOADING_TYPE.complete;
+
+	try {
+		await getModelAxios('restaurants', id)
+		return LOADING_TYPE.complete;
+	} catch (err) {
+		console.log(err);
+		return LOADING_TYPE.err;
+	}
+}
+
+export async function loadCurrentAuthUser() {
+	if (currentAuthenticatedUser.value) return LOADING_TYPE.complete;
 
 	try {
 		await getModelAxios('restaurants', id)

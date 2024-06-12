@@ -1,5 +1,5 @@
 import * as VueRouter from 'vue-router';
-import { getAuthUser, currentAuthenticatedUser } from '/src/store/axios-helper.js'
+import { getAuthUser, authUser } from '/src/store/axios-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const routes = [
@@ -64,16 +64,16 @@ const routes = [
         component: () => import('./components/admin/admin-main.vue'),
         name: 'admin.main',
         beforeEnter: (to, from, next) => {
-            if (currentAuthenticatedUser.value && currentAuthenticatedUser.value != LOADING_TYPE.loading) {
-                if (currentAuthenticatedUser.value.employee.hasAdminPanelAccess) next()
+            if (authUser.value) {
+                if (authUser.value.employee.hasAdminPanelAccess) next()
                 else {
                     next('/')
                 }
             }
             else getAuthUser()
                 .then(res => {
-                    if (currentAuthenticatedUser.value) {
-                        if (currentAuthenticatedUser.value.employee.hasAdminPanelAccess) next()
+                    if (authUser.value) {
+                        if (authUser.value.employee.hasAdminPanelAccess) next()
                         else {
                             next('/')
                         }

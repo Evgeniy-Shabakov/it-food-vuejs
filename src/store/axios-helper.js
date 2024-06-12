@@ -10,7 +10,7 @@ axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
-export const currentAuthenticatedUser = ref(LOADING_TYPE.loading)
+export const authUser = ref()
 
 export const company = ref()
 
@@ -62,7 +62,7 @@ export function login(data) {
         axios
             .post(`${serverUrl}/login`, data)
             .then(res => {
-                currentAuthenticatedUser.value = res.data
+                authUser.value = res.data
                 resolve(res)
             })
             .catch(err => {
@@ -79,7 +79,7 @@ export function logout() {
             .delete(`${serverUrl}/logout`)
             .then(res => {
                 inputedPhone.value = ''
-                currentAuthenticatedUser.value = null
+                authUser.value = null
                 resolve(res)
             })
             .catch(err => {
@@ -95,7 +95,7 @@ export function getAuthUser() {
         axios
             .get(`/get-auth-user`)
             .then(res => {                
-                currentAuthenticatedUser.value = res.data.data
+                authUser.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
