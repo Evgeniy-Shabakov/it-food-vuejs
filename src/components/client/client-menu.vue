@@ -187,5 +187,6 @@ onUpdated(() => {
     </div>
 
     <router-view></router-view>
+    
   </main>
 </template>

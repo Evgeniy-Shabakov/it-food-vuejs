@@ -5,11 +5,11 @@ import { useRoute } from 'vue-router'
 import { logMessages } from '/src/store/log-messages.js'
 import { MESSAGE_TYPE } from '/src/store/data-types/message-type.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
-import { currentAuthenticatedUser, getAuthUser, logout } from '/src/store/axios-helper.js'
+import { authUser, getAuthUser, logout } from '/src/store/axios-helper.js'
 
 setBrowserTitleForAdminPanel()
 
-if (currentAuthenticatedUser.value == null) getAuthUser()
+if (authUser.value == null) getAuthUser()
 
 function setColor(type) {
   if (type == MESSAGE_TYPE.warning) return "bg-color-warning"
@@ -44,16 +44,18 @@ function highlightLink() {
 }
 
 function logoutInAdminPanel() {
-  logout()
-  router.push({ name: 'client.menu' })
+  logout().then(() => {
+    router.push({ name: 'client.menu' })
+  })
 }
+
 </script>
 
 <template>
   <!-- Боковая панель -->
   <div id="nav-menu" class="left-side-menu">
-    <div class="left-side-menu__current-user" v-if="currentAuthenticatedUser">
-      <span>{{ currentAuthenticatedUser.phone }}</span>
+    <div class="left-side-menu__current-user" v-if="authUser">
+      <span>{{ authUser.phone }}</span>
       <button class="left-side-menu__current-user__btn" @click.prevent="logoutInAdminPanel()">Выйти</button>
     </div>
 
@@ -77,7 +79,7 @@ function logoutInAdminPanel() {
       <button @click.prevent="router.go(-1)">Назад</button>
       <button @click.prevent="router.push({ name: 'admin.main' })">На главную</button>
     </div>
-    
+
   </div>
 
   <!-- Нижняя панель для логов -->

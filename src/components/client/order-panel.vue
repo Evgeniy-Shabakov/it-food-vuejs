@@ -12,7 +12,7 @@ import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
-const addressesInSelectedCity = ref()
+const addressesInSelectedCity = ref([])
 
 if (authUser.value == null) {
   loginForOrder.value = true
