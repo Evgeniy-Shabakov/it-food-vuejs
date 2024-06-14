@@ -1,6 +1,6 @@
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import {
-	countries, currentAuthenticatedUser,
+	countries, authUser,
 	getModelsAxios, getModelAxios
 } from '/src/store/axios-helper.js'
 import { currentRestaurant } from './axios-helper';
@@ -30,7 +30,7 @@ export async function loadCurrentRestaurant(id) {
 }
 
 export async function loadCurrentAuthUser() {
-	if (currentAuthenticatedUser.value) return LOADING_TYPE.complete;
+	if (authUser.value) return LOADING_TYPE.complete;
 
 	try {
 		await getModelAxios('restaurants', id)

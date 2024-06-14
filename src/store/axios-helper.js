@@ -93,7 +93,7 @@ export function getAuthUser() {
     return new Promise(function (resolve, reject) {
         axios
             .get(`/get-auth-user`)
-            .then(res => {                
+            .then(res => {           
                 authUser.value = res.data.data
                 resolve(res)
             })
