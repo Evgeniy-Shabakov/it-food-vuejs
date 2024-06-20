@@ -102,11 +102,11 @@ import CitySelecte from './city-selecte-component.vue';
         <div>
           <template v-if="selectedOrderType == ORDER_TYPE.delivery &&
             totalProductPrice <= selectedCity.min_order_value_for_delivery">
-            <button class="btn btn-inactive">Оформить</button>
+            <button class="btn btn-inactive">Далее</button>
           </template>
           <template v-else>
             <router-link :to="{ name: 'client.menu.popup.order-panel' }">
-              <button class="btn btn-submit">Оформить</button>
+              <button class="btn btn-submit">Далее</button>
             </router-link>
           </template>
         </div>

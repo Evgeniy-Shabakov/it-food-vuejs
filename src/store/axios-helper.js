@@ -93,135 +93,126 @@ export function getAuthUser() {
     return new Promise(function (resolve, reject) {
         axios
             .get(`/get-auth-user`)
-            .then(res => {           
+            .then(res => {
                 authUser.value = res.data.data
                 resolve(res)
             })
             .catch(err => {
-                
+
                 reject(err)
             })
     })
 }
 
-export function getModelsAxios(urlPrefix) {
-    return new Promise(function (resolve, reject) {
-        axios
-            .get(`/${urlPrefix}`)
-            .then(res => {
-                if (urlPrefix == 'countries') countries.value = res.data.data
-                else if (urlPrefix == 'cities') cities.value = res.data.data
-                else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
-                else if (urlPrefix == 'categories') categories.value = res.data.data
-                else if (urlPrefix == 'products') products.value = res.data.data
-                else if (urlPrefix == 'employees') employees.value = res.data.data
-                else if (urlPrefix == 'roles') roles.value = res.data.data
-                resolve(res)
-            })
-            .catch(err => {
-                textLoadOrFailForVue.value = 'Ошибка загрузки данных'
-                addLogMessage(formErrorLogMessage(err))
-                reject(err)
-            })
-    })
+export async function getModelsAxios(urlPrefix) {
+    try {
+        const res = await axios.get(`/${urlPrefix}`)
+
+        if (urlPrefix == 'countries') countries.value = res.data.data
+        else if (urlPrefix == 'cities') cities.value = res.data.data
+        else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
+        else if (urlPrefix == 'categories') categories.value = res.data.data
+        else if (urlPrefix == 'products') products.value = res.data.data
+        else if (urlPrefix == 'employees') employees.value = res.data.data
+        else if (urlPrefix == 'roles') roles.value = res.data.data
+
+        return res
+    } catch (error) {
+        textLoadOrFailForVue.value = 'Ошибка загрузки данных'
+        addLogMessage(formErrorLogMessage(error))
+        return error
+    }
 }
 
-export function getModelAxios(urlPrefix, id) {
-    return new Promise(function (resolve, reject) {
-        axios
-            .get(`/${urlPrefix}/${id}`)
-            .then(res => {
-                if (urlPrefix == 'countries') currentCountry.value = res.data.data
-                else if (urlPrefix == 'cities') currentCity.value = res.data.data
-                else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
-                else if (urlPrefix == 'categories') currentCategory.value = res.data.data
-                else if (urlPrefix == 'products') currentProduct.value = res.data.data
-                else if (urlPrefix == 'companies') company.value = res.data.data
-                else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
-                resolve(res)
-            })
-            .catch(err => {
-                textLoadOrFailForVue.value = 'Ошибка загрузки данных'
-                addLogMessage(formErrorLogMessage(err))
-                reject(err)
-            })
-    })
+export async function getModelAxios(urlPrefix, id) {
+    try {
+        const res = await axios.get(`/${urlPrefix}/${id}`)
+
+        if (urlPrefix == 'countries') currentCountry.value = res.data.data
+        else if (urlPrefix == 'cities') currentCity.value = res.data.data
+        else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
+        else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+        else if (urlPrefix == 'products') currentProduct.value = res.data.data
+        else if (urlPrefix == 'companies') company.value = res.data.data
+        else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
+
+        return res
+    } catch (error) {
+        textLoadOrFailForVue.value = 'Ошибка загрузки данных'
+        addLogMessage(formErrorLogMessage(error))
+        return error
+    }
 }
 
-export function storeModelAxios(urlPrefix, data) {
-    return new Promise(function (resolve, reject) {
-        axios
-            .post(`/${urlPrefix}`, data)
-            .then(res => {
-                res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
-                addLogMessage(res.messageForVue)
-                resolve(res)
-            })
-            .catch(err => {
-                addLogMessage(formErrorLogMessage(err))
-                reject(err)
-            })
-    })
+export async function storeModelAxios(urlPrefix, data) {
+    try {
+        const res = await axios.post(`/${urlPrefix}`, data)
+
+        res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
+        addLogMessage(res.messageForVue)
+
+        return res
+    } catch (error) {
+        addLogMessage(formErrorLogMessage(error))
+        return error
+    }
 }
 
-export function updateModelAxios(urlPrefix, data) {
+export async function updateModelAxios(urlPrefix, data) {
+    //если нужно передавать файлы метод post
     if (urlPrefix == 'companies' || urlPrefix == 'products') {
         data.append("_method", "PATCH");
-        return new Promise(function (resolve, reject) {
-            axios
-                .post(`/${urlPrefix}/${data.get('id')}`, data)
-                .then(res => {
-                    if (urlPrefix == 'companies') company.value = res.data.data
-                    if (urlPrefix == 'products') currentProduct.value = res.data.data
-                    res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
-                    addLogMessage(res.messageForVue)
-                    resolve(res)
-                })
-                .catch(err => {
-                    addLogMessage(formErrorLogMessage(err))
-                    reject(err)
-                })
-        })
+
+        try {
+            const res = await axios.post(`/${urlPrefix}/${data.get('id')}`, data)
+
+            if (urlPrefix == 'companies') company.value = res.data.data
+            if (urlPrefix == 'products') currentProduct.value = res.data.data
+            res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
+            addLogMessage(res.messageForVue)
+
+            return res
+        } catch (error) {
+            addLogMessage(formErrorLogMessage(error))
+            return error
+        }
     }
 
-    return new Promise(function (resolve, reject) {
-        axios
-            .patch(`/${urlPrefix}/${data.id}`, data)
-            .then(res => {
-                if (urlPrefix == 'countries') currentCountry.value = res.data.data
-                else if (urlPrefix == 'cities') currentCity.value = res.data.data
-                else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
-                else if (urlPrefix == 'categories') currentCategory.value = res.data.data
-                else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
-                res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
-                addLogMessage(res.messageForVue)
-                resolve(res)
-            })
-            .catch(err => {
-                addLogMessage(formErrorLogMessage(err))
-                reject(err)
-            })
-    })
+    //если передавать файлы не нужно метод patch
+    try {
+        const res = await axios.patch(`/${urlPrefix}/${data.id}`, data)
+
+        if (urlPrefix == 'countries') currentCountry.value = res.data.data
+        else if (urlPrefix == 'cities') currentCity.value = res.data.data
+        else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
+        else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+        else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
+        res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
+        addLogMessage(res.messageForVue)
+
+        return res
+    } catch (error) {
+        addLogMessage(formErrorLogMessage(error))
+        return error
+    }
 }
 
-export function deleteModelAxios(urlPrefix, data) {
-    return new Promise(function (resolve, reject) {
-        axios
-            .delete(`/${urlPrefix}/${data.id}`)
-            .then(res => {
-                if (urlPrefix == 'countries') currentCountry.value = null
-                else if (urlPrefix == 'cities') currentCity.value = null
-                else if (urlPrefix == 'restaurants') currentRestaurant.value = null
-                else if (urlPrefix == 'categories') currentCategory.value = null
-                else if (urlPrefix == 'products') currentProduct.value = null
-                else if (urlPrefix == 'employees') currentEmployee.value = null
-                res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
-                addLogMessage(res.messageForVue)
-                resolve(res)
-            })
-            .catch(err => {
-                addLogMessage(formErrorLogMessage(err))
-                reject(err)
-            })
-    })
+export async function deleteModelAxios(urlPrefix, data) {
+    try {
+        const res = await axios.delete(`/${urlPrefix}/${data.id}`)
+
+        if (urlPrefix == 'countries') currentCountry.value = null
+        else if (urlPrefix == 'cities') currentCity.value = null
+        else if (urlPrefix == 'restaurants') currentRestaurant.value = null
+        else if (urlPrefix == 'categories') currentCategory.value = null
+        else if (urlPrefix == 'products') currentProduct.value = null
+        else if (urlPrefix == 'employees') currentEmployee.value = null
+        res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
+        addLogMessage(res.messageForVue)
+
+        return res
+    } catch (error) {
+        addLogMessage(formErrorLogMessage(error))
+        return error
+    }
 }

@@ -186,7 +186,7 @@ onUpdated(() => {
       </div>
     </div>
 
-    <router-view></router-view>
+    <router-view></router-view>   <!-- для popup окон  -->
     
   </main>
 </template>

@@ -1,29 +1,48 @@
-import { categories, countries, restaurants, getModelsAxios, getAuthUser } from '/src/store/axios-helper.js'
+import { categories, countries, restaurants } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType } from '/src/store/client-helper.js'
+import {
+    loadCurrentAuthUser, loadCountries, loadCategories, loadRestaurants
+} from '/src/store/loading-helper.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 
 export async function initialize() {
 
-    await initializeCategories()
+    try {
+        await Promise.all([
+            initializeCategories(),
+            initializeCity(),
+            initializeRestaurant(),
+            loadCurrentAuthUser(),
+        ])
 
-    initializeCart()
+        initializeCart()
+        initializeOrderType()
+        return LOADING_TYPE.complete
 
-    initializeCity()
-
-    initializeOrderType()
-
-    initializeRestaurant()
-
-    getAuthUser()
-}
-
-function initializeOrderType() {
-    if (localStorage.getItem('order-type')) {
-        selectedOrderType.value = JSON.parse(localStorage.getItem('order-type'))
+    } catch (err) {
+        console.log(err);
+        return LOADING_TYPE.error;
     }
 }
 
-async function initializeCity() {
-    await getModelsAxios('countries')
+async function initializeCategories() {
+    const loadinType = await loadCategories()
+
+    if (loadinType === LOADING_TYPE.error) return LOADING_TYPE.error
+
+    //убираем из списка неактивные продукты и пустые категории чтобы не отображались
+    categories.value.forEach(category => {
+        category.products = category.products.filter(product => product.is_active == true)
+    })
+    categories.value = categories.value.filter(category => category.products.length > 0)
+
+    return LOADING_TYPE.complete
+}
+
+export async function initializeCity() {
+    const loadinType = await loadCountries()
+
+    if (loadinType === LOADING_TYPE.error) return LOADING_TYPE.error
 
     if (localStorage.getItem('city')) {
         selectedCity.value = JSON.parse(localStorage.getItem('city'))
@@ -37,10 +56,14 @@ async function initializeCity() {
             }
         }
     }
+
+    return LOADING_TYPE.complete
 }
 
 async function initializeRestaurant() {
-    await getModelsAxios('restaurants')
+    const loadinType = await loadRestaurants()
+
+    if (loadinType === LOADING_TYPE.error) return LOADING_TYPE.error
 
     for (let i = 0; i < restaurants.value.length; i++) {
         if (restaurants.value[i].city.title === selectedCity.value.title) {
@@ -48,18 +71,8 @@ async function initializeRestaurant() {
             break
         }
     }
-}
 
-async function initializeCategories() {
-    await getModelsAxios('categories')
-        .then(() => {
-            //убираем из списка неактивные продукты и пустые категории чтобы не отображались
-            categories.value.forEach(category => {
-                category.products = category.products.filter(product => product.is_active == true)
-            })
-            categories.value = categories.value.filter(category => category.products.length > 0)
-        }
-        )
+    return LOADING_TYPE.complete
 }
 
 function initializeCart() {
@@ -79,3 +92,14 @@ function initializeCart() {
     })
 
 }
+
+function initializeOrderType() {
+    if (localStorage.getItem('order-type')) {
+        selectedOrderType.value = JSON.parse(localStorage.getItem('order-type'))
+    }
+}
+
+
+
+
+

@@ -1,15 +1,29 @@
 <script setup>
+import { ref, reactive, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
 import { totalCountInCart } from '/src/store/client-helper.js'
 import { initialize } from '/src/store/client-initialize';
 import { authUser } from '/src/store/axios-helper.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 
-initialize()
+const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
+
+onMounted(async () => {
+  dataForComponentLoadingType.value = await initialize()
+})
 
 </script>
 
 <template>
-  <router-view></router-view>
+  <router-view v-if="dataForComponentLoadingType === LOADING_TYPE.complete"></router-view>
+
+  <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading" class="spinner-centr-display">
+    <div class="spinner"></div>
+  </div>
+
+  <div v-else class="admin-view-model-load">
+    Ошибка загрузки данных. Попробуйте обновить страницу
+  </div>
 
   <div class="bottom-device-menu">
     <div class="container">

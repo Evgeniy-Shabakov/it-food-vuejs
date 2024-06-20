@@ -37,7 +37,6 @@ const currentRestaurantId = useRoute().params.id
 
 onMounted(async () => {
   dataForComponentLoadingType.value = await loadCountries()
-  
   dataForComponentLoadingType.value = await loadCurrentRestaurant(currentRestaurantId)
 
   if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
