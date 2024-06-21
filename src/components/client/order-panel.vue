@@ -12,19 +12,20 @@ import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 
 const addressesInSelectedCity = ref([])
 
-onMounted(() => {
-  if (authUser.value == null) {
-    loginForOrder.value = true
-    router.push({ name: 'client.menu.popup.login-panel' })
-    return
-  }
-
+if (authUser.value == null) {
+  loginForOrder.value = true
+  router.push({ name: 'client.menu.popup.login-panel' })
+}
+else {
   addressesInSelectedCity.value = authUser.value.addresses
     .filter((address) => address.city.id === selectedCity.value.id)
 
   setAddressForDelivery()
-})
+}
 
+const sendOrder = () => {
+  alert('Заказ отправлен')
+}
 
 </script>
 
@@ -131,7 +132,9 @@ onMounted(() => {
   </div>
 
   <div class="order-panel__btn-section">
-    <button class="btn btn-submit order-panel__btn-order">Подтвердить</button>
+    <button class="btn btn-submit order-panel__btn-order" @click.prevent="sendOrder()">
+      Оформить за {{ totalPrice }}р.
+    </button>
   </div>
 
 </template>
