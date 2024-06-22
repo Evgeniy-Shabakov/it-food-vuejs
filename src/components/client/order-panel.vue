@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import router from "/src/router.js"
+import axios from 'axios'
 import { authUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
@@ -8,7 +9,12 @@ import {
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
+import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
+
+const orderData = reactive({})
+
+const productsInOrder = ref([])
 
 const addressesInSelectedCity = ref([])
 
@@ -17,19 +23,47 @@ if (authUser.value == null) {
   router.push({ name: 'client.menu.popup.login-panel' })
 }
 else {
+  productsInOrder.value = productsInCart.value
+    .filter(product => product.countInCart > 0)
+
   addressesInSelectedCity.value = authUser.value.addresses
-    .filter((address) => address.city.id === selectedCity.value.id)
+    .filter(address => address.city.id === selectedCity.value.id)
 
   setAddressForDelivery()
+
+  orderData.user_id = authUser.value.id
+  orderData.city_id = selectedCity.value.id
+  orderData.restaurant_id = null
+  orderData.user_address_id = selectedAddressForDelivery.value ? selectedAddressForDelivery.value.id : null
+  orderData.order_type = selectedOrderType.value
+  orderData.table_number = null
+  orderData.car_number = null
+  orderData.pack_takeaway = true
+  orderData.total_price = totalPrice.value
+  orderData.payment_type = PAYMENT_TYPE.cardOffline
+  orderData.banknote_for_change = null
+  orderData.is_payment = false
+  orderData.comment = null
+  orderData.products_in_order = productsInOrder.value
 }
 
-const sendOrder = () => {
-  alert('Заказ отправлен')
+watch(selectedAddressForDelivery, () => { //v-model это selectedAddressForDelivery, чтобы сохранить изменения
+  orderData.user_address_id = selectedAddressForDelivery.value.id
+})
+
+const sendOrder = async () => {
+  try {
+    const res = await axios.post(`/orders`, orderData)
+
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 </script>
 
 <template>
+
   <div>
 
     <div class="order-panel__city-order-type">
@@ -72,9 +106,9 @@ const sendOrder = () => {
 
       <div>
         <label class="order-panel__label">Способ оплаты</label>
-        <select class="order-panel__payment-type">
-          <option value="value1" selected>Картой при получении</option>
-          <option value="value2">Наличными</option>
+        <select v-model="orderData.payment_type" class="order-panel__payment-type">
+          <option :value="PAYMENT_TYPE.cardOffline"> {{ PAYMENT_TYPE.cardOffline }}</option>
+          <option :value="PAYMENT_TYPE.cash"> {{ PAYMENT_TYPE.cash }}</option>
         </select>
       </div>
 
@@ -82,20 +116,18 @@ const sendOrder = () => {
 
       <div class="order-panel__products-section">
 
-        <template v-for="product in productsInCart">
-          <template v-if="product.countInCart > 0">
+        <template v-for="product in productsInOrder">
 
-            <img class="order-panel__product-img" :src="product.image_url" alt="">
-            <div>{{ product.title }}</div>
-            <div class="order-panel__count-price">
-              <span>{{ product.countInCart }}</span>
-              <span> x {{ Number(product.price_default) }}р</span>
-            </div>
-            <div class="order-panel__product-total">
-              {{ Number(product.countInCart) * Number(product.price_default) }}р
-            </div>
+          <img class="order-panel__product-img" :src="product.image_url" alt="">
+          <div>{{ product.title }}</div>
+          <div class="order-panel__count-price">
+            <span>{{ product.countInCart }}</span>
+            <span> x {{ Number(product.price_default) }}р</span>
+          </div>
+          <div class="order-panel__product-total">
+            {{ Number(product.countInCart) * Number(product.price_default) }}р
+          </div>
 
-          </template>
         </template>
 
       </div>
@@ -126,7 +158,7 @@ const sendOrder = () => {
 
     <div>
       <label class="order-panel__label">Комментарий к заказу</label>
-      <textarea class="order-panel__comment"></textarea>
+      <textarea v-model="orderData.comment" class="order-panel__comment"></textarea>
     </div>
 
   </div>
