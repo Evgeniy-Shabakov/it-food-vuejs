@@ -51,13 +51,21 @@ watch(selectedAddressForDelivery, () => { //v-model это selectedAddressForDel
   orderData.user_address_id = selectedAddressForDelivery.value.id
 })
 
+const blockSendOrder = ref(false)
+
 const sendOrder = async () => {
+  if (blockSendOrder.value) return
+
+  blockSendOrder.value = true
+
   try {
     const res = await axios.post(`/orders`, orderData)
-
+    console.log(res);
   } catch (error) {
     console.log(error);
   }
+
+  blockSendOrder.value = false
 }
 
 </script>
@@ -164,9 +172,16 @@ const sendOrder = async () => {
   </div>
 
   <div class="order-panel__btn-section">
-    <button class="btn btn-submit order-panel__btn-order" @click.prevent="sendOrder()">
+    <button v-if="blockSendOrder == false" class="btn btn-submit order-panel__btn-order" @click.prevent="sendOrder()">
       Оформить за {{ totalPrice }}р.
     </button>
+    <button v-else class="btn btn-submit order-panel__btn-order">
+      Отправляем заказ в ресторан...
+    </button>
+  </div>
+
+  <div v-if="blockSendOrder" class="spinner-centr-display">
+    <div class="spinner"></div>
   </div>
 
 </template>
