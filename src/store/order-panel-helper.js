@@ -16,9 +16,10 @@ export function setAddressForDelivery() {
 }
 
 function setAddressForDeliveryByDefault() {
-    authUser.value.addresses.forEach((address) => {
-        if (selectedCity.value.id === address.city.id) {
-            selectedAddressForDelivery.value = address
-        }
-    })
+    const matchingAddress = authUser.value.addresses.find((address) => {
+            return selectedCity.value.id === address.city.id;
+        });
+
+    if (matchingAddress) selectedAddressForDelivery.value = matchingAddress;
+    else selectedAddressForDelivery.value = null
 }

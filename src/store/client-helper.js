@@ -16,6 +16,11 @@ watch(selectedOrderType, () => {
 })
 
 watch(selectedAddressForDelivery, () => {
+    if(selectedAddressForDelivery.value == null) {
+        localStorage.removeItem('address-for-delivery')
+        return
+    }
+    
     localStorage.setItem('address-for-delivery', JSON.stringify(selectedAddressForDelivery.value))
 })
 

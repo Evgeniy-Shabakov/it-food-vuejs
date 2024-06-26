@@ -11,12 +11,18 @@ import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
 import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
+import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 
 const orderData = reactive({})
 
 const productsInOrder = ref([])
 
 const addressesInSelectedCity = ref([])
+
+const validationErrors = ref({})
+const otherErrors = ref()
+
+const blockSendOrder = ref(false)
 
 if (authUser.value == null) {
   loginForOrder.value = true
@@ -51,18 +57,26 @@ watch(selectedAddressForDelivery, () => { //v-model это selectedAddressForDel
   orderData.user_address_id = selectedAddressForDelivery.value.id
 })
 
-const blockSendOrder = ref(false)
-
 const sendOrder = async () => {
   if (blockSendOrder.value) return
-
   blockSendOrder.value = true
+
+  validationErrors.value = {}
+  otherErrors.value = null
 
   try {
     const res = await axios.post(`/orders`, orderData)
     console.log(res);
   } catch (error) {
     console.log(error);
+
+    if(error.response.status === 422)
+    {
+      validationErrors.value = error.response.data.errors
+      transformValidateErrorsForUI(validationErrors.value)
+    } else {
+      otherErrors.value = 'что то пошло не так, попробуйте еще раз';
+    }
   }
 
   blockSendOrder.value = false
@@ -78,10 +92,11 @@ const sendOrder = async () => {
       {{ selectedCity.title }} - {{ selectedOrderType }}
     </div>
     <div class="order-panel__text-description">(оформление заказа)</div>
-
+    <div class="invalid-text order-panel__other-errors-text">{{ otherErrors }}</div>
+    
     <template v-if="selectedOrderType == ORDER_TYPE.delivery">
 
-      <div v-if="addressesInSelectedCity.length > 0">
+      <div v-if="addressesInSelectedCity.length > 0" class="order-panel__selecte-address-section">
         <label class="order-panel__label">Выбирите адрес или добавьте новый</label>
         <div class="order-panel__selecte-address-btn-add-section">
 
@@ -102,6 +117,7 @@ const sendOrder = async () => {
           </router-link>
 
         </div>
+        <div class="invalid-text order-panel__invalid-text">{{ validationErrors.user_address_id }}</div>
       </div>
 
       <div v-else class="order-panel__btn-add-address-full">
@@ -110,14 +126,16 @@ const sendOrder = async () => {
             Добавить адрес доставки
           </button>
         </router-link>
+        <div class="invalid-text order-panel__invalid-text">{{ validationErrors.user_address_id }}</div>
       </div>
-
-      <div>
+      
+      <div class="order-panel__payment-type-section">
         <label class="order-panel__label">Способ оплаты</label>
         <select v-model="orderData.payment_type" class="order-panel__payment-type">
           <option :value="PAYMENT_TYPE.cardOffline"> {{ PAYMENT_TYPE.cardOffline }}</option>
           <option :value="PAYMENT_TYPE.cash"> {{ PAYMENT_TYPE.cash }}</option>
         </select>
+        <div class="invalid-text order-panel__invalid-text">{{ validationErrors.payment_type }}</div>
       </div>
 
       <label class="order-panel__label">Товары ({{ totalCountInCart }}шт.)</label>
@@ -139,6 +157,7 @@ const sendOrder = async () => {
         </template>
 
       </div>
+      <div class="invalid-text order-panel__invalid-text">{{ validationErrors.products_in_order }}</div>
 
     </template>
 
@@ -167,6 +186,7 @@ const sendOrder = async () => {
     <div>
       <label class="order-panel__label">Комментарий к заказу</label>
       <textarea v-model="orderData.comment" class="order-panel__comment"></textarea>
+      <div class="invalid-text order-panel__invalid-text">{{ validationErrors.comment }}</div>
     </div>
 
   </div>
