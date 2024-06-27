@@ -6,6 +6,7 @@ export const selectedCity = ref()
 export const selectedRestaurant = ref()
 export const selectedOrderType = ref(ORDER_TYPE.delivery)
 export const selectedAddressForDelivery = ref()
+export const productsInCart = ref([])
 
 watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))
@@ -16,11 +17,11 @@ watch(selectedOrderType, () => {
 })
 
 watch(selectedAddressForDelivery, () => {
-    if(selectedAddressForDelivery.value == null) {
+    if (selectedAddressForDelivery.value == null) {
         localStorage.removeItem('address-for-delivery')
         return
     }
-    
+
     localStorage.setItem('address-for-delivery', JSON.stringify(selectedAddressForDelivery.value))
 })
 
@@ -41,7 +42,7 @@ export const pickUpAvailableInSelectedCity = computed(() => {
 
     for (let i = 0; i < restaurants.value.length; i++) {
         if (restaurants.value[i].city.title === selectedCity.value.title) {
-            if (restaurants.value[i].pick_up_at_counter_available || 
+            if (restaurants.value[i].pick_up_at_counter_available ||
                 restaurants.value[i].pick_up_at_car_window_available)
                 return true
         }
@@ -95,8 +96,6 @@ watch([selectedCity, pickUpAvailableInSelectedCity, deliveryAvailableInSelectedC
         }
     }
 })
-
-export const productsInCart = ref([])
 
 export const totalCountInCart = computed(() => {
     let total = 0
@@ -162,3 +161,11 @@ export function removeProductFromCart(product) {
 
     localStorage.setItem('cart', JSON.stringify(productsInCart.value))
 }
+
+export function removeAllProductsFromCart() {
+    productsInCart.value.forEach(product => product.countInCart = 0)
+
+    productsInCart.value.length = 0
+    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+}
+

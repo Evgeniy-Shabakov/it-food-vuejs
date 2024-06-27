@@ -1,6 +1,5 @@
 import * as VueRouter from 'vue-router';
 import { getAuthUser, authUser } from '/src/store/axios-helper.js'
-import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const routes = [
     {
@@ -37,6 +36,11 @@ const routes = [
                                 path: '/popup/address-panel',
                                 component: () => import('./components/client/address-panel.vue'),
                                 name: 'client.menu.popup.address-panel'
+                            },
+                            {
+                                path: '/popup/order-status-panel',
+                                component: () => import('./components/client/order-status-panel.vue'),
+                                name: 'client.menu.popup.order-status-panel'
                             },
                         ]
                     },
@@ -246,7 +250,8 @@ router.beforeEach((to, from, next) => {
     scrollPositions[from.name] = window.scrollY
 
     if (to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.login-panel'
-        || to.name == 'client.menu.popup.address-panel' || to.name == 'client.menu.popup.user-panel') {
+        || to.name == 'client.menu.popup.address-panel' || to.name == 'client.menu.popup.user-panel'
+        || to.name == 'client.menu.popup.order-status-panel') {
         scrollPositions[to.name] = window.scrollY
     }
 

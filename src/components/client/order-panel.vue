@@ -5,7 +5,7 @@ import axios from 'axios'
 import { authUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
-  selectedOrderType, selectedAddressForDelivery, totalCountInCart
+  selectedOrderType, selectedAddressForDelivery, totalCountInCart, removeAllProductsFromCart
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
@@ -66,7 +66,9 @@ const sendOrder = async () => {
 
   try {
     const res = await axios.post(`/orders`, orderData)
-    console.log(res);
+
+    removeAllProductsFromCart()
+    router.push({ name: 'client.menu.popup.order-status-panel' })
   } catch (error) {
     console.log(error);
 
