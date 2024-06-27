@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, reactive } from 'vue';
 import { restaurants } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
@@ -7,6 +7,7 @@ export const selectedRestaurant = ref()
 export const selectedOrderType = ref(ORDER_TYPE.delivery)
 export const selectedAddressForDelivery = ref()
 export const productsInCart = ref([])
+export const currentOrder = ref()
 
 watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))

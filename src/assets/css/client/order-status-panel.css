@@ -1,0 +1,59 @@
+.order-status-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.order-status-panel__main-section {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    /* justify-content: center; */
+    height: 100%;
+}
+
+.order-status-panel__text-top {
+    font-size: 25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.order-status-panel__text-description {
+    color: grey;
+}
+
+.order-status-panel__order-number {
+    font-size: 50px;
+    color: green;
+    margin-bottom: 25px;
+}
+
+.order-status-panel__order-status {
+    font-size: 50px;
+    color: green;
+    margin-bottom: 25px;
+}
+
+.order-status-panel__btn-order {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {
+
+    .order-status-panel__btn-section {
+        position: fixed;
+        bottom: 48px;
+        left: 0;
+        height: 68px;
+        width: 100%;
+        border-top: 1px solid grey;
+        padding: 10px 25px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 522px) {}
