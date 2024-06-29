@@ -4,12 +4,9 @@ import {
   company, categories, getModelAxios,
   authUser, getAuthUser, logout
 } from '/src/store/axios-helper.js'
-import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
 
 import CartComponent from './cart-component.vue';
-
-setBrowserTitleForClient()
 
 const categoriesMenu = ref()
 const categoriesItems = ref([])

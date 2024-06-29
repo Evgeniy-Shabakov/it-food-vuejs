@@ -16,3 +16,10 @@ export function setBrowserTitleForAdminPanel() {
             title.value = company.value.brand_title + ' - Админка' 
         })
 }
+
+export function setBrowserTitleForOrderManager() {
+    getModelAxios('companies', 1)
+        .then(() => {
+            title.value = company.value.brand_title + ' - Заказы' 
+        })
+}

@@ -225,6 +225,34 @@ const routes = [
         ],
 
     },
+    {
+        path: '/order-manager',
+        component: () => import('./components/order-manager/order-manager-main.vue'),
+        name: 'order-manager.main',
+        beforeEnter: (to, from, next) => {
+            if (authUser.value) {
+                if (authUser.value.employee.hasAdminPanelAccess) next()
+                else {
+                    next('/')
+                }
+            }
+            else getAuthUser()
+                .then(res => {
+                    if (authUser.value) {
+                        if (authUser.value.employee.hasAdminPanelAccess) next()
+                        else {
+                            next('/')
+                        }
+                    }
+                    else {
+                        next('/')
+                    }
+                })
+                .catch(err => {
+                    next('/')
+                })
+        },
+    },
 ]
 
 const router = new VueRouter.createRouter({

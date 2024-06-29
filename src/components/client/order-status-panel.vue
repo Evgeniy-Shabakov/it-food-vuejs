@@ -7,7 +7,6 @@ if (currentOrder.value == null) {
   router.push({ name: 'client.menu' })
 }
 
-console.log(currentOrder.value)
 </script>
 
 <template>

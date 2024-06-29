@@ -5,8 +5,11 @@ import { totalCountInCart } from '/src/store/client-helper.js'
 import { initialize } from '/src/store/client-initialize';
 import { authUser } from '/src/store/axios-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
+import { setBrowserTitleForClient } from '/src/store/vue-use-helper'
 
 const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
+
+setBrowserTitleForClient()
 
 onMounted(async () => {
   dataForComponentLoadingType.value = await initialize()
