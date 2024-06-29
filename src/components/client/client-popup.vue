@@ -1,11 +1,17 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref, onUpdated } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
 const popupWindowBackdrop = ref(null)
 const popupWindow = ref(null)
+
+onUpdated(()=>{ 
+  //смещаем скролл внутри popup при каждом обновлении 
+  //нужно для перехода от формления заказа к статусу заказа на мобиле
+  popupWindow.value.scrollTop = 0 
+})
 
 onMounted(() => {
   document.body.classList.add('popup-lock-scroll')
