@@ -9,7 +9,7 @@ import {
 import { countries } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
-import CitySelecte from './city-selecte-component.vue';
+import CitySelecte from '/src/components/client/city-selecte-component.vue';
 
 </script>
 
