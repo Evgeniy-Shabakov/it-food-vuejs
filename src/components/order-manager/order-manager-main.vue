@@ -2,22 +2,32 @@
 import { ref, reactive, onMounted, onUnmounted, watch } from 'vue'
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager-initialize.js'
-import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { ordersToday } from '/src/store/axios-helper.js'
+import { loadOrdersToday } from '/src/store/loading-helper.js'
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
-
-const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
+import MiniOrder from '/src/components/order-manager/parts/order-manager-mini-order.vue'
 
 setBrowserTitleForOrderManager()
 
-onMounted(async () => {
-  dataForComponentLoadingType.value = await initialize()
-  console.log(ordersToday.value);
+initialize()
+
+//загрузка ordersToday через запрос в бэк - START
+let intervalLoadOrders
+
+onMounted(() => {
+  intervalLoadOrders = setInterval(() => {
+    loadOrdersToday()
+  }, 5000)
 })
 
-const reload = () => {
+onUnmounted(() => {
+  clearInterval(intervalLoadOrders)
+})
+//загрузка ordersToday через запрос в бэк - END
+
+const reloadPage = () => {
   location.reload()
 }
 </script>
@@ -28,7 +38,7 @@ const reload = () => {
     <header class="order-manager-main__header">
 
       <div>
-        <button class="btn btn-submit" @click="reload()" title="обновить">
+        <button class="btn btn-submit" @click="reloadPage()" title="обновить">
           <i class="fa-solid fa-arrow-rotate-right"></i>
         </button>
       </div>
@@ -43,7 +53,9 @@ const reload = () => {
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Новые заказы</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersToday" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
@@ -53,38 +65,7 @@ const reload = () => {
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готовятся</h4>
-        <div class="order-manager-main__status-column__main">
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-          <div>Перечень заказов</div>
-        </div>
+        <div class="order-manager-main__status-column__main">Перечень заказов</div>
       </section>
 
       <section class="order-manager-main__status-column">

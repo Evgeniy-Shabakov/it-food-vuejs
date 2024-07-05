@@ -38,3 +38,4 @@ import './assets/css/client/spinner.css'
 
 
 import './assets/css/order-manager/order-manager-main.css'
+import './assets/css/order-manager/order-manager-mini-order.css'
