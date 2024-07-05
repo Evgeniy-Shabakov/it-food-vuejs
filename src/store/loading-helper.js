@@ -119,6 +119,26 @@ export async function loadCurrentAuthUser() {
 	}
 }
 
+export async function loadOrdersToday() {
+	let retryCount = 0
+
+	while (retryCount < MAX_RETRIES) {
+		try {
+			await getModelsAxios('orders/today')
+			return LOADING_TYPE.complete;
+		} catch (err) {
+			console.log(`Error loading orders today (attempt ${retryCount + 1}/${MAX_RETRIES}):`, err)
+
+			retryCount++
+			if (retryCount === MAX_RETRIES) {
+				return LOADING_TYPE.error
+			}
+
+			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
+		}
+	}
+}
+
 export function getFirstCityId() {
 	if (countries.value == null) return null
 

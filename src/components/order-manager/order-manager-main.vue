@@ -1,28 +1,21 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, watch } from 'vue';
+import { ref, reactive, onMounted, onUnmounted, watch } from 'vue'
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
-import { initializeCity } from '/src/store/client-initialize.js'
+import { initialize } from '/src/store/order-manager-initialize.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
+import { ordersToday } from '/src/store/axios-helper.js'
 
-import CitySelecte from '/src/components/client/city-selecte-component.vue';
+import CitySelecte from '/src/components/client/city-selecte-component.vue'
+import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
+
+const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
 setBrowserTitleForOrderManager()
 
-initializeCity()
-
-const currentTime = ref(new Date().toLocaleTimeString())
-
-// работа со временем - СТАРТ
-let intervalTime
-onMounted(() => {
-  intervalTime = setInterval(() => {
-    currentTime.value = new Date().toLocaleTimeString()
-  }, 1000)
+onMounted(async () => {
+  dataForComponentLoadingType.value = await initialize()
+  console.log(ordersToday.value);
 })
-
-onUnmounted(() => {
-  clearInterval(intervalTime)
-})
-// работа со временем - СТОП
 
 const reload = () => {
   location.reload()
@@ -32,7 +25,7 @@ const reload = () => {
 <template>
   <div class="order-manager-main">
 
-    <section class="order-manager-main__header">
+    <header class="order-manager-main__header">
 
       <div>
         <button class="btn btn-submit" @click="reload()" title="обновить">
@@ -40,29 +33,25 @@ const reload = () => {
         </button>
       </div>
 
-      <div class="order-manager-main__header__time">
-        {{ currentTime }}
-      </div>
+      <time-component class="order-manager-main__header__time"></time-component>
 
-      <div class="order-manager-main__header__city-selecte">
-        <city-selecte></city-selecte>
-      </div>
+      <city-selecte class="order-manager-main__header__city-selecte"></city-selecte>
 
-    </section>
+    </header>
 
-    <section class="order-manager-main__main">
+    <main class="order-manager-main__main">
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Новые заказы</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Принятые в работу</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готовятся</h4>
         <div class="order-manager-main__status-column__main">
           <div>Перечень заказов</div>
@@ -96,33 +85,34 @@ const reload = () => {
           <div>Перечень заказов</div>
           <div>Перечень заказов</div>
         </div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Собираются</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Ожидают курьера</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
-      <div class="order-manager-main__status-column">
+      </section>
+
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">В пути</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готов и ожидает выдачи</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-      <div class="order-manager-main__status-column">
+      <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Завершен</h4>
         <div class="order-manager-main__status-column__main">Перечень заказов</div>
-      </div>
+      </section>
 
-    </section>
+    </main>
 
   </div>
 </template>

@@ -33,6 +33,8 @@ export const currentProduct = ref()
 export const employees = ref()
 export const currentEmployee = ref()
 
+export const ordersToday = ref()
+
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
 export function sendVerifyCode(data) {
@@ -115,6 +117,7 @@ export async function getModelsAxios(urlPrefix) {
         else if (urlPrefix == 'products') products.value = res.data.data
         else if (urlPrefix == 'employees') employees.value = res.data.data
         else if (urlPrefix == 'roles') roles.value = res.data.data
+        else if (urlPrefix == 'orders/today') ordersToday.value = res.data.data
 
         return res
     } catch (error) {
