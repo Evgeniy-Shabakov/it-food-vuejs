@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, watch } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, watch, computed } from 'vue'
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager-initialize.js'
 import { ordersToday } from '/src/store/axios-helper.js'
@@ -8,6 +8,46 @@ import { loadOrdersToday } from '/src/store/loading-helper.js'
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
 import MiniOrder from '/src/components/order-manager/parts/order-manager-mini-order.vue'
+
+const ordersNew = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'создан')
+})
+
+const ordersAccepted = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'принят в работу')
+})
+
+const ordersCooking = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'готовится')
+})
+
+const ordersPacking = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'собирается')
+})
+
+const ordersWaitingCourier = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'ожидает курьера')
+})
+
+const ordersInTransit = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'в пути')
+})
+
+const ordersAwaitingPickup = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'готов и ожидает выдачи')
+})
+
+const ordersCompleted = computed(() => {
+  if (ordersToday.value)
+    return ordersToday.value.filter(order => order.order_status === 'завершен')
+})
 
 setBrowserTitleForOrderManager()
 
@@ -54,43 +94,57 @@ const reloadPage = () => {
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Новые заказы</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersToday" :order="order"></mini-order>
+          <mini-order v-for="order in ordersNew" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Принятые в работу</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersAccepted" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готовятся</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersCooking" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Собираются</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersPacking" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Ожидают курьера</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersWaitingCourier" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">В пути</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersInTransit" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готов и ожидает выдачи</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersAwaitingPickup" :order="order"></mini-order>
+        </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Завершен</h4>
-        <div class="order-manager-main__status-column__main">Перечень заказов</div>
+        <div class="order-manager-main__status-column__main">
+          <mini-order v-for="order in ordersCompleted" :order="order"></mini-order>
+        </div>
       </section>
 
     </main>
