@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted, onUnmounted, watch, defineProps } from 'vue';
 import axios from 'axios'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
+import { ORDER_STATUS } from '/src/store/data-types/order-status'
 
 const { order } = defineProps(['order'])
 
@@ -11,7 +12,7 @@ let intervalTimer
 
 //работа с таймером - START
 onMounted(() => {
-    if (order.order_status === 'завершен') {
+    if (order.order_status === ORDER_STATUS.COMPLETED) {
         timer.value = Math.floor((new Date(order.updated_at) - new Date(order.created_at)) / 1000)
         return
     }
@@ -37,7 +38,7 @@ const blockNextStatus = ref(false)
 
 async function nextStatus(order) {
     if (blockNextStatus.value) return
-    if (order.order_status === 'завершен') return
+    if (order.order_status === ORDER_STATUS.COMPLETED) return
 
     blockNextStatus.value = true
 
@@ -67,7 +68,7 @@ async function nextStatus(order) {
 
         <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
 
-        <button v-if="order.order_status !== 'завершен'" class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
+        <button v-if="order.order_status !== ORDER_STATUS.COMPLETED" class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
             <i class="fa-solid fa-arrow-right"></i>
         </button>
 
