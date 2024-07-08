@@ -5,20 +5,29 @@ import { loadOrdersToday } from '/src/store/loading-helper.js'
 
 const { order } = defineProps(['order'])
 
-async function nextStatus(order){
-    console.log(order.number);
+const blockNextStatus = ref(false)
+
+async function nextStatus(order) {
+    if (blockNextStatus.value) return
+
+    blockNextStatus.value = true
+
     try {
         const res = await axios.patch(`/orders/${order.id}/next-status`)
-        loadOrdersToday()
+        await loadOrdersToday()
     } catch (error) {
         console.log(error);
     }
+
+    blockNextStatus.value = false
 }
 
 </script>
 
 <template>
+
     <div class="order-manager-mini-order">
+        
         <p class="order-manager-mini-order__number">{{ order.number }}</p>
         <p class="">{{ order.order_type }}</p>
         <p class="">{{ new Date(order.created_at).toLocaleTimeString() }}</p>
@@ -31,5 +40,11 @@ async function nextStatus(order){
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
+
+        <div v-if="blockNextStatus" class="spinner-centr-object">
+            <div class="spinner"></div>
+        </div>
+
     </div>
+
 </template>
