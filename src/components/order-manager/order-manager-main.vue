@@ -47,6 +47,7 @@ const ordersAwaitingPickup = computed(() => {
 const ordersCompleted = computed(() => {
   if (ordersToday.value)
     return ordersToday.value.filter(order => order.order_status === 'завершен')
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at) )
 })
 
 setBrowserTitleForOrderManager()
@@ -94,56 +95,56 @@ const reloadPage = () => {
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Новые заказы</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersNew" :order="order"></mini-order>
+          <mini-order v-for="order in ordersNew" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Принятые в работу</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersAccepted" :order="order"></mini-order>
+          <mini-order v-for="order in ordersAccepted" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готовятся</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersCooking" :order="order"></mini-order>
+          <mini-order v-for="order in ordersCooking" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Собираются</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersPacking" :order="order"></mini-order>
+          <mini-order v-for="order in ordersPacking" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Ожидают курьера</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersWaitingCourier" :order="order"></mini-order>
+          <mini-order v-for="order in ordersWaitingCourier" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">В пути</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersInTransit" :order="order"></mini-order>
+          <mini-order v-for="order in ordersInTransit" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Готов и ожидает выдачи</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersAwaitingPickup" :order="order"></mini-order>
+          <mini-order v-for="order in ordersAwaitingPickup" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Завершен</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersCompleted" :order="order"></mini-order>
+          <mini-order v-for="order in ordersCompleted" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 

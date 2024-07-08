@@ -3,16 +3,48 @@
     position: relative;
     background-color: green;
     border-radius: 15px;
-    padding: 15px;
+    padding: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .order-manager-mini-order__number {
     margin-bottom: 5px;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     text-align: center;
+}
+
+.order-manager-mini-order__type {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.order-manager-mini-order__time {
+    margin-bottom: 5px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.order-manager-mini-order__timer {
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: yellow;
+    font-weight: 700;
+    text-align: center;
+}
+
+.order-manager-mini-order__total {
+    margin-bottom: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.order-manager-mini-order__btn-next-status {
+    width: 100%;
 }
 
 .order-manager-mini-order__btns-section {

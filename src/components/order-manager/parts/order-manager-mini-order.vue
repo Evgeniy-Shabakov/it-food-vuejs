@@ -5,15 +5,44 @@ import { loadOrdersToday } from '/src/store/loading-helper.js'
 
 const { order } = defineProps(['order'])
 
+const timer = ref(0)
+
+let intervalTimer
+
+//работа с таймером - START
+onMounted(() => {
+    if (order.order_status === 'завершен') {
+        timer.value = Math.floor((new Date(order.updated_at) - new Date(order.created_at)) / 1000)
+        return
+    }
+
+    intervalTimer = setInterval(() => {
+        timer.value = Math.floor((new Date() - new Date(order.created_at)) / 1000)
+    }, 1000)
+})
+
+onUnmounted(() => {
+    clearInterval(intervalTimer)
+})
+
+
+function formatTimer(seconds) {
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
+}
+//работа с таймером - END
+
 const blockNextStatus = ref(false)
 
 async function nextStatus(order) {
     if (blockNextStatus.value) return
+    if (order.order_status === 'завершен') return
 
     blockNextStatus.value = true
 
     try {
-        const res = await axios.patch(`/orders/${order.id}/next-status`)
+        await axios.patch(`/orders/${order.id}/next-status`)
         await loadOrdersToday()
     } catch (error) {
         console.log(error);
@@ -26,25 +55,26 @@ async function nextStatus(order) {
 
 <template>
 
-    <div class="order-manager-mini-order">
-        
+    <button class="order-manager-mini-order">
+
         <p class="order-manager-mini-order__number">{{ order.number }}</p>
-        <p class="">{{ order.order_type }}</p>
-        <p class="">{{ new Date(order.created_at).toLocaleTimeString() }}</p>
-        <p class="">{{ order.total_price }}р.</p>
-        <div class="order-manager-mini-order__btns-section">
-            <button class="btn btn-submit">
-                <i class="fa-solid fa-arrow-left"></i>
-            </button>
-            <button class="btn btn-submit" @click.prevent="nextStatus(order)">
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-        </div>
+
+        <p class="order-manager-mini-order__type">{{ order.order_type }}</p>
+
+        <p class="order-manager-mini-order__time">{{ new Date(order.created_at).toLocaleTimeString() }}</p>
+
+        <p class="order-manager-mini-order__timer">{{ formatTimer(timer) }}</p>
+
+        <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
+
+        <button v-if="order.order_status !== 'завершен'" class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
 
         <div v-if="blockNextStatus" class="spinner-centr-object">
             <div class="spinner"></div>
         </div>
 
-    </div>
+    </button>
 
 </template>
