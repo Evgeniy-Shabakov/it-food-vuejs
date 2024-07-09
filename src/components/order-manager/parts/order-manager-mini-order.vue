@@ -65,10 +65,16 @@ async function nextStatus(order) {
         <p class="order-manager-mini-order__time">{{ new Date(order.created_at).toLocaleTimeString() }}</p>
 
         <p class="order-manager-mini-order__timer">{{ formatTimer(timer) }}</p>
+        
+        <div class="order-manager-mini-order__products">
+            <img v-for="product in order.products" class="order-manager-mini-order__product-img"
+                :src="product.image_url" alt="">
+        </div>
 
         <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
 
-        <button v-if="order.order_status !== ORDER_STATUS.COMPLETED" class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
+        <button v-if="order.order_status !== ORDER_STATUS.COMPLETED"
+            class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
             <i class="fa-solid fa-arrow-right"></i>
         </button>
 

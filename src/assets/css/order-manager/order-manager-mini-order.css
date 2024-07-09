@@ -47,8 +47,14 @@
     width: 100%;
 }
 
-.order-manager-mini-order__btns-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+.order-manager-mini-order__products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.order-manager-mini-order__product-img{
+    height: 25px;
 }
