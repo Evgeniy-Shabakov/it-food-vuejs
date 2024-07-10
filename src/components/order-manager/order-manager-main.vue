@@ -1,14 +1,21 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, watch, computed } from 'vue'
+
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
-import { initialize } from '/src/store/order-manager-initialize.js'
+import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
 import { ordersToday } from '/src/store/axios-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
+import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper.js'
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
 import MiniOrder from '/src/components/order-manager/parts/order-manager-mini-order.vue'
+import FullOrder from '/src/components/order-manager/parts/order-manager-full-order.vue'
+
+setBrowserTitleForOrderManager()
+
+initialize()
 
 const ordersNew = computed(() => {
   if (ordersToday.value)
@@ -48,12 +55,10 @@ const ordersAwaitingPickup = computed(() => {
 const ordersCompleted = computed(() => {
   if (ordersToday.value)
     return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COMPLETED)
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at) )
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
 })
 
-setBrowserTitleForOrderManager()
 
-initialize()
 
 //загрузка ordersToday через запрос в бэк - START
 let intervalLoadOrders
@@ -148,6 +153,8 @@ const reloadPage = () => {
           <mini-order v-for="order in ordersCompleted" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
+
+      <full-order v-if="currentOrder"></full-order>
 
     </main>
 

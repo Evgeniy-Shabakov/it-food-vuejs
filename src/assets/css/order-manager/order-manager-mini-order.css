@@ -6,6 +6,11 @@
     padding: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
+}
+
+.order-manager-mini-order__btn-full-order {
+    background-color: transparent;
+    border: 0px;
     width: 100%;
 }
 
@@ -18,7 +23,7 @@
 
 .order-manager-mini-order__type {
     margin-bottom: 5px;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center;
 }
@@ -32,7 +37,7 @@
 .order-manager-mini-order__timer {
     margin-bottom: 5px;
     font-size: 18px;
-    color: yellow;
+    color: white;
     font-weight: 700;
     text-align: center;
 }
@@ -55,6 +60,19 @@
     margin-bottom: 5px;
 }
 
-.order-manager-mini-order__product-img{
+.order-manager-mini-order__product-img {
     height: 25px;
+}
+
+.order-manager-mini-order__completed-orders {
+    background-color: grey;
+    color: rgb(3, 87, 3);
+}
+
+.order-manager-mini-order__timer-color-red {
+    color: rgb(150, 0, 0);
+}
+
+.order-manager-mini-order__timer-color-orange {
+    color: orange;
 }

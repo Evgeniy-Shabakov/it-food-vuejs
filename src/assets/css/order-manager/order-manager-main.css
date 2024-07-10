@@ -29,16 +29,23 @@
     overflow-x: hidden;
 
     display: flex;
-    gap: 5px;
+    gap: 2px;
 }
 
 .order-manager-main__status-column {
-    flex: 1;
+    min-width: 9%;
+    max-width: 9%;
     height: 100%;
     overflow-x: hidden;
 
     display: flex;
     flex-direction: column;
+}
+
+.order-manager-main__order-full-column {
+    flex: 1;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .order-manager-main__status-column__header {
@@ -57,3 +64,4 @@
     overflow-x: hidden;
     padding: 5px;
 }
+

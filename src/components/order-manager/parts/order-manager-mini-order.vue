@@ -1,8 +1,10 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, watch, defineProps } from 'vue';
 import axios from 'axios'
+
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
+import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper';
 
 const { order } = defineProps(['order'])
 
@@ -52,26 +54,40 @@ async function nextStatus(order) {
     blockNextStatus.value = false
 }
 
+function openFullOrder(order) {
+    currentOrder.value = order
+}
+
 </script>
 
 <template>
 
-    <button class="order-manager-mini-order">
+    <div class="order-manager-mini-order"
+        :class="{ 'order-manager-mini-order__completed-orders': order.order_status == ORDER_STATUS.COMPLETED }">
 
-        <p class="order-manager-mini-order__number">{{ order.number }}</p>
+        <button @click="openFullOrder(order)" class="order-manager-mini-order__btn-full-order">
 
-        <p class="order-manager-mini-order__type">{{ order.order_type }}</p>
+            <p class="order-manager-mini-order__number">№{{ order.number }}</p>
 
-        <p class="order-manager-mini-order__time">{{ new Date(order.created_at).toLocaleTimeString() }}</p>
+            <p class="order-manager-mini-order__type">{{ order.order_type }}</p>
 
-        <p class="order-manager-mini-order__timer">{{ formatTimer(timer) }}</p>
-        
-        <div class="order-manager-mini-order__products">
-            <img v-for="product in order.products" class="order-manager-mini-order__product-img"
-                :src="product.image_url" alt="">
-        </div>
+            <!-- <p class="order-manager-mini-order__time">{{ new Date(order.created_at).toLocaleTimeString() }}</p> -->
 
-        <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
+            <p :class="{
+                'order-manager-mini-order__timer-color-orange': timer >= 60 * 45 && timer < 60 * 60,
+                'order-manager-mini-order__timer-color-red': timer >= 60 * 60,
+            }" class="order-manager-mini-order__timer">
+                {{  formatTimer(timer)  }}
+            </p>
+
+            <div class="order-manager-mini-order__products">
+                <img v-for="product in order.products" class="order-manager-mini-order__product-img"
+                    :src="product.image_url" alt="">
+            </div>
+
+            <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
+
+        </button>
 
         <button v-if="order.order_status !== ORDER_STATUS.COMPLETED"
             class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
@@ -82,6 +98,6 @@ async function nextStatus(order) {
             <div class="spinner"></div>
         </div>
 
-    </button>
+    </div>
 
 </template>

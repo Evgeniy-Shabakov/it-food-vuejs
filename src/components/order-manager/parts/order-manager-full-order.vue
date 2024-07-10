@@ -1,0 +1,71 @@
+<script setup>
+import { ref, reactive, onMounted, onUnmounted, watch, defineProps } from 'vue';
+import axios from 'axios'
+
+import { ORDER_STATUS } from '/src/store/data-types/order-status'
+import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper.js'
+
+function actionForClose() {
+    currentOrder.value = null
+}
+
+</script>
+
+<template>
+
+    <div class="order-manager-full-order">
+
+        <div class="order-manager-full-order__data">
+            <span class="order-manager-full-order__number">№{{ currentOrder.number }}</span>
+
+            <span class="order-manager-full-order__type"> - {{ currentOrder.order_type }}</span>
+
+            <div class="order-manager-full-order__status"> ({{ currentOrder.order_status }})</div>
+
+            <p class="order-manager-full-order__time">Время оформления - {{ new
+                Date(currentOrder.created_at).toLocaleTimeString() }}</p>
+
+            <div class="order-manager-full-order__products-section">
+
+                <template v-for="product in currentOrder.products">
+
+                    <img class="order-manager-full-order__product-img" :src="product.image_url" alt="">
+                    <div>{{ product.title }}</div>
+                    <div class="order-manager-full-order__count-price">
+                        <span class="order-manager-full-order__count">{{ product.quantity }}</span>
+                        <span> x {{ Number(product.price) }}р</span>
+                    </div>
+                    <div class="order-manager-full-order__product-total">
+                        {{ Number(product.quantity) * Number(product.price) }}р
+                    </div>
+
+                </template>
+
+            </div>
+
+            <p class="order-manager-full-order__total">{{ currentOrder.total_price }}р.</p>
+
+
+
+            <!-- <div v-if="blockNextStatus" class="spinner-centr-object">
+<div class="spinner"></div>
+</div> -->
+
+
+        </div>
+
+        <div class="order-manager-full-order__actions">
+            <button v-if="currentOrder.order_status !== ORDER_STATUS.COMPLETED"
+                class="order-manager-full-order__btn-next-status btn btn-submit"
+                @click.prevent="nextStatus(currentOrder)">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <button class="order-manager-full-order__btn-close" @click.prevent="actionForClose()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+</template>
