@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, defineProps } from 'vue';
+import { ref, onMounted, onUnmounted, defineProps } from 'vue'
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {

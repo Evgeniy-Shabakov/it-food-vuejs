@@ -1,17 +1,8 @@
 <script setup>
-import { watch } from 'vue';
-
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
-import { 
-    currentOrder, blockNextStatus, nextStatus 
+import {
+    currentOrder, blockNextStatus, nextStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
-import { ordersToday } from '/src/store/axios-helper.js'
-
-watch(ordersToday, () => {
-    if (currentOrder.value == null) return
-
-    currentOrder.value = ordersToday.value.find(item => item.id == currentOrder.value.id)
-})
 
 function actionForClose() {
     currentOrder.value = null

@@ -1,11 +1,13 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, watch, computed } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
-import { ordersToday } from '/src/store/axios-helper.js'
+import { 
+  ordersNew, ordersAccepted, ordersCooking, ordersPacking, ordersWaitingCourier, ordersInTransit,
+  ordersAwaitingPickup, ordersCompleted
+} from '/src/store/order-manager/order-manager-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
-import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import { currentOrder } from '/src/store/order-manager/order-manager-order-helper.js'
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
@@ -17,56 +19,13 @@ setBrowserTitleForOrderManager()
 
 initialize()
 
-const ordersNew = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.CREATED)
-})
-
-const ordersAccepted = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.ACCEPTED)
-})
-
-const ordersCooking = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COOKING)
-})
-
-const ordersPacking = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.PACKING)
-})
-
-const ordersWaitingCourier = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.WAITING_COURIER)
-})
-
-const ordersInTransit = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.IN_TRANSIT)
-})
-
-const ordersAwaitingPickup = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.AWAITING_PICKUP)
-})
-
-const ordersCompleted = computed(() => {
-  if (ordersToday.value)
-    return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COMPLETED)
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-})
-
-
-
 //загрузка ordersToday через запрос в бэк - START
 let intervalLoadOrders
 
 onMounted(() => {
   intervalLoadOrders = setInterval(() => {
     loadOrdersToday()
-  }, 5000)
+  }, 15000)
 })
 
 onUnmounted(() => {
