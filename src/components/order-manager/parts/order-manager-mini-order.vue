@@ -44,8 +44,14 @@ function openFullOrder(order) {
 
 <template>
 
-    <div class="order-manager-mini-order"
-        :class="{ 'order-manager-mini-order__completed-orders': order.order_status == ORDER_STATUS.COMPLETED }">
+    <div class="order-manager-mini-order" :class="{
+        'order-manager-mini-order__completed-orders':
+            order.order_status == ORDER_STATUS.COMPLETED,
+        'order-manager-mini-order__selected-order ':
+            currentOrder != null && order.id == currentOrder.id,
+        'order-manager-mini-order__completed-selected-order':
+            currentOrder != null && order.id == currentOrder.id && order.order_status == ORDER_STATUS.COMPLETED,
+    }">
 
         <button @click="openFullOrder(order)" class="order-manager-mini-order__btn-full-order">
 
