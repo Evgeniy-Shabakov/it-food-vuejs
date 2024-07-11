@@ -6,7 +6,7 @@ import { initialize } from '/src/store/order-manager/order-manager-initialize.js
 import { ordersToday } from '/src/store/axios-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
-import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper.js'
+import { currentOrder } from '/src/store/order-manager/order-manager-order-helper.js'
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'

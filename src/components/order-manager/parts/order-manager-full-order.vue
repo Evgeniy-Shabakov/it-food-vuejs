@@ -1,9 +1,17 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, watch, defineProps } from 'vue';
-import axios from 'axios'
+import { watch } from 'vue';
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
-import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper.js'
+import { 
+    currentOrder, blockNextStatus, nextStatus 
+} from '/src/store/order-manager/order-manager-order-helper.js'
+import { ordersToday } from '/src/store/axios-helper.js'
+
+watch(ordersToday, () => {
+    if (currentOrder.value == null) return
+
+    currentOrder.value = ordersToday.value.find(item => item.id == currentOrder.value.id)
+})
 
 function actionForClose() {
     currentOrder.value = null
@@ -45,12 +53,9 @@ function actionForClose() {
 
             <p class="order-manager-full-order__total">{{ currentOrder.total_price }}р.</p>
 
-
-
-            <!-- <div v-if="blockNextStatus" class="spinner-centr-object">
-<div class="spinner"></div>
-</div> -->
-
+            <div v-if="blockNextStatus[currentOrder.id]" class="spinner-centr-object">
+                <div class="spinner"></div>
+            </div>
 
         </div>
 

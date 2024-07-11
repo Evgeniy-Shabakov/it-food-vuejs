@@ -1,10 +1,10 @@
 <script setup>
-import { ref, reactive, onMounted, onUnmounted, watch, defineProps } from 'vue';
-import axios from 'axios'
+import { ref, onMounted, onUnmounted, defineProps } from 'vue';
 
-import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
-import { currentOrder } from '/src/store/order-manager/order-manager-full-order-helper';
+import {
+    currentOrder, blockNextStatus, nextStatus
+} from '/src/store/order-manager/order-manager-order-helper';
 
 const { order } = defineProps(['order'])
 
@@ -36,24 +36,6 @@ function formatTimer(seconds) {
 }
 //работа с таймером - END
 
-const blockNextStatus = ref(false)
-
-async function nextStatus(order) {
-    if (blockNextStatus.value) return
-    if (order.order_status === ORDER_STATUS.COMPLETED) return
-
-    blockNextStatus.value = true
-
-    try {
-        await axios.patch(`/orders/${order.id}/next-status`)
-        await loadOrdersToday()
-    } catch (error) {
-        console.log(error);
-    }
-
-    blockNextStatus.value = false
-}
-
 function openFullOrder(order) {
     currentOrder.value = order
 }
@@ -77,7 +59,7 @@ function openFullOrder(order) {
                 'order-manager-mini-order__timer-color-orange': timer >= 60 * 45 && timer < 60 * 60,
                 'order-manager-mini-order__timer-color-red': timer >= 60 * 60,
             }" class="order-manager-mini-order__timer">
-                {{  formatTimer(timer)  }}
+                {{ formatTimer(timer) }}
             </p>
 
             <div class="order-manager-mini-order__products">
@@ -94,7 +76,7 @@ function openFullOrder(order) {
             <i class="fa-solid fa-arrow-right"></i>
         </button>
 
-        <div v-if="blockNextStatus" class="spinner-centr-object">
+        <div v-if="blockNextStatus[order.id]" class="spinner-centr-object">
             <div class="spinner"></div>
         </div>
 
