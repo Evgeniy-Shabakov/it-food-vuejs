@@ -1,11 +1,11 @@
 <script setup>
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {
-    currentOrder, blockNextStatus, nextStatus
+    fullOrder, blockNextStatus, nextStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
 
 function actionForClose() {
-    currentOrder.value = null
+    fullOrder.value = null
 }
 
 </script>
@@ -15,18 +15,18 @@ function actionForClose() {
     <div class="order-manager-full-order">
 
         <div class="order-manager-full-order__data">
-            <span class="order-manager-full-order__number">№{{ currentOrder.number }}</span>
+            <span class="order-manager-full-order__number">№{{ fullOrder.number }}</span>
 
-            <span class="order-manager-full-order__type"> - {{ currentOrder.order_type }}</span>
+            <span class="order-manager-full-order__type"> - {{ fullOrder.order_type }}</span>
 
-            <div class="order-manager-full-order__status"> ({{ currentOrder.order_status }})</div>
+            <div class="order-manager-full-order__status"> ({{ fullOrder.order_status }})</div>
 
             <p class="order-manager-full-order__time">Время оформления - {{ new
-                Date(currentOrder.created_at).toLocaleTimeString() }}</p>
+                Date(fullOrder.created_at).toLocaleTimeString() }}</p>
 
             <div class="order-manager-full-order__products-section">
 
-                <template v-for="product in currentOrder.products">
+                <template v-for="product in fullOrder.products">
 
                     <img class="order-manager-full-order__product-img" :src="product.image_url" alt="">
                     <div>{{ product.title }}</div>
@@ -42,18 +42,18 @@ function actionForClose() {
 
             </div>
 
-            <p class="order-manager-full-order__total">{{ currentOrder.total_price }}р.</p>
+            <p class="order-manager-full-order__total">{{ fullOrder.total_price }}р.</p>
 
-            <div v-if="blockNextStatus[currentOrder.id]" class="spinner-centr-object">
+            <div v-if="blockNextStatus[fullOrder.id]" class="spinner-centr-object">
                 <div class="spinner"></div>
             </div>
 
         </div>
 
         <div class="order-manager-full-order__actions">
-            <button v-if="currentOrder.order_status !== ORDER_STATUS.COMPLETED"
+            <button v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED"
                 class="order-manager-full-order__btn-next-status btn btn-submit"
-                @click.prevent="nextStatus(currentOrder)">
+                @click.prevent="nextStatus(fullOrder)">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>

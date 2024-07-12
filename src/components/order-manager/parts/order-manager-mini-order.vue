@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, defineProps } from 'vue'
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {
-    currentOrder, blockNextStatus, nextStatus
+    fullOrder, blockNextStatus, nextStatus
 } from '/src/store/order-manager/order-manager-order-helper';
 
 const { order } = defineProps(['order'])
@@ -37,7 +37,7 @@ function formatTimer(seconds) {
 //работа с таймером - END
 
 function openFullOrder(order) {
-    currentOrder.value = order
+    fullOrder.value = order
 }
 
 </script>
@@ -48,9 +48,9 @@ function openFullOrder(order) {
         'order-manager-mini-order__completed-orders':
             order.order_status == ORDER_STATUS.COMPLETED,
         'order-manager-mini-order__selected-order ':
-            currentOrder != null && order.id == currentOrder.id,
+            fullOrder != null && order.id == fullOrder.id,
         'order-manager-mini-order__completed-selected-order':
-            currentOrder != null && order.id == currentOrder.id && order.order_status == ORDER_STATUS.COMPLETED,
+            fullOrder != null && order.id == fullOrder.id && order.order_status == ORDER_STATUS.COMPLETED,
     }">
 
         <button @click="openFullOrder(order)" class="order-manager-mini-order__btn-full-order">

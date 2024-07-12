@@ -8,7 +8,7 @@ import {
   ordersAwaitingPickup, ordersCompleted
 } from '/src/store/order-manager/order-manager-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
-import { currentOrder } from '/src/store/order-manager/order-manager-order-helper.js'
+import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
@@ -113,7 +113,12 @@ const reloadPage = () => {
         </div>
       </section>
 
-      <full-order v-if="currentOrder"></full-order>
+      <full-order v-if="fullOrder"></full-order>
+      <div v-else class="order-manager-main__full-order-description">
+        <p>Нет ни одного активного заказа.</p> 
+        <p>Если появится активный заказ, он отобразится автоматически.</p> 
+        <p>Кликните на заказ, чтобы отобразить его данные.</p> 
+      </div>
 
     </main>
 
