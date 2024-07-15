@@ -45,6 +45,8 @@ else {
   orderData.table_number = null
   orderData.car_number = null
   orderData.pack_takeaway = true
+  orderData.total_products_price = totalProductPrice.value
+  orderData.delivery_price = deliveryPrice.value
   orderData.total_price = totalPrice.value
   orderData.payment_type = PAYMENT_TYPE.cardOffline
   orderData.banknote_for_change = null

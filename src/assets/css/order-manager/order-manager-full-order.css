@@ -5,15 +5,47 @@
 }
 
 .order-manager-full-order__data {
-    height: 90%;
+    height: 85%;
     overflow-x: hidden;
     padding: 5px;
 }
 
 .order-manager-full-order__actions {
     border-top: 1px solid grey;
-    height: 10%;
+    height: 15%;
     padding: 5px;
+
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.order-manager-full-order__btn-next-status {
+    /* height: max-content; */
+}
+
+.order-manager-full-order__btn-actions-menu  {
+    position: relative;
+    padding: 5px;
+}
+
+.order-manager-full-order__actions-menu {
+    position: absolute;
+    top: -100px;
+    left: 0;
+}
+
+.order-manager-full-order__actions-menu__btn {
+    padding: 10px 5px;
+    width: 100%;
+}
+
+.order-manager-full-order__actions-menu__btn-cansel {
+    padding: 10px 5px;
+    width: 100%;
+    background-color: red;
+    
 }
 
 .order-manager-full-order__btn-close {
@@ -41,6 +73,15 @@
     font-size: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.order-manager-full-order__comment {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.order-manager-full-order__comment_text {
+    color: red;
 }
 
 .order-manager-full-order__products-section {
@@ -71,4 +112,48 @@
 
 .order-manager-full-order__product-total {
     justify-self: end;
+}
+
+.order-manager-full__block__total {
+    display: grid;
+    justify-content: end;
+    row-gap: 5px;
+    column-gap: 20px;
+    align-items: center;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: max-content;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.order-manager-full-order__total {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.order-manager-full__phone {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.order-manager-full__address {
+    font-size: 15px;
+}
+
+.order-manager-full__address__comment {
+    margin-top: 5px;
+}
+
+.order-manager-full__payment-data {
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.order-manager-full__payment-data__payment {
+    color: green;
+}
+
+.order-manager-full__payment-data__not-payment {
+    color: red;
 }
