@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, defineProps } from 'vue'
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {
-    fullOrder, blockNextStatus, nextStatus
+    fullOrder, blockOrderActions, nextStatus
 } from '/src/store/order-manager/order-manager-order-helper';
 
 const { order } = defineProps(['order'])
@@ -82,7 +82,7 @@ function openFullOrder(order) {
             <i class="fa-solid fa-arrow-right"></i>
         </button>
 
-        <div v-if="blockNextStatus[order.id]" class="spinner-centr-object">
+        <div v-if="blockOrderActions[order.id]" class="spinner-centr-object">
             <div class="spinner"></div>
         </div>
 

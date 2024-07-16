@@ -35,13 +35,13 @@ watch(ordersToday, () => {
     else fullOrder.value = ordersToday.value.find(item => item.id == fullOrder.value.id)
 })
 
-export const blockNextStatus = reactive({})
+export const blockOrderActions = reactive({})
 
 export async function nextStatus(order) {
-    if (blockNextStatus[order.id]) return
+    if (blockOrderActions[order.id]) return
     if (order.order_status === ORDER_STATUS.COMPLETED) return
 
-    blockNextStatus[order.id] = true
+    blockOrderActions[order.id] = true
 
     try {
         await axios.patch(`/orders/${order.id}/next-status`)
@@ -56,5 +56,21 @@ export async function nextStatus(order) {
         console.log(error)
     }
 
-    blockNextStatus[order.id] = false
+    blockOrderActions[order.id] = false
+}
+
+export async function previousStatus(order) {
+    if (blockOrderActions[order.id]) return
+    if (order.order_status === ORDER_STATUS.CREATED) return
+
+    blockOrderActions[order.id] = true
+
+    try {
+        await axios.patch(`/orders/${order.id}/previous-status`)
+        await loadOrdersToday()
+    } catch (error) {
+        console.log(error)
+    }
+
+    blockOrderActions[order.id] = false
 }

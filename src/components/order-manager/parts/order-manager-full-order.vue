@@ -3,7 +3,7 @@ import { ref, onMounted, onUpdated } from 'vue';
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {
-    fullOrder, blockNextStatus, nextStatus
+    fullOrder, blockOrderActions, nextStatus, previousStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
 
 function actionForClose() {
@@ -122,7 +122,7 @@ onMounted(() => {
             </div>
 
 
-            <div v-if="blockNextStatus[fullOrder.id]" class="spinner-centr-object">
+            <div v-if="blockOrderActions[fullOrder.id]" class="spinner-centr-object">
                 <div class="spinner"></div>
             </div>
 
@@ -130,8 +130,8 @@ onMounted(() => {
 
         <div class="order-manager-full-order__actions">
 
-            <button 
-                class="order-manager-full-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(fullOrder)">
+            <button class="order-manager-full-order__btn-next-status btn btn-submit"
+                @click.prevent="previousStatus(fullOrder)">
 
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
