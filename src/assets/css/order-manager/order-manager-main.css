@@ -15,6 +15,16 @@
     gap: 15px;
 }
 
+.order-manager-main__header__user-name-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.order-manager-main__header__btn-exit {
+    font-size: 20px;
+}
+
 .order-manager-main__header__time {
     justify-self: center;
 }
@@ -65,7 +75,7 @@
     padding: 5px;
 }
 
-.order-manager-main__full-order-description{
+.order-manager-main__full-order-description {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -73,4 +83,3 @@
     align-items: center;
     gap: 15px;
 }
-

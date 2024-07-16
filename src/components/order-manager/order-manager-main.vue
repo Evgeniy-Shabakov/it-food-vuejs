@@ -3,12 +3,14 @@ import { onMounted, onUnmounted } from 'vue'
 
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
-import { 
+import {
   ordersNew, ordersAccepted, ordersCooking, ordersPacking, ordersWaitingCourier, ordersInTransit,
   ordersAwaitingPickup, ordersCompletedOrCansel
 } from '/src/store/order-manager/order-manager-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
+import { authUser, logout } from '/src/store/axios-helper.js'
+import router from "/src/router.js"
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
@@ -36,6 +38,12 @@ onUnmounted(() => {
 const reloadPage = () => {
   location.reload()
 }
+
+function logoutInManagerPanel() {
+  logout().then(() => {
+    router.push({ name: 'client.menu' })
+  })
+}
 </script>
 
 <template>
@@ -43,9 +51,17 @@ const reloadPage = () => {
 
     <header class="order-manager-main__header">
 
-      <div>
-        <button class="btn btn-submit" @click="reloadPage()" title="обновить">
+      <div class="order-manager-main__header__user-name-section">
+        <button class="btn btn-submit" @click.prevent="reloadPage()" title="обновить страницу">
           <i class="fa-solid fa-arrow-rotate-right"></i>
+        </button>
+
+        <span>
+          {{ authUser.employee.first_name }} {{ authUser.employee.last_name }}
+        </span>
+        
+        <button class="order-manager-main__header__btn-exit" @click.prevent="logoutInManagerPanel()" title="выйти">
+          <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
 
@@ -115,9 +131,9 @@ const reloadPage = () => {
 
       <full-order v-if="fullOrder"></full-order>
       <div v-else class="order-manager-main__full-order-description">
-        <p>Нет ни одного активного заказа.</p> 
-        <p>Если появится активный заказ, он отобразится автоматически.</p> 
-        <p>Кликните на заказ, чтобы отобразить его данные.</p> 
+        <p>Нет ни одного активного заказа.</p>
+        <p>Если появится активный заказ, он отобразится автоматически.</p>
+        <p>Кликните на заказ, чтобы отобразить его данные.</p>
       </div>
 
     </main>
