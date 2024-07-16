@@ -14,7 +14,7 @@ let intervalTimer
 
 //работа с таймером - START
 onMounted(() => {
-    if (order.order_status === ORDER_STATUS.COMPLETED) {
+    if (order.order_status === ORDER_STATUS.COMPLETED || order.order_status === ORDER_STATUS.CANSEL) {
         timer.value = Math.floor((new Date(order.updated_at) - new Date(order.created_at)) / 1000)
         return
     }
@@ -46,14 +46,19 @@ function openFullOrder(order) {
 
     <div class="order-manager-mini-order" :class="{
         'order-manager-mini-order__completed-orders':
-            order.order_status == ORDER_STATUS.COMPLETED,
+            order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL,
         'order-manager-mini-order__selected-order ':
             fullOrder != null && order.id == fullOrder.id,
         'order-manager-mini-order__completed-selected-order':
-            fullOrder != null && order.id == fullOrder.id && order.order_status == ORDER_STATUS.COMPLETED,
+            fullOrder != null && order.id == fullOrder.id &&
+            (order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL),
     }">
 
         <button @click="openFullOrder(order)" class="order-manager-mini-order__btn-full-order">
+
+            <p v-if="order.order_status === ORDER_STATUS.CANSEL" style="color: red;">
+                отменен
+            </p>
 
             <p class="order-manager-mini-order__number">№{{ order.number }}</p>
 
@@ -77,7 +82,7 @@ function openFullOrder(order) {
 
         </button>
 
-        <button v-if="order.order_status !== ORDER_STATUS.COMPLETED"
+        <button v-if="order.order_status !== ORDER_STATUS.COMPLETED && order.order_status !== ORDER_STATUS.CANSEL"
             class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
             <i class="fa-solid fa-arrow-right"></i>
         </button>

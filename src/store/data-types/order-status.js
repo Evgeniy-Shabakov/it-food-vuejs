@@ -10,4 +10,6 @@ export const ORDER_STATUS = {
 	AWAITING_PICKUP: 'готов и ожидает выдачи',
 
 	COMPLETED: 'завершен',
+
+	CANSEL: 'отменен',
 }

@@ -38,9 +38,11 @@ export const ordersAwaitingPickup = computed(() => {
         return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.AWAITING_PICKUP)
 })
 
-export const ordersCompleted = computed(() => {
+export const ordersCompletedOrCansel = computed(() => {
     if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COMPLETED)
+        return ordersToday.value
+            .filter(order => order.order_status === ORDER_STATUS.COMPLETED || 
+                order.order_status === ORDER_STATUS.CANSEL)
             .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
 })
 

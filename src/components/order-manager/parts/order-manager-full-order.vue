@@ -3,7 +3,7 @@ import { ref, onMounted, onUpdated } from 'vue';
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import {
-    fullOrder, blockOrderActions, nextStatus, previousStatus
+    fullOrder, blockOrderActions, nextStatus, previousStatus, setCanselStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
 
 function actionForClose() {
@@ -136,7 +136,7 @@ onMounted(() => {
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED"
+            <button v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED && fullOrder.order_status !== ORDER_STATUS.CANSEL"
                 class="order-manager-full-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(fullOrder)">
 
                 <i class="fa-solid fa-arrow-right"></i>
@@ -146,7 +146,8 @@ onMounted(() => {
                 Доп. действия
 
                 <div ref="actionsMenu" class="order-manager-full-order__actions-menu">
-                    <button class="order-manager-full-order__actions-menu__btn-cansel">
+                    <button class="order-manager-full-order__actions-menu__btn-cansel"
+                        @click.prevent="setCanselStatus(fullOrder)">
                         Отменить заказ
                     </button>
                     <button class="order-manager-full-order__actions-menu__btn">

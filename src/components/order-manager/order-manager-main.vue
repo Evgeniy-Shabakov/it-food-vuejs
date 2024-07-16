@@ -5,7 +5,7 @@ import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
 import { 
   ordersNew, ordersAccepted, ordersCooking, ordersPacking, ordersWaitingCourier, ordersInTransit,
-  ordersAwaitingPickup, ordersCompleted
+  ordersAwaitingPickup, ordersCompletedOrCansel
 } from '/src/store/order-manager/order-manager-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
@@ -109,7 +109,7 @@ const reloadPage = () => {
       <section class="order-manager-main__status-column">
         <h4 class="order-manager-main__status-column__header">Завершен</h4>
         <div class="order-manager-main__status-column__main">
-          <mini-order v-for="order in ordersCompleted" :key="order.id" :order="order"></mini-order>
+          <mini-order v-for="order in ordersCompletedOrCansel" :key="order.id" :order="order"></mini-order>
         </div>
       </section>
 
