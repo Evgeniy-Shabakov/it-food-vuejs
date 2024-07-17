@@ -13,6 +13,7 @@ import { authUser, logout } from '/src/store/axios-helper.js'
 import router from "/src/router.js"
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
+import RestaurantSelecte from '/src/components/restaurant-selecte.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
 import MiniOrder from '/src/components/order-manager/parts/order-manager-mini-order.vue'
 import FullOrder from '/src/components/order-manager/parts/order-manager-full-order.vue'
@@ -35,7 +36,7 @@ onUnmounted(() => {
 })
 //загрузка ordersToday через запрос в бэк - END
 
-const reloadPage = () => {
+function reloadPage() {
   location.reload()
 }
 
@@ -59,7 +60,7 @@ function logoutInManagerPanel() {
         <span>
           {{ authUser.employee.first_name }} {{ authUser.employee.last_name }}
         </span>
-        
+
         <button class="order-manager-main__header__btn-exit" @click.prevent="logoutInManagerPanel()" title="выйти">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
@@ -67,7 +68,10 @@ function logoutInManagerPanel() {
 
       <time-component class="order-manager-main__header__time"></time-component>
 
-      <city-selecte class="order-manager-main__header__city-selecte"></city-selecte>
+      <div class="order-manager-main__header__city-restaurant-section">
+        <restaurant-selecte></restaurant-selecte>
+        <city-selecte></city-selecte>
+      </div>
 
     </header>
 

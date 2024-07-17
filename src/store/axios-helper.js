@@ -4,6 +4,7 @@ import axios from 'axios'
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
 import { serverApiUrl, serverUrl } from '/src/config.js'
 import { inputedPhone } from '/src/store/login-panel-helper.js'
+import { currentTimezone } from '/src/store/timezone-helper.js'
 
 axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
@@ -106,9 +107,20 @@ export function getAuthUser() {
     })
 }
 
+
+
 export async function getModelsAxios(urlPrefix) {
     try {
-        const res = await axios.get(`/${urlPrefix}`)
+        let data = null
+        if (urlPrefix == 'orders/today') {
+            data = {
+                params: {
+                    timezone: currentTimezone.value
+                }
+            }
+        }
+
+        const res = await axios.get(`/${urlPrefix}`, data)
 
         if (urlPrefix == 'countries') countries.value = res.data.data
         else if (urlPrefix == 'cities') cities.value = res.data.data

@@ -29,9 +29,11 @@
     justify-self: center;
 }
 
-.order-manager-main__header__city-selecte {
+.order-manager-main__header__city-restaurant-section {
     justify-self: end;
-    width: 75%;
+    width: 100%;
+    display: flex;
+    gap: 15px;
 }
 
 .order-manager-main__main {

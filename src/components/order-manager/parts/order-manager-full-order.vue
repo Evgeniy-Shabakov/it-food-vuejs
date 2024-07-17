@@ -52,8 +52,9 @@ onMounted(() => {
 
             <div class="order-manager-full-order__status"> ({{ fullOrder.order_status }})</div>
 
-            <p class="order-manager-full-order__time">Время оформления - {{ new
-                Date(fullOrder.created_at).toLocaleTimeString() }}</p>
+            <p class="order-manager-full-order__time">
+                Время оформления - {{ new Date(fullOrder.created_at).toLocaleTimeString() }}
+            </p>
 
             <div v-if="fullOrder.comment" class="order-manager-full-order__comment">
                 Комментарий:
@@ -136,7 +137,8 @@ onMounted(() => {
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED && fullOrder.order_status !== ORDER_STATUS.CANSEL"
+            <button
+                v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED && fullOrder.order_status !== ORDER_STATUS.CANSEL"
                 class="order-manager-full-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(fullOrder)">
 
                 <i class="fa-solid fa-arrow-right"></i>
