@@ -1,7 +1,7 @@
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import {
 	countries, categories, restaurants, authUser, getAuthUser,
-	getModelsAxios, getModelAxios, currentRestaurant
+	getModelsAxios, getModelAxios, currentRestaurant, getOrdersToday
 } from '/src/store/axios-helper.js'
 
 const MAX_RETRIES = 3; // Максимальное количество попыток загрузки
@@ -124,7 +124,7 @@ export async function loadOrdersToday() {
 
 	while (retryCount < MAX_RETRIES) {
 		try {
-			await getModelsAxios('orders/today')
+			await getOrdersToday()
 			return LOADING_TYPE.complete;
 		} catch (err) {
 			console.log(`Error loading orders today (attempt ${retryCount + 1}/${MAX_RETRIES}):`, err)

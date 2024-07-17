@@ -107,20 +107,26 @@ export function getAuthUser() {
     })
 }
 
+export async function getOrdersToday() {
+    try {
+        const res = await axios.get(`/orders/today`, {
+            params: {
+                timezone: currentTimezone.value
+            }
+        })
 
+        ordersToday.value = res.data.data
+
+        return res
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
 
 export async function getModelsAxios(urlPrefix) {
     try {
-        let data = null
-        if (urlPrefix == 'orders/today') {
-            data = {
-                params: {
-                    timezone: currentTimezone.value
-                }
-            }
-        }
-
-        const res = await axios.get(`/${urlPrefix}`, data)
+        const res = await axios.get(`/${urlPrefix}`)
 
         if (urlPrefix == 'countries') countries.value = res.data.data
         else if (urlPrefix == 'cities') cities.value = res.data.data
@@ -129,7 +135,6 @@ export async function getModelsAxios(urlPrefix) {
         else if (urlPrefix == 'products') products.value = res.data.data
         else if (urlPrefix == 'employees') employees.value = res.data.data
         else if (urlPrefix == 'roles') roles.value = res.data.data
-        else if (urlPrefix == 'orders/today') ordersToday.value = res.data.data
 
         return res
     } catch (error) {
