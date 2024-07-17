@@ -53,7 +53,9 @@ onMounted(() => {
             <div class="order-manager-full-order__status"> ({{ fullOrder.order_status }})</div>
 
             <p class="order-manager-full-order__time">
-                Время оформления - {{ new Date(fullOrder.created_at).toLocaleTimeString() }}
+                Время оформления - 
+                {{ new Date(fullOrder.created_at).toLocaleTimeString() }} 
+                {{ new Date(fullOrder.created_at).toLocaleDateString() }}
             </p>
 
             <div v-if="fullOrder.comment" class="order-manager-full-order__comment">
