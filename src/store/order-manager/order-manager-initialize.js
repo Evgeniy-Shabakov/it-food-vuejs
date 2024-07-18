@@ -1,12 +1,12 @@
 import { loadCurrentAuthUser, loadOrdersToday } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
-import { initializeCity } from '/src/store/client-initialize.js'
+import { initializeCity, initializeRestaurant } from '/src/store/client-initialize.js'
 
 export async function initialize() {
 
     try {
         await Promise.all([
-            initializeCity(),
+            initializeCityAndRestaurant(),
             loadCurrentAuthUser(),
             loadOrdersToday()
         ])
@@ -17,6 +17,11 @@ export async function initialize() {
         console.log(err);
         return LOADING_TYPE.error;
     }
+}
+
+export async function initializeCityAndRestaurant() {
+    await initializeCity()
+    await initializeRestaurant()
 }
 
 

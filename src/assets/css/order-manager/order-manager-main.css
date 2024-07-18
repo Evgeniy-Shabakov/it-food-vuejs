@@ -10,7 +10,7 @@
     padding: 15px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 2fr;
     align-items: center;
     gap: 15px;
 }
@@ -19,6 +19,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    font-size: 16px;
 }
 
 .order-manager-main__header__btn-exit {

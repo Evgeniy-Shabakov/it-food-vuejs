@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios'
+
 import router from "/src/router.js"
-import CitySelecte from './city-selecte-component.vue';
 import { authUser } from '/src/store/axios-helper.js'
 import { selectedCity } from '/src/store/client-helper.js'
 

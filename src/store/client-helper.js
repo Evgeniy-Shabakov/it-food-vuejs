@@ -13,6 +13,10 @@ watch(selectedCity, () => {
     localStorage.setItem('city', JSON.stringify(selectedCity.value))
 })
 
+watch(selectedRestaurant, () => {
+    localStorage.setItem('restaurant', JSON.stringify(selectedRestaurant.value))
+})
+
 watch(selectedOrderType, () => {
     localStorage.setItem('order-type', JSON.stringify(selectedOrderType.value))
 })

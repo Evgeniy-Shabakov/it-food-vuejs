@@ -1,7 +1,7 @@
-import { categories, countries, restaurants } from '/src/store/axios-helper.js'
+import { categories, countries, cities, restaurants } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType } from '/src/store/client-helper.js'
 import {
-    loadCurrentAuthUser, loadCountries, loadCategories, loadRestaurants
+    loadCurrentAuthUser, loadCountries, loadCities, loadCategories, loadRestaurants
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 
@@ -11,6 +11,7 @@ export async function initialize() {
         await Promise.all([
             initializeCategories(),
             initializeCity(),
+            loadRestaurants(), //для расчета способов заказа в городе
             initializeRestaurant(),
             loadCurrentAuthUser(),
         ])
@@ -60,15 +61,24 @@ export async function initializeCity() {
     return LOADING_TYPE.complete
 }
 
-async function initializeRestaurant() {
-    const loadinType = await loadRestaurants()
+export async function initializeRestaurant() {
+    const loadinType = await loadCities()
 
     if (loadinType === LOADING_TYPE.error) return LOADING_TYPE.error
 
-    for (let i = 0; i < restaurants.value.length; i++) {
-        if (restaurants.value[i].city.title === selectedCity.value.title) {
-            selectedRestaurant.value = restaurants.value[i]
-            break
+    if (localStorage.getItem('restaurant')) {
+        selectedRestaurant.value = JSON.parse(localStorage.getItem('restaurant'))
+
+        if (selectedRestaurant.value.city.id === selectedCity.value.id)
+            return LOADING_TYPE.complete
+    }
+
+    for (let i = 0; i < cities.value.length; i++) {
+        if (cities.value[i].restaurants.length > 0) {
+            if (selectedCity.value.id === cities.value[i].id) {
+                selectedRestaurant.value = cities.value[i].restaurants[0]
+                break
+            }
         }
     }
 

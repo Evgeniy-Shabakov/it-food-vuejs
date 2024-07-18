@@ -69,8 +69,8 @@ function logoutInManagerPanel() {
       <time-component class="order-manager-main__header__time"></time-component>
 
       <div class="order-manager-main__header__city-restaurant-section">
-        <restaurant-selecte></restaurant-selecte>
         <city-selecte></city-selecte>
+        <restaurant-selecte></restaurant-selecte>
       </div>
 
     </header>
