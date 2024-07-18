@@ -107,16 +107,15 @@ export function getAuthUser() {
     })
 }
 
-export async function getOrdersToday() {
+export async function getOrdersToday(restaurantId) {
     try {
-        const res = await axios.get(`/orders/today`, {
+        const res = await axios.get(`/orders/today/${restaurantId}`, {
             params: {
                 timezone: currentTimezone.value
             }
         })
 
         ordersToday.value = res.data.data
-
         return res
     } catch (error) {
         console.log(error)

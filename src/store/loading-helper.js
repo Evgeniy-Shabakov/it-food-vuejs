@@ -141,12 +141,12 @@ export async function loadCurrentAuthUser() {
 	}
 }
 
-export async function loadOrdersToday() {
+export async function loadOrdersToday(restaurantId) {
 	let retryCount = 0
 
 	while (retryCount < MAX_RETRIES) {
 		try {
-			await getOrdersToday()
+			await getOrdersToday(restaurantId)
 			return LOADING_TYPE.complete;
 		} catch (err) {
 			console.log(`Error loading orders today (attempt ${retryCount + 1}/${MAX_RETRIES}):`, err)

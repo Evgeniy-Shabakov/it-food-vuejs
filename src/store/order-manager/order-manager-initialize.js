@@ -8,7 +8,6 @@ export async function initialize() {
         await Promise.all([
             initializeCityAndRestaurant(),
             loadCurrentAuthUser(),
-            loadOrdersToday()
         ])
 
         return LOADING_TYPE.complete

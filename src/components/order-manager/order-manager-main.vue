@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
@@ -10,6 +10,7 @@ import {
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
 import { authUser, logout } from '/src/store/axios-helper.js'
+import { selectedRestaurant } from '/src/store/client-helper.js'
 import router from "/src/router.js"
 
 import CitySelecte from '/src/components/client/city-selecte-component.vue'
@@ -22,12 +23,16 @@ setBrowserTitleForOrderManager()
 
 initialize()
 
+watch(selectedRestaurant, () => {
+  loadOrdersToday(selectedRestaurant.value.id)
+})
+
 //загрузка ordersToday через запрос в бэк - START
 let intervalLoadOrders
 
 onMounted(() => {
   intervalLoadOrders = setInterval(() => {
-    loadOrdersToday()
+    loadOrdersToday(selectedRestaurant.value.id)
   }, 15000)
 })
 

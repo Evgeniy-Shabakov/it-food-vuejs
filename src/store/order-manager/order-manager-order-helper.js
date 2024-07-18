@@ -8,6 +8,7 @@ import {
     ordersWaitingCourier, ordersInTransit, ordersAwaitingPickup,
 } from '/src/store/order-manager/order-manager-helper.js'
 import { ordersToday } from '/src/store/axios-helper.js'
+import { selectedRestaurant } from '/src/store/client-helper.js'
 
 export const fullOrder = ref(null)
 
@@ -46,7 +47,7 @@ export async function nextStatus(order) {
 
     try {
         await axios.patch(`/orders/${order.id}/next-status`)
-        await loadOrdersToday()
+        await loadOrdersToday(selectedRestaurant.value.id)
 
         //закрываем окно для отображения заказа после его завершения
         if (order.id === fullOrder.value.id && fullOrder.value.order_status === ORDER_STATUS.COMPLETED) {
@@ -68,7 +69,7 @@ export async function previousStatus(order) {
 
     try {
         await axios.patch(`/orders/${order.id}/previous-status`)
-        await loadOrdersToday()
+        await loadOrdersToday(selectedRestaurant.value.id)
     } catch (error) {
         console.log(error)
     }
@@ -85,7 +86,7 @@ export async function setCanselStatus(order) {
 
     try {
         await axios.patch(`/orders/${order.id}/cansel-status`)
-        await loadOrdersToday()
+        await loadOrdersToday(selectedRestaurant.value.id)
     } catch (error) {
         console.log(error)
     }
