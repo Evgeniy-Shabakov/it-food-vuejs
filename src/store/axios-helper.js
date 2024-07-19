@@ -114,7 +114,7 @@ export async function getOrdersToday(restaurantId) {
                 timezone: currentTimezone.value
             }
         })
-
+        
         ordersToday.value = res.data.data
         return res
     } catch (error) {

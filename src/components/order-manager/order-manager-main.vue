@@ -5,7 +5,7 @@ import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
 import {
   ordersNew, ordersAccepted, ordersCooking, ordersPacking, ordersWaitingCourier, ordersInTransit,
-  ordersAwaitingPickup, ordersCompletedOrCansel
+  ordersAwaitingPickup, ordersCompletedOrCansel, restartLoadOrdersInterval, intervalLoadOrders
 } from '/src/store/order-manager/order-manager-helper.js'
 import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
@@ -25,21 +25,12 @@ initialize()
 
 watch(selectedRestaurant, () => {
   loadOrdersToday(selectedRestaurant.value.id)
-})
-
-//загрузка ordersToday через запрос в бэк - START
-let intervalLoadOrders
-
-onMounted(() => {
-  intervalLoadOrders = setInterval(() => {
-    loadOrdersToday(selectedRestaurant.value.id)
-  }, 15000)
+  restartLoadOrdersInterval(selectedRestaurant.value.id) //первый старт проиходит при назначении ресторана при загрузке страницы
 })
 
 onUnmounted(() => {
   clearInterval(intervalLoadOrders)
 })
-//загрузка ordersToday через запрос в бэк - END
 
 function reloadPage() {
   location.reload()
@@ -62,7 +53,7 @@ function logoutInManagerPanel() {
           <i class="fa-solid fa-arrow-rotate-right"></i>
         </button>
 
-        <span>
+        <span v-if="authUser">
           {{ authUser.employee.first_name }} {{ authUser.employee.last_name }}
         </span>
 
