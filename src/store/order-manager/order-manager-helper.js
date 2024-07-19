@@ -7,9 +7,11 @@ import { loadOrdersToday } from '/src/store/loading-helper.js'
 //загрузка ordersToday через запрос в бэк - START
 export let intervalLoadOrders
 
-export function restartLoadOrdersInterval(restaurantID) {
+export async function loadOrdersTodayAndRestartInterval(restaurantID) {
     clearInterval(intervalLoadOrders)
-    
+
+    await loadOrdersToday(restaurantID)
+
     intervalLoadOrders = setInterval(() => {
         loadOrdersToday(restaurantID)
     }, 15000)

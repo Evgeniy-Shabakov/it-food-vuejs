@@ -1,13 +1,12 @@
 <script setup>
-import { onMounted, onUnmounted, watch } from 'vue'
+import { onUnmounted, watch } from 'vue'
 
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
 import {
   ordersNew, ordersAccepted, ordersCooking, ordersPacking, ordersWaitingCourier, ordersInTransit,
-  ordersAwaitingPickup, ordersCompletedOrCansel, restartLoadOrdersInterval, intervalLoadOrders
+  ordersAwaitingPickup, ordersCompletedOrCansel, loadOrdersTodayAndRestartInterval, intervalLoadOrders
 } from '/src/store/order-manager/order-manager-helper.js'
-import { loadOrdersToday } from '/src/store/loading-helper.js'
 import { fullOrder } from '/src/store/order-manager/order-manager-order-helper.js'
 import { authUser, logout } from '/src/store/axios-helper.js'
 import { selectedRestaurant } from '/src/store/client-helper.js'
@@ -24,8 +23,7 @@ setBrowserTitleForOrderManager()
 initialize()
 
 watch(selectedRestaurant, () => {
-  loadOrdersToday(selectedRestaurant.value.id)
-  restartLoadOrdersInterval(selectedRestaurant.value.id) //первый старт проиходит при назначении ресторана при загрузке страницы
+  loadOrdersTodayAndRestartInterval(selectedRestaurant.value.id) //первый старт проиходит при назначении ресторана при загрузке страницы
 })
 
 onUnmounted(() => {
