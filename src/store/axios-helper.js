@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios'
 
 import { addLogMessage, formErrorLogMessage, formDoneLogMessage } from '/src/store/log-messages.js'
@@ -35,6 +35,8 @@ export const employees = ref()
 export const currentEmployee = ref()
 
 export const ordersToday = ref()
+
+export const activeOrdersForUser = ref([])
 
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
@@ -116,6 +118,18 @@ export async function getOrdersToday(restaurantId) {
         })
         
         ordersToday.value = res.data.data
+        return res
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export async function getActiveOrdersForUser(userID) {
+    try {
+        const res = await axios.get(`/users/${userID}/active-orders`)
+
+        activeOrdersForUser.value = res.data.data
         return res
     } catch (error) {
         console.log(error)

@@ -38,6 +38,7 @@
     font-size: 50px;
     color: green;
     margin-bottom: 25px;
+    text-align: center;
 }
 
 .order-status-panel__order-data {

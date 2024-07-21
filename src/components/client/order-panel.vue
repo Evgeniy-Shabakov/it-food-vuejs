@@ -1,8 +1,9 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
-import router from "/src/router.js"
+import { reactive, ref, watch } from 'vue';
 import axios from 'axios'
-import { authUser } from '/src/store/axios-helper.js'
+
+import router from "/src/router.js"
+import { authUser, activeOrdersForUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice, currentOrder,
   selectedOrderType, selectedAddressForDelivery, totalCountInCart, removeAllProductsFromCart
