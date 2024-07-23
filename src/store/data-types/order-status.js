@@ -1,4 +1,4 @@
-export const ORDER_STATUS = {
+export const ORDER_STATUS = Object.freeze({
 	CREATED: 'создан',
 	ACCEPTED: 'принят в работу',
 	COOKING: 'готовится',
@@ -12,4 +12,4 @@ export const ORDER_STATUS = {
 	COMPLETED: 'завершен',
 
 	CANSEL: 'отменен',
-}
+})
