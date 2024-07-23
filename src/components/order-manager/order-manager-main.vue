@@ -43,7 +43,7 @@ function logoutInManagerPanel() {
 
 <template>
   <div class="order-manager-main">
-
+        
     <header class="order-manager-main__header">
 
       <div class="order-manager-main__header__user-name-section">

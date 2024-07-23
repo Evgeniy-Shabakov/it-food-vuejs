@@ -32,6 +32,7 @@ watch(selectedAddressForDelivery, () => {
 
 export const deliveryAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false
+    if (selectedCity.value == null) return false
 
     for (let i = 0; i < restaurants.value.length; i++) {
         if (restaurants.value[i].city.title === selectedCity.value.title) {
@@ -44,6 +45,7 @@ export const deliveryAvailableInSelectedCity = computed(() => {
 
 export const pickUpAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false
+    if (selectedCity.value == null) return false
 
     for (let i = 0; i < restaurants.value.length; i++) {
         if (restaurants.value[i].city.title === selectedCity.value.title) {
@@ -57,6 +59,7 @@ export const pickUpAvailableInSelectedCity = computed(() => {
 
 export const restaurantAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false
+    if (selectedCity.value == null) return false
 
     for (let i = 0; i < restaurants.value.length; i++) {
         if (restaurants.value[i].city.title === selectedCity.value.title) {

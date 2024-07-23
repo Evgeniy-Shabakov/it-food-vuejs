@@ -91,7 +91,7 @@ export function formErrorLogMessage(err) {
   switch (err.code) {
     case 'ERR_NETWORK':
       message.text = 'Нет доступа к серверу'
-      message.type = MessageType.Error
+      message.type = MESSAGE_TYPE.error
       return message
 
     case 'ERR_BAD_REQUEST':
@@ -102,12 +102,12 @@ export function formErrorLogMessage(err) {
       else if (err.response.status == 422) message.text = 'Неверно введенные данные'
       else message.text = err.message
 
-      message.type = MessageType.Warning
+      message.type = MESSAGE_TYPE.warning
       return message
 
     default:
       message.text = err.message
-      message.type = MessageType.Error
+      message.type = MESSAGE_TYPE.error
       return message
   }
 }
