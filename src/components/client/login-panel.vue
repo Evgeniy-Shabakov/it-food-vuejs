@@ -1,22 +1,27 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { sendVerifyCode, login, authUser } from '/src/store/axios-helper.js'
 import { inputedPhone, inputedCode, loginForOrder } from '/src/store/login-panel-helper.js'
 import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
 import PhoneInput from './phone-input-component.vue'
 import CodeInput from './code-input-component.vue'
 import router from "/src/router.js"
-import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const openCode = ref(false)
 const codeError = ref(false)
 
-//проверка если зашли на страницу и данные о текущем пользователе еще не загрузились
+onMounted(() => {
+  if (authUser.value)
+    router.push({ name: 'client.menu.popup.user-panel' })
+})
+
+//проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - START
 watch(authUser, () => {
   if (authUser.value) {
     router.push({ name: 'client.menu.popup.user-panel' })
   }
 })
+//проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - END
 
 watch(inputedCode, () => {
   if (inputedCode.value.length == 1)

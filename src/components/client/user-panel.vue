@@ -8,21 +8,24 @@ import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
 
 onMounted(() => {
-  loadActiveOrdersForUserAndRestartInterval(authUser.value.id)
-})
-
-onUnmounted(() => {
-  clearInterval(intervalLoadActiveOrders)
-})
-
-//проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - START
-watch(authUser, () => {
   if (authUser.value == null) {
     router.push({ name: 'client.menu.popup.login-panel' })
     return
   }
+
+  loadActiveOrdersForUserAndRestartInterval(authUser.value.id)
+})
+
+//проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - START
+watch(authUser, () => {
+  if (authUser.value == null) 
+    router.push({ name: 'client.menu.popup.login-panel' })
 })
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - END
+
+onUnmounted(() => {
+  clearInterval(intervalLoadActiveOrders)
+})
 
 function openOrderStatusPanel(order) {
   currentOrder.value = order
