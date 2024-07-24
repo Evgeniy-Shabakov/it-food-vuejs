@@ -1,7 +1,7 @@
 import { categories, countries, cities, restaurants } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType } from '/src/store/client-helper.js'
 import {
-    loadCurrentAuthUser, loadCountries, loadCities, loadCategories, loadRestaurants
+    loadCompany, loadCurrentAuthUser, loadCountries, loadCities, loadCategories, loadRestaurants
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 
@@ -9,12 +9,14 @@ export async function initialize() {
 
     try {
         await Promise.all([
+            initializeCompany(),
             initializeCategories(),
             initializeCity(),
             loadRestaurants(), //для расчета способов заказа в городе
-            initializeRestaurant(),
             loadCurrentAuthUser(),
         ])
+
+        await initializeRestaurant() //инициализируем ресторан после города
 
         initializeCart()
         initializeOrderType()
@@ -24,6 +26,14 @@ export async function initialize() {
         console.log(err);
         return LOADING_TYPE.error;
     }
+}
+
+async function initializeCompany() {
+    const loadinType = await loadCompany()
+
+    if (loadinType === LOADING_TYPE.error) return LOADING_TYPE.error
+
+    return LOADING_TYPE.complete
 }
 
 async function initializeCategories() {
@@ -69,7 +79,7 @@ export async function initializeRestaurant() {
     if (localStorage.getItem('restaurant')) {
         selectedRestaurant.value = JSON.parse(localStorage.getItem('restaurant'))
 
-        if (selectedRestaurant.value.city.id === selectedCity.value.id)
+        if (selectedRestaurant.value.city.id === selectedCity.value.id) //selectedCity.value.id тут ошибка
             return LOADING_TYPE.complete
     }
 

@@ -12,8 +12,6 @@ const categoriesMenu = ref()
 const categoriesItems = ref([])
 const contentSections = ref([])
 
-getModelAxios('companies', 1)
-
 const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
 
