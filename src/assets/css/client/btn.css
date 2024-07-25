@@ -6,6 +6,27 @@
     white-space: nowrap;
 }
 
+.btn--secondary {
+    border: 0;
+    border-radius: 5px;
+    background-color: var(--btn-secondary-bg-color);
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding: 5px;
+    justify-self: end;
+}
+
+/*чтобы работало только на компе с мышкой */
+@media (hover: hover) {
+    .btn--secondary:hover {
+        background-color: var(--btn-secondary-bg-color-hover);
+    }
+}
+
+.btn--secondary:active {
+    background-color: var(--btn-secondary-bg-color-active);
+}
+
 @media (max-width: 1300px) {}
 
 @media (max-width: 522px) {}

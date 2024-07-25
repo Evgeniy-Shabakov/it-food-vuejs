@@ -61,7 +61,7 @@
 .cart-panel__product-btn-helpers {
     border: 0;
     border-radius: 10px;
-    background-color: rgba(255, 166, 0, 0.9);
+    background-color: var(--btn-secondary-bg-color);
     color: rgb(255, 255, 255);
     font-size: 14px;
     padding: 3px 5px;
@@ -71,16 +71,15 @@
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
     .cart-panel__product-btn-helpers:hover {
-        background-color: rgb(231, 97, 1);
+        background-color: var(--btn-secondary-bg-color-hover);
     }
 }
 
 .cart-panel__product-btn-helpers:active {
-    background-color: rgba(255, 106, 0, 0.801);
+    background-color: var(--btn-secondary-bg-color-active);
 }
 
 .cart-panel__product-count-price {
-    /* border: 1px solid black; */
     display: flex;
     align-items: center;
     gap: 5px;
@@ -93,7 +92,7 @@
 }
 
 .cart-panel__icon-delivery {
-    color: orangered;
+    color: var(--color-icon-delivery-in-cart);
     justify-self: center;
 }
 

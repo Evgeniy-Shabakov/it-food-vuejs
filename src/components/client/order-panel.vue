@@ -3,7 +3,7 @@ import { reactive, ref, watch } from 'vue';
 import axios from 'axios'
 
 import router from "/src/router.js"
-import { authUser, activeOrdersForUser } from '/src/store/axios-helper.js'
+import { authUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice, currentOrder,
   selectedOrderType, selectedAddressForDelivery, totalCountInCart, removeAllProductsFromCart
@@ -91,7 +91,7 @@ const sendOrder = async () => {
 
 <template>
 
-  <div class="order-panel">
+  <div v-if="selectedCity" class="order-panel">
     <div class="order-panel__main-section">
 
       <div class="order-panel__city-order-type">

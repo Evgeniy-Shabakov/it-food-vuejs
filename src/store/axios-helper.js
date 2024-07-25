@@ -84,6 +84,10 @@ export function logout() {
             .then(res => {
                 inputedPhone.value = ''
                 authUser.value = null
+
+                localStorage.removeItem('address-for-delivery')
+                localStorage.removeItem('cart')
+
                 resolve(res)
             })
             .catch(err => {

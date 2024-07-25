@@ -14,6 +14,15 @@
     --btn-submit-text-color-hover: rgb(255, 255, 255);
     --btn-submit-text-color-active: rgb(255, 255, 255);
 
+    --btn-secondary-bg-color: rgba(255, 166, 0, 0.9);
+    --btn-secondary-bg-color-hover: rgb(231, 97, 1);
+    --btn-secondary-bg-color-active: rgba(255, 106, 0, 0.801);
+    --btn-secondary-text-color: rgb(255, 255, 255);
+    --btn-secondary-text-color-hover: rgb(255, 255, 255);
+    --btn-secondary-text-color-active: rgb(255, 255, 255);
+
+    --color-icon-delivery-in-cart: orangered;
+
     --popup-title-height: 45px;
 
     --spinner-widht-higth: 40px
