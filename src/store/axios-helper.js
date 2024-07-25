@@ -121,7 +121,7 @@ export async function getOrdersToday(restaurantId) {
         return res
     } catch (error) {
         console.log(error)
-        return error
+        throw error
     }
 }
 
@@ -133,7 +133,7 @@ export async function getActiveOrdersForUser(userID) {
         return res
     } catch (error) {
         console.log(error)
-        return error
+        throw error
     }
 }
 
@@ -153,7 +153,7 @@ export async function getModelsAxios(urlPrefix) {
     } catch (error) {
         textLoadOrFailForVue.value = 'Ошибка загрузки данных'
         addLogMessage(formErrorLogMessage(error))
-        return error
+        throw error
     }
 }
 
@@ -173,7 +173,7 @@ export async function getModelAxios(urlPrefix, id) {
     } catch (error) {
         textLoadOrFailForVue.value = 'Ошибка загрузки данных'
         addLogMessage(formErrorLogMessage(error))
-        return error
+        throw error
     }
 }
 
@@ -187,7 +187,7 @@ export async function storeModelAxios(urlPrefix, data) {
         return res
     } catch (error) {
         addLogMessage(formErrorLogMessage(error))
-        return error
+        throw error
     }
 }
 
@@ -207,7 +207,7 @@ export async function updateModelAxios(urlPrefix, data) {
             return res
         } catch (error) {
             addLogMessage(formErrorLogMessage(error))
-            return error
+            throw error
         }
     }
 
@@ -226,7 +226,7 @@ export async function updateModelAxios(urlPrefix, data) {
         return res
     } catch (error) {
         addLogMessage(formErrorLogMessage(error))
-        return error
+        throw error
     }
 }
 
@@ -246,6 +246,6 @@ export async function deleteModelAxios(urlPrefix, data) {
         return res
     } catch (error) {
         addLogMessage(formErrorLogMessage(error))
-        return error
+        throw error
     }
 }

@@ -1,0 +1,21 @@
+.error-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+}
+
+.error-loading__text {
+    margin-bottom: 25px;
+}
+
+.error-loading__description {
+    color: grey;
+    font-size: 0.7em;
+    margin-bottom: 25px;
+}

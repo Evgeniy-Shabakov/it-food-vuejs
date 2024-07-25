@@ -4,6 +4,8 @@ import { company, getModelAxios } from '/src/store/axios-helper.js'
 const browserTitle = useTitle()
 
 export function setBrowserTitleForClient() {
+    if(company.value == null) return
+    
     browserTitle.value = company.value.brand_title
 }
 

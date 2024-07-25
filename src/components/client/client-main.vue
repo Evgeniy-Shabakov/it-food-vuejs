@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router'
 
 import { totalCountInCart } from '/src/store/client-helper.js'
@@ -9,10 +9,21 @@ import { setBrowserTitleForClient } from '/src/store/vue-use-helper.js'
 
 const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
-onMounted(async () => {
-  dataForComponentLoadingType.value = await initialize()
-  setBrowserTitleForClient()
+onBeforeMount(async () => {
+  try {
+    await initialize()
+    dataForComponentLoadingType.value = LOADING_TYPE.complete
+    setBrowserTitleForClient()
+  }
+  catch (error) {
+    dataForComponentLoadingType.value = error
+  }
+  
 })
+
+function reloadPage() {
+  location.reload()
+}
 
 </script>
 
@@ -23,8 +34,10 @@ onMounted(async () => {
     <div class="spinner"></div>
   </div>
 
-  <div v-else class="admin-view-model-load">
-    Ошибка загрузки данных. Попробуйте обновить страницу
+  <div v-else class="error-loading">
+    <p class="error-loading__text">Ошибка загрузки данных. Попробуйте обновить страницу</p>
+    <p class="error-loading__description">{{ dataForComponentLoadingType }}</p>
+    <button class="btn btn-submit" @click.prevent="reloadPage()" type="button">Обновить</button>
   </div>
 
   <div class="bottom-device-menu">

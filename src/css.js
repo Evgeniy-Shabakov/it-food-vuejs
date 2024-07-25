@@ -35,6 +35,7 @@ import './assets/css/client/address-panel.css'
 import './assets/css/client/order-panel.css'
 import './assets/css/client/order-status-panel.css'
 import './assets/css/client/spinner.css'
+import './assets/css/client/error-loading.css'
 
 
 import './assets/css/order-manager/order-manager-main.css'

@@ -20,13 +20,12 @@ export async function loadCompany() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
 		}
 	}
-
 }
 
 export async function loadCategories() {
@@ -43,7 +42,7 @@ export async function loadCategories() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -66,7 +65,7 @@ export async function loadCountries() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -88,7 +87,7 @@ export async function loadCities() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -110,7 +109,7 @@ export async function loadRestaurants() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -134,7 +133,7 @@ export async function loadCurrentRestaurant(id) {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -156,7 +155,7 @@ export async function loadCurrentAuthUser() {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
@@ -176,7 +175,7 @@ export async function loadOrdersToday(restaurantId) {
 
 			retryCount++
 			if (retryCount === MAX_RETRIES) {
-				return LOADING_TYPE.error
+				throw err
 			}
 
 			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
