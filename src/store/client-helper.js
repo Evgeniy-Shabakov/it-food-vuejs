@@ -1,41 +1,42 @@
 import { ref, computed, watch } from 'vue';
 import { restaurants, logout } from '/src/store/axios-helper.js'
-import { ORDER_TYPE } from '/src/store/data-types/order-type';
+import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
+import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
-export const selectedOrderType = ref(ORDER_TYPE.delivery)
-export const selectedAddressForDelivery = ref()
+export const selectedOrderType = ref()
+export const selectedAddressForDelivery = ref(null)
 export const productsInCart = ref([])
 export const currentOrder = ref()
 
 watch(selectedCity, () => {
-    localStorage.setItem('city', JSON.stringify(selectedCity.value))
+    localStorage.setItem(COOKIE_NAME.CITY_ID, selectedCity.value.id)
 })
 
 watch(selectedRestaurant, () => {
-    localStorage.setItem('restaurant', JSON.stringify(selectedRestaurant.value))
+    localStorage.setItem(COOKIE_NAME.RESTAURANT_ID, selectedRestaurant.value.id)
 })
 
 watch(selectedOrderType, () => {
-    localStorage.setItem('order-type', JSON.stringify(selectedOrderType.value))
+    localStorage.setItem(COOKIE_NAME.ORDER_TYPE, selectedOrderType.value)
 })
 
 watch(selectedAddressForDelivery, () => {
-    if (selectedAddressForDelivery.value == null) {
-        localStorage.removeItem('address-for-delivery')
-        return
-    }
-
-    localStorage.setItem('address-for-delivery', JSON.stringify(selectedAddressForDelivery.value))
+    // не перезаписывать куки, когда не удалость установть адрес
+    // установка адреса происходит в order-panel.vue
+    if (selectedAddressForDelivery.value == null) return 
+    
+    localStorage.setItem(COOKIE_NAME.ADDRESS_DELIVERY_ID, selectedAddressForDelivery.value.id)
+   
 })
 
 export function logoutClient() {
     logout()
 
     removeAllProductsFromCart()
-    localStorage.removeItem('address-for-delivery')
-    localStorage.removeItem('cart')
+    localStorage.removeItem(COOKIE_NAME.ADDRESS_DELIVERY_ID)
+    localStorage.removeItem(COOKIE_NAME.CART)
 }
 
 export const deliveryAvailableInSelectedCity = computed(() => {
@@ -83,7 +84,7 @@ export const restaurantAvailableInSelectedCity = computed(() => {
 
 //при смене города сменить способ доставки на первый доступный
 watch([selectedCity, pickUpAvailableInSelectedCity, deliveryAvailableInSelectedCity, restaurantAvailableInSelectedCity], () => {
-    if (localStorage.getItem('order-option')) {
+    if (selectedOrderType.value) {
         //если способ доставки выбран и не поддерживается в новом городе, то сменить на первый доступный
         if (selectedOrderType.value == ORDER_TYPE.delivery && deliveryAvailableInSelectedCity.value == false ||
             selectedOrderType.value == ORDER_TYPE.pickUp && pickUpAvailableInSelectedCity.value == false ||
@@ -152,14 +153,14 @@ export function plusProductToCart(product) {
         productsInCart.value.push(product)
     }
 
-    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+    localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
 export function minusProductInCartForCartPanel(product) {
     if (product.countInCart == 0) return
     product.countInCart--
 
-    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+    localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
 export function minusProductInCartForMenuPage(product) {
@@ -167,7 +168,7 @@ export function minusProductInCartForMenuPage(product) {
 
     if (product.countInCart <= 0) removeProductFromCart(product)
 
-    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+    localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
 export function removeProductFromCart(product) {
@@ -175,13 +176,13 @@ export function removeProductFromCart(product) {
     let index = productsInCart.value.indexOf(product)
     if (index !== -1) productsInCart.value.splice(index, 1);
 
-    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+    localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
 export function removeAllProductsFromCart() {
     productsInCart.value.forEach(product => product.countInCart = 0)
 
     productsInCart.value.length = 0
-    localStorage.setItem('cart', JSON.stringify(productsInCart.value))
+    localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 

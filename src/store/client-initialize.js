@@ -1,10 +1,13 @@
-import { categories, countries, cities } from '/src/store/axios-helper.js'
+import { categories, cities } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType }
     from '/src/store/client-helper.js'
 import {
     loadCompany, loadCurrentAuthUser, loadCountries, loadCities, loadCategories, loadRestaurants
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
+import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
+import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
+import { restaurants } from './axios-helper'
 
 export async function initialize() {
 
@@ -13,7 +16,6 @@ export async function initialize() {
 
         initializeCategoriesAndCart() //инициализируем корзину только после загрузки продуктов
         initializeCityAndRestaurant() //инициализация ресторана всегда после города
-        loadRestaurants() //для расчета способов заказа в городе
         loadCurrentAuthUser()
 
         initializeOrderType()
@@ -72,47 +74,35 @@ export async function initializeCityAndRestaurant() { //инициализаци
 
 export async function initializeCity() {
     try {
-        await loadCountries()
+        await loadCities()
 
-        if (localStorage.getItem('city')) {
-            selectedCity.value = JSON.parse(localStorage.getItem('city'))
-        }
-        else {
-            for (let i = 0; i < countries.value.length; i++) {
-                if (countries.value[i].cities.length) {
-                    selectedCity.value = countries.value[i].cities[0]
-                    break
-                }
-            }
-        }
+        let id = localStorage.getItem(COOKIE_NAME.CITY_ID)
+
+        if (id)
+            selectedCity.value = cities.value.find(city => city.id == id)
+
+        if (selectedCity.value == null)
+            selectedCity.value = cities.value[0]
 
         return LOADING_TYPE.complete
     }
-    catch (err) {
-        console.log(err)
-        throw err
+    catch (error) {
+        console.log(error)
+        throw error
     }
 }
 
 export async function initializeRestaurant() {
     try {
-        await loadCities()
+        await loadRestaurants()
 
-        if (localStorage.getItem('restaurant')) {
-            selectedRestaurant.value = JSON.parse(localStorage.getItem('restaurant'))
+        let id = localStorage.getItem(COOKIE_NAME.RESTAURANT_ID)
 
-            if (selectedRestaurant.value.city.id === selectedCity.value.id)
-                return LOADING_TYPE.complete
-        }
+        if (id)
+            selectedRestaurant.value = restaurants.value.find(restaurant => restaurant.id == id)
 
-        for (let i = 0; i < cities.value.length; i++) {
-            if (cities.value[i].restaurants.length > 0) {
-                if (selectedCity.value.id === cities.value[i].id) {
-                    selectedRestaurant.value = cities.value[i].restaurants[0]
-                    break
-                }
-            }
-        }
+        if (selectedRestaurant.value == null)
+            selectedRestaurant.value = restaurants.value[0]
 
         return LOADING_TYPE.complete
     }
@@ -124,9 +114,9 @@ export async function initializeRestaurant() {
 
 function initializeCart() {
     //обновляем массив для корзины, если есть данные в localStorage
-    if (localStorage.getItem('cart') == null) return
+    if (localStorage.getItem(COOKIE_NAME.CART) == null) return
 
-    let oldProductsInCart = JSON.parse(localStorage.getItem('cart'))
+    let oldProductsInCart = JSON.parse(localStorage.getItem(COOKIE_NAME.CART))
 
     oldProductsInCart.forEach(el => {
         categories.value.forEach(category => {
@@ -142,9 +132,10 @@ function initializeCart() {
 }
 
 function initializeOrderType() {
-    if (localStorage.getItem('order-type')) {
-        selectedOrderType.value = JSON.parse(localStorage.getItem('order-type'))
-    }
+    selectedOrderType.value = localStorage.getItem(COOKIE_NAME.ORDER_TYPE)
+    
+    if(selectedOrderType.value == null)
+        selectedOrderType.value = ORDER_TYPE.delivery
 }
 
 

@@ -1,10 +1,10 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import axios from 'axios'
 
 import router from "/src/router.js"
 import { authUser } from '/src/store/axios-helper.js'
-import { selectedCity } from '/src/store/client-helper.js'
+import { selectedCity, selectedAddressForDelivery } from '/src/store/client-helper.js'
 
 const fieldInputStreet = ref(null)
 
@@ -61,9 +61,8 @@ async function addAddress() {
   await axios
     .post(`/users/${data.user_id}/addresses`, data)
     .then(res => {
-      let newAddress = res.data.data
-      authUser.value.addresses.push(newAddress)
-      localStorage.setItem('address-for-delivery', JSON.stringify(newAddress))
+      selectedAddressForDelivery.value = res.data.data
+      authUser.value.addresses.push(selectedAddressForDelivery.value)
 
       router.push({ name: 'client.menu.popup.order-panel' })
     })
