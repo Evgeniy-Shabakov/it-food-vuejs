@@ -2,7 +2,7 @@
 import { watch, onMounted, onUnmounted } from 'vue';
 import router from "/src/router.js"
 import { authUser, activeOrdersForUser, logout } from '/src/store/axios-helper.js'
-import { currentOrder } from '/src/store/client-helper.js'
+import { currentOrder, logoutClient } from '/src/store/client-helper.js'
 import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
 
@@ -32,7 +32,7 @@ function openOrderStatusPanel(order) {
 }
 
 function logoutVue() {
-  logout()
+  logoutClient()
   router.push({ name: 'client.menu' })
 }
 

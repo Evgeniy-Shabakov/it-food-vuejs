@@ -1,5 +1,5 @@
-import { ref, computed, watch, reactive } from 'vue';
-import { restaurants } from '/src/store/axios-helper.js'
+import { ref, computed, watch } from 'vue';
+import { restaurants, logout } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
 export const selectedCity = ref()
@@ -29,6 +29,14 @@ watch(selectedAddressForDelivery, () => {
 
     localStorage.setItem('address-for-delivery', JSON.stringify(selectedAddressForDelivery.value))
 })
+
+export function logoutClient() {
+    logout()
+
+    removeAllProductsFromCart()
+    localStorage.removeItem('address-for-delivery')
+    localStorage.removeItem('cart')
+}
 
 export const deliveryAvailableInSelectedCity = computed(() => {
     if (restaurants.value == null) return false

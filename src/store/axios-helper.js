@@ -6,6 +6,7 @@ import { serverApiUrl, serverUrl } from '/src/config.js'
 import { inputedPhone } from '/src/store/login-panel-helper.js'
 import { currentTimezone } from '/src/store/timezone-helper.js'
 
+
 axios.defaults.baseURL = serverApiUrl
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
@@ -77,25 +78,18 @@ export function login(data) {
 
 }
 
-export function logout() {
-    return new Promise(function (resolve, reject) {
-        axios
-            .delete(`${serverUrl}/logout`)
-            .then(res => {
-                inputedPhone.value = ''
-                authUser.value = null
+export async function logout() {
+    try {
+        const res = await axios.delete(`${serverUrl}/logout`)
+        inputedPhone.value = ''
+        authUser.value = null
 
-                localStorage.removeItem('address-for-delivery')
-                localStorage.removeItem('cart')
-
-                resolve(res)
-            })
-            .catch(err => {
-                console.log(err.response.data.message);
-                reject(err)
-            })
-    })
-
+        return res
+    }
+    catch(error) {
+        console.log(error)
+        throw error
+    }
 }
 
 export function getAuthUser() {
