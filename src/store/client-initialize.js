@@ -2,7 +2,7 @@ import { categories, cities } from '/src/store/axios-helper.js'
 import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType }
     from '/src/store/client-helper.js'
 import {
-    loadCompany, loadCurrentAuthUser, loadCountries, loadCities, loadCategories, loadRestaurants
+    loadCompany, loadCurrentAuthUser, loadCities, loadCategories, loadRestaurants
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
@@ -12,26 +12,15 @@ import { restaurants } from './axios-helper'
 export async function initialize() {
 
     try {
-        await loadCompany()
+        await initializeCategories()
 
-        initializeCategoriesAndCart() //инициализируем корзину только после загрузки продуктов
-        initializeCityAndRestaurant() //инициализация ресторана всегда после города
+        initializeCity().then(() => initializeRestaurant())
+
+        loadCompany()
         loadCurrentAuthUser()
 
-        initializeOrderType()
-
-        return LOADING_TYPE.complete
-    }
-    catch (err) {
-        console.log(err)
-        throw err
-    }
-}
-
-async function initializeCategoriesAndCart() { //инициализируем корзину только после загрузки продуктов
-    try {
-        await initializeCategories()
         initializeCart()
+        initializeOrderType()
 
         return LOADING_TYPE.complete
     }
@@ -52,19 +41,6 @@ async function initializeCategories() {
         categories.value = categories.value.filter(category => category.products.length > 0)
 
         return LOADING_TYPE.complete
-    }
-    catch (err) {
-        console.log(err)
-        throw err
-    }
-}
-
-export async function initializeCityAndRestaurant() { //инициализация ресторана всегда после города
-    try {
-        await initializeCity()
-        await initializeRestaurant()
-
-        LOADING_TYPE.complete
     }
     catch (err) {
         console.log(err)
@@ -101,6 +77,7 @@ export async function initializeRestaurant() {
         if (id)
             selectedRestaurant.value = restaurants.value.find(restaurant => restaurant.id == id)
 
+        //добавить проверку на соотвествие ресторана городу
         if (selectedRestaurant.value == null)
             selectedRestaurant.value = restaurants.value[0]
 
@@ -133,8 +110,8 @@ function initializeCart() {
 
 function initializeOrderType() {
     selectedOrderType.value = localStorage.getItem(COOKIE_NAME.ORDER_TYPE)
-    
-    if(selectedOrderType.value == null)
+
+    if (selectedOrderType.value == null)
         selectedOrderType.value = ORDER_TYPE.delivery
 }
 
