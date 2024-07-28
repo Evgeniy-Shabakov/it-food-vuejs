@@ -7,6 +7,8 @@ import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/cli
 import CartComponent from './cart-component.vue';
 
 const categoriesMenu = ref()
+const categoriesMenuInner = ref()
+const contentInner = ref()
 const categoriesItems = ref([])
 const contentSections = ref([])
 
@@ -14,6 +16,9 @@ const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
 
 onMounted(() => {
+  activateSelectMenuController()
+
+  // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true
 
   btnBurgerMenu.value.addEventListener('click', function () {
@@ -35,6 +40,7 @@ onMounted(() => {
     if (burgerMenu.value.hidden) return
     burgerMenu.value.hidden = true
   }
+  // Блок управления бургер меню - END
 })
 
 onUpdated(() => {
@@ -45,33 +51,37 @@ onUpdated(() => {
     let scrollPaddingTop = categoriesMenu.value.offsetHeight + 20 + 'px'
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop)
   }, 0, 3 * 1000)
+})
 
-  //Блок выделения меню категорий - Start
+function activateSelectMenuController() {
   selectMenu() //выделение меню при старте
 
+  //выделение пункта меню при скролле
+  window.addEventListener('scroll', selectMenu)
+   
   categoriesItems.value.forEach((el, i) => {
     el.addEventListener('click', () => {
       categoriesItems.value.forEach(el => el.classList.remove('active'))
       categoriesItems.value[i].classList.add('active')
-      window.removeEventListener('scroll', selectMenu) //чтобы не выделялись пункты меню во время автоскролле
+
+      //чтобы не выделялись пункты меню во время автоскролла 
+      window.removeEventListener('scroll', selectMenu)
+      //активация прослушивания скролла после клика по меню
+      window.addEventListener('scrollend', () => window.addEventListener('scroll', selectMenu))
     })
   })
+}
 
-  window.addEventListener('scroll', selectMenu) //выделение пункта меню при скролле
-  //активация прослушивания скролла после клика по меню
-  window.addEventListener('scrollend', () => window.addEventListener('scroll', selectMenu))
+function selectMenu() {
+  let scrollDistance = window.scrollY
+  contentSections.value.forEach((el, i) => {
+    if (el.offsetTop <= scrollDistance + 400) {
+      categoriesItems.value.forEach(el => el.classList.remove('active'))
+      categoriesItems.value[i].classList.add('active')
+    }
+  })
+}
 
-  function selectMenu() {
-    let scrollDistance = window.scrollY
-    contentSections.value.forEach((el, i) => {
-      if (el.offsetTop <= scrollDistance + 400) {
-        categoriesItems.value.forEach(el => el.classList.remove('active'))
-        categoriesItems.value[i].classList.add('active')
-      }
-    })
-  }
-  //Блок выделения меню категорий - End
-})
 </script>
 
 <template>
@@ -126,7 +136,7 @@ onUpdated(() => {
 
   <nav class="categories" ref="categoriesMenu">
     <div class="container">
-      <div v-if="categories" class="categories__inner">
+      <div v-if="categories" ref="categoriesMenuInner" class="categories__inner">
 
         <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
           {{ category.title }}</a>
@@ -144,14 +154,15 @@ onUpdated(() => {
 
   <main class="content">
     <div class="container">
-      <div class="content__inner">
+      <div ref="contentInner" class="content__inner">
 
         <section v-for="category in categories" class="content__category-sections" ref="contentSections">
 
           <h2 :id="category.title" class="content__category-title">{{ category.title }}</h2>
 
           <div class="content__category-products">
-            <div class="product-card" v-for="product in category.products">
+
+            <article class="product-card" v-for="product in category.products">
 
               <img class="product-card__image" :src="product.image_url" alt="">
               <p class="product-card__title"> {{ product.title }}</p>
@@ -170,7 +181,8 @@ onUpdated(() => {
                 </div>
               </div>
 
-            </div>
+            </article>
+
           </div>
 
         </section>

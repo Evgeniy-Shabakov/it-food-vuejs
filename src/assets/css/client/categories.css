@@ -55,7 +55,7 @@
 @media (max-width: 522px) {
     .categories__inner {
         flex-wrap: nowrap;
-        overflow-y: hidden;
+        overflow-x: scroll;
         margin-left: -5%;
         margin-right: -5%;
     }
