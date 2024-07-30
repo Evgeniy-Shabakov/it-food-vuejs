@@ -48,7 +48,7 @@ function reloadPage() {
           class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </router-link>
-        <a v-else href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
+        <a v-else id="btn-top" href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a>
 

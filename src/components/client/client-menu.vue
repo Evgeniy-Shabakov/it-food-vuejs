@@ -3,6 +3,7 @@ import { ref, onMounted, onUpdated } from 'vue'
 
 import { company, categories, authUser } from '/src/store/axios-helper.js'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
+import { throttle } from '/src/store/helpers/throttle.js'
 
 import CartComponent from './cart-component.vue';
 
@@ -16,7 +17,7 @@ const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
 
 onMounted(() => {
-  activateSelectMenuController()
+  activateMenuController()
 
   // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true
@@ -53,27 +54,53 @@ onUpdated(() => {
   }, 0, 3 * 1000)
 })
 
-function activateSelectMenuController() {
+
+//логика выделения и движения меню - START
+function activateMenuController() {
   selectMenu() //выделение меню при старте
 
   //выделение пункта меню при скролле
   window.addEventListener('scroll', selectMenu)
-   
+  window.addEventListener('scroll', moveMenu)
+
   categoriesItems.value.forEach((el, i) => {
     el.addEventListener('click', () => {
       categoriesItems.value.forEach(el => el.classList.remove('active'))
       categoriesItems.value[i].classList.add('active')
 
-      //чтобы не выделялись пункты меню во время автоскролла 
-      window.removeEventListener('scroll', selectMenu)
-      //активация прослушивания скролла после клика по меню
-      window.addEventListener('scrollend', () => window.addEventListener('scroll', selectMenu))
+      window.removeEventListener('scroll', selectMenu)//чтобы не выделялись пункты меню во время автоскролла 
+      window.removeEventListener('scroll', moveMenu)//чтобы работал автоскролл
+
+      //после автоскролла запускаю обработчик событий заново
+      window.addEventListener('scrollend', function scrollendHandler() {
+        window.addEventListener('scroll', selectMenu)
+        window.addEventListener('scroll', moveMenu)
+
+        window.removeEventListener('scrollend', scrollendHandler)
+
+        moveMenu()
+      })
+    })
+  })
+
+  const element = document.getElementById('btn-top');
+
+  element.addEventListener('click', () => {
+    window.removeEventListener('scroll', moveMenu)
+
+    window.addEventListener('scrollend', function scrollendHandler() {
+      window.addEventListener('scroll', moveMenu)
+
+      window.removeEventListener('scrollend', scrollendHandler)
+
+      moveMenu()
     })
   })
 }
 
 function selectMenu() {
   let scrollDistance = window.scrollY
+
   contentSections.value.forEach((el, i) => {
     if (el.offsetTop <= scrollDistance + 400) {
       categoriesItems.value.forEach(el => el.classList.remove('active'))
@@ -81,6 +108,22 @@ function selectMenu() {
     }
   })
 }
+
+function moveMenu() {
+  let scrollDistance = window.scrollY
+  let scrollMax = document.documentElement.scrollHeight - window.innerHeight
+  let scrollRatio = scrollDistance / scrollMax
+
+  const menuInnerWidth = categoriesMenuInner.value.scrollWidth - categoriesMenuInner.value.clientWidth
+  const scrollPosition = scrollRatio * menuInnerWidth
+
+  categoriesMenuInner.value.scrollTo({
+    left: scrollPosition,
+    behavior: 'smooth'
+  })
+}
+//логика выделения и движения меню - END
+
 
 </script>
 
