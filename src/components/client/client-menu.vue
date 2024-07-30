@@ -62,9 +62,7 @@ function activateMenuController() {
 
   //выделение пункта меню при скролле
   window.addEventListener('scroll', selectMenu)
-  window.addEventListener('scroll', () => {
-    moveMenu()
-  })
+  window.addEventListener('scroll', moveMenu)
 
   categoriesItems.value.forEach((el, i) => {
     el.addEventListener('click', () => {
@@ -125,11 +123,7 @@ function moveMenu() {
   const menuInnerWidth = categoriesMenuInner.value.scrollWidth - categoriesMenuInner.value.clientWidth
   const scrollPosition = scrollRatio * menuInnerWidth
 
-  categoriesMenuInner.value.scrollTo({
-    left: scrollPosition,
-    behavior: 'smooth'
-  })
-
+  categoriesMenuInner.value.scrollLeft = scrollPosition
 }
 //логика выделения и движения меню - END
 
