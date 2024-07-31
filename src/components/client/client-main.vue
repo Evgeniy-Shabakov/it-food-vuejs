@@ -2,10 +2,13 @@
 import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router'
 
+import router from "/src/router.js"
 import { totalCountInCart } from '/src/store/client-helper.js'
 import { initialize } from '/src/store/client-initialize';
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper.js'
+
+const route = useRoute(); // Инициализация useRoute на верхнем уровне
 
 const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
@@ -18,11 +21,24 @@ onBeforeMount(async () => {
   catch (error) {
     dataForComponentLoadingType.value = error
   }
-  
+
 })
 
 function reloadPage() {
   location.reload()
+}
+
+function btnTopPressed() {
+  if (route.name == 'client.menu') {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+  else {
+    router.push({ name: 'client.menu' })
+  }
+
 }
 
 </script>
@@ -44,13 +60,17 @@ function reloadPage() {
     <div class="container">
       <div class="bottom-device-menu__inner">
 
-        <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }"
+        <!-- <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }"
           class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </router-link>
-        <a v-else id="btn-top" href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
+        <a v-else href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
-        </a>
+        </a> -->
+
+        <button @click.prevent="btnTopPressed()" class="bottom-device-menu__item bottom-device-menu__item-1">
+          <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
+        </button>
 
         <router-link :to="{ name: 'client.menu.popup.user-panel' }"
           class="bottom-device-menu__item bottom-device-menu__item-2">

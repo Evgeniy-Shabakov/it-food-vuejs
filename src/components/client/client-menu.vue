@@ -3,7 +3,10 @@ import { ref, onMounted, onUpdated, watch } from 'vue'
 
 import { company, categories, authUser } from '/src/store/axios-helper.js'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
-import { throttle } from '/src/store/helpers/throttle.js'
+import { activateSwipeController } from '/src/store/helpers/swipe-controller.js'
+import {
+  activateSelecteMenuController, activateMoveMenuController
+} from '/src/store/client/client-menu.js'
 
 import CartComponent from './cart-component.vue';
 
@@ -17,7 +20,8 @@ const btnBurgerMenu = ref(null)
 const burgerMenu = ref(null)
 
 onMounted(() => {
-  activateMenuController()
+  activateSelecteMenuController(contentSections.value, categoriesItems.value)
+  activateMoveMenuController(categoriesMenuInner.value)
 
   // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true
@@ -55,78 +59,13 @@ onUpdated(() => {
 })
 
 
-//логика выделения и движения меню - START
-
-function activateMenuController() {
-  selectMenu() //выделение меню при старте
-
-  //выделение пункта меню при скролле
-  window.addEventListener('scroll', selectMenu)
-  window.addEventListener('scroll', moveMenu)
-
-  categoriesItems.value.forEach((el, i) => {
-    el.addEventListener('click', () => {
-      categoriesItems.value.forEach(el => el.classList.remove('active'))
-      categoriesItems.value[i].classList.add('active')
-
-      isAutoScroll = true
-
-      window.removeEventListener('scroll', selectMenu)//чтобы не выделялись пункты меню во время автоскролла 
-
-      window.addEventListener('scrollend', scrollendHandler)
-
-    })
-  })
-
-  let el = document.getElementById('btn-top')
-  if (el) el.addEventListener('click', () => isAutoScroll = true)
+//функция вместо якорных ссылок, т.к. якорные ссылки не работают с moveMenu()
+function scrollToCategory(index) {
+  window.window.scrollTo({
+    top: contentSections.value[index].offsetTop - categoriesMenu.value.offsetHeight - 20,
+    behavior: "smooth",
+  });
 }
-
-onUpdated(() => {
-  let el = document.getElementById('btn-top')
-  if (el) el.addEventListener('click', () => isAutoScroll = true)
-})
-
-function selectMenu() {
-  let scrollDistance = window.scrollY
-
-  contentSections.value.forEach((el, i) => {
-    if (el.offsetTop <= scrollDistance + 400) {
-      categoriesItems.value.forEach(el => el.classList.remove('active'))
-      categoriesItems.value[i].classList.add('active')
-    }
-  })
-}
-
-let isAutoScroll = false
-
-function scrollendHandler() {
-  window.removeEventListener('scrollend', scrollendHandler)
-
-  window.addEventListener('scroll', selectMenu)
-  isAutoScroll = false
-  moveMenu()
-}
-
-function moveMenu() {
-  if (categoriesMenuInner.value == null) return
-
-  if (isAutoScroll) {
-    window.addEventListener('scrollend', scrollendHandler)
-    return
-  }
-
-  let scrollDistance = window.scrollY
-  let scrollMax = document.documentElement.scrollHeight - window.innerHeight
-  let scrollRatio = scrollDistance / scrollMax
-
-  const menuInnerWidth = categoriesMenuInner.value.scrollWidth - categoriesMenuInner.value.clientWidth
-  const scrollPosition = scrollRatio * menuInnerWidth
-
-  categoriesMenuInner.value.scrollLeft = scrollPosition
-}
-//логика выделения и движения меню - END
-
 
 </script>
 
@@ -184,7 +123,8 @@ function moveMenu() {
     <div class="container">
       <div v-if="categories" ref="categoriesMenuInner" class="categories__inner">
 
-        <a ref="categoriesItems" v-for="category in categories" class="categories__item" :href="'#' + category.title">
+        <a ref="categoriesItems" v-for="(category, index) in categories" :key="index" class="categories__item"
+          @click.prevent="scrollToCategory(index)" :href="'#' + category.title">
           {{ category.title }}</a>
 
         <div class="cart-panel">
