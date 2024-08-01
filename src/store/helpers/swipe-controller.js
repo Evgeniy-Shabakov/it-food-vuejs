@@ -12,12 +12,12 @@ export function activateSwipeController(domElement, onSwipeLeft, onSwipeRight) {
     });
 
     function handleSwipe() {
-        if (touchStartX - touchEndX > 50) {
+        if (touchStartX - touchEndX > 75) {
             if (typeof onSwipeLeft === 'function') {
                 onSwipeLeft();
             }
         }
-        if (touchEndX - touchStartX > 50) {
+        if (touchEndX - touchStartX > 75) {
             if (typeof onSwipeRight === 'function') {
                 onSwipeRight();
             }

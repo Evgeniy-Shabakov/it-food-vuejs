@@ -5,7 +5,7 @@ import { company, categories, authUser } from '/src/store/axios-helper.js'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
 import { activateSwipeController } from '/src/store/helpers/swipe-controller.js'
 import {
-  activateSelecteMenuController, activateMoveMenuController
+  activateSelecteMenuController, activateMoveMenuController, getIndexCentrSection
 } from '/src/store/client/client-menu.js'
 
 import CartComponent from './cart-component.vue';
@@ -22,6 +22,23 @@ const burgerMenu = ref(null)
 onMounted(() => {
   activateSelecteMenuController(contentSections.value, categoriesItems.value)
   activateMoveMenuController(contentSections.value, categoriesItems.value, categoriesMenuInner.value)
+  activateSwipeController(contentInner.value,
+    () => {
+      let index = getIndexCentrSection(contentSections.value)
+      index++
+      if (index < categoriesItems.value.length) scrollToCategory(index)
+    },
+    () => {
+      let index = getIndexCentrSection(contentSections.value)
+      index--
+      if (index > 0) scrollToCategory(index)
+      else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    })
 
   // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true
@@ -61,7 +78,7 @@ onUpdated(() => {
 
 //функция вместо якорных ссылок, т.к. якорные ссылки не работают с moveMenu()
 function scrollToCategory(index) {
-  window.window.scrollTo({
+  window.scrollTo({
     top: contentSections.value[index].offsetTop - categoriesMenu.value.offsetHeight - 20,
     behavior: "smooth",
   });

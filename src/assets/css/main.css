@@ -20,8 +20,6 @@ button:hover {
 
 button,label,a:active {
     /*убирает базовое синие выделение при клике на телефоне */
-    background-color: transparent;
-    border: 0;
     -webkit-tap-highlight-color: transparent;
 }
 

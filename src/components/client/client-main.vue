@@ -28,6 +28,7 @@ function reloadPage() {
   location.reload()
 }
 
+//функция вместо якорных ссылок, т.к. якорные ссылки не работают с контроллером меню
 function btnTopPressed() {
   if (route.name == 'client.menu') {
     window.scrollTo({
@@ -38,7 +39,6 @@ function btnTopPressed() {
   else {
     router.push({ name: 'client.menu' })
   }
-
 }
 
 </script>
@@ -68,9 +68,9 @@ function btnTopPressed() {
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a> -->
 
-        <button @click.prevent="btnTopPressed()" class="bottom-device-menu__item bottom-device-menu__item-1">
+        <a @click.prevent="btnTopPressed()" href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
-        </button>
+        </a>
 
         <router-link :to="{ name: 'client.menu.popup.user-panel' }"
           class="bottom-device-menu__item bottom-device-menu__item-2">

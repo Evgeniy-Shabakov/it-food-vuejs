@@ -67,6 +67,25 @@ export function activateMoveMenuController(contentSections, categoriesItems, cat
                 behavior: "smooth",
             })
         }
+
+        //дополнительная проверка когда в последний категории мало товаров - START
+        const documentHeight = document.documentElement.scrollHeight;
+
+        // Высота видимой области окна
+        const windowHeight = window.innerHeight;
+
+        // Текущая позиция прокрутки
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+        // Проверка, достиг ли скролл конца страницы
+        if (scrollTop + windowHeight >= documentHeight) {
+            // Прокрутка до крайней правой позиции
+            categoriesMenuInner.scrollTo({
+                left: categoriesMenuInner.scrollWidth,
+                behavior: 'smooth' // Опционально, для плавной прокрутки
+            });
+        }
+        //дополнительная проверка когда в последний категории мало товаров - END
     }
 
     onUnmounted(() => {
@@ -74,7 +93,7 @@ export function activateMoveMenuController(contentSections, categoriesItems, cat
     })
 }
 
-function getIndexCentrSection(arrayElements) {
+export function getIndexCentrSection(arrayElements) {
     for (let i = 0; i < arrayElements.length; i++) {
         const rect = arrayElements[i].getBoundingClientRect()
 

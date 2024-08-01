@@ -28,6 +28,8 @@
 
     .bottom-device-menu__item-1 {
         text-align: left;
+        background-color: transparent;
+        border: 0;
     }
 
     .bottom-device-menu__item-2 {
