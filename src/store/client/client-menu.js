@@ -1,4 +1,4 @@
-import { ref, onMounted, onUpdated, watch, onUnmounted } from 'vue'
+import { onUnmounted } from 'vue'
 import { throttle } from '/src/store/helpers/throttle.js'
 
 export function activateSelecteMenuController(contentSections, categoriesItems) {
@@ -9,22 +9,27 @@ export function activateSelecteMenuController(contentSections, categoriesItems) 
     //выделение пункта меню при скролле
     window.addEventListener('scroll', scrollHandler)
 
+    //чтобы при клике меню сразу выделялось
     categoriesItems.forEach((el, i) => {
         el.addEventListener('click', () => {
             categoriesItems.forEach(el => el.classList.remove('active'))
             categoriesItems[i].classList.add('active')
+
+            window.removeEventListener('scroll', scrollHandler)
+
+            window.addEventListener('scrollend', function scrollendHandler() {
+                window.removeEventListener('scrollend', scrollendHandler)
+
+                window.addEventListener('scroll', scrollHandler)
+            })
         })
     })
 
     function selectMenu() {
-        let scrollDistance = window.scrollY
+        categoriesItems.forEach(el => el.classList.remove('active'))
 
-        contentSections.forEach((el, i) => {
-            if (el.offsetTop <= scrollDistance + 400) {
-                categoriesItems.forEach(el => el.classList.remove('active'))
-                categoriesItems[i].classList.add('active')
-            }
-        })
+        let index = getIndexCentrSection(contentSections)
+        categoriesItems[index].classList.add('active')
     }
 
     onUnmounted(() => {
@@ -32,24 +37,49 @@ export function activateSelecteMenuController(contentSections, categoriesItems) 
     })
 }
 
-export function activateMoveMenuController(categoriesMenuInner) {
-    const scrollHandler = throttle(moveMenu, 20)
+export function activateMoveMenuController(contentSections, categoriesItems, categoriesMenuInner) {
+    const scrollHandler = throttle(moveMenu, 150)
 
     window.addEventListener('scroll', scrollHandler)
 
+    //чтобы не было дерганья меню при клике
+    categoriesItems.forEach((el, i) => {
+        el.addEventListener('click', () => {
+            window.removeEventListener('scroll', scrollHandler)
+
+            window.addEventListener('scrollend', function scrollendHandler() {
+                window.removeEventListener('scrollend', scrollendHandler)
+
+                window.addEventListener('scroll', scrollHandler)
+                moveMenu()
+            })
+        })
+    })
+
     function moveMenu() {
-        let scrollDistance = window.scrollY
-        let scrollMax = document.documentElement.scrollHeight - window.innerHeight
-        let scrollRatio = scrollDistance / scrollMax
+        let index = getIndexCentrSection(contentSections)
+        const rect = categoriesItems[index].getBoundingClientRect()
 
-        const menuInnerWidth = categoriesMenuInner.scrollWidth - categoriesMenuInner.clientWidth
-        const scrollPosition = scrollRatio * menuInnerWidth
-
-        categoriesMenuInner.scrollLeft = scrollPosition
+        if (rect.left > categoriesMenuInner.clientWidth / 2 ||
+            rect.right < categoriesMenuInner.clientWidth / 2) {
+            categoriesMenuInner.scrollTo({
+                left: categoriesItems[index].offsetLeft - (categoriesMenuInner.clientWidth / 2 - categoriesItems[index].clientWidth / 2),
+                behavior: "smooth",
+            })
+        }
     }
 
     onUnmounted(() => {
         window.removeEventListener('scroll', scrollHandler)
     })
+}
+
+function getIndexCentrSection(arrayElements) {
+    for (let i = 0; i < arrayElements.length; i++) {
+        const rect = arrayElements[i].getBoundingClientRect()
+
+        if (rect.bottom > window.innerHeight / 2 - 60)
+            return i
+    }
 }
 

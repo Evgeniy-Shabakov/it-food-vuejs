@@ -21,7 +21,7 @@ const burgerMenu = ref(null)
 
 onMounted(() => {
   activateSelecteMenuController(contentSections.value, categoriesItems.value)
-  activateMoveMenuController(categoriesMenuInner.value)
+  activateMoveMenuController(contentSections.value, categoriesItems.value, categoriesMenuInner.value)
 
   // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true

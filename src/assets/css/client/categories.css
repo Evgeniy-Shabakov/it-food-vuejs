@@ -68,7 +68,9 @@
         margin-left: 3%;
     }
 
-    .categories__item:last-child {
+    /* предпоследний элемент т.к. последний это корзина прикрепленная 
+    к меню для полноэкранного режима */
+    .categories__item:nth-last-child(2) {
         margin-right: 3%;
     }
 }
