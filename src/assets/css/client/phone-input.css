@@ -12,7 +12,9 @@
     /* width: 145px; */
 }
 
-.phone-input__phone:active, :hover, :focus {
+.phone-input__phone:active,
+:hover,
+:focus {
     outline: 0;
     outline-offset: 0;
 }

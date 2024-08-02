@@ -1,4 +1,5 @@
 import { onUnmounted } from 'vue'
+
 import { throttle } from '/src/store/helpers/throttle.js'
 
 export function activateSelecteMenuController(contentSections, categoriesItems) {
@@ -57,35 +58,15 @@ export function activateMoveMenuController(contentSections, categoriesItems, cat
     })
 
     function moveMenu() {
-        let index = getIndexCentrSection(contentSections)
-        const rect = categoriesItems[index].getBoundingClientRect()
+        const index = getIndexCentrSection(contentSections)
 
-        if (rect.left > categoriesMenuInner.clientWidth / 2 ||
-            rect.right < categoriesMenuInner.clientWidth / 2) {
-            categoriesMenuInner.scrollTo({
-                left: categoriesItems[index].offsetLeft - (categoriesMenuInner.clientWidth / 2 - categoriesItems[index].clientWidth / 2),
-                behavior: "smooth",
-            })
-        }
+        categoriesMenuInner.scrollTo({
+            left: categoriesItems[index].offsetLeft 
+            - (categoriesMenuInner.clientWidth / 2 - categoriesItems[index].clientWidth / 2),
+            behavior: "smooth",
+        })
 
-        //дополнительная проверка когда в последний категории мало товаров - START
-        const documentHeight = document.documentElement.scrollHeight;
-
-        // Высота видимой области окна
-        const windowHeight = window.innerHeight;
-
-        // Текущая позиция прокрутки
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-        // Проверка, достиг ли скролл конца страницы
-        if (scrollTop + windowHeight >= documentHeight) {
-            // Прокрутка до крайней правой позиции
-            categoriesMenuInner.scrollTo({
-                left: categoriesMenuInner.scrollWidth,
-                behavior: 'smooth' // Опционально, для плавной прокрутки
-            });
-        }
-        //дополнительная проверка когда в последний категории мало товаров - END
+        moveMenuHelper(categoriesMenuInner)
     }
 
     onUnmounted(() => {
@@ -101,4 +82,31 @@ export function getIndexCentrSection(arrayElements) {
             return i
     }
 }
+
+
+//дополнительная проверка когда в последний категории мало товаров 
+//чтобы меню проскроллилось доконца вправо 
+function moveMenuHelper(menu) {
+    
+    const documentHeight = document.documentElement.scrollHeight;
+
+    // Высота видимой области окна
+    const windowHeight = window.innerHeight;
+
+    // Текущая позиция прокрутки
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+    // Проверка, достиг ли скролл конца страницы
+    if (scrollTop + windowHeight >= documentHeight) {
+        // Прокрутка до крайней правой позиции
+        menu.scrollTo({
+            left: menu.scrollWidth,
+            behavior: 'smooth' // Опционально, для плавной прокрутки
+        });
+    }
+}
+
+
+
+
 
