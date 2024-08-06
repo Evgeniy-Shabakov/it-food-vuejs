@@ -1,10 +1,13 @@
 <script setup>
-import { watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import router from "/src/router.js"
-import { authUser, activeOrdersForUser, logout } from '/src/store/axios-helper.js'
+import { authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser } from '/src/store/axios-helper.js'
 import { currentOrder, logoutClient } from '/src/store/client-helper.js'
 import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
+import { LOADING_TYPE } from '../../store/data-types/loading-type';
+
+const lastOrderLoadingType = ref(LOADING_TYPE.loading)
 
 onMounted(() => {
   if (authUser.value == null) {
@@ -13,6 +16,15 @@ onMounted(() => {
   }
 
   loadActiveOrdersForUserAndRestartInterval(authUser.value.id)
+
+  if (lastOrderForUser.value) {
+    lastOrderLoadingType.value = LOADING_TYPE.complete
+  }
+  else {
+    getLastOrderForUser(authUser.value.id)
+      .then(() => lastOrderLoadingType.value = LOADING_TYPE.complete)
+      .catch(() => lastOrderLoadingType.value = LOADING_TYPE.error)
+  }
 })
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - START
@@ -51,12 +63,43 @@ function logoutVue() {
       </section>
 
 
-      <button @click.prevent="" class="btn--secondary">Управление адресами доставки</button>
+      <button @click.prevent="" class="btn--secondary">Адреса доставки</button>
+      <button @click.prevent="logoutVue()" class="btn--secondary">Управление профилем</button>
       <button @click.prevent="" class="btn--secondary">История заказов</button>
-      <button @click.prevent="logoutVue()" class="btn--secondary">Выйти</button>
 
-      <section>
-        <h2 class="user-panel__h2">Активные заказы</h2>
+      <section class="user-panel__order-section">
+
+        <h2 class="user-panel__order-section-h2">Последний заказ</h2>
+
+        <div v-if="lastOrderLoadingType == LOADING_TYPE.loading" class="spinner-fixed-heigth">
+          <div class="spinner"> </div>
+        </div>
+
+        <template v-else-if="lastOrderLoadingType == LOADING_TYPE.complete">
+
+          <div v-if="lastOrderForUser" class="order-panel__products-section">
+
+            <template v-for="product in lastOrderForUser.products">
+
+              <img class="order-panel__product-img" :src="product.image_url" alt="">
+              <span>{{ product.title }}</span>
+              <span class="order-panel__count-price"> {{ product.quantity }} </span>
+              <span> шт. </span>
+
+            </template>
+
+          </div>
+
+          <p v-else class="user-panel__order-section-text">У вас еще не было заказов</p>
+
+        </template>
+
+        <div v-else>Ошибка загрузки...</div>
+
+      </section>
+
+      <section class="user-panel__order-section">
+        <h2 class="user-panel__order-section-h2">Активные заказы</h2>
         <template v-if="activeOrdersForUser.length > 0">
           <div v-for="order in activeOrdersForUser">
             {{ order.number }}
@@ -65,7 +108,7 @@ function logoutVue() {
             <button @click.prevent="openOrderStatusPanel(order)">Подробнее</button>
           </div>
         </template>
-        <p v-else>У вас нет активных заказов</p>
+        <p v-else class="user-panel__order-section-text">У вас нет активных заказов</p>
       </section>
 
     </div>

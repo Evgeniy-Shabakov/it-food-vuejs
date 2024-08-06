@@ -4,7 +4,7 @@
     left: calc(50% - var(--spinner-widht-higth)/2);
     height: var(--spinner-widht-higth);
     aspect-ratio: 1/1;
-    
+
 }
 
 .spinner-centr-object {
@@ -12,7 +12,12 @@
     top: calc(50% - var(--spinner-widht-higth)/2);
     left: calc(50% - var(--spinner-widht-higth)/2);
     height: var(--spinner-widht-higth);
-    aspect-ratio: 1/1;    
+    aspect-ratio: 1/1;
+}
+
+.spinner-fixed-heigth {
+    height: var(--spinner-widht-higth);
+    aspect-ratio: 1/1;
 }
 
 .spinner {

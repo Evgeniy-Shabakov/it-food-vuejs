@@ -17,9 +17,19 @@
     margin-bottom: 15px;
 }
 
-.user-panel__h2{
+
+.user-panel__order-section {
+    margin-top: 15px;
+}
+
+.user-panel__order-section-text{
+    text-align: center;
+}
+
+.user-panel__order-section-h2{
     text-align: center;
     font-size: 1.3rem;
+    margin-bottom: 10px;
 }
 
 .user-panel__name-section {

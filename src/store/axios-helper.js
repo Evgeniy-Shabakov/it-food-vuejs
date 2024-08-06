@@ -38,6 +38,7 @@ export const currentEmployee = ref()
 export const ordersToday = ref()
 
 export const activeOrdersForUser = ref([])
+export const lastOrderForUser = ref()
 
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
@@ -128,6 +129,18 @@ export async function getActiveOrdersForUser(userID) {
         const res = await axios.get(`/users/${userID}/active-orders`)
 
         activeOrdersForUser.value = res.data.data
+        return res
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function getLastOrderForUser(userID) {
+    try {
+        const res = await axios.get(`/users/${userID}/last-order`)
+
+        lastOrderForUser.value = res.data.data
         return res
     } catch (error) {
         console.log(error)

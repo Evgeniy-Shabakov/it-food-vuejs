@@ -1,5 +1,5 @@
 import { ref, computed, watch } from 'vue';
-import { restaurants, logout } from '/src/store/axios-helper.js'
+import { restaurants, logout, lastOrderForUser } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
 import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 
@@ -33,6 +33,8 @@ watch(selectedAddressForDelivery, () => {
 
 export function logoutClient() {
     logout()
+
+    lastOrderForUser.value = null
 
     removeAllProductsFromCart()
     localStorage.removeItem(COOKIE_NAME.ADDRESS_DELIVERY_ID)
