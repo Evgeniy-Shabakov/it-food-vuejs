@@ -1,8 +1,14 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import router from "/src/router.js"
-import { authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser } from '/src/store/axios-helper.js'
-import { currentOrder, logoutClient } from '/src/store/client-helper.js'
+import {
+  authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser, categories
+}
+  from '/src/store/axios-helper.js'
+import {
+  currentOrder, logoutClient, plusProductToCart, removeAllProductsFromCart
+}
+  from '/src/store/client-helper.js'
 import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
 import { LOADING_TYPE } from '../../store/data-types/loading-type';
@@ -48,6 +54,26 @@ function logoutVue() {
   router.push({ name: 'client.menu' })
 }
 
+function repeatLastOrder() {
+  if(lastOrderForUser.value == null) return
+
+  removeAllProductsFromCart()
+
+  lastOrderForUser.value.products.forEach(productInLastOrder => {
+    let product
+
+    categories.value.forEach(category => {
+      if (product) return
+      product = category.products.find(el => el.id === productInLastOrder.id)
+    })
+
+    if (product)
+      plusProductToCart(product, productInLastOrder.quantity)
+  })
+
+  router.push({ name: 'client.cart' })
+}
+
 </script>
 
 <template>
@@ -66,6 +92,19 @@ function logoutVue() {
       <button @click.prevent="" class="btn--secondary">Адреса доставки</button>
       <button @click.prevent="logoutVue()" class="btn--secondary">Управление профилем</button>
       <button @click.prevent="" class="btn--secondary">История заказов</button>
+
+      <section class="user-panel__order-section">
+        <h2 class="user-panel__order-section-h2">Активные заказы</h2>
+        <template v-if="activeOrdersForUser.length > 0">
+          <div v-for="order in activeOrdersForUser">
+            {{ order.number }}
+            {{ order.order_status }}
+            {{ order.total_price }}р.
+            <button @click.prevent="openOrderStatusPanel(order)">Подробнее</button>
+          </div>
+        </template>
+        <p v-else class="user-panel__order-section-text">У вас нет активных заказов</p>
+      </section>
 
       <section class="user-panel__order-section">
 
@@ -98,23 +137,14 @@ function logoutVue() {
 
       </section>
 
-      <section class="user-panel__order-section">
-        <h2 class="user-panel__order-section-h2">Активные заказы</h2>
-        <template v-if="activeOrdersForUser.length > 0">
-          <div v-for="order in activeOrdersForUser">
-            {{ order.number }}
-            {{ order.order_status }}
-            {{ order.total_price }}р.
-            <button @click.prevent="openOrderStatusPanel(order)">Подробнее</button>
-          </div>
-        </template>
-        <p v-else class="user-panel__order-section-text">У вас нет активных заказов</p>
-      </section>
+
 
     </div>
 
     <div class="user-panel__btn-section">
-      <button class="btn btn-submit user-panel__btn-repeat-order">Повторить последний заказ</button>
+      <button @click=repeatLastOrder() class="btn btn-submit user-panel__btn-repeat-order">
+        Повторить последний заказ
+      </button>
     </div>
 
   </div>

@@ -70,6 +70,8 @@ onUpdated(() => {
   //высота меняется несколько раз при загрузке странице и категорий с продуктами
 
   setTimeout(() => { //таймаут так как DOM обновляется с задержкой
+    if(categoriesMenu.value == null) return // чтобы избежать ошибок
+
     let scrollPaddingTop = categoriesMenu.value.offsetHeight + 20 + 'px'
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop)
   }, 0, 3 * 1000)

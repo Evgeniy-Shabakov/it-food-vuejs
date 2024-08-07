@@ -146,12 +146,17 @@ export const totalPrice = computed(() => {
     return Number(totalProductPrice.value + deliveryPrice.value)
 })
 
-export function plusProductToCart(product) {
+export function plusProductToCart(product, quantity) {
+    if (typeof quantity === 'undefined') {
+        // Если параметр не передан, устанавливаем значение по умолчанию
+        quantity = 1;
+    }
+
     if (productsInCart.value.includes(product)) {
-        product.countInCart++
+        product.countInCart += quantity
     }
     else {
-        product.countInCart = 1
+        product.countInCart = quantity
         productsInCart.value.push(product)
     }
 
