@@ -43,6 +43,12 @@
     width: 100%;
 }
 
+.user-panel__active-orders-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 @media (max-width: 1300px) {
     .user-panel__btn-section {
         position: fixed;

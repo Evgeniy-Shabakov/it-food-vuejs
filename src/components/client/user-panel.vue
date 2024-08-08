@@ -55,7 +55,7 @@ function logoutVue() {
 }
 
 function repeatLastOrder() {
-  if(lastOrderForUser.value == null) return
+  if (lastOrderForUser.value == null) return
 
   removeAllProductsFromCart()
 
@@ -95,14 +95,21 @@ function repeatLastOrder() {
 
       <section class="user-panel__order-section">
         <h2 class="user-panel__order-section-h2">Активные заказы</h2>
-        <template v-if="activeOrdersForUser.length > 0">
-          <div v-for="order in activeOrdersForUser">
-            {{ order.number }}
-            {{ order.order_status }}
-            {{ order.total_price }}р.
-            <button @click.prevent="openOrderStatusPanel(order)">Подробнее</button>
+        <div v-if="activeOrdersForUser.length > 0" class="user-panel__active-orders-list">
+
+          <div v-for="order in activeOrdersForUser" class="active-order">
+            <span>
+              №{{ order.number }}
+            </span>
+            <span class="active-order__status">
+              {{ order.order_status }}
+            </span>
+            <button @click.prevent="openOrderStatusPanel(order)" class="btn--secondary">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
           </div>
-        </template>
+          
+        </div>
         <p v-else class="user-panel__order-section-text">У вас нет активных заказов</p>
       </section>
 

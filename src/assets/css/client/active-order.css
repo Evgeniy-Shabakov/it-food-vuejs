@@ -1,0 +1,12 @@
+.active-order{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+}
+
+.active-order__status {
+    color: green;
+    font-weight: 700;
+    text-align: center;
+}
