@@ -101,14 +101,17 @@ function repeatLastOrder() {
             <span>
               №{{ order.number }}
             </span>
-            <span class="active-order__status">
-              {{ order.order_status }}
-            </span>
+            <div class="active-order__status">
+              <span>{{ order.order_status }}</span>
+              <div class="loader">
+                <div class="bar"></div>
+              </div>
+            </div>
             <button @click.prevent="openOrderStatusPanel(order)" class="btn--secondary">
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
           </div>
-          
+
         </div>
         <p v-else class="user-panel__order-section-text">У вас нет активных заказов</p>
       </section>

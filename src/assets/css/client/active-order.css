@@ -6,6 +6,9 @@
 }
 
 .active-order__status {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     color: green;
     font-weight: 700;
     text-align: center;

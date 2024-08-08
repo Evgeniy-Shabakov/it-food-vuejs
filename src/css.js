@@ -2,6 +2,7 @@ import './assets/fontawesome-free-6.4.2-web/css/all.css'
 import './assets/css/root.css'
 import './assets/css/main.css'
 
+import './assets/css/modules/line-loader.css'
 import './assets/css/admin/admin.css'
 import './assets/css/admin/index-list-element.css'
 import './assets/css/admin/index-list-employee.css'
