@@ -33,6 +33,11 @@ const routes = [
                                 name: 'client.menu.popup.user-panel'
                             },
                             {
+                                path: '/popup/orders-history',
+                                component: () => import('./components/client/orders-history.vue'),
+                                name: 'client.menu.popup.orders-history'
+                            },
+                            {
                                 path: '/popup/address-panel',
                                 component: () => import('./components/client/address-panel.vue'),
                                 name: 'client.menu.popup.address-panel'

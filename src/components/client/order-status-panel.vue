@@ -82,7 +82,7 @@ if (currentOrder.value == null) {
     <div class="order-status-panel__btn-section">
 
       <button class="btn btn-submit order-status-panel__btn-order"
-        @click.prevent="router.push({ name: 'client.menu' })">
+        @click.prevent="router.push({ name: 'client.menu.popup.user-panel' })">
         OK
       </button>
 

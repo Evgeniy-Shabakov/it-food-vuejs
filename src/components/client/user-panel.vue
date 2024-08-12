@@ -1,17 +1,14 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue'
+
 import router from "/src/router.js"
-import {
-  authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser, categories
-}
+import { authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser }
   from '/src/store/axios-helper.js'
-import {
-  currentOrder, logoutClient, plusProductToCart, removeAllProductsFromCart
-}
-  from '/src/store/client-helper.js'
+import { currentOrder, logoutClient } from '/src/store/client-helper.js'
 import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
-import { LOADING_TYPE } from '../../store/data-types/loading-type';
+import { LOADING_TYPE } from '/src/store/data-types/loading-type'
+import { repeatOrder } from '/src/store/client/user-panel'
 
 const lastOrderLoadingType = ref(LOADING_TYPE.loading)
 
@@ -54,24 +51,8 @@ function logoutVue() {
   router.push({ name: 'client.menu' })
 }
 
-function repeatLastOrder() {
-  if (lastOrderForUser.value == null) return
-
-  removeAllProductsFromCart()
-
-  lastOrderForUser.value.products.forEach(productInLastOrder => {
-    let product
-
-    categories.value.forEach(category => {
-      if (product) return
-      product = category.products.find(el => el.id === productInLastOrder.id)
-    })
-
-    if (product)
-      plusProductToCart(product, productInLastOrder.quantity)
-  })
-
-  router.push({ name: 'client.cart' })
+function openOrdersHistory() {
+  router.push({ name: 'client.menu.popup.orders-history' })
 }
 
 </script>
@@ -91,7 +72,7 @@ function repeatLastOrder() {
 
       <button @click.prevent="" class="btn--secondary">Адреса доставки</button>
       <button @click.prevent="logoutVue()" class="btn--secondary">Управление профилем</button>
-      <button @click.prevent="" class="btn--secondary">История заказов</button>
+      <button @click.prevent="openOrdersHistory()" class="btn--secondary">История заказов</button>
 
       <section class="user-panel__order-section">
         <h2 class="user-panel__order-section-h2">Активные заказы</h2>
@@ -152,7 +133,7 @@ function repeatLastOrder() {
     </div>
 
     <div class="user-panel__btn-section">
-      <button @click=repeatLastOrder() class="btn btn-submit user-panel__btn-repeat-order">
+      <button @click=repeatOrder(lastOrderForUser) class="btn btn-submit user-panel__btn-repeat-order">
         Повторить последний заказ
       </button>
     </div>
