@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue'
+
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice,
   minusProductInCartForCartPanel,
@@ -6,16 +8,28 @@ import {
   deliveryAvailableInSelectedCity, pickUpAvailableInSelectedCity, restaurantAvailableInSelectedCity,
   selectedOrderType
 } from '/src/store/client-helper.js'
-import { countries } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type';
 
-import CitySelecte from '/src/components/client/city-selecte-component.vue';
+import CitySelecte from '/src/components/client/city-selecte-component.vue'
+
+//уникальные id для каждого компонента радиокнопок
+const idDeliveryRadioBtn = `option1` + generateRandomNumber()
+const idPickUpRadioBtn = `option1` + generateRandomNumber()
+const idInRestaurantRadioBtn = `option1` + generateRandomNumber()
+
+function generateRandomNumber() {
+  // Генерируем случайное число от 1000 до 9999
+  const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+  return randomNumber;
+}
 
 </script>
 
 <template>
   <div class="cart-panel__container">
+
     <div v-if="selectedCity">
+
       <div class="cart-panel__order-settings-section">
 
         <div class="cart-panel__city-selecte">
@@ -23,21 +37,25 @@ import CitySelecte from '/src/components/client/city-selecte-component.vue';
         </div>
 
         <div class="order-settings">
+
           <div v-if="deliveryAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option1" :value=ORDER_TYPE.delivery
+            <input class="order-settings__radio-button__input" type="radio" :id="`${idDeliveryRadioBtn}`" :value=ORDER_TYPE.delivery
               v-model="selectedOrderType">
-            <label class="order-settings__radio-button__label" for="option1">Доставка</label>
+            <label class="order-settings__radio-button__label" :for="`${idDeliveryRadioBtn}`">Доставка</label>
           </div>
+
           <div v-if="pickUpAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option2" :value=ORDER_TYPE.pickUp
+            <input class="order-settings__radio-button__input" type="radio" :id="`${idPickUpRadioBtn}`" :value=ORDER_TYPE.pickUp
               v-model="selectedOrderType">
-            <label class="order-settings__radio-button__label" for="option2">Самовывоз</label>
+            <label class="order-settings__radio-button__label" :for="`${idPickUpRadioBtn}`">Самовывоз</label>
           </div>
+
           <div v-if="restaurantAvailableInSelectedCity" class="order-settings__radio-button">
-            <input class="order-settings__radio-button__input" type="radio" id="option3" :value=ORDER_TYPE.inRestaurant
+            <input class="order-settings__radio-button__input" type="radio" :id="`${idInRestaurantRadioBtn}`" :value=ORDER_TYPE.inRestaurant
               v-model="selectedOrderType">
-            <label class="order-settings__radio-button__label" for="option3">В ресторане</label>
+            <label class="order-settings__radio-button__label" :for="`${idInRestaurantRadioBtn}`">В ресторане</label>
           </div>
+
         </div>
 
       </div>
@@ -74,7 +92,7 @@ import CitySelecte from '/src/components/client/city-selecte-component.vue';
 
       </div>
 
-      <div v-if="selectedCity" class="cart-panel__total-order-section">
+      <div class="cart-panel__total-order-section">
 
         <div class="cart-panel__block-total">
           <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="cart-panel__total">Товары: </span>
@@ -112,10 +130,12 @@ import CitySelecte from '/src/components/client/city-selecte-component.vue';
         </div>
 
       </div>
+
     </div>
 
     <div v-else class="spinner-centr-display">
       <div class="spinner"></div>
     </div>
+
   </div>
 </template>

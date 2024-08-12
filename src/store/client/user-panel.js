@@ -35,5 +35,5 @@ export function repeatOrder(order) {
     })
 
     //сделать окно корзины тоже попап, чтобы совпадало поведение на мониторе и мобиле
-    router.push({ name: 'client.cart' })
+    router.push({ name: 'client.menu.popup.cart' })
 }

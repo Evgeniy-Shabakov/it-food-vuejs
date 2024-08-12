@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch } from 'vue'
 import axios from 'axios'
 
 import router from "/src/router.js"

@@ -60,14 +60,6 @@ function btnTopPressed() {
     <div class="container">
       <div class="bottom-device-menu__inner">
 
-        <!-- <router-link v-if="useRoute().name != 'client.menu'" :to="{ name: 'client.menu' }"
-          class="bottom-device-menu__item bottom-device-menu__item-1">
-          <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
-        </router-link>
-        <a v-else href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
-          <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
-        </a> -->
-
         <a @click.prevent="btnTopPressed()" href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a>
@@ -77,7 +69,7 @@ function btnTopPressed() {
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>
 
-        <router-link :to="{ name: 'client.cart' }" class="bottom-device-menu__item bottom-device-menu__item-3">
+        <router-link :to="{ name: 'client.menu.popup.cart' }" class="bottom-device-menu__item bottom-device-menu__item-3">
           <i class="fa-solid fa-cart-shopping bottom-device-menu__icon">
             <div v-if="totalCountInCart" class="bottom-device-menu__product-count-in-cart">
               {{ totalCountInCart }}

@@ -135,18 +135,18 @@
     }
 
     .cart-panel__order-settings-section {
-        margin-top: 15px;
+        margin-top: 5px;
     }
 
     .cart-panel__container {
-        width: 90%;
+        /* width: 90%; */
     }
 
     .cart-panel__products-section {
         border: 0px;
         height: 100%;
         padding: 0px;
-        margin-bottom: 121px;
+        /* margin-bottom: 121px; */
     }
 
     .cart-panel__total-order-section {

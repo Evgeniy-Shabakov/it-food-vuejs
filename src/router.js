@@ -47,25 +47,15 @@ const routes = [
                                 component: () => import('./components/client/order-status-panel.vue'),
                                 name: 'client.menu.popup.order-status-panel'
                             },
+                            {
+                                path: '/popup/cart',
+                                component: () => import('./components/client/cart-component.vue'),
+                                name: 'client.menu.popup.cart'
+                            },
                         ]
                     },
                 ]
             },
-            {
-                path: '/cart',
-                component: () => import('./components/client/client-cart.vue'),
-                name: 'client.cart'
-            },
-            // {
-            //     path: '/order-panel',
-            //     component: () => import('./components/client/order-panel.vue'),
-            //     name: 'client.order-panel'
-            // },
-            // {
-            //     path: '/login-panel',
-            //     component: () => import('./components/client/login-panel.vue'),
-            //     name: 'client.login-panel'
-            // },
         ]
     },
     {
@@ -285,7 +275,8 @@ router.beforeEach((to, from, next) => {
     if (window.innerWidth > 1300) { //для мониторов сохраняем положение страницы меню, чтобы экран не смещался при открытии popup
         if (to.name == 'client.menu.popup.login-panel' || to.name == 'client.menu.popup.user-panel'
             || to.name == 'client.menu.popup.address-panel'
-            || to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.order-status-panel') {
+            || to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.order-status-panel'
+            || to.name == 'client.menu.popup.cart') {
             scrollPositions[to.name] = window.scrollY
         }
     }
