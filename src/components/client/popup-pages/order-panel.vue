@@ -92,14 +92,16 @@ const sendOrder = async () => {
 
 <template>
 
-  <div v-if="selectedCity" class="order-panel">
-    <div class="order-panel__main-section">
+  <div class="client-popup-page-layout__main-section">
 
-      <div class="order-panel__city-order-type">
-        {{ selectedCity.title }} - {{ selectedOrderType }}
-      </div>
+    <h1 v-if="selectedCity" class="client-popup-page-layout__h1">
+      <div>{{ selectedCity.title }} - {{ selectedOrderType }}</div>
       <div class="order-panel__text-description">(оформление заказа)</div>
       <div class="invalid-text order-panel__other-errors-text">{{ otherErrors }}</div>
+    </h1>
+
+
+    <div v-if="selectedCity" class="order-panel">
 
       <template v-if="selectedOrderType == ORDER_TYPE.delivery">
 
@@ -198,18 +200,26 @@ const sendOrder = async () => {
 
     </div>
 
-    <div class="order-panel__btn-section">
+    <div v-if="blockSendOrder" class="spinner-centr-display">
+      <div class="spinner"></div>
+    </div>
+
+
+  </div>
+
+  <div class="client-popup-page-layout__btn-section">
+
+    <template v-if="selectedCity">
+
       <button v-if="blockSendOrder == false" class="btn btn-submit order-panel__btn-order" @click.prevent="sendOrder()">
         Оформить за {{ totalPrice }}р.
       </button>
       <button v-else class="btn btn-submit order-panel__btn-order">
         Отправляем заказ в ресторан...
       </button>
-    </div>
-  </div>
 
-  <div v-if="blockSendOrder" class="spinner-centr-display">
-    <div class="spinner"></div>
+    </template>
+
   </div>
 
 </template>

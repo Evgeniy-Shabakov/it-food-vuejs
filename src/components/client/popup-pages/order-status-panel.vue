@@ -9,15 +9,20 @@ if (currentOrder.value == null) {
 </script>
 
 <template>
-  <div class="order-status-panel" v-if="currentOrder">
 
-    <div class="order-status-panel__main-section">
+  <div class="client-popup-page-layout__main-section">
 
-      <div class="order-status-panel__city-order-type">{{ currentOrder.city.title }} - {{ currentOrder.order_type }}
-      </div>
+    <h1 v-if="currentOrder" class="client-popup-page-layout__h1">
+      {{ currentOrder.city.title }} - {{ currentOrder.order_type }}
+    </h1>
 
-      <div class="order-status-panel__text-top">Ваш заказ оформлен.
-        Статус заказа можно отследить в личном кабинете.
+
+    <div class="order-status-panel" v-if="currentOrder">
+
+      <div class="order-status-panel__text-top">
+        Ваш заказ оформлен! <br>
+        Статус заказа можно отследить <br>
+        в личном кабинете.
       </div>
 
       <div class="order-status-panel__text-description">номер заказа</div>
@@ -77,16 +82,18 @@ if (currentOrder.value == null) {
 
       </div>
 
-    </div>
 
-    <div class="order-status-panel__btn-section">
-
-      <button class="btn btn-submit order-status-panel__btn-order"
-        @click.prevent="router.push({ name: 'client.menu.popup.user-panel' })">
-        OK
-      </button>
 
     </div>
+
 
   </div>
+
+  <div class="client-popup-page-layout__btn-section">
+    <button class="btn btn-submit order-status-panel__btn-order"
+      @click.prevent="router.push({ name: 'client.menu.popup.user-panel' })">
+      OK
+    </button>
+  </div>
+
 </template>

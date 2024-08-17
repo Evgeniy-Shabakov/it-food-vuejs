@@ -7,19 +7,19 @@ const router = useRouter()
 const popupWindowBackdrop = ref(null)
 const popupWindow = ref(null)
 
-onUpdated(()=>{ 
+onUpdated(() => {
   //смещаем скролл внутри popup при каждом обновлении 
   //нужно для перехода от формления заказа к статусу заказа на мобиле
-  popupWindow.value.scrollTop = 0 
+  popupWindow.value.scrollTop = 0
 })
 
 onMounted(() => {
-  document.body.classList.add('popup-lock-scroll')
+  document.body.classList.add('client-popup-page-layout-lock-scroll')
   popupWindowBackdrop.value.addEventListener('click', checkClickAndClosePopup)
 })
 
 onBeforeUnmount(() => {
-  document.body.classList.remove('popup-lock-scroll')
+  document.body.classList.remove('client-popup-page-layout-lock-scroll')
   popupWindowBackdrop.value.removeEventListener('click', checkClickAndClosePopup)
 })
 
@@ -33,14 +33,16 @@ function checkClickAndClosePopup(e) {
 </script>
 
 <template>
-  <div class="popup-backdrop" ref="popupWindowBackdrop">
-    <div class="popup" ref="popupWindow">
+  <div class="client-popup-page-layout-backdrop" ref="popupWindowBackdrop">
+    <div class="client-popup-page-layout" ref="popupWindow">
 
-      <button class="popup__btn-close" @click.prevent="router.push({ name: 'client.menu' })"><i
-          class="fa-solid fa-xmark"></i></button>
+      <button class="client-popup-page-layout__btn-close" @click.prevent="router.push({ name: 'client.menu' })">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
 
       <router-view></router-view>
-      
+
     </div>
+
   </div>
 </template>

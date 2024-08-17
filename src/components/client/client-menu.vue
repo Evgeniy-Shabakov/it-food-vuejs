@@ -8,7 +8,7 @@ import {
   activateSelecteMenuController, activateMoveMenuController, getIndexCentrSection
 } from '/src/store/client/client-menu.js'
 
-import CartComponent from './cart-component.vue';
+import CartPanel from '/src/components/client/parts/client-menu-cart-panel.vue'
 
 const categoriesMenu = ref()
 const categoriesMenuInner = ref()
@@ -146,8 +146,8 @@ function scrollToCategory(index) {
           @click.prevent="scrollToCategory(index)" :href="'#' + category.title">
           {{ category.title }}</a>
 
-        <div class="cart-panel">
-          <cart-component></cart-component>
+        <div class="client-menu__cart-panel">
+          <CartPanel></CartPanel>
         </div>
       </div>
       <div v-else class="spinner-centr-display">

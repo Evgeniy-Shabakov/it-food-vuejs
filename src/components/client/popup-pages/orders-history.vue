@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 import { allOrdersForUser, getAllOrdersForUser, authUser }
     from '/src/store/axios-helper.js'
@@ -8,25 +8,35 @@ import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
 const orderHistoryLoadingType = ref(LOADING_TYPE.loading)
 
-getAllOrdersForUser(authUser.value.id)
-    .then(() => orderHistoryLoadingType.value = LOADING_TYPE.complete)
-    .catch(() => orderHistoryLoadingType.value = LOADING_TYPE.error)
+if (authUser.value) { // проверка нужна при заходе на страницу при обновлении
+    getAllOrdersForUser(authUser.value.id)
+        .then(() => orderHistoryLoadingType.value = LOADING_TYPE.complete)
+        .catch(() => orderHistoryLoadingType.value = LOADING_TYPE.error)
+}
+else {
+    watch(authUser, () => {
+        getAllOrdersForUser(authUser.value.id)
+            .then(() => orderHistoryLoadingType.value = LOADING_TYPE.complete)
+            .catch(() => orderHistoryLoadingType.value = LOADING_TYPE.error)
+    })
+}
 
 </script>
 
 <template>
-    <div class="orders-history">
 
-        <div class="orders-history__main-section">
+    <div class="client-popup-page-layout__main-section">
 
-            <h1 class="orders-history__h1">История заказов</h1>
+        <h1 class="client-popup-page-layout__h1">История заказов</h1>
+
+        <div class="orders-history">
 
             <div v-if="orderHistoryLoadingType == LOADING_TYPE.loading" class="spinner-centr-object">
                 <div class="spinner"> </div>
             </div>
 
             <template v-else-if="orderHistoryLoadingType == LOADING_TYPE.complete">
-                
+
                 <template v-if="allOrdersForUser.length > 0">
                     <div v-for="order in allOrdersForUser">
 
@@ -64,13 +74,14 @@ getAllOrdersForUser(authUser.value.id)
 
         </div>
 
-        <div class="orders-history__btn-section">
-            <router-link :to="{ name: 'client.menu.popup.user-panel' }" class="orders-history__btn-back">
-                <button @click="" class="btn btn-submit orders-history__btn-back">
-                    Назад
-                </button>
-            </router-link>
-        </div>
-
     </div>
+
+    <div class="client-popup-page-layout__btn-section">
+        <router-link :to="{ name: 'client.menu.popup.user-panel' }" class="orders-history__btn-back">
+            <button @click="" class="btn btn-submit orders-history__btn-back">
+                Назад
+            </button>
+        </router-link>
+    </div>
+
 </template>

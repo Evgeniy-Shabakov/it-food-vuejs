@@ -1,0 +1,13 @@
+.client-menu__cart-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 23%;
+    margin-top: var(--scroll-padding-top);
+}
+
+@media (max-width: 1300px) {
+    .client-menu__cart-panel {
+        display: none;
+    }
+}

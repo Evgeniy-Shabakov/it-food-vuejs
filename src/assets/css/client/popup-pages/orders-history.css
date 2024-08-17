@@ -1,0 +1,28 @@
+.orders-history {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.orders-history__date-time {
+    text-align: center;
+    color: grey;
+}
+
+.orders-history__order-status {
+    text-align: center;
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 15px;
+}
+
+.orders-history__btn-repeat-order {
+    width: 100%;
+}
+
+.orders-history__btn-back {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {}
+
+@media (max-width: 522px) {}

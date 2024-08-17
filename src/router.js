@@ -14,42 +14,42 @@ const routes = [
                 children: [
                     {
                         path: '/popup',
-                        component: () => import('./components/client/client-popup.vue'),
+                        component: () => import('./components/client/popup-pages/client-popup-page-layout.vue'),
                         name: 'client.menu.popup',
                         children: [
                             {
                                 path: '/popup/order-panel',
-                                component: () => import('./components/client/order-panel.vue'),
+                                component: () => import('./components/client/popup-pages/order-panel.vue'),
                                 name: 'client.menu.popup.order-panel'
                             },
                             {
                                 path: '/popup/login-panel',
-                                component: () => import('./components/client/login-panel.vue'),
+                                component: () => import('./components/client/popup-pages/login-panel.vue'),
                                 name: 'client.menu.popup.login-panel'
                             },
                             {
                                 path: '/popup/user-panel',
-                                component: () => import('./components/client/user-panel.vue'),
+                                component: () => import('./components/client/popup-pages/user-panel.vue'),
                                 name: 'client.menu.popup.user-panel'
                             },
                             {
                                 path: '/popup/orders-history',
-                                component: () => import('./components/client/orders-history.vue'),
+                                component: () => import('./components/client/popup-pages/orders-history.vue'),
                                 name: 'client.menu.popup.orders-history'
                             },
                             {
                                 path: '/popup/address-panel',
-                                component: () => import('./components/client/address-panel.vue'),
+                                component: () => import('./components/client/popup-pages/address-panel.vue'),
                                 name: 'client.menu.popup.address-panel'
                             },
                             {
                                 path: '/popup/order-status-panel',
-                                component: () => import('./components/client/order-status-panel.vue'),
+                                component: () => import('./components/client/popup-pages/order-status-panel.vue'),
                                 name: 'client.menu.popup.order-status-panel'
                             },
                             {
                                 path: '/popup/cart',
-                                component: () => import('./components/client/cart-component.vue'),
+                                component: () => import('./components/client/popup-pages/cart-panel.vue'),
                                 name: 'client.menu.popup.cart'
                             },
                         ]

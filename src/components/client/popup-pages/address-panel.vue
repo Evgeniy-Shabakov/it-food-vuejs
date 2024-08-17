@@ -93,26 +93,28 @@ async function addAddress() {
 </script>
 
 <template>
-  <div v-if="selectedCity" class="address-panel">
 
-    <div>
-      <div class="address-panel__title">
-        {{ selectedCity.title }}
-      </div>
-      <div class="address-panel__text-description">
+  <div class="client-popup-page-layout__main-section">
+
+    <h1 v-if="selectedCity" class="client-popup-page-layout__h1">
+      <div>{{ selectedCity.title }}</div>
+      <div class="address-panel__h1-description">
         (добавление адреса)
       </div>
+    </h1>
+
+    <div v-if="selectedCity" class="address-panel">
 
       <!-- добавить возможность изменения города в личном кабинете,
-      пока добавить адрес в заказе можно только к текущему городу
-      -->
+        пока добавить адрес в заказе можно только к текущему городу
+        -->
 
       <!-- <div class="address-panel__input-section">
         <label class="address-panel__label field-required">Город</label>
         <city-selecte></city-selecte>
-      </div> -->
+        </div> -->
 
-      <div class="address-panel__input-section">
+      <div>
         <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
         <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
           class="address-panel__input address-panel__street" @click.prevent="validationErrors.street = ''">
@@ -121,14 +123,14 @@ async function addAddress() {
 
       <div class="address-panel__row-group">
 
-        <div class="address-panel__input-section">
+        <div>
           <label class="address-panel__label field-required">Номер дома</label>
           <input type="text" v-model="inputedHouseNumber" class="address-panel__input address-panel__hause-number"
             @click.prevent="validationErrors.house_number = ''">
           <div class="invalid-validation-text">{{ validationErrors.house_number }}</div>
         </div>
 
-        <div class="address-panel__input-section">
+        <div>
           <label class="address-panel__label">Корпус</label>
           <input type="text" v-model="inputedCorpsNumber" class="address-panel__input address-panel__corps-number"
             @click.prevent="validationErrors.corps_number = ''">
@@ -139,7 +141,7 @@ async function addAddress() {
 
       <div class="address-panel__row-group">
 
-        <div class="address-panel__input-section">
+        <div>
           <label class="address-panel__label">Квартира/офис</label>
           <input type="text" v-model="inputedApartmentNumber"
             class="address-panel__input address-panel__apartment-number"
@@ -147,7 +149,7 @@ async function addAddress() {
           <div class="invalid-validation-text">{{ validationErrors.apartment_number }}</div>
         </div>
 
-        <div class="address-panel__input-section">
+        <div>
           <label class="address-panel__label">Подъезд</label>
           <input type="number" v-model="inputedEnterenceNumber"
             class="address-panel__input address-panel__enterence-number"
@@ -155,7 +157,7 @@ async function addAddress() {
           <div class="invalid-validation-text">{{ validationErrors.entrance_number }}</div>
         </div>
 
-        <div class="address-panel__input-section">
+        <div>
           <label class="address-panel__label">Этаж</label>
           <input type="number" v-model="inputedFloor" class="address-panel__input address-panel__floor"
             @click.prevent="validationErrors.floor = ''">
@@ -164,14 +166,14 @@ async function addAddress() {
 
       </div>
 
-      <div class="address-panel__input-section">
+      <div>
         <label class="address-panel__label">Код от подъезда</label>
         <input type="text" v-model="inputedEnterenceCode" class="address-panel__input address-panel__enterence-code"
           @click.prevent="validationErrors.entrance_code = ''">
         <div class="invalid-validation-text">{{ validationErrors.entrance_code }}</div>
       </div>
 
-      <div class="address-panel__input-section">
+      <div>
         <label class="address-panel__label">Название для адреса (дом, работа)</label>
         <input type="text" v-model="inputedTitle" class="address-panel__input address-panel__title"
           @click.prevent="validationErrors.title = ''">
@@ -184,21 +186,24 @@ async function addAddress() {
           @click.prevent="validationErrors.comment = ''"></textarea>
         <div class="invalid-validation-text">{{ validationErrors.comment }}</div>
       </div>
+
+      <div v-if="blockAddAddress" class="spinner-centr-display">
+        <div class="spinner"></div>
+      </div>
+
     </div>
 
-    <div class="address-panel__btn-section">
-      <button class="btn btn-submit address-panel__btn-add" @click.prevent="addAddress()">
-        Добавить
-      </button>
-    </div>
-
-
-    <div v-if="blockAddAddress" class="spinner-centr-display">
+    <div v-else class="spinner-centr-display">
       <div class="spinner"></div>
     </div>
 
+
   </div>
-  <div v-else class="spinner-centr-display">
-    <div class="spinner"></div>
+
+  <div class="client-popup-page-layout__btn-section">
+    <button class="btn btn-submit address-panel__btn-add" @click.prevent="addAddress()">
+      Добавить
+    </button>
   </div>
+
 </template>

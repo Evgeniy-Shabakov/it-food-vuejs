@@ -58,11 +58,13 @@ function openOrdersHistory() {
 </script>
 
 <template>
-  <div v-if="authUser" class="user-panel">
+  
+  <div class="client-popup-page-layout__main-section">
 
-    <div class="user-panel__main-section">
+    <h1 class="client-popup-page-layout__h1">Данные профиля</h1>
 
-      <h1 class="user-panel__h1">Данные профиля</h1>
+
+    <div v-if="authUser" class="user-panel">
 
       <section class="user-panel__name-section">
         <span>{{ authUser.name || 'Гость' }} ({{ authUser.phone }})</span>
@@ -128,20 +130,19 @@ function openOrdersHistory() {
 
       </section>
 
-
-
     </div>
 
-    <div class="user-panel__btn-section">
-      <button @click=repeatOrder(lastOrderForUser) class="btn btn-submit user-panel__btn-repeat-order">
-        Повторить последний заказ
-      </button>
+    <div v-else class="spinner-centr-display">
+      <div class="spinner"></div>
     </div>
 
+    
   </div>
 
-  <div v-else class="spinner-centr-display">
-    <div class="spinner"></div>
+  <div class="client-popup-page-layout__btn-section">
+    <button @click=repeatOrder(lastOrderForUser) class="btn btn-submit user-panel__btn-repeat-order">
+      Повторить последний заказ
+    </button>
   </div>
 
 </template>

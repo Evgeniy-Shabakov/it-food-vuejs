@@ -1,0 +1,96 @@
+.client-popup-page-layout-backdrop {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.3);
+
+    display: grid;
+    place-items: center;
+}
+
+.client-popup-page-layout {
+    position: relative;
+
+    width: 720px;
+    height: 720px;
+
+    border: 1px solid orange;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.client-popup-page-layout__btn-close {
+    position: absolute;
+    top: 0px;
+    right: -45px;
+
+    width: 25px;
+    height: 25px;
+
+    border: 1px solid orange;
+    border-radius: 50%;
+}
+
+.client-popup-page-layout__main-section {
+    padding: 15px 25px;
+
+    height: calc(100% - 68px);
+    overflow-y: auto;
+}
+
+.client-popup-page-layout__btn-section {
+    padding: 10px 25px;
+
+    height: 68px;
+    width: 100%;
+
+    border-top: 1px solid grey;
+    
+    display: flex;
+    align-items: center;
+}
+
+.client-popup-page-layout__h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.client-popup-page-layout-lock-scroll {
+    overflow: hidden;
+    /*ширина скрола, чтобы не было смещения */
+    padding-right: 17px;
+}
+
+@media (max-width: 1300px) {
+    .client-popup-page-layout {
+        position: fixed;
+        top: 0;
+
+        width: 100%;
+        height: calc(100% - 48px);
+
+        border: none;
+        border-radius: 0px;
+    }
+
+    .client-popup-page-layout__btn-section {
+        height: 68px;
+        width: 100%;
+
+        border-top: 1px solid grey;
+        background-color: white;
+        padding: 10px 25px;
+        
+        display: flex;
+        align-items: center;
+    }
+
+    .client-popup-page-layout-lock-scroll {
+        padding-right: 0px;
+    }
+}
+
+@media (max-width: 522px) {}

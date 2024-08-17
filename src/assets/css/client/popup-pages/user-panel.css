@@ -1,0 +1,40 @@
+.user-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.user-panel__order-section {
+    margin-top: 15px;
+}
+
+.user-panel__order-section-text {
+    text-align: center;
+}
+
+.user-panel__order-section-h2 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.user-panel__name-section {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-panel__btn-repeat-order {
+    width: 100%;
+}
+
+.user-panel__active-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width: 1300px) {}
+
+@media (max-width: 522px) {}
