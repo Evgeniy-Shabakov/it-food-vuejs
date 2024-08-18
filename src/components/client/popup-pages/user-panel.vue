@@ -61,13 +61,14 @@ function openOrdersHistory() {
   
   <div class="client-popup-page-layout__main-section">
 
-    <h1 class="client-popup-page-layout__h1">Данные профиля</h1>
+    <h1 class="client-popup-page-layout__h1 user-panel__h1">Данные профиля</h1>
+    <div v-if="authUser" class="user-panel__phone">{{ authUser.phone }}</div>
 
 
     <div v-if="authUser" class="user-panel">
 
       <section class="user-panel__name-section">
-        <span>{{ authUser.name || 'Гость' }} ({{ authUser.phone }})</span>
+        <span>{{ authUser.name || 'Гость' }}</span>
         <button @click.prevent="" class="btn--secondary"><i class="fa-solid fa-pen"></i></button>
       </section>
 
