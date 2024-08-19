@@ -43,6 +43,7 @@ import './assets/css/client/popup-pages/order-panel.css'
 import './assets/css/client/popup-pages/order-status-panel.css'
 import './assets/css/client/popup-pages/orders-history.css'
 import './assets/css/client/popup-pages/user-panel.css'
+import './assets/css/client/popup-pages/user-edit-panel.css'
 
 import './assets/css/client/parts/client-menu-cart-panel.css'
 

@@ -1,0 +1,10 @@
+.user-edit-panel {
+}
+
+.user-edit-panel__btn-save {
+    width: 100%;
+}
+
+@media (max-width: 1300px) {}
+
+@media (max-width: 522px) {}

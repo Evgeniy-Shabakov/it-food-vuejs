@@ -55,6 +55,10 @@ function openOrdersHistory() {
   router.push({ name: 'client.menu.popup.orders-history' })
 }
 
+function openUserEditPanel() {
+  router.push({ name: 'client.menu.popup.user-edit-panel' })
+}
+
 </script>
 
 <template>
@@ -69,7 +73,7 @@ function openOrdersHistory() {
 
       <section class="user-panel__name-section">
         <span>{{ authUser.name || 'Гость' }}</span>
-        <button @click.prevent="" class="btn--secondary"><i class="fa-solid fa-pen"></i></button>
+        <button @click.prevent="openUserEditPanel()" class="btn--secondary"><i class="fa-solid fa-pen"></i></button>
       </section>
 
 

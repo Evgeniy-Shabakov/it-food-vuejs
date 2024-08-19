@@ -52,6 +52,11 @@ const routes = [
                                 component: () => import('./components/client/popup-pages/cart-panel.vue'),
                                 name: 'client.menu.popup.cart'
                             },
+                            {
+                                path: '/popup/user-edit-panel',
+                                component: () => import('./components/client/popup-pages/user-edit-panel.vue'),
+                                name: 'client.menu.popup.user-edit-panel'
+                            },
                         ]
                     },
                 ]
