@@ -35,7 +35,7 @@ import './assets/css/client/error-loading.css'
 import './assets/css/client/active-order.css'
 import './assets/css/client/client-menu.css'
 
-import './assets/css/client/popup-pages/address-panel.css'
+import './assets/css/client/popup-pages/address-create.css'
 import './assets/css/client/popup-pages/cart-panel.css'
 import './assets/css/client/popup-pages/client-popup-page-layout.css'
 import './assets/css/client/popup-pages/login-panel.css'
@@ -44,6 +44,7 @@ import './assets/css/client/popup-pages/order-status-panel.css'
 import './assets/css/client/popup-pages/orders-history.css'
 import './assets/css/client/popup-pages/user-panel.css'
 import './assets/css/client/popup-pages/user-edit-panel.css'
+import './assets/css/client/popup-pages/address-index.css'
 
 import './assets/css/client/parts/client-menu-cart-panel.css'
 

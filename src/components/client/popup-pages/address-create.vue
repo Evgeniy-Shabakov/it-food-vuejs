@@ -3,8 +3,11 @@ import { ref, watch } from 'vue'
 import axios from 'axios'
 
 import router from "/src/router.js"
+import { previousRoute } from "/src/router.js"
 import { authUser } from '/src/store/axios-helper.js'
 import { selectedCity, selectedAddressForDelivery } from '/src/store/client-helper.js'
+
+import CitySelecte from '/src/components/client/city-selecte-component.vue'
 
 const fieldInputStreet = ref(null)
 
@@ -64,7 +67,7 @@ async function addAddress() {
       selectedAddressForDelivery.value = res.data.data
       authUser.value.addresses.push(selectedAddressForDelivery.value)
 
-      router.push({ name: 'client.menu.popup.order-panel' })
+      router.push({ name: previousRoute.name })
     })
     .catch(err => {
       console.log(err);
@@ -97,69 +100,76 @@ async function addAddress() {
   <div class="client-popup-page-layout__main-section">
 
     <h1 v-if="selectedCity" class="client-popup-page-layout__h1">
-      <div>{{ selectedCity.title }}</div>
-      <div class="address-panel__h1-description">
-        (добавление адреса)
-      </div>
+
+      <template v-if="previousRoute.name == 'client.menu.popup.addresses'">
+        Добавление адреса
+      </template>
+
+      <template v-else>
+        <div>{{ selectedCity.title }}</div>
+        <div class="address-create__h1-description">
+          (добавление адреса)
+        </div>
+      </template>
+      
     </h1>
 
-    <div v-if="selectedCity" class="address-panel">
+    <div v-if="selectedCity" class="address-create">
 
-      <!-- добавить возможность изменения города в личном кабинете,
-        пока добавить адрес в заказе можно только к текущему городу
-        -->
+      <!-- изменение города только в личном кабинете,
+       при оформлении заказа адрес добавляется только к текущему городу -->
 
-      <!-- <div class="address-panel__input-section">
-        <label class="address-panel__label field-required">Город</label>
+      <div v-if="previousRoute.name == 'client.menu.popup.addresses'" class="address-create__input-section">
+        <label class="address-create__label field-required">Город</label>
         <city-selecte></city-selecte>
-        </div> -->
+      </div>
 
       <div>
-        <label class="address-panel__label field-required">Улица/шоссе/проспект</label>
+        <label class="address-create__label field-required">Улица/шоссе/проспект</label>
         <input ref="fieldInputStreet" type="text" v-model="inputedStreet"
-          class="address-panel__input address-panel__street" @click.prevent="validationErrors.street = ''">
+          class="address-create__input address-create__street" @click.prevent="validationErrors.street = ''">
         <div class="invalid-validation-text">{{ validationErrors.street }}</div>
       </div>
 
-      <div class="address-panel__row-group">
+      <div class="address-create__row-group">
 
         <div>
-          <label class="address-panel__label field-required">Номер дома</label>
-          <input type="text" v-model="inputedHouseNumber" class="address-panel__input address-panel__hause-number"
+          <label class="address-create__label field-required">Номер дома</label>
+          <input type="text" v-model="inputedHouseNumber" class="address-create__input address-create__hause-number"
             @click.prevent="validationErrors.house_number = ''">
           <div class="invalid-validation-text">{{ validationErrors.house_number }}</div>
         </div>
 
         <div>
-          <label class="address-panel__label">Корпус</label>
-          <input type="text" v-model="inputedCorpsNumber" class="address-panel__input address-panel__corps-number"
+          <label class="address-create__label">Корпус</label>
+          <input type="text" v-model="inputedCorpsNumber" class="address-create__input address-create__corps-number"
             @click.prevent="validationErrors.corps_number = ''">
           <div class="invalid-validation-text">{{ validationErrors.corps_number }}</div>
         </div>
 
       </div>
 
-      <div class="address-panel__row-group">
+      <div class="address-create__row-group">
 
         <div>
-          <label class="address-panel__label">Квартира/офис</label>
+          <label class="address-create__label">Квартира/офис</label>
           <input type="text" v-model="inputedApartmentNumber"
-            class="address-panel__input address-panel__apartment-number"
+            class="address-create__input address-create__apartment-number"
             @click.prevent="validationErrors.apartment_number = ''">
           <div class="invalid-validation-text">{{ validationErrors.apartment_number }}</div>
         </div>
 
         <div>
-          <label class="address-panel__label">Подъезд</label>
+          <label class="address-create__label">Подъезд</label>
           <input type="number" v-model="inputedEnterenceNumber"
-            class="address-panel__input address-panel__enterence-number"
+            class="address-create__input address-create__enterence-number"
             @click.prevent="validationErrors.entrance_number = ''">
           <div class="invalid-validation-text">{{ validationErrors.entrance_number }}</div>
         </div>
 
         <div>
-          <label class="address-panel__label">Этаж</label>
-          <input type="number" v-model="inputedFloor" class="address-panel__input address-panel__floor"
+          <label class="address-create__label">Этаж</label>
+          <input type="number" v-model="inputedFloor" class="address-create__input address-create__floor"
             @click.prevent="validationErrors.floor = ''">
           <div class="invalid-validation-text">{{ validationErrors.floor }}</div>
         </div>
@@ -167,22 +177,22 @@ async function addAddress() {
       </div>
 
       <div>
-        <label class="address-panel__label">Код от подъезда</label>
-        <input type="text" v-model="inputedEnterenceCode" class="address-panel__input address-panel__enterence-code"
+        <label class="address-create__label">Код от подъезда</label>
+        <input type="text" v-model="inputedEnterenceCode" class="address-create__input address-create__enterence-code"
           @click.prevent="validationErrors.entrance_code = ''">
         <div class="invalid-validation-text">{{ validationErrors.entrance_code }}</div>
       </div>
 
       <div>
-        <label class="address-panel__label">Название для адреса (дом, работа)</label>
-        <input type="text" v-model="inputedTitle" class="address-panel__input address-panel__title"
+        <label class="address-create__label">Название для адреса (дом, работа)</label>
+        <input type="text" v-model="inputedTitle" class="address-create__input address-create__title"
           @click.prevent="validationErrors.title = ''">
         <div class="invalid-validation-text">{{ validationErrors.title }}</div>
       </div>
 
       <div>
-        <label class="address-panel__label">Комментарий к адресу</label>
-        <textarea v-model="inputedComment" class="address-panel__input address-panel__comment"
+        <label class="address-create__label">Комментарий к адресу</label>
+        <textarea v-model="inputedComment" class="address-create__input address-create__comment"
           @click.prevent="validationErrors.comment = ''"></textarea>
         <div class="invalid-validation-text">{{ validationErrors.comment }}</div>
       </div>
@@ -201,7 +211,7 @@ async function addAddress() {
   </div>
 
   <div class="client-popup-page-layout__btn-section">
-    <button class="btn btn-submit address-panel__btn-add" @click.prevent="addAddress()">
+    <button class="btn btn-submit client-popup-page-layout__btn-w-100" @click.prevent="addAddress()">
       Добавить
     </button>
   </div>

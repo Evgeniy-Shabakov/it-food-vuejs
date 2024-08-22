@@ -51,6 +51,10 @@ function logoutVue() {
   router.push({ name: 'client.menu' })
 }
 
+function openAddresses() {
+  router.push({ name: 'client.menu.popup.addresses' })
+}
+
 function openOrdersHistory() {
   router.push({ name: 'client.menu.popup.orders-history' })
 }
@@ -77,7 +81,7 @@ function openUserEditPanel() {
       </section>
 
 
-      <button @click.prevent="" class="btn--secondary">Адреса доставки</button>
+      <button @click.prevent="openAddresses()" class="btn--secondary">Адреса доставки</button>
       <button @click.prevent="logoutVue()" class="btn--secondary">Управление профилем</button>
       <button @click.prevent="openOrdersHistory()" class="btn--secondary">История заказов</button>
 
@@ -145,7 +149,7 @@ function openUserEditPanel() {
   </div>
 
   <div class="client-popup-page-layout__btn-section">
-    <button @click=repeatOrder(lastOrderForUser) class="btn btn-submit user-panel__btn-repeat-order">
+    <button @click=repeatOrder(lastOrderForUser) class="btn btn-submit client-popup-page-layout__btn-w-100">
       Повторить последний заказ
     </button>
   </div>

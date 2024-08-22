@@ -1,4 +1,4 @@
-import * as VueRouter from 'vue-router';
+import * as VueRouter from 'vue-router'
 import { getAuthUser, authUser } from '/src/store/axios-helper.js'
 
 const routes = [
@@ -39,8 +39,8 @@ const routes = [
                             },
                             {
                                 path: '/popup/address-panel',
-                                component: () => import('./components/client/popup-pages/address-panel.vue'),
-                                name: 'client.menu.popup.address-panel'
+                                component: () => import('./components/client/popup-pages/address-create.vue'),
+                                name: 'client.menu.popup.address-create'
                             },
                             {
                                 path: '/popup/order-status-panel',
@@ -56,6 +56,11 @@ const routes = [
                                 path: '/popup/user-edit-panel',
                                 component: () => import('./components/client/popup-pages/user-edit-panel.vue'),
                                 name: 'client.menu.popup.user-edit-panel'
+                            },
+                            {
+                                path: '/popup/adresses',
+                                component: () => import('./components/client/popup-pages/address-index.vue'),
+                                name: 'client.menu.popup.addresses'
                             },
                         ]
                     },
@@ -289,6 +294,13 @@ router.beforeEach((to, from, next) => {
     next()
 })
 
+export let previousRoute
+
+router.beforeEach((to, from, next) => {
+    previousRoute = from
+    
+    next()
+})
 
 export default router
 

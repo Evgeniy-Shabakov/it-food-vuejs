@@ -13,6 +13,7 @@ import { ORDER_TYPE } from '/src/store/data-types/order-type'
 import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
+import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
 
 const orderData = reactive({})
 
@@ -33,7 +34,7 @@ else {
   productsInOrder.value = productsInCart.value
     .filter(product => product.countInCart > 0)
 
-  addressesInSelectedCity.value = authUser.value.addresses
+  addressesInSelectedCity.value = userAddresses.value
     .filter(address => address.city.id === selectedCity.value.id)
 
   setAddressForDelivery()
@@ -121,7 +122,7 @@ const sendOrder = async () => {
               </option>
             </select>
 
-            <router-link :to="{ name: 'client.menu.popup.address-panel' }">
+            <router-link :to="{ name: 'client.menu.popup.address-create' }">
               <i class="order-panel__btn-add-address-mini btn btn-submit fa-solid fa-plus"></i>
             </router-link>
 
@@ -211,10 +212,10 @@ const sendOrder = async () => {
 
     <template v-if="selectedCity">
 
-      <button v-if="blockSendOrder == false" class="btn btn-submit order-panel__btn-order" @click.prevent="sendOrder()">
+      <button v-if="blockSendOrder == false" class="btn btn-submit client-popup-page-layout__btn-w-100" @click.prevent="sendOrder()">
         Оформить за {{ totalPrice }}р.
       </button>
-      <button v-else class="btn btn-submit order-panel__btn-order">
+      <button v-else class="btn btn-submit client-popup-page-layout__btn-w-100">
         Отправляем заказ в ресторан...
       </button>
 

@@ -52,6 +52,10 @@
     align-items: center;
 }
 
+.client-popup-page-layout__btn-w-100 {
+    width: 100%;
+}
+
 .client-popup-page-layout__h1 {
     text-align: center;
     font-size: 1.5rem;

@@ -1,0 +1,32 @@
+.address-index {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.address-index__city-title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.address-index__city-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.address-index__address-item {
+    border: 1px solid var(--color-primary);
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.address-index__address-item-address-text {
+    margin-bottom: 10px;
+}
+
+.address-index__address-item-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

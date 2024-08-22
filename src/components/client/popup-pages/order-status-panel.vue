@@ -39,13 +39,18 @@ if (currentOrder.value == null) {
       <div class="order-status-panel__order-data">
 
         <span>Адрес: </span>
-        <span v-if="currentOrder.user_address.title">{{ currentOrder.user_address.title }} -</span>
+        <span v-if="currentOrder.user_address.title">
+          {{ currentOrder.user_address.title }} -
+        </span>
         {{ currentOrder.user_address.street }}
         {{ currentOrder.user_address.house_number }}
-        <span v-if="currentOrder.user_address.corps_number">/ {{ currentOrder.user_address.corps_number }}</span>
-        <span v-if="currentOrder.user_address.apartment_number"> - {{
-          currentOrder.user_address.apartment_number }}</span>
-
+        <span v-if="currentOrder.user_address.corps_number">
+          / {{ currentOrder.user_address.corps_number }}
+        </span>
+        <span v-if="currentOrder.user_address.apartment_number">
+          - {{
+            currentOrder.user_address.apartment_number }}
+        </span>
 
         <div>
           <span> Стоимость: </span>
