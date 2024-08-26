@@ -4,7 +4,7 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 import router from "/src/router.js"
 import { authUser, activeOrdersForUser, lastOrderForUser, getLastOrderForUser }
   from '/src/store/axios-helper.js'
-import { currentOrder, logoutClient } from '/src/store/client-helper.js'
+import { currentOrder } from '/src/store/client-helper.js'
 import { intervalLoadActiveOrders, loadActiveOrdersForUserAndRestartInterval }
   from '/src/store/client/user-panel.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type'
@@ -46,13 +46,12 @@ function openOrderStatusPanel(order) {
   router.push({ name: 'client.menu.popup.order-status-panel' })
 }
 
-function logoutVue() {
-  logoutClient()
-  router.push({ name: 'client.menu' })
-}
-
 function openAddresses() {
   router.push({ name: 'client.menu.popup.addresses' })
+}
+
+function openProfileManagement(){
+  router.push({ name: 'client.menu.popup.profile-management' })
 }
 
 function openOrdersHistory() {
@@ -81,9 +80,15 @@ function openUserEditPanel() {
       </section>
 
 
-      <button @click.prevent="openAddresses()" class="btn--secondary">Адреса доставки</button>
-      <button @click.prevent="logoutVue()" class="btn--secondary">Управление профилем</button>
-      <button @click.prevent="openOrdersHistory()" class="btn--secondary">История заказов</button>
+      <button @click.prevent="openAddresses()" class="btn--secondary">
+        Адреса доставки
+      </button>
+      <button @click.prevent="openProfileManagement()" class="btn--secondary">
+        Управление профилем
+      </button>
+      <button @click.prevent="openOrdersHistory()" class="btn--secondary">
+        История заказов
+      </button>
 
       <section class="user-panel__order-section">
         <h2 class="user-panel__order-section-h2">Активные заказы</h2>

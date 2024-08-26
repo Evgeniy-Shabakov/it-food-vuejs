@@ -29,12 +29,12 @@ const routes = [
                             },
                             {
                                 path: '/popup/user-panel',
-                                component: () => import('./components/client/popup-pages/user-panel.vue'),
+                                component: () => import('./components/client/popup-pages/user/user-panel.vue'),
                                 name: 'client.menu.popup.user-panel'
                             },
                             {
                                 path: '/popup/orders-history',
-                                component: () => import('./components/client/popup-pages/orders-history.vue'),
+                                component: () => import('./components/client/popup-pages/user/orders-history.vue'),
                                 name: 'client.menu.popup.orders-history'
                             },
                             {
@@ -49,8 +49,13 @@ const routes = [
                             },
                             {
                                 path: '/popup/user-edit-panel',
-                                component: () => import('./components/client/popup-pages/user-edit-panel.vue'),
+                                component: () => import('./components/client/popup-pages/user/user-edit-panel.vue'),
                                 name: 'client.menu.popup.user-edit-panel'
+                            },
+                            {
+                                path: '/popup/prifile-management',
+                                component: () => import('./components/client/popup-pages/user/profile-management.vue'),
+                                name: 'client.menu.popup.profile-management'
                             },
                             {
                                 path: '/popup/adresses',
