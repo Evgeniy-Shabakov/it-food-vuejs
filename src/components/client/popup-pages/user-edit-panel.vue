@@ -60,8 +60,8 @@ async function save() {
     <div v-if="authUser" class="user-edit-panel">
 
       <div>
-        <label class="address-panel__label field-required">Имя</label>
-        <input ref="fieldInputName" type="text" v-model="inputedName" class="address-panel__input address-panel__street"
+        <label class="address-create__label field-required">Имя</label>
+        <input ref="fieldInputName" type="text" v-model="inputedName" class="address-create__input address-create__street"
           @click.prevent="validationErrors.name = ''">
         <div class="invalid-validation-text">{{ validationErrors.name }}</div>
       </div>
