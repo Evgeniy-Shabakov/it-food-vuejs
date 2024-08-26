@@ -7,7 +7,7 @@ import { previousRoute } from "/src/router.js"
 import { authUser } from '/src/store/axios-helper.js'
 import { selectedCity, selectedAddressForDelivery } from '/src/store/client-helper.js'
 
-import CitySelecte from '/src/components/client/city-selecte-component.vue'
+import CitySelecte from '/src/components/client/modules/city-selecte-component.vue'
 
 const fieldInputStreet = ref(null)
 

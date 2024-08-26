@@ -8,7 +8,7 @@ import {
   activateSelecteMenuController, activateMoveMenuController, getIndexCentrSection
 } from '/src/store/client/client-menu.js'
 
-import CartPanel from '/src/components/client/parts/client-menu-cart-panel.vue'
+import CartPanel from '/src/components/client/modules/client-menu-cart-panel.vue'
 
 const categoriesMenu = ref()
 const categoriesMenuInner = ref()

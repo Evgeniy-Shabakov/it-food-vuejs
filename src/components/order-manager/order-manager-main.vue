@@ -12,7 +12,7 @@ import { authUser, logout } from '/src/store/axios-helper.js'
 import { selectedRestaurant } from '/src/store/client-helper.js'
 import router from "/src/router.js"
 
-import CitySelecte from '/src/components/client/city-selecte-component.vue'
+import CitySelecte from '/src/components/client/modules/city-selecte-component.vue'
 import RestaurantSelecte from '/src/components/restaurant-selecte.vue'
 import TimeComponent from '/src/components/order-manager/parts/order-manager-time.vue'
 import MiniOrder from '/src/components/order-manager/parts/order-manager-mini-order.vue'

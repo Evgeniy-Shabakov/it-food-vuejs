@@ -3,8 +3,8 @@ import { computed, ref, watch, onMounted } from 'vue'
 import { sendVerifyCode, login, authUser } from '/src/store/axios-helper.js'
 import { inputedPhone, inputedCode, loginForOrder } from '/src/store/login-panel-helper.js'
 import { timerForSendVerifyCodeAllowed, secBeforeSendVerifyCodeAllowed } from '/src/store/login-panel-helper.js'
-import PhoneInput from '/src/components/client/phone-input-component.vue'
-import CodeInput from '/src/components/client/code-input-component.vue'
+import PhoneInput from '/src/components/client/modules/phone-input-component.vue'
+import CodeInput from '/src/components/client/modules/code-input-component.vue'
 import router from "/src/router.js"
 
 const openCode = ref(false)
