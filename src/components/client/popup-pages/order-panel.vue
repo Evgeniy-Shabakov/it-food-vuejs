@@ -131,7 +131,7 @@ const sendOrder = async () => {
         </div>
 
         <div v-else class="order-panel__btn-add-address-full">
-          <router-link :to="{ name: 'client.menu.popup.address-panel' }">
+          <router-link :to="{ name: 'client.menu.popup.address-create' }">
             <button class="btn btn-submit">
               Добавить адрес доставки
             </button>

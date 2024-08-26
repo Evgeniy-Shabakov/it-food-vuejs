@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import router from "/src/router.js"
 import { authUser } from '/src/store/axios-helper.js'
-import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
+import { userAddresses, addressForEditing } from '/src/store/client/popup-pages/address-index.js'
 
 const userCities = computed(() => {
     const array = []
@@ -21,6 +21,11 @@ const actionAllowed = ref(true)
 
 function openAddAddressPanel() {
     router.push({ name: 'client.menu.popup.address-create' })
+}
+
+function openAddressEdit(address) {
+    addressForEditing.value = address
+    router.push({ name: 'client.menu.popup.address-edit', params: { id: address.id } })
 }
 
 async function deleteAddress(id) {
@@ -66,7 +71,9 @@ async function deleteAddress(id) {
 
                             <div class="address-index__address-item-address-text">
 
-                                {{ address.title }}
+                                <div v-if="address.title" class="address-index__address-item-title">
+                                    {{ address.title }}
+                                </div>
                                 {{ address.street }}
                                 {{ address.house_number }}
                                 <template v-if="address.corps_number">
@@ -82,7 +89,7 @@ async function deleteAddress(id) {
                                 <button @click.prevent="deleteAddress(address.id)" class="btn--secondary" type="button">
                                     Удалить
                                 </button>
-                                <button class="btn--secondary" type="button">
+                                <button @click.prevent="openAddressEdit(address)" class="btn--secondary" type="button">
                                     Редактировать
                                 </button>
                             </div>

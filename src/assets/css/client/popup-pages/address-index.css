@@ -25,6 +25,11 @@
     margin-bottom: 10px;
 }
 
+.address-index__address-item-title{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .address-index__address-item-btns {
     display: flex;
     align-items: center;

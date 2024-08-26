@@ -67,7 +67,7 @@ async function addAddress() {
       selectedAddressForDelivery.value = res.data.data
       authUser.value.addresses.push(selectedAddressForDelivery.value)
 
-      router.push({ name: previousRoute.name })
+      router.back()
     })
     .catch(err => {
       console.log(err);

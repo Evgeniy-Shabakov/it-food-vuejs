@@ -38,11 +38,6 @@ const routes = [
                                 name: 'client.menu.popup.orders-history'
                             },
                             {
-                                path: '/popup/address-panel',
-                                component: () => import('./components/client/popup-pages/address-create.vue'),
-                                name: 'client.menu.popup.address-create'
-                            },
-                            {
                                 path: '/popup/order-status-panel',
                                 component: () => import('./components/client/popup-pages/order-status-panel.vue'),
                                 name: 'client.menu.popup.order-status-panel'
@@ -59,8 +54,18 @@ const routes = [
                             },
                             {
                                 path: '/popup/adresses',
-                                component: () => import('./components/client/popup-pages/address-index.vue'),
+                                component: () => import('./components/client/popup-pages/addresses/addresses-index.vue'),
                                 name: 'client.menu.popup.addresses'
+                            },
+                            {
+                                path: '/popup/addresses/create',
+                                component: () => import('./components/client/popup-pages/addresses/addresses-create.vue'),
+                                name: 'client.menu.popup.address-create'
+                            },
+                            {
+                                path: '/popup/addresses/:id/edit',
+                                component: () => import('./components/client/popup-pages/addresses/addresses-edit.vue'),
+                                name: 'client.menu.popup.address-edit'
                             },
                         ]
                     },
@@ -284,7 +289,7 @@ router.beforeEach((to, from, next) => {
 
     if (window.innerWidth > 1300) { //для мониторов сохраняем положение страницы меню, чтобы экран не смещался при открытии popup
         if (to.name == 'client.menu.popup.login-panel' || to.name == 'client.menu.popup.user-panel'
-            || to.name == 'client.menu.popup.address-panel'
+            || to.name == 'client.menu.popup.address-create' || to.name == 'client.menu.popup.address-edit'
             || to.name == 'client.menu.popup.order-panel' || to.name == 'client.menu.popup.order-status-panel'
             || to.name == 'client.menu.popup.cart') {
             scrollPositions[to.name] = window.scrollY
