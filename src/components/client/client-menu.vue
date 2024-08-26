@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated, watch } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
 
 import { company, categories, authUser } from '/src/store/axios-helper.js'
 import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
@@ -112,8 +112,7 @@ function scrollToCategory(index) {
           <div v-if="authUser" class="header__inner__right">
             <router-link v-if="authUser.employee && authUser.employee.hasAdminPanelAccess" to="/admin">Панель
               администратора</router-link>
-            <router-link to="/popup/user-panel">{{ authUser.phone }}</router-link>
-            <!-- <button @click.prevent="logout()" class="header__button">Выйти</button> -->
+            <router-link to="/popup/user-panel">Личный кабинет</router-link>
           </div>
           <div v-else>
             <router-link :to="{ name: 'client.menu.popup.login-panel' }">
