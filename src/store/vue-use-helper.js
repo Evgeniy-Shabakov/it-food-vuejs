@@ -4,7 +4,12 @@ import { company, getModelAxios } from '/src/store/axios-helper.js'
 const browserTitle = useTitle()
 
 export function setBrowserTitleForClient() {
-    if(company.value == null) return
+    //т.к. при инициализации данные о компании загружаются не сразу
+    //то пробуем изменить title страницы через 200мс
+    if(company.value == null) {
+        setTimeout(setBrowserTitleForClient, 200)
+        return
+    }
     
     browserTitle.value = company.value.brand_title
 }

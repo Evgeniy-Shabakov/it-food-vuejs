@@ -5,6 +5,8 @@
     --color-primary: rgb(255, 105, 0);
     --color-selected: rgb(253, 118, 22);
 
+    --text-color-for-color-primary: white;
+
     --btn-font-size: 15px;
 
     --btn-submit-back-color: rgb(255, 105, 0);

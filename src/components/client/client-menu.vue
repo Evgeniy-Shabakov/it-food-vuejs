@@ -9,6 +9,7 @@ import {
 } from '/src/store/client/client-menu.js'
 
 import CartPanel from '/src/components/client/modules/client-menu-cart-panel.vue'
+import CitySelecte from '/src/components/client/modules/city-selecte-component.vue'
 
 const categoriesMenu = ref()
 const categoriesMenuInner = ref()
@@ -70,7 +71,7 @@ onUpdated(() => {
   //высота меняется несколько раз при загрузке странице и категорий с продуктами
 
   setTimeout(() => { //таймаут так как DOM обновляется с задержкой
-    if(categoriesMenu.value == null) return // чтобы избежать ошибок
+    if (categoriesMenu.value == null) return // чтобы избежать ошибок
 
     let scrollPaddingTop = categoriesMenu.value.offsetHeight + 20 + 'px'
     document.documentElement.style.setProperty('--scroll-padding-top', scrollPaddingTop)
@@ -125,14 +126,9 @@ function scrollToCategory(index) {
     </div>
 
     <nav ref="burgerMenu" class="burger-menu">
-      <div class="container">
-        <div class="burger-menu__inner">
-          <a class="burger-menu__item" href="#">Москва (изменить город)</a>
-          <a class="burger-menu__item" href="#">Войти</a>
-          <a class="burger-menu__item" href="#">О нас</a>
-          <a class="burger-menu__item" href="#">Контакты</a>
-        </div>
-      </div>
+      <city-selecte></city-selecte>
+      <a class="burger-menu__item" href="#">О нас</a>
+      <a class="burger-menu__item" href="#">Контакты</a>
     </nav>
 
   </header>
