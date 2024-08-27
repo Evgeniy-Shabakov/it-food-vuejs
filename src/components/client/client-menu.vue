@@ -87,6 +87,15 @@ function scrollToCategory(index) {
   });
 }
 
+function formatPhone(value) {
+  if (!value) return ''
+
+  const phoneNumber = value.replace(/\D/g, '')
+
+  return `+7 (${phoneNumber.slice(1, 4)}) ${phoneNumber.slice(4, 7)}-${phoneNumber.slice(7, 9)}-${phoneNumber.slice(9)}`
+}
+
+
 </script>
 
 <template>
@@ -126,9 +135,37 @@ function scrollToCategory(index) {
     </div>
 
     <nav ref="burgerMenu" class="burger-menu">
-      <city-selecte></city-selecte>
-      <a class="burger-menu__item" href="#">О нас</a>
-      <a class="burger-menu__item" href="#">Контакты</a>
+
+      <div class="burger-menu__inner">
+
+        <city-selecte></city-selecte>
+
+        <!-- <a class="burger-menu__item" href="#">О нас</a>
+        <a class="burger-menu__item" href="#">Контакты</a> -->
+
+        <div v-if="company" class="burger-menu__item">
+          <div class="burger-menu__item-icon-and-phone">
+            <img src="/src/assets/icons/clock.png" width="25" height="25" alt="">
+            <span>
+              <template v-if="company.open_time && company.close_time">
+                {{ company.open_time }} - {{ company.close_time }}
+              </template>
+              <template v-else>
+                Круглосуточно
+              </template>
+            </span>
+          </div>
+        </div>
+
+        <a v-if="company && company.phone" :href="`tel:${company.phone}`" class="burger-menu__item">
+          <div class="burger-menu__item-icon-and-phone">
+            <img src="/src/assets/icons/phone.png" width="25" height="25" alt="">
+            <span>{{ formatPhone(company.phone) }}</span>
+          </div>
+        </a>
+
+      </div>
+
     </nav>
 
   </header>

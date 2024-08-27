@@ -1,10 +1,12 @@
 <script setup>
-import { ref, reactive, onMounted, watch } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue'
+import IMask from 'imask'
 import { useRoute } from 'vue-router'
+
 import { company, textLoadOrFailForVue, getModelAxios, updateModelAxios } from '/src/store/axios-helper.js'
 import { setBrowserTitleForAdminPanel } from '/src/store/vue-use-helper'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
-import IMask from 'imask';
+
 
 const companyInputedData = reactive({})
 
