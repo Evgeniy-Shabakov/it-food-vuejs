@@ -1,6 +1,7 @@
 <script setup>
 import router from "/src/router.js"
 import { currentOrder } from '/src/store/client-helper.js'
+import { ORDER_TYPE } from '/src/store/data-types/order-type'
 
 if (currentOrder.value == null) {
   router.push({ name: 'client.menu' })
@@ -38,19 +39,30 @@ if (currentOrder.value == null) {
       <div class="order-status-panel__text-description">данные заказа</div>
       <div class="order-status-panel__order-data">
 
-        <span>Адрес: </span>
-        <span v-if="currentOrder.user_address.title">
-          {{ currentOrder.user_address.title }} -
-        </span>
-        {{ currentOrder.user_address.street }}
-        {{ currentOrder.user_address.house_number }}
-        <span v-if="currentOrder.user_address.corps_number">
-          / {{ currentOrder.user_address.corps_number }}
-        </span>
-        <span v-if="currentOrder.user_address.apartment_number">
-          - {{
-            currentOrder.user_address.apartment_number }}
-        </span>
+        <div v-if="currentOrder.order_type == ORDER_TYPE.delivery">
+          <span>Адрес: </span>
+          <span v-if="currentOrder.user_address.title">
+            {{ currentOrder.user_address.title }} -
+          </span>
+          {{ currentOrder.user_address.street }}
+          {{ currentOrder.user_address.house_number }}
+          <span v-if="currentOrder.user_address.corps_number">
+            / {{ currentOrder.user_address.corps_number }}
+          </span>
+          <span v-if="currentOrder.user_address.apartment_number">
+            - {{
+              currentOrder.user_address.apartment_number }}
+          </span>
+        </div>
+
+        <div v-else>
+          <span>
+            Ресторан: {{ currentOrder.restaurant.title }}
+            ({{ currentOrder.restaurant.street }}
+            -
+            {{ currentOrder.restaurant.house_number }})
+          </span>
+        </div>
 
         <div>
           <span> Стоимость: </span>

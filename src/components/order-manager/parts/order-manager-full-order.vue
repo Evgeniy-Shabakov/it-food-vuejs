@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted } from 'vue'
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
+import { ORDER_TYPE } from '/src/store/data-types/order-type'
 import {
     fullOrder, blockOrderActions, nextStatus, previousStatus, setCanselStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
@@ -53,8 +54,8 @@ onMounted(() => {
             <div class="order-manager-full-order__status"> ({{ fullOrder.order_status }})</div>
 
             <p class="order-manager-full-order__time">
-                Время оформления - 
-                {{ new Date(fullOrder.created_at).toLocaleTimeString() }} 
+                Время оформления -
+                {{ new Date(fullOrder.created_at).toLocaleTimeString() }}
                 {{ new Date(fullOrder.created_at).toLocaleDateString() }}
             </p>
 
@@ -95,7 +96,7 @@ onMounted(() => {
                 Телефон: {{ fullOrder.user.phone }}
             </div>
 
-            <div class="order-manager-full__address">
+            <div v-if="fullOrder.order_type == ORDER_TYPE.delivery" class="order-manager-full__address">
 
                 <span>Адрес: </span>
                 {{ fullOrder.user_address.city.title }},
@@ -114,6 +115,15 @@ onMounted(() => {
                     Комментарий: {{ fullOrder.user_address.comment }}
                 </div>
 
+            </div>
+
+            <div v-else class="order-manager-full__address">
+                <span>
+                    Ресторан: {{ fullOrder.restaurant.title }}
+                    ({{ fullOrder.restaurant.street }}
+                    -
+                    {{ fullOrder.restaurant.house_number }})
+                </span>
             </div>
 
 
