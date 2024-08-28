@@ -7,6 +7,9 @@
 
     --text-color-for-color-primary: white;
 
+    --burger-menu-phone-color: rgb(255, 60, 0);
+    --burger-menu-phone-color-active: rgba(255, 60, 0, 0.509);
+
     --btn-font-size: 15px;
 
     --btn-submit-back-color: rgb(255, 105, 0);
