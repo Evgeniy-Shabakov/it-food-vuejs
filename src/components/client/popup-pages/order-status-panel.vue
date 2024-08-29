@@ -56,12 +56,25 @@ if (currentOrder.value == null) {
         </div>
 
         <div v-else>
+
           <span>
             Ресторан: {{ currentOrder.restaurant.title }}
             ({{ currentOrder.restaurant.street }}
             -
             {{ currentOrder.restaurant.house_number }})
+            <!-- добавить корпус при условии -->
           </span>
+
+          <div v-if="currentOrder.order_type == ORDER_TYPE.inRestaurant">
+            Тип подачи: 
+            <template v-if="currentOrder.table_number">
+              Принести к столику № {{ currentOrder.table_number }}
+            </template>
+            <template v-else>
+              Заберу сам
+            </template>
+          </div>
+
         </div>
 
         <div>

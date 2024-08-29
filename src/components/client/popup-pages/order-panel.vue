@@ -7,10 +7,11 @@ import { authUser, lastOrderForUser } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice, currentOrder,
   selectedOrderType, selectedAddressForDelivery, totalCountInCart, removeAllProductsFromCart,
-  selectedRestaurant
+  selectedRestaurant, selectedOrderInRestaurantType
 } from '/src/store/client-helper.js'
 import { loginForOrder } from '/src/store/login-panel-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
+import { ORDER_IN_RESTAURANT_TYPE } from '/src/store/data-types/order-in-restaurant-type'
 import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
@@ -47,6 +48,7 @@ else {
   orderData.restaurant_id = selectedRestaurant.value ? selectedRestaurant.value.id : null
   orderData.user_address_id = selectedAddressForDelivery.value ? selectedAddressForDelivery.value.id : null
   orderData.order_type = selectedOrderType.value
+  orderData.order_in_restaurant_type = selectedOrderInRestaurantType.value
   orderData.table_number = null
   orderData.car_number = null
   orderData.pack_takeaway = true
@@ -64,18 +66,25 @@ watch(selectedAddressForDelivery, () => { //v-model это selectedAddressForDel
   orderData.user_address_id = selectedAddressForDelivery.value.id
 })
 
+watch(selectedOrderInRestaurantType, () => { //v-model это selectedOrderInRestaurantType, чтобы сохранить изменения
+  orderData.order_in_restaurant_type = selectedOrderInRestaurantType.value
+})
+
 watch(selectedRestaurant, () => {
   orderData.restaurant_id = selectedRestaurant.value.id
 })
 
 async function sendOrder() {
-  console.log(orderData)
-
   if (blockSendOrder.value) return
   blockSendOrder.value = true
 
-  if (selectedOrderType.value == ORDER_TYPE.delivery)
+  if (selectedOrderType.value == ORDER_TYPE.delivery) {
     orderData.restaurant_id = null
+  }
+
+  if (selectedOrderType.value != ORDER_TYPE.inRestaurant) {
+    orderData.order_in_restaurant_type = null
+  }
 
   validationErrors.value = {}
   otherErrors.value = null
@@ -83,6 +92,7 @@ async function sendOrder() {
   try {
     const res = await axios.post(`/orders`, orderData)
     currentOrder.value = res.data.data
+    
     lastOrderForUser.value = res.data.data
 
     removeAllProductsFromCart()
@@ -153,18 +163,50 @@ async function sendOrder() {
 
       </template>
 
-      <div v-else-if="selectedOrderType == ORDER_TYPE.pickUp">
-        <label class="order-panel__label">Выберите точку самовывоза</label>
+      <div v-else>
+
+        <label v-if="selectedOrderType == ORDER_TYPE.pickUp" class="order-panel__label">
+          Выберите точку самовывоза
+        </label>
+        <label v-else-if="selectedOrderType == ORDER_TYPE.inRestaurant" class="order-panel__label">
+          Выберите ресторан
+        </label>
         <restaurant-selecte></restaurant-selecte>
         <div class="invalid-text order-panel__invalid-text">
           {{ validationErrors.restaurant_id }}
         </div>
+
       </div>
 
-      <div v-else-if="selectedOrderType == ORDER_TYPE.inRestaurant">
-        Выберите ресторан
+      <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant" class="order-panel__in-restaurant-settings">
+
+        <div>
+          <input class="order-settings__radio-button__input" type="radio" id="option1"
+            :value=ORDER_IN_RESTAURANT_TYPE.COUNTER v-model="selectedOrderInRestaurantType">
+          <label class="order-settings__radio-button__label" for="option1">
+            Заберу у прилавка
+          </label>
+        </div>
+
+        <div>
+          <input class="order-settings__radio-button__input" type="radio" id="option2"
+            :value=ORDER_IN_RESTAURANT_TYPE.TABLE v-model="selectedOrderInRestaurantType">
+          <label class="order-settings__radio-button__label" for="option2">
+            Принести к столику
+          </label>
+        </div>
+
       </div>
 
+      <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant &&
+        selectedOrderInRestaurantType == ORDER_IN_RESTAURANT_TYPE.TABLE" class="order-panel__table-section">
+
+        <label class="order-panel__label">Введите номер столика</label>
+        <input type="text" class="order-panel__table-input" v-model="orderData.table_number">
+        <div class="invalid-text order-panel__invalid-text">
+          {{ validationErrors.table_number }}
+        </div>
+      </div>
 
       <div>
         <label class="order-panel__label">Способ оплаты</label>

@@ -6,6 +6,7 @@ import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
 export const selectedOrderType = ref()
+export const selectedOrderInRestaurantType = ref()
 export const selectedAddressForDelivery = ref(null)
 export const productsInCart = ref([])
 export const currentOrder = ref()
@@ -22,13 +23,16 @@ watch(selectedOrderType, () => {
     localStorage.setItem(COOKIE_NAME.ORDER_TYPE, selectedOrderType.value)
 })
 
+watch(selectedOrderInRestaurantType, () => {
+    localStorage.setItem(COOKIE_NAME.ORDER_IN_RESTAURANT_TYPE, selectedOrderInRestaurantType.value)
+})
+
 watch(selectedAddressForDelivery, () => {
     // не перезаписывать куки, когда не удалость установть адрес
     // установка адреса происходит в order-panel.vue
     if (selectedAddressForDelivery.value == null) return 
     
     localStorage.setItem(COOKIE_NAME.ADDRESS_DELIVERY_ID, selectedAddressForDelivery.value.id)
-   
 })
 
 export function logoutClient() {

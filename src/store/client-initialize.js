@@ -1,11 +1,13 @@
 import { categories, cities } from '/src/store/axios-helper.js'
-import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType }
+import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType,
+    selectedOrderInRestaurantType }
     from '/src/store/client-helper.js'
 import {
     loadCompany, loadCurrentAuthUser, loadCities, loadCategories, loadRestaurants
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
+import { ORDER_IN_RESTAURANT_TYPE } from '/src/store/data-types/order-in-restaurant-type'
 import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
 
@@ -21,6 +23,7 @@ export async function initialize() {
 
         initializeCart()
         initializeOrderType()
+        initializeOrderInRestaurantType()
 
         return LOADING_TYPE.complete
     }
@@ -113,6 +116,13 @@ function initializeOrderType() {
 
     if (selectedOrderType.value == null)
         selectedOrderType.value = ORDER_TYPE.delivery
+}
+
+function initializeOrderInRestaurantType() {
+    selectedOrderInRestaurantType.value = localStorage.getItem(COOKIE_NAME.ORDER_IN_RESTAURANT_TYPE)
+
+    if (selectedOrderInRestaurantType.value == null)
+        selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
 }
 
 

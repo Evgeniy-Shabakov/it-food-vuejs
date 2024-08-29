@@ -50,6 +50,26 @@
     text-align: center;
 }
 
+.order-panel__in-restaurant-settings {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.order-panel__table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order-panel__table-input {
+    text-align: center;
+    font-size: 25px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    width: 130px;
+}
+
 .order-panel__payment-type {
     width: 100%;
 

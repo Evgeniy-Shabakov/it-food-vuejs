@@ -3,5 +3,6 @@ export const COOKIE_NAME = Object.freeze({
 	RESTAURANT_ID: 'restaurant-id',
 	ADDRESS_DELIVERY_ID: 'address-delivery-id',
     ORDER_TYPE: 'order-type',
+	ORDER_IN_RESTAURANT_TYPE: 'order-in-restaurant-type',
     CART: 'cart',
 })

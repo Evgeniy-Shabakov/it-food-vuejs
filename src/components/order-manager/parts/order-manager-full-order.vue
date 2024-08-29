@@ -123,7 +123,18 @@ onMounted(() => {
                     ({{ fullOrder.restaurant.street }}
                     -
                     {{ fullOrder.restaurant.house_number }})
+                    <!-- добавить корпус при условии -->
                 </span>
+
+                <div v-if="fullOrder.order_type == ORDER_TYPE.inRestaurant">
+                    Тип подачи:
+                    <template v-if="fullOrder.table_number">
+                        Принести к столику № {{ fullOrder.table_number }}
+                    </template>
+                    <template v-else>
+                        Заберу сам
+                    </template>
+                </div>
             </div>
 
 
