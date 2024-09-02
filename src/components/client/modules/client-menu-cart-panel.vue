@@ -68,7 +68,8 @@ function generateRandomNumber() {
                     <i class="fa-solid fa-trash-can"></i></button>
 
                 <div class="client-menu-cart-panel__product-count-price">
-                    <button class="client-menu-cart-panel__product-btn-helpers" @click="minusProductInCartForCartPanel(product)">
+                    <button class="client-menu-cart-panel__product-btn-helpers"
+                        @click="minusProductInCartForCartPanel(product)">
                         <i class="fa-solid fa-minus"></i></button>
                     <div>{{ product.countInCart }}</div>
                     <button class="client-menu-cart-panel__product-btn-helpers" @click="plusProductToCart(product)">
@@ -76,7 +77,8 @@ function generateRandomNumber() {
                     <div>x {{ Number(product.price_default) }}р</div>
                 </div>
 
-                <div class="client-menu-cart-panel__product-total">{{ Number(product.countInCart) * Number(product.price_default)
+                <div class="client-menu-cart-panel__product-total">{{ Number(product.countInCart) *
+                    Number(product.price_default)
                     }}р
                 </div>
 
@@ -94,11 +96,15 @@ function generateRandomNumber() {
         <div class="client-menu-cart-panel__total-order-section">
 
             <div class="client-menu-cart-panel__block-total">
-                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">Товары: </span>
-                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">{{ totalProductPrice
+                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">Товары:
+                </span>
+                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">{{
+                    totalProductPrice
                     }}р.</span>
-                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">Доставка: </span>
-                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">{{ deliveryPrice
+                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">Доставка:
+                </span>
+                <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="client-menu-cart-panel__total">{{
+                    deliveryPrice
                     }}р.</span>
                 <span class="client-menu-cart-panel__total">Итого: </span>
                 <span class="client-menu-cart-panel__total">{{ totalPrice }}р.</span>
@@ -118,15 +124,23 @@ function generateRandomNumber() {
             </div>
 
             <div>
-                <template v-if="selectedOrderType == ORDER_TYPE.delivery &&
+
+                <template v-if="totalProductPrice <= 0 ||
+                    selectedOrderType == ORDER_TYPE.delivery &&
                     totalProductPrice <= selectedCity.min_order_value_for_delivery">
-                    <button class="btn btn-inactive client-menu-cart-panel__btn-next">Далее</button>
+                    <button class="btn btn-inactive client-menu-cart-panel__btn-next">
+                        Далее
+                    </button>
                 </template>
+
                 <template v-else>
                     <router-link :to="{ name: 'client.menu.popup.order-panel' }">
-                        <button class="btn btn-submit client-menu-cart-panel__btn-next">Далее</button>
+                        <button class="btn btn-submit client-menu-cart-panel__btn-next">
+                            Далее
+                        </button>
                     </router-link>
                 </template>
+
             </div>
 
         </div>
