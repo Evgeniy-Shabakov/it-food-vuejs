@@ -17,7 +17,7 @@ import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
 
-import RestaurantSelecte from '/src/components/restaurant-selecte.vue'
+import RestaurantSelecte from '/src/components/client/modules/restaurant-selecte.vue'
 
 const orderData = reactive({})
 
