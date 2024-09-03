@@ -72,7 +72,24 @@ watch(selectedOrderInRestaurantType, () => { //v-model это selectedOrderInRes
 
 watch(selectedRestaurant, () => {
   orderData.restaurant_id = selectedRestaurant.value.id
+  setOrderInRestaurantType()
 })
+
+function setOrderInRestaurantType() {
+  if (selectedOrderInRestaurantType.value == ORDER_IN_RESTAURANT_TYPE.COUNTER) {
+    if (selectedRestaurant.value.pick_up_at_counter_available)
+      return
+    else 
+    selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.TABLE
+  }
+
+  if (selectedOrderInRestaurantType.value == ORDER_IN_RESTAURANT_TYPE.TABLE) {
+    if (selectedRestaurant.value.at_restaurant_to_table_available)
+      return
+    else 
+    selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
+  }
+}
 
 async function sendOrder() {
   if (blockSendOrder.value) return
@@ -92,7 +109,7 @@ async function sendOrder() {
   try {
     const res = await axios.post(`/orders`, orderData)
     currentOrder.value = res.data.data
-    
+
     lastOrderForUser.value = res.data.data
 
     removeAllProductsFromCart()
@@ -180,20 +197,32 @@ async function sendOrder() {
 
       <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant" class="order-panel__in-restaurant-settings">
 
-        <div>
-          <input class="order-settings__radio-button__input" type="radio" id="option1"
+        <div v-if="selectedRestaurant">
+
+          <input :disabled="!selectedRestaurant.pick_up_at_counter_available"
+            class="order-settings__radio-button__input" type="radio" id="option1"
             :value=ORDER_IN_RESTAURANT_TYPE.COUNTER v-model="selectedOrderInRestaurantType">
           <label class="order-settings__radio-button__label" for="option1">
             Заберу у прилавка
+            <template v-if="!selectedRestaurant.pick_up_at_counter_available">
+              <br>(не доступно)
+            </template>
           </label>
+
         </div>
 
-        <div>
-          <input class="order-settings__radio-button__input" type="radio" id="option2"
-            :value=ORDER_IN_RESTAURANT_TYPE.TABLE v-model="selectedOrderInRestaurantType">
+        <div v-if="selectedRestaurant">
+
+          <input :disabled="!selectedRestaurant.at_restaurant_to_table_available"
+            class="order-settings__radio-button__input" type="radio" id="option2" :value=ORDER_IN_RESTAURANT_TYPE.TABLE
+            v-model="selectedOrderInRestaurantType">
           <label class="order-settings__radio-button__label" for="option2">
             Принести к столику
+            <template v-if="!selectedRestaurant.at_restaurant_to_table_available">
+              <br>(не доступно)
+            </template>
           </label>
+
         </div>
 
       </div>
