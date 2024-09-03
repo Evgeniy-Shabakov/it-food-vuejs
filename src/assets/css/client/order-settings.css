@@ -15,13 +15,16 @@
 }
 
 .order-settings__radio-button__label {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     font-size: 15px;
     padding: 4px 6px;
     background-color: #f2f2f2;
     border: 1px solid #ccc;
     border-radius: 10px;
     cursor: pointer;
+    text-align: center;
+    height: 100%;
 }
 
 .order-settings__radio-button__input:checked+label {
