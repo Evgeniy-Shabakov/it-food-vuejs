@@ -1,17 +1,15 @@
 <script setup>
 import { ref, watch } from 'vue'
-import axios from 'axios'
 
 import router from "/src/router.js"
-import { authUser } from '/src/store/axios-helper.js'
+import { authUser, editUserName } from '/src/store/axios-helper.js'
+import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 
 const fieldInputName = ref(null)
 
 const inputedName = ref()
 
-const validationErrors = ref({
-  name: '',
-})
+const validationErrors = ref({})
 
 let unwatchFn = watch(fieldInputName, () => {
   fieldInputName.value.focus()
@@ -28,22 +26,16 @@ async function save() {
 
   actionAllowed.value = false
 
-  await axios
-    .patch(`/users/${authUser.value.id}/`, { name: inputedName.value})
-    .then(res => {
-      authUser.value = res.data.data
-      router.push({ name: 'client.menu.popup.user-panel' })
-    })
-    .catch(err => {
-      console.log(err);
+  try {
+    await editUserName(authUser.value.id, inputedName.value)
 
-      let errors = err.response.data.errors
+    router.push({ name: 'client.menu.popup.user-panel' })
+  }
+  catch (err) {
+    validationErrors.value = err.response.data.errors
 
-      validationErrors.value = {
-        name: errors.name ? errors.name[0] : '',
-      }
-
-    })
+    transformValidateErrorsForUI(validationErrors.value)
+  }
 
   actionAllowed.value = true
 }
@@ -61,8 +53,8 @@ async function save() {
 
       <div>
         <label class="address-create__label field-required">Имя</label>
-        <input ref="fieldInputName" type="text" v-model="inputedName" class="address-create__input address-create__street"
-          @click.prevent="validationErrors.name = ''">
+        <input ref="fieldInputName" type="text" v-model="inputedName"
+          class="address-create__input address-create__street" @click.prevent="validationErrors.name = ''">
         <div class="invalid-validation-text">{{ validationErrors.name }}</div>
       </div>
 

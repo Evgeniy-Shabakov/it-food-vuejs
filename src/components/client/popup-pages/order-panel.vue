@@ -79,15 +79,15 @@ function setOrderInRestaurantType() {
   if (selectedOrderInRestaurantType.value == ORDER_IN_RESTAURANT_TYPE.COUNTER) {
     if (selectedRestaurant.value.pick_up_at_counter_available)
       return
-    else 
-    selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.TABLE
+    else
+      selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.TABLE
   }
 
   if (selectedOrderInRestaurantType.value == ORDER_IN_RESTAURANT_TYPE.TABLE) {
     if (selectedRestaurant.value.at_restaurant_to_table_available)
       return
-    else 
-    selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
+    else
+      selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
   }
 }
 
@@ -231,7 +231,8 @@ async function sendOrder() {
         selectedOrderInRestaurantType == ORDER_IN_RESTAURANT_TYPE.TABLE" class="order-panel__table-section">
 
         <label class="order-panel__label">Введите номер столика</label>
-        <input type="text" class="order-panel__table-input" v-model="orderData.table_number">
+        <input type="text" class="order-panel__table-input" v-model="orderData.table_number"
+          @click.prevent="validationErrors.table_number = ''">
         <div class="invalid-text order-panel__invalid-text">
           {{ validationErrors.table_number }}
         </div>

@@ -161,6 +161,18 @@ export async function getLastOrderForUser(userID) {
     }
 }
 
+export async function editUserName(userID, name) {
+    try {
+        const res = await axios.patch(`/users/${userID}/`, { name: name})
+
+        authUser.value = res.data.data
+        return res
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 export async function getModelsAxios(urlPrefix) {
     try {
         const res = await axios.get(`/${urlPrefix}`)
