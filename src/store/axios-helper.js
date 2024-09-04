@@ -163,7 +163,7 @@ export async function getLastOrderForUser(userID) {
 
 export async function editUserName(userID, name) {
     try {
-        const res = await axios.patch(`/users/${userID}/`, { name: name})
+        const res = await axios.patch(`/users/${userID}`, { name: name})
 
         authUser.value = res.data.data
         return res
