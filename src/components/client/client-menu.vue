@@ -164,7 +164,8 @@ function formatPhone(value) {
           </div>
         </div>
 
-        <a v-if="company && company.phone" :href="`tel:${company.phone}`" class="burger-menu__item burger-menu__item--phone ">
+        <a v-if="company && company.phone" :href="`tel:${company.phone}`"
+          class="burger-menu__item burger-menu__item--phone" target="_blank">
           <div class="burger-menu__icon-and-text">
 
             <svg class="burger-menu__icon" fill="#000000" width="25px" height="25px" viewBox="0 0 32 32" version="1.1">
