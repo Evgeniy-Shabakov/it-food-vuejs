@@ -14,6 +14,10 @@ import { serverUrl } from '/src/config'
                 Политика обработки персональных данных
             </a>
 
+            <iframe :src="`${serverUrl}/storage/pravo/privacy_policy.pdf`"
+                    class="pravo__file"
+                    frameborder="0">
+            </iframe>
 
         </div>
 
@@ -37,5 +41,11 @@ import { serverUrl } from '/src/config'
     flex-direction: column;
     align-items: center;
     text-align: center;
+    height: 100%;
+}
+
+.pravo__file {
+    width: 100%;
+    height: 100%;
 }
 </style>
