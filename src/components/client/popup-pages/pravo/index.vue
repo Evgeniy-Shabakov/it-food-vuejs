@@ -1,5 +1,31 @@
 <script setup>
 import { serverUrl } from '/src/config'
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import mammoth from 'mammoth';
+
+
+const htmlContent = ref('');
+
+const fetchAndConvertDocx = async (url) => {
+    try {
+        const response = await axios.get(url, { responseType: 'arraybuffer' });
+
+        const arrayBuffer = response.data;
+
+        // Декодируем исходный буфер
+        const { value } = await mammoth.convertToHtml({ buffer: arrayBuffer });
+        htmlContent.value = value; // Сохраняем HTML-контент
+    } catch (error) {
+        console.error('Ошибка загрузки файла:', error);
+    }
+};
+
+onMounted(() => {
+    const url = `${serverUrl}/storage/pravo/privacy_policy.docx`; // Убедитесь, что это файл .docx, а не .pdf
+    fetchAndConvertDocx(url);
+});
+
 </script>
 <template>
 
@@ -14,10 +40,12 @@ import { serverUrl } from '/src/config'
                 Политика обработки персональных данных
             </a>
 
-            <iframe :src="`${serverUrl}/storage/pravo/privacy_policy.pdf`"
+            <div v-html="htmlContent"></div>
+
+            <!-- <iframe :src="`${serverUrl}/storage/pravo/privacy_policy.pdf`"
                     class="pravo__file"
                     frameborder="0">
-            </iframe>
+            </iframe> -->
 
         </div>
 
