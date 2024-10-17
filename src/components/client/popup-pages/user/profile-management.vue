@@ -19,13 +19,15 @@ function logoutVue() {
 
     <div v-if="authUser">
 
-      <button @click.prevent="logoutVue()" class="btn--secondary client-popup-page-layout__btn-w-100">
+      <button @click.prevent="logoutVue()"
+              class="btn--secondary client-popup-page-layout__btn-w-100">
         Выйти из профиля
       </button>
 
     </div>
 
-    <div v-else class="spinner-centr-display">
+    <div v-else
+         class="spinner-centr-display">
       <div class="spinner"></div>
     </div>
 
@@ -33,8 +35,10 @@ function logoutVue() {
   </div>
 
   <div class="client-popup-page-layout__btn-section">
-    <router-link :to="{ name: 'client.menu.popup.user-panel' }" class="client-popup-page-layout__btn-w-100">
-      <button @click="" class="btn btn-submit client-popup-page-layout__btn-w-100">
+    <router-link :to="{ name: 'client.menu.popup.user-panel' }"
+                 class="client-popup-page-layout__btn-w-100">
+      <button @click=""
+              class="btn btn-submit client-popup-page-layout__btn-w-100">
         Назад
       </button>
     </router-link>

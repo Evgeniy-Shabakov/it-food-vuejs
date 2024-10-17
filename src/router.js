@@ -72,6 +72,11 @@ const routes = [
                                 component: () => import('./components/client/popup-pages/addresses/addresses-edit.vue'),
                                 name: 'client.menu.popup.address-edit'
                             },
+                            {
+                                path: '/popup/pravo',
+                                component: () => import('./components/client/popup-pages/pravo/index.vue'),
+                                name: 'client.menu.popup.pravo'
+                            },
                         ]
                     },
                 ]

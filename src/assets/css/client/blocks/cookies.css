@@ -1,0 +1,36 @@
+.cookies {
+    font-size: 16px;
+    padding-block: 12px;
+}
+
+.cookies__inner {
+    display: flex;
+    align-items: center;
+    gap: 15px;   
+}
+
+.cookies__btn-close {
+    background-color: transparent;
+    border: 0px;
+}
+
+@media (max-width: 1024px) {
+    .cookies {
+        font-size: 14px;
+        padding-block: 6px;
+    }
+}
+
+@media (max-width: 660px) {
+    .cookies {
+        font-size: 12px;
+        padding-block: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cookies {
+        font-size: 10px;
+        padding-block: 2px;
+    }
+}

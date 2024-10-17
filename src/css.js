@@ -47,6 +47,7 @@ import './assets/css/client/popup-pages/user-edit-panel.css'
 import './assets/css/client/popup-pages/address-index.css'
 
 import './assets/css/client/parts/client-menu-cart-panel.css'
+import './assets/css/client/blocks/cookies.css'
 
 
 import './assets/css/order-manager/order-manager-main.css'

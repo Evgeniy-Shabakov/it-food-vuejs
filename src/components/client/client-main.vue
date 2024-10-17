@@ -8,6 +8,8 @@ import { initialize } from '/src/store/client-initialize';
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper.js'
 
+import Cookies from '/src/components/client/block/cookies.vue'
+
 const route = useRoute(); // Инициализация useRoute на верхнем уровне
 
 const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
@@ -44,34 +46,45 @@ function btnTopPressed() {
 </script>
 
 <template>
+
+  <cookies></cookies>
+
   <router-view v-if="dataForComponentLoadingType === LOADING_TYPE.complete"></router-view>
 
-  <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading" class="spinner-centr-display">
+  <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading"
+       class="spinner-centr-display">
     <div class="spinner"></div>
   </div>
 
-  <div v-else class="error-loading">
+  <div v-else
+       class="error-loading">
     <p class="error-loading__text">Ошибка загрузки данных. Попробуйте обновить страницу</p>
     <p class="error-loading__description">{{ dataForComponentLoadingType }}</p>
-    <button class="btn btn-submit" @click.prevent="reloadPage()" type="button">Обновить</button>
+    <button class="btn btn-submit"
+            @click.prevent="reloadPage()"
+            type="button">Обновить</button>
   </div>
 
   <div class="bottom-device-menu">
     <div class="container">
       <div class="bottom-device-menu__inner">
 
-        <a @click.prevent="btnTopPressed()" href="#" class="bottom-device-menu__item bottom-device-menu__item-1">
+        <a @click.prevent="btnTopPressed()"
+           href="#"
+           class="bottom-device-menu__item bottom-device-menu__item-1">
           <i class="fa-regular fa-circle-up bottom-device-menu__icon"></i>
         </a>
 
         <router-link :to="{ name: 'client.menu.popup.user-panel' }"
-          class="bottom-device-menu__item bottom-device-menu__item-2">
+                     class="bottom-device-menu__item bottom-device-menu__item-2">
           <i class="fa-solid fa-user bottom-device-menu__icon"></i>
         </router-link>
 
-        <router-link :to="{ name: 'client.menu.popup.cart' }" class="bottom-device-menu__item bottom-device-menu__item-3">
+        <router-link :to="{ name: 'client.menu.popup.cart' }"
+                     class="bottom-device-menu__item bottom-device-menu__item-3">
           <i class="fa-solid fa-cart-shopping bottom-device-menu__icon">
-            <div v-if="totalCountInCart" class="bottom-device-menu__product-count-in-cart">
+            <div v-if="totalCountInCart"
+                 class="bottom-device-menu__product-count-in-cart">
               {{ totalCountInCart }}
             </div>
           </i>
@@ -80,4 +93,5 @@ function btnTopPressed() {
       </div>
     </div>
   </div>
+
 </template>

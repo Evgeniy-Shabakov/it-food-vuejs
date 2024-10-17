@@ -42,3 +42,22 @@
 .burger-menu__icon {
     fill: var(--text-color-for-color-primary);
 }
+
+.burger-menu__link {
+    width: 100%;
+    font-size: 16px;
+    text-decoration: underline;
+    text-align: center;
+    color: var(--text-color-for-color-primary);
+}
+
+/*чтобы работало только на компе с мышкой */
+@media (hover: hover) {
+    .burger-menu__link:hover {
+        color: black;
+    }
+}
+
+.burger-menu__link:active {
+    color: black;
+}
