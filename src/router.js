@@ -77,6 +77,11 @@ const routes = [
                                 component: () => import('./components/client/popup-pages/pravo/index.vue'),
                                 name: 'client.menu.popup.pravo'
                             },
+                            {
+                                path: '/popup/pravo/privacy-policy',
+                                component: () => import('./components/client/popup-pages/pravo/privacy-policy.vue'),
+                                name: 'client.menu.popup.pravo.privacy-policy'
+                            },
                         ]
                     },
                 ]

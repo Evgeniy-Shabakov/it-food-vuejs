@@ -88,7 +88,7 @@ export async function logout() {
 
         return res
     }
-    catch(error) {
+    catch (error) {
         console.log(error)
         throw error
     }
@@ -116,7 +116,7 @@ export async function getOrdersToday(restaurantId) {
                 timezone: currentTimezone.value
             }
         })
-        
+
         ordersToday.value = res.data.data
         return res
     } catch (error) {
@@ -163,7 +163,7 @@ export async function getLastOrderForUser(userID) {
 
 export async function editUserName(userID, name) {
     try {
-        const res = await axios.patch(`/users/${userID}`, { name: name})
+        const res = await axios.patch(`/users/${userID}`, { name: name })
 
         authUser.value = res.data.data
         return res
