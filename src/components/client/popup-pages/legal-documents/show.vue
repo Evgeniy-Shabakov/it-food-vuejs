@@ -1,15 +1,25 @@
 <script setup>
-import { serverApiUrl } from '/src/config'
-import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router'
+import { ref } from 'vue';
 import mammoth from 'mammoth';
 
+import { legalDocuments } from '/src/store/axios-helper.js'
+import { serverApiUrl } from '/src/config'
+
 const convertedContent = ref('')
+
+const id = useRoute().params.id
+let document
+
+if(legalDocuments.value) {
+    document = legalDocuments.value.find(el => el.id == id)
+}
 
 convertAndDisplay()
 
 async function convertAndDisplay() {
     try {
-        const response = await fetch(`${serverApiUrl}/download-privacy-policy`)
+        const response = await fetch(`${serverApiUrl}/legal-documents/download/${id}`)
 
         const arrayBuffer = await response.arrayBuffer();
         const { value } = await mammoth.convertToHtml({ arrayBuffer });
@@ -25,7 +35,7 @@ async function convertAndDisplay() {
 
     <div class="client-popup-page-layout__main-section">
 
-        <h1 class="client-popup-page-layout__h1">Политика обработки персональных данных </h1>
+        <h1 v-if="document" class="client-popup-page-layout__h1">{{ document.title }} </h1>
 
         <div class="privacy-policy"
              v-html="convertedContent"></div>

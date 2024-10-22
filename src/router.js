@@ -73,14 +73,14 @@ const routes = [
                                 name: 'client.menu.popup.address-edit'
                             },
                             {
-                                path: '/popup/pravo',
-                                component: () => import('./components/client/popup-pages/pravo/index.vue'),
-                                name: 'client.menu.popup.pravo'
+                                path: '/popup/legal-documents',
+                                component: () => import('./components/client/popup-pages/legal-documents/index.vue'),
+                                name: 'client.menu.popup.legal-documents'
                             },
                             {
-                                path: '/popup/pravo/privacy-policy',
-                                component: () => import('./components/client/popup-pages/pravo/privacy-policy.vue'),
-                                name: 'client.menu.popup.pravo.privacy-policy'
+                                path: '/popup/legal-documents/:id',
+                                component: () => import('./components/client/popup-pages/legal-documents/show.vue'),
+                                name: 'client.menu.popup.legal-documents.show'
                             },
                         ]
                     },

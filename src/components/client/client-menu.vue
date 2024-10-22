@@ -109,7 +109,7 @@ function formatPhone(value) {
           <a class="info__item"
              href="#">Контакты</a> -->
           <router-link class="info__item"
-                       :to="{ name: 'client.menu.popup.pravo' }">
+                       :to="{ name: 'client.menu.popup.legal-documents' }">
             Правовая информация
           </router-link>
         </div>
@@ -209,7 +209,7 @@ function formatPhone(value) {
         </a>
 
         <router-link class="burger-menu__link"
-                     :to="{ name: 'client.menu.popup.pravo' }"
+                     :to="{ name: 'client.menu.popup.legal-documents' }"
                      @click="burgerMenu.hidden=true">
           Правовая информация
         </router-link>

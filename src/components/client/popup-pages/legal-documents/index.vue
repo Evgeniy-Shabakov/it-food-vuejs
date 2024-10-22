@@ -1,3 +1,9 @@
+<script setup>
+import { getModelsAxios, legalDocuments } from '/src/store/axios-helper.js'
+
+getModelsAxios('legal-documents')
+</script>
+
 <template>
 
     <div class="client-popup-page-layout__main-section">
@@ -6,9 +12,10 @@
 
         <div class="pravo">
 
-            <router-link :to="{name: 'client.menu.popup.pravo.privacy-policy'}"
-               download>
-                Политика обработки персональных данных
+            <router-link v-for="document in legalDocuments"
+                         :to="{ name: 'client.menu.popup.legal-documents.show', params: { id: document.id } }"
+                         download>
+                {{ document.title }}
             </router-link>
 
         </div>
@@ -31,6 +38,7 @@
 .pravo {
     display: flex;
     flex-direction: column;
+    gap: 15px;
     align-items: center;
     text-align: center;
 }
