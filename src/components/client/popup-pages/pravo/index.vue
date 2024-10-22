@@ -1,8 +1,3 @@
-<script setup>
-
-
-
-</script>
 <template>
 
     <div class="client-popup-page-layout__main-section">

@@ -53,21 +53,36 @@ function logoutInAdminPanel() {
 
 <template>
   <!-- Боковая панель -->
-  <div id="nav-menu" class="left-side-menu">
-    <div class="left-side-menu__current-user" v-if="authUser">
+  <div id="nav-menu"
+       class="left-side-menu">
+    <div class="left-side-menu__current-user"
+         v-if="authUser">
       <span>{{ authUser.phone }}</span>
-      <button class="left-side-menu__current-user__btn" @click.prevent="logoutInAdminPanel()">Выйти</button>
+      <button class="left-side-menu__current-user__btn"
+              @click.prevent="logoutInAdminPanel()">Выйти</button>
     </div>
 
-    <router-link to="/admin" class="left-side-menu__link">Главная</router-link>
-    <router-link to="/admin/employees" class="left-side-menu__link">Сотрудники</router-link>
-    <router-link to="/admin/companies/1/edit" class="left-side-menu__link">Компания</router-link>
-    <router-link to="/admin/countries" class="left-side-menu__link">Страны</router-link>
-    <router-link to="/admin/cities" class="left-side-menu__link">Города</router-link>
-    <router-link to="/admin/restaurants" class="left-side-menu__link">Рестораны</router-link>
-    <router-link to="/admin/categories" class="left-side-menu__link">Категории</router-link>
-    <router-link to="/admin/products" class="left-side-menu__link">Товары</router-link>
-    <router-link to="/" target="_blank" class="left-side-menu__link">Сайт</router-link>
+    <router-link to="/admin"
+                 class="left-side-menu__link">Главная</router-link>
+    <router-link to="/admin/employees"
+                 class="left-side-menu__link">Сотрудники</router-link>
+    <router-link to="/admin/companies/1/edit"
+                 class="left-side-menu__link">Компания</router-link>
+    <router-link to="/admin/countries"
+                 class="left-side-menu__link">Страны</router-link>
+    <router-link to="/admin/cities"
+                 class="left-side-menu__link">Города</router-link>
+    <router-link to="/admin/restaurants"
+                 class="left-side-menu__link">Рестораны</router-link>
+    <router-link to="/admin/categories"
+                 class="left-side-menu__link">Категории</router-link>
+    <router-link to="/admin/products"
+                 class="left-side-menu__link">Товары</router-link>
+    <router-link to="/admin/legal-documents"
+                 class="left-side-menu__link">Правовые документы</router-link>
+    <router-link to="/"
+                 target="_blank"
+                 class="left-side-menu__link">Сайт</router-link>
   </div>
 
   <!-- Page content -->
@@ -75,7 +90,8 @@ function logoutInAdminPanel() {
 
     <router-view></router-view>
 
-    <div v-if="useRoute().name != 'admin.main'" class="btns-nav">
+    <div v-if="useRoute().name != 'admin.main'"
+         class="btns-nav">
       <button @click.prevent="router.go(-1)">Назад</button>
       <button @click.prevent="router.push({ name: 'admin.main' })">На главную</button>
     </div>
@@ -95,7 +111,8 @@ function logoutInAdminPanel() {
         </tr>
       </thead>
       <tbody>
-        <tr :class="setColor(message.type)" v-for="message in logMessages">
+        <tr :class="setColor(message.type)"
+            v-for="message in logMessages">
           <td>{{ message.id }}</td>
           <td>{{ message.text }}</td>
           <td>{{ message.type }}</td>

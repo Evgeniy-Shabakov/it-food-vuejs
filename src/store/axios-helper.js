@@ -35,6 +35,9 @@ export const currentProduct = ref()
 export const employees = ref()
 export const currentEmployee = ref()
 
+export const legalDocuments = ref()
+export const currentLegalDocument = ref()
+
 export const ordersToday = ref()
 
 export const activeOrdersForUser = ref([])
@@ -184,6 +187,7 @@ export async function getModelsAxios(urlPrefix) {
         else if (urlPrefix == 'products') products.value = res.data.data
         else if (urlPrefix == 'employees') employees.value = res.data.data
         else if (urlPrefix == 'roles') roles.value = res.data.data
+        else if (urlPrefix == 'legal-documents') legalDocuments.value = res.data.data
 
         return res
     } catch (error) {
@@ -204,6 +208,7 @@ export async function getModelAxios(urlPrefix, id) {
         else if (urlPrefix == 'products') currentProduct.value = res.data.data
         else if (urlPrefix == 'companies') company.value = res.data.data
         else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
+        else if (urlPrefix == 'legal-documents') currentLegalDocument.value = res.data.data
 
         return res
     } catch (error) {
@@ -229,7 +234,7 @@ export async function storeModelAxios(urlPrefix, data) {
 
 export async function updateModelAxios(urlPrefix, data) {
     //если нужно передавать файлы метод post
-    if (urlPrefix == 'companies' || urlPrefix == 'products') {
+    if (urlPrefix == 'companies' || urlPrefix == 'products' || urlPrefix == 'legal-documents') {
         data.append("_method", "PATCH");
 
         try {
@@ -237,6 +242,8 @@ export async function updateModelAxios(urlPrefix, data) {
 
             if (urlPrefix == 'companies') company.value = res.data.data
             if (urlPrefix == 'products') currentProduct.value = res.data.data
+            if (urlPrefix == 'legal-documents') currentLegalDocument.value = res.data.data
+
             res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
             addLogMessage(res.messageForVue)
 
@@ -276,6 +283,8 @@ export async function deleteModelAxios(urlPrefix, data) {
         else if (urlPrefix == 'categories') currentCategory.value = null
         else if (urlPrefix == 'products') currentProduct.value = null
         else if (urlPrefix == 'employees') currentEmployee.value = null
+        else if (urlPrefix == 'legal-documents') currentLegalDocument.value = null
+        
         res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
         addLogMessage(res.messageForVue)
 
