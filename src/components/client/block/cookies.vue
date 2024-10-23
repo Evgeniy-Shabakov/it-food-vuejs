@@ -5,7 +5,7 @@ import IconClose from '/src/components/icon/close.vue'
 
 const isCookiesAccepted = ref(false)
 
-if(localStorage.getItem(COOKIE_NAME.COOKIES_ACCEPTED)){
+if (localStorage.getItem(COOKIE_NAME.COOKIES_ACCEPTED)) {
     isCookiesAccepted.value = localStorage.getItem(COOKIE_NAME.COOKIES_ACCEPTED)
 }
 
@@ -28,10 +28,15 @@ function btnCloseCookiesPressed() {
             </button>
 
             <div class="cookies__text">
+
                 Мы используем файлы cookies для быстрой и удобной работы сайта.
                 Продолжая пользоваться сайтом, вы принимаете
-                <a href="/"
-                   class="cookies__link">условия обработки персональных данных</a>
+
+                <router-link class="cookies__link"
+                             :to="{ name: 'client.menu.popup.legal-documents' }">
+                    условия обработки персональных данных
+                </router-link>
+
             </div>
 
         </div>

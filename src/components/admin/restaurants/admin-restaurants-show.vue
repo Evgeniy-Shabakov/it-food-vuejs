@@ -58,7 +58,7 @@ function setColor(param) {
         <i :class="setColor(currentRestaurant.delivery_available)" class="fa-solid fa-car-side"></i>
       </div>
 
-      <div>Доступен самовывоз (выдача у прилавка):</div>
+      <div>Доступен самовывоз (выдача у бара):</div>
       <div>
         <i :class="setColor(currentRestaurant.pick_up_at_counter_available)" class="fa-solid fa-bag-shopping"></i>
       </div>
@@ -69,7 +69,7 @@ function setColor(param) {
           class="fa-solid fa-chalkboard-user"></i>
       </div>
 
-      <div>Доступна подача в ресторане (выдача у прилавка):</div>
+      <div>Доступна подача в ресторане (выдача у бара):</div>
       <div>
         <i :class="setColor(currentRestaurant.at_restaurant_at_counter_available)"
           class="fa-solid fa-solar-panel"></i>

@@ -116,20 +116,24 @@ function loginVue() {
         </template>
       </h1>
 
-      <p v-if="openCode == false" class="login-panel__text">
+      <p v-if="openCode == false"
+         class="login-panel__text">
         для входа в личный кабинет или <br>оформления заказа
       </p>
-      <p v-else class="login-panel__text">
+      <p v-else
+         class="login-panel__text">
         код отправили сообщением на <br>{{ phoneNumberForServer }}
       </p>
 
-      <div v-if="openCode == false" class="login-panel__phone-input">
+      <div v-if="openCode == false"
+           class="login-panel__phone-input">
         <PhoneInput></PhoneInput>
       </div>
 
       <template v-else>
         <CodeInput class="login-panel__phone-input"></CodeInput>
-        <div v-if="codeError" class="login-panel__code-error">данные не совпадают</div>
+        <div v-if="codeError"
+             class="login-panel__code-error">данные не совпадают</div>
       </template>
 
     </div>
@@ -147,13 +151,18 @@ function loginVue() {
         <template v-if="timerForSendVerifyCodeAllowed == null">
 
           <p class="login-panel__soglasie">
-            Продолжая вы соглашаетесь со сбором, обработкой персональных данных и
-            Пользовательским соглашением
+            Продолжая вы соглашаетесь со
+            <router-link class="cookies__link"
+                         :to="{ name: 'client.menu.popup.legal-documents' }">
+              сбором, обработкой персональных данных и
+              Пользовательским соглашением
+            </router-link>
           </p>
 
           <template v-if="phoneNumberForServer.length == 12">
 
-            <button class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue()">
+            <button class="btn btn-submit login-panel__btn-submit"
+                    @click.prevent="sendVerifyCodeVue()">
               ПРОДОЛЖИТЬ
             </button>
 
@@ -161,7 +170,8 @@ function loginVue() {
 
           <template v-else>
 
-            <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+            <button class="btn btn-inactive login-panel__btn-submit"
+                    @click.prevent="">
               ПРОДОЛЖИТЬ
             </button>
 
@@ -176,7 +186,8 @@ function loginVue() {
             {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
           </p>
 
-          <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+          <button class="btn btn-inactive login-panel__btn-submit"
+                  @click.prevent="">
             Отправить код повторно
           </button>
 
@@ -188,7 +199,8 @@ function loginVue() {
 
         <template v-if="inputedCode.length == 4">
 
-          <button class="btn btn-submit login-panel__btn-submit" @click.prevent="loginVue()">
+          <button class="btn btn-submit login-panel__btn-submit"
+                  @click.prevent="loginVue()">
             Подтвердить код
           </button>
 
@@ -203,7 +215,8 @@ function loginVue() {
               повторно через {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
             </p>
 
-            <button class="btn btn-inactive login-panel__btn-submit" @click.prevent="">
+            <button class="btn btn-inactive login-panel__btn-submit"
+                    @click.prevent="">
               Отправить код повторно
             </button>
 
@@ -211,7 +224,8 @@ function loginVue() {
 
           <template v-else>
 
-            <button class="btn btn-submit login-panel__btn-submit" @click.prevent="sendVerifyCodeVue()">
+            <button class="btn btn-submit login-panel__btn-submit"
+                    @click.prevent="sendVerifyCodeVue()">
               Отправить код повторно
             </button>
 

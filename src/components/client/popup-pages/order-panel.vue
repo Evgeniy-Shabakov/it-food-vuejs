@@ -203,7 +203,7 @@ async function sendOrder() {
             class="order-settings__radio-button__input" type="radio" id="option1"
             :value=ORDER_IN_RESTAURANT_TYPE.COUNTER v-model="selectedOrderInRestaurantType">
           <label class="order-settings__radio-button__label" for="option1">
-            Заберу у прилавка
+            Заберу у бара
             <template v-if="!selectedRestaurant.pick_up_at_counter_available">
               <br>(не доступно)
             </template>

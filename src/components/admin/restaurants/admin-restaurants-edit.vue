@@ -108,7 +108,7 @@ function updateRestaurant() {
       @click="validationErrors.delivery_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.delivery_available }}</div>
 
-    <span class="required">Доступен самовывоз (выдача у прилавка):</span>
+    <span class="required">Доступен самовывоз (выдача у бара):</span>
     <input type="checkbox" v-model="restaurantInputedData.pick_up_at_counter_available"
       @click="validationErrors.pick_up_at_counter_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.pick_up_at_counter_available }}</div>
@@ -118,7 +118,7 @@ function updateRestaurant() {
       @click="validationErrors.pick_up_at_car_window_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.pick_up_at_car_window_available }}</div>
 
-    <span class="required">Доступна подача в ресторане (выдача у прилавка):</span>
+    <span class="required">Доступна подача в ресторане (выдача у бара):</span>
     <input type="checkbox" v-model="restaurantInputedData.at_restaurant_at_counter_available"
       @click="validationErrors.at_restaurant_at_counter_available = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.at_restaurant_at_counter_available }}</div>
