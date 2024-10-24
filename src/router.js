@@ -264,6 +264,22 @@ const routes = [
                 component: () => import('./components/admin/legal-documents/edit.vue'),
                 name: 'admin.legal-documents.edit'
             },
+
+            {
+                path: 'designs',
+                component: () => import('./components/admin/designs/index.vue'),
+                name: 'admin.designs.index'
+            },
+            {
+                path: 'designs/create',
+                component: () => import('./components/admin/designs/create.vue'),
+                name: 'admin.designs.create'
+            },
+            {
+                path: 'designs/:id/edit',
+                component: () => import('./components/admin/designs/edit.vue'),
+                name: 'admin.designs.edit'
+            },
         ],
 
     },
