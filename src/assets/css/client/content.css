@@ -43,7 +43,7 @@
         margin-bottom: 20px;
     }
 
-    /* .content__category-products {
-        gap: 35px;
-    } */
+    .content__category-products {
+        gap: 20px;
+    }
 }
