@@ -47,6 +47,8 @@ export const activeOrdersForUser = ref([])
 export const allOrdersForUser = ref([])
 export const lastOrderForUser = ref()
 
+export const activeDesign = ref()
+
 export const textLoadOrFailForVue = ref('Загрузка данных...')
 
 export function sendVerifyCode(data) {
@@ -172,6 +174,18 @@ export async function editUserName(userID, name) {
         const res = await axios.patch(`/users/${userID}`, { name: name })
 
         authUser.value = res.data.data
+        return res
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function getActiveDesign() {
+    try {
+        const res = await axios.get(`/get-active-design`)
+
+        activeDesign.value = res.data.data
         return res
     } catch (error) {
         console.log(error)

@@ -1,6 +1,22 @@
 :root {
     --scroll-padding-top: 65px;
     --vh-mobile: 1vh;
+    --popup-title-height: 45px;
+    --spinner-widht-higth: 40px;
+    --btn-font-size: 15px;
+
+
+    --background-color: white;
+    --text-color: black;
+    --brand-color: rgb(255, 105, 0);
+    --text-color-on-brand-color: white;
+    --supporting-color: grey;
+    --accent-text-color: green;
+
+    --brand-color-20: rgb(255, 105, 0);
+    --brand-color-40: rgb(255, 105, 0);
+
+
 
     --color-primary: rgb(255, 105, 0);
     --color-selected: rgb(253, 118, 22);
@@ -10,11 +26,9 @@
     --burger-menu-phone-color: rgb(255, 60, 0);
     --burger-menu-phone-color-active: rgba(255, 60, 0, 0.509);
 
-    --btn-font-size: 15px;
-
-    --btn-submit-back-color: rgb(255, 105, 0);
-    --btn-submit-back-color-hover: rgb(231, 97, 1);
-    --btn-submit-back-color-active: rgba(255, 106, 0, 0.801);
+    --btn-submit-back-color: var(--brand-color);
+    --btn-submit-back-color-hover: var(--brand-color-20);
+    --btn-submit-back-color-active: var(--brand-color-40);
     --btn-submit-text-color: rgb(255, 255, 255);
     --btn-submit-text-color-hover: rgb(255, 255, 255);
     --btn-submit-text-color-active: rgb(255, 255, 255);
@@ -27,10 +41,6 @@
     --btn-secondary-text-color-active: rgb(255, 255, 255);
 
     --color-icon-delivery-in-cart: orangered;
-
-    --popup-title-height: 45px;
-
-    --spinner-widht-higth: 40px
 }
 
 

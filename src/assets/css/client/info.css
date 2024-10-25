@@ -1,6 +1,9 @@
 .info {
     font-size: 16px;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.7);
+    /* border-bottom: 1px solid rgba(128, 128, 128, 0.7); */
+    --tw-shadow: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
 }
 
 .info__inner {

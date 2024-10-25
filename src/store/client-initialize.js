@@ -1,20 +1,24 @@
-import { categories, cities } from '/src/store/axios-helper.js'
-import { selectedCity, productsInCart, selectedRestaurant, selectedOrderType,
-    selectedOrderInRestaurantType }
+import { categories, cities, activeDesign } from '/src/store/axios-helper.js'
+import {
+    selectedCity, productsInCart, selectedRestaurant, selectedOrderType,
+    selectedOrderInRestaurantType
+}
     from '/src/store/client-helper.js'
 import {
-    loadCompany, loadCurrentAuthUser, loadCities, loadCategories, loadRestaurants
+    loadCompany, loadCurrentAuthUser, loadCities, loadCategories, loadRestaurants, loadActiveDesign
 } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
 import { ORDER_IN_RESTAURANT_TYPE } from '/src/store/data-types/order-in-restaurant-type'
 import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
+import { adjustColor } from '/src/store/color'
 
 export async function initialize() {
 
     try {
         await initializeCategories()
+        await initializeDesign()
 
         initializeCity().then(() => initializeRestaurant())
 
@@ -123,6 +127,32 @@ function initializeOrderInRestaurantType() {
 
     if (selectedOrderInRestaurantType.value == null)
         selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
+}
+
+async function initializeDesign() {
+    try {
+        await loadActiveDesign()
+
+        // Получаем корневой элемент документа
+        const root = document.documentElement;
+
+        // Устанавливаем новое значение для CSS переменной
+        root.style.setProperty('--background-color', activeDesign.value.background_color);
+        root.style.setProperty('--text-color', activeDesign.value.text_color);
+        root.style.setProperty('--brand-color', activeDesign.value.brand_color);
+        root.style.setProperty('--text-color-on-brand-color', activeDesign.value.text_color_on_brand_color);
+        root.style.setProperty('--supporting-color', activeDesign.value.supporting_color);
+        root.style.setProperty('--accent-text-color', activeDesign.value.accent_text_color);
+
+        root.style.setProperty('--brand-color-20', adjustColor(activeDesign.value.brand_color, -10));
+        root.style.setProperty('--brand-color-40', adjustColor(activeDesign.value.brand_color, 10));
+
+        return LOADING_TYPE.complete
+    }
+    catch (err) {
+        console.log(err)
+        throw err
+    }
 }
 
 

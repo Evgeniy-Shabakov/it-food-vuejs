@@ -4,6 +4,8 @@
     border-radius: 30px;
     font-size: var(--btn-font-size);
     white-space: nowrap;
+
+    border-radius: 1.5rem;
 }
 
 .btn--secondary {
