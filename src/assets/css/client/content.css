@@ -36,7 +36,11 @@
 
 @media (max-width: 522px) {
     .content__category-sections {
-        margin-top: 60px;
+        margin-top: 30px;
+    }
+
+    .content__category-title {
+        margin-bottom: 20px;
     }
 
     /* .content__category-products {
