@@ -6,6 +6,13 @@ import {
 } from '/src/store/axios-helper.js'
 
 getModelsAxios('designs')
+    .then(() => sortDesigns())
+
+function sortDesigns() {
+    designs.value.sort((a, b) => {
+        return (b.is_active == true) - (a.is_active == true);
+    })
+}
 
 function openDesignEdit(design) {
     currentDesign.value = design
@@ -14,7 +21,10 @@ function openDesignEdit(design) {
 
 function deleteDesign(design) {
     deleteModelAxios('designs', design)  //пустые обработчики, чтобы не было ошибок не пойманных промисов
-        .then((res) => { getModelsAxios('designs') })
+        .then((res) => {
+            getModelsAxios('designs')
+                .then(() => sortDesigns())
+        })
         .catch((err) => { })
 }
 
@@ -33,30 +43,36 @@ function deleteDesign(design) {
             <h5 class="admin-restaurant-index__restaurant_title">{{ design.title }}</h5>
 
             <div>
-                <span v-if="design.is_active" class="theme">Активная тема</span>
-                <span v-else class="theme">неактивная тема</span>
+                <span v-if="design.is_active"
+                      class="theme theme--active">Активная тема</span>
+                <span v-else
+                      class="theme">неактивная тема</span>
             </div>
 
             <div>
 
                 <input type="color"
-                       v-model="design.background_color"
+                       v-model="design.background_page_main_color"
                        disabled>
                 <input type="color"
-                       v-model="design.text_color"
+                       v-model="design.background_page_elements_color"
                        disabled>
                 <input type="color"
                        v-model="design.brand_color"
                        disabled>
                 <input type="color"
+                       v-model="design.text_color_main"
+                       disabled>
+                <input type="color"
                        v-model="design.text_color_on_brand_color"
                        disabled>
                 <input type="color"
-                       v-model="design.supporting_color"
+                       v-model="design.text_color_accent"
                        disabled>
                 <input type="color"
-                       v-model="design.accent_text_color"
+                       v-model="design.bottom_nav_color"
                        disabled>
+
             </div>
 
             <button class="btn btn-edit"
@@ -83,5 +99,10 @@ function deleteDesign(design) {
 <style scoped>
 .theme {
     font-size: 15px;
+}
+
+.theme--active {
+    color: green;
+    font-weight: 700;
 }
 </style>

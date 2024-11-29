@@ -8,12 +8,13 @@ const designInputedData = reactive({
     initialize() {
         this.title = currentDesign.value.title
         this.is_active = Boolean(currentDesign.value.is_active)
-        this.background_color = currentDesign.value.background_color
-        this.text_color = currentDesign.value.text_color
+        this.background_page_main_color = currentDesign.value.background_page_main_color
+        this.background_page_elements_color = currentDesign.value.background_page_elements_color
         this.brand_color = currentDesign.value.brand_color
+        this.text_color_main = currentDesign.value.text_color_main
         this.text_color_on_brand_color = currentDesign.value.text_color_on_brand_color
-        this.supporting_color = currentDesign.value.supporting_color
-        this.accent_text_color = currentDesign.value.accent_text_color
+        this.text_color_accent = currentDesign.value.text_color_accent
+        this.bottom_nav_color = currentDesign.value.bottom_nav_color
     }
 })
 
@@ -55,16 +56,16 @@ function updateDesign() {
         <label class="required">Основной цвет фона</label>
         <input class="color-box"
                type="color"
-               v-model="designInputedData.background_color"
-               @click="validationErrors.background_color = ''; textDone = ''">
-        <div class="invalid-text">{{ validationErrors.background_color }}</div>
+               v-model="designInputedData.background_page_main_color"
+               @click="validationErrors.background_page_main_color = ''; textDone = ''">
+        <div class="invalid-text">{{ validationErrors.background_page_main_color }}</div>
 
-        <label class="required">Основной цвет текста</label>
+        <label class="required">Фон элементов страницы (шапка, карточки, навигация)</label>
         <input class="color-box"
                type="color"
-               v-model="designInputedData.text_color"
-               @click="validationErrors.text_color = ''; textDone = ''">
-        <div class="invalid-text">{{ validationErrors.text_color }}</div>
+               v-model="designInputedData.background_page_elements_color"
+               @click="validationErrors.background_page_elements_color = ''; textDone = ''">
+        <div class="invalid-text">{{ validationErrors.background_page_elements_color }}</div>
 
         <label class="required">Цвет бренда</label>
         <input class="color-box"
@@ -73,6 +74,13 @@ function updateDesign() {
                @click="validationErrors.brand_color = ''; textDone = ''">
         <div class="invalid-text">{{ validationErrors.brand_color }}</div>
 
+        <label class="required">Основной цвет текста</label>
+        <input class="color-box"
+               type="color"
+               v-model="designInputedData.text_color_main"
+               @click="validationErrors.text_color_main = ''; textDone = ''">
+        <div class="invalid-text">{{ validationErrors.text_color_main }}</div>
+
         <label class="required">Цвет текста на цвете бренда</label>
         <input class="color-box"
                type="color"
@@ -80,19 +88,19 @@ function updateDesign() {
                @click="validationErrors.text_color_on_brand_color = ''; textDone = ''">
         <div class="invalid-text">{{ validationErrors.text_color_on_brand_color }}</div>
 
-        <label class="required">Вспомогательный цвет (линии, нижнее меню, вспомогатльный текст)</label>
-        <input class="color-box"
-               type="color"
-               v-model="designInputedData.supporting_color"
-               @click="validationErrors.supporting_color = ''; textDone = ''">
-        <div class="invalid-text">{{ validationErrors.supporting_color }}</div>
-
         <label class="required">Акцентированный цвет текста (текст: 'статус заказа', 'бесплатная доставка')</label>
         <input class="color-box"
                type="color"
-               v-model="designInputedData.accent_text_color"
-               @click="validationErrors.accent_text_color = ''; textDone = ''">
-        <div class="invalid-text">{{ validationErrors.accent_text_color }}</div>
+               v-model="designInputedData.text_color_accent"
+               @click="validationErrors.text_color_accent = ''; textDone = ''">
+        <div class="invalid-text">{{ validationErrors.text_color_accent }}</div>
+
+        <label class="required">Цвет нижнего меню навигации</label>
+        <input class="color-box"
+               type="color"
+               v-model="designInputedData.bottom_nav_color"
+               @click="validationErrors.bottom_nav_color = ''; textDone = ''">
+        <div class="invalid-text">{{ validationErrors.bottom_nav_color }}</div>
 
         <span class="required">Применить тему</span>
         <input type="checkbox"
@@ -112,8 +120,8 @@ function updateDesign() {
 </template>
 <style scoped>
 .color-box {
-    padding: 10px;
-    width: 75px;
     height: 75px;
+    border-radius: 0px;
+    padding: 0px;
 }
 </style>
