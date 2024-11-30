@@ -4,7 +4,6 @@
     left: calc(50% - var(--spinner-widht-higth)/2);
     height: var(--spinner-widht-higth);
     aspect-ratio: 1/1;
-
 }
 
 .spinner-centr-object {
@@ -29,7 +28,7 @@
 
     /* Одна из границ должна отличаться по цвету */
     border: solid 5px #ddd;
-    border-left: solid 5px var(--color-primary);
+    border-left: solid 5px var(--brand-color);
 
 
     animation-name: spin;

@@ -49,19 +49,19 @@
     border-radius: 10px;
     justify-self: end;
 
-    background-color: var(--btn-secondary-bg-color);
-    color: rgb(255, 255, 255);
+    background-color: var(--brand-color);
+    color: var(--text-color-on-brand-color);
 }
 
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
     .cart-panel__product-btn-helpers:hover {
-        background-color: var(--btn-secondary-bg-color-hover);
+        background-color: var(--brand-color-hover);
     }
 }
 
 .cart-panel__product-btn-helpers:active {
-    background-color: var(--btn-secondary-bg-color-active);
+    background-color: var(--brand-color-active);
 }
 
 .cart-panel__product-count-price {
@@ -76,7 +76,7 @@
 }
 
 .cart-panel__icon-delivery {
-    color: var(--color-icon-delivery-in-cart);
+    /* color: var(--brand-color); */
     justify-self: center;
 }
 

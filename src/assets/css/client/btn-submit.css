@@ -1,21 +1,15 @@
 .btn-submit {
-    background-color: var(--btn-submit-back-color);
-    color: var(--btn-submit-text-color);
+    background-color: var(--brand-color);
+    color: var(--text-color-on-brand-color);
 }
 
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
     .btn-submit:hover {
-        background-color: var(--btn-submit-back-color-hover);
-        color: var(--btn-submit-text-color-hover);
+        background-color: var(--brand-color-hover);
     }
 }
 
 .btn-submit:active {
-    background-color: var(--btn-submit-back-color-active);
-    color: var(--btn-submit-text-color-active);
+    background-color: var(--brand-color-active);
 }
-
-@media (max-width: 1300px) {}
-
-@media (max-width: 522px) {}

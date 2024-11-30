@@ -18,7 +18,8 @@ export async function initialize() {
 
     try {
         await initializeCategories()
-        await initializeDesign()
+
+        initializeDesign()
 
         initializeCity().then(() => initializeRestaurant())
 
@@ -134,18 +135,19 @@ async function initializeDesign() {
         await loadActiveDesign()
 
         // Получаем корневой элемент документа
-        const root = document.documentElement;
+        const root = document.documentElement
 
         // Устанавливаем новое значение для CSS переменной
-        root.style.setProperty('--background-color', activeDesign.value.background_color);
-        root.style.setProperty('--text-color', activeDesign.value.text_color);
-        root.style.setProperty('--brand-color', activeDesign.value.brand_color);
-        root.style.setProperty('--text-color-on-brand-color', activeDesign.value.text_color_on_brand_color);
-        root.style.setProperty('--supporting-color', activeDesign.value.supporting_color);
-        root.style.setProperty('--accent-text-color', activeDesign.value.accent_text_color);
+        root.style.setProperty('--background_page_main_color', activeDesign.value.background_page_main_color)
+        root.style.setProperty('--background_page_elements_color', activeDesign.value.background_page_elements_color)
+        root.style.setProperty('--brand-color', activeDesign.value.brand_color)
+        root.style.setProperty('--text_color_main', activeDesign.value.text_color_main)
+        root.style.setProperty('--text-color-on-brand-color', activeDesign.value.text_color_on_brand_color)
+        root.style.setProperty('--text_color_accent', activeDesign.value.text_color_accent)
+        root.style.setProperty('--bottom_nav_color', activeDesign.value.bottom_nav_color)
 
-        root.style.setProperty('--brand-color-20', adjustColor(activeDesign.value.brand_color, -10));
-        root.style.setProperty('--brand-color-40', adjustColor(activeDesign.value.brand_color, 10));
+        root.style.setProperty('--brand-color-hover', adjustColor(activeDesign.value.brand_color, -20))
+        root.style.setProperty('--brand-color-active', adjustColor(activeDesign.value.brand_color, 20))
 
         return LOADING_TYPE.complete
     }

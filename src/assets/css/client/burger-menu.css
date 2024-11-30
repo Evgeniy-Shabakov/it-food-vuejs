@@ -3,7 +3,8 @@
     right: 5%;
     z-index: 10;
 
-    background-color: var(--color-primary);
+    background-color: var(--brand-color);
+    color: var(--text-color-on-brand-color);
     border-radius: 10px;
     padding: 15px;
     min-width: 250px;
@@ -16,14 +17,14 @@
 }
 
 .burger-menu__item {
-    color: var(--text-color-for-color-primary);
+    color: var(--text-color-on-brand-color);
     padding: 5px 5px;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
 }
 
 .burger-menu__item--phone {
-    background-color: var(--burger-menu-phone-color);
+    background-color: var(--brand-color-hover);
     border-radius: 10px;
     padding: 10px 10px;
 }
@@ -40,7 +41,7 @@
 }
 
 .burger-menu__icon {
-    fill: var(--text-color-for-color-primary);
+    fill: var(--text-color-on-brand-color);
 }
 
 .burger-menu__link {

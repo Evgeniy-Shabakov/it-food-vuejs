@@ -70,7 +70,7 @@
         border: 0;
         background: transparent;
         font-size: 22px;
-        color: rgb(255, 105, 0);
+        color: var(--brand-color);
     }
 }
 

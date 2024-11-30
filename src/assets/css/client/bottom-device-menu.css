@@ -59,7 +59,7 @@
         font-size: 10px;
         font-weight: 500;
         color: white;
-        background-color: rgb(255, 105, 0);
+        background-color: var(--brand-color);
         border-radius: 50%;
         padding-top: 4px;
     }
