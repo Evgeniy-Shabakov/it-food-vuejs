@@ -11,8 +11,8 @@
 .btn--secondary {
     border: 0;
     border-radius: 5px;
-    background-color: var(--btn-secondary-bg-color);
-    color: rgb(255, 255, 255);
+    background-color: var(--brand-color);
+    color: var(--text-color-on-brand-color);
     font-size: 14px;
     padding: 5px;
     justify-self: end;
@@ -21,14 +21,10 @@
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
     .btn--secondary:hover {
-        background-color: var(--btn-secondary-bg-color-hover);
+        background-color: var(--brand-color-hover);
     }
 }
 
 .btn--secondary:active {
-    background-color: var(--btn-secondary-bg-color-active);
+    background-color: var(--brand-color-active);
 }
-
-@media (max-width: 1300px) {}
-
-@media (max-width: 522px) {}

@@ -148,6 +148,8 @@ async function initializeDesign() {
 
         root.style.setProperty('--brand-color-hover', adjustColor(activeDesign.value.brand_color, -20))
         root.style.setProperty('--brand-color-active', adjustColor(activeDesign.value.brand_color, 20))
+        root.style.setProperty('--background-active-category', adjustColor(activeDesign.value.brand_color, 125))
+        root.style.setProperty('--border-color-order-settings', adjustColor(activeDesign.value.background_page_main_color, -70))
 
         return LOADING_TYPE.complete
     }

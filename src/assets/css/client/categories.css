@@ -32,17 +32,17 @@
 
     /*чтобы работало только на компе с мышкой */
     .categories__item:hover {
-        color: rgb(255, 105, 0);
+        color: var(--brand-color);
     }
 }
 
 .categories__item.active {
-    color: rgb(255, 105, 0);
+    color: var(--brand-color);
 }
 
 @media (max-width: 1300px) {
     .categories__item {
-        background-color: rgb(235, 235, 235);
+        background-color: var(--background_page_main_color);
         border-radius: 30px;
         font-weight: 400;
         color: rgb(75, 74, 74);
@@ -50,13 +50,13 @@
         margin: 3px 10px 3px 0px;
 
         --tw-shadow: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
-    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
     }
 
     .categories__item.active {
-        background-color: rgba(255, 166, 0, 0.281);
-        color: rgb(255, 105, 0);
+        background-color: var(--background-active-category);
+        color: var(--brand-color);
     }
 }
 

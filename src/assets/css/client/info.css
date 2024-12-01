@@ -21,7 +21,7 @@
 }
 
 .info__item:hover {
-    color: rgb(255, 105, 0);
+    color: var(--brand-color);
 }
 
 @media (max-width: 1300px) {

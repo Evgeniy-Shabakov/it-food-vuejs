@@ -19,8 +19,9 @@
     align-items: center;
     font-size: 15px;
     padding: 4px 6px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
+    background-color: var(--background_page_main_color);
+    color: var(--text_color_main);
+    border: 1px solid var(--border-color-order-settings);
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
@@ -28,6 +29,6 @@
 }
 
 .order-settings__radio-button__input:checked+label {
-    background-color: var(--color-selected);
-    color: white;
+    background-color: var(--brand-color);
+    color: var(--text-color-on-brand-color);
 }

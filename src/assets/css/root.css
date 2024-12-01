@@ -18,6 +18,8 @@
     //эти параметры устанавливаем при инициализации приложения, здесь установлены стартовые значения до инициализации
     --brand-color-hover: #f97316;
     --brand-color-active: #f97316;
+    --background-active-category: #f3f4f6;
+    --border-color-order-settings: grey;
 }
 
 

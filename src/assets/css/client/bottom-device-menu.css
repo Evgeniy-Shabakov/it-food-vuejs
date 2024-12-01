@@ -42,7 +42,7 @@
     }
 
     .bottom-device-menu__item:active {
-        color: rgb(231, 97, 1);
+        color: var(--brand-color);
     }
 
     .bottom-device-menu__icon {
