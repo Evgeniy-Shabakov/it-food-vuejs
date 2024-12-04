@@ -228,6 +228,27 @@ const routes = [
             },
 
             {
+                path: 'ingredients',
+                component: () => import('./components/admin/ingredients/admin-ingredients-index.vue'),
+                name: 'admin.ingredients.index'
+            },
+            {
+                path: 'ingredients/create',
+                component: () => import('./components/admin/ingredients/admin-ingredients-create.vue'),
+                name: 'admin.ingredients.create'
+            },
+            {
+                path: 'ingredients/:id',
+                component: () => import('./components/admin/ingredients/admin-ingredients-show.vue'),
+                name: 'admin.ingredients.show'
+            },
+            {
+                path: 'ingredients/:id/edit',
+                component: () => import('./components/admin/ingredients/admin-ingredients-edit.vue'),
+                name: 'admin.ingredients.edit'
+            },
+
+            {
                 path: 'products',
                 component: () => import('./components/admin/products/admin-products-index.vue'),
                 name: 'admin.products.index'

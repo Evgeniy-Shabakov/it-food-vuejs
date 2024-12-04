@@ -76,6 +76,8 @@ function logoutInAdminPanel() {
                  class="left-side-menu__link">Рестораны</router-link>
     <router-link to="/admin/categories"
                  class="left-side-menu__link">Категории</router-link>
+    <router-link to="/admin/ingredients"
+                 class="left-side-menu__link">Ингредиенты</router-link>
     <router-link to="/admin/products"
                  class="left-side-menu__link">Товары</router-link>
     <router-link to="/admin/designs"

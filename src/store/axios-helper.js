@@ -29,6 +29,9 @@ export const currentRestaurant = ref()
 export const categories = ref()
 export const currentCategory = ref()
 
+export const ingredients = ref()
+export const currentIngredient = ref()
+
 export const products = ref()
 export const currentProduct = ref()
 
@@ -201,6 +204,7 @@ export async function getModelsAxios(urlPrefix) {
         else if (urlPrefix == 'cities') cities.value = res.data.data
         else if (urlPrefix == 'restaurants') restaurants.value = res.data.data
         else if (urlPrefix == 'categories') categories.value = res.data.data
+        else if (urlPrefix == 'ingredients') ingredients.value = res.data.data
         else if (urlPrefix == 'products') products.value = res.data.data
         else if (urlPrefix == 'employees') employees.value = res.data.data
         else if (urlPrefix == 'roles') roles.value = res.data.data
@@ -223,6 +227,7 @@ export async function getModelAxios(urlPrefix, id) {
         else if (urlPrefix == 'cities') currentCity.value = res.data.data
         else if (urlPrefix == 'restaurants') currentRestaurant.value = res.data.data
         else if (urlPrefix == 'categories') currentCategory.value = res.data.data
+        else if (urlPrefix == 'ingredients') currentIngredient.value = res.data.data
         else if (urlPrefix == 'products') currentProduct.value = res.data.data
         else if (urlPrefix == 'companies') company.value = res.data.data
         else if (urlPrefix == 'employees') currentEmployee.value = res.data.data
@@ -253,13 +258,15 @@ export async function storeModelAxios(urlPrefix, data) {
 
 export async function updateModelAxios(urlPrefix, data) {
     //если нужно передавать файлы метод post
-    if (urlPrefix == 'companies' || urlPrefix == 'products' || urlPrefix == 'legal-documents') {
+    if (urlPrefix == 'companies' || urlPrefix == 'ingredients'
+        || urlPrefix == 'products' || urlPrefix == 'legal-documents') {
         data.append("_method", "PATCH");
 
         try {
             const res = await axios.post(`/${urlPrefix}/${data.get('id')}`, data)
 
             if (urlPrefix == 'companies') company.value = res.data.data
+            if (urlPrefix == 'ingredients') currentIngredient.value = res.data.data
             if (urlPrefix == 'products') currentProduct.value = res.data.data
             if (urlPrefix == 'legal-documents') currentLegalDocument.value = res.data.data
 
@@ -301,11 +308,12 @@ export async function deleteModelAxios(urlPrefix, data) {
         else if (urlPrefix == 'cities') currentCity.value = null
         else if (urlPrefix == 'restaurants') currentRestaurant.value = null
         else if (urlPrefix == 'categories') currentCategory.value = null
+        else if (urlPrefix == 'ingredients') currentIngredient.value = null
         else if (urlPrefix == 'products') currentProduct.value = null
         else if (urlPrefix == 'employees') currentEmployee.value = null
         else if (urlPrefix == 'legal-documents') currentLegalDocument.value = null
         else if (urlPrefix == 'designs') currentDesign.value = null
-        
+
         res.messageForVue = formDoneLogMessage(urlPrefix, res, data)
         addLogMessage(res.messageForVue)
 
