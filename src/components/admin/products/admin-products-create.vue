@@ -1,118 +1,80 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import {
-  categories, textLoadOrFailForVue,
-  getModelsAxios, storeModelAxios
-} from '/src/store/axios-helper.js'
+import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { categories, ingredients, textLoadOrFailForVue, storeModelAxios } from '/src/store/axios-helper.js'
+import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
+import { loadCategories } from '/src/store/loading-helper.js'
+import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
+
+let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
 const fieldInputTitle = ref(null)
 
-const inputedTitle = ref('')
-const selectedCategory = ref()
-const selectedImageFile = ref(null)
-const inputedDescriptionShort = ref('')
-const inputedDescriptionFull = ref('')
-const inputedPriceDefault = ref()
-const inputedIsActive = ref(true)
+const productInputedData = reactive({
+  initialize(categoryId) {
+    this.title = ''
+    this.category_id = categoryId
+    this.image_file = null
+    this.description_short = ''
+    this.description_full = ''
+    this.price_default = null
+    this.is_active = false
+  }
+})
 
 const imageUrl = computed(() => {
-  if (selectedImageFile.value) return URL.createObjectURL(selectedImageFile.value)
+  if (productInputedData.image_file) return URL.createObjectURL(productInputedData.image_file)
   else return '/src/assets/images/image_empty.png'
 })
 
-let textErrorInputTitle = ref('')
-let textErrorSelectCategory = ref('')
-let textErrorSelectImageFile = ref('')
-let textErrorInputDescriptionShort = ref('')
-let textErrorInputDescriptionFull = ref('')
-let textErrorInputPriceDefault = ref('')
-let textErrorInputIsActive = ref('')
+const validationErrors = ref({})
 
-let textDone = ref('')
+const textDone = ref(null)
 
-//проверка если роут загружается из закладки или обновления страницы
-if (categories.value == null) {
-  getModelsAxios('categories')
-    .then(res => {
-      chekingCategories()
-      fieldInputTitle.value.focus()
-    })
-}
-else chekingCategories()
 
-//проверка, если не добавлено ни одной категории
-function chekingCategories() {
-  if (categories.value.length > 0) {
-    selectedCategory.value = categories.value[0]
-  }
-  else {
+onMounted(async () => {
+  dataForComponentLoadingType.value = await loadCategories()
+
+  if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
+
+  if (categories.value.length == 0) {
     alert('Сначала добавьте категории')
     router.push({ name: 'admin.categories.create' })
+    return
   }
-}
 
-onMounted(() => { fieldInputTitle.value.focus() })
+  productInputedData.initialize(categories.value[0].id)
 
-function storeProduct(data) {
-  textErrorInputTitle.value = ''
-  textErrorSelectCategory.value = ''
-  textErrorSelectImageFile.value = ''
-  textErrorInputDescriptionShort.value = ''
-  textErrorInputDescriptionFull.value = ''
-  textErrorInputPriceDefault.value = ''
-  textErrorInputIsActive.value = ''
+  fieldInputTitle.value.focus()
+})
 
-  textDone.value = ''
+function storeProduct() {
+  validationErrors.value = {}
+  textDone.value = null
 
   const formData = new FormData();
 
-  formData.append("title", data.title);
-  formData.append("category_id", data.category_id);
-  if (data.image_file) formData.append("image_file", data.image_file); //без условия не видит валидацию required в Ларавел
-  formData.append("description_short", data.description_short);
-  formData.append("description_full", data.description_full);
-  if (data.price_default) formData.append("price_default", data.price_default); //без условия не видит валидацию required в Ларавел
-  formData.append("is_active", data.is_active ? 1 : 0)
+  formData.append("title", productInputedData.title);
+  formData.append("category_id", productInputedData.category_id);
+  if (productInputedData.image_file) formData.append("image_file", productInputedData.image_file); //без условия не видит валидацию required в Ларавел
+  formData.append("description_short", productInputedData.description_short);
+  formData.append("description_full", productInputedData.description_full);
+  if (productInputedData.price_default) formData.append("price_default", productInputedData.price_default); //без условия не видит валидацию required в Ларавел
+  formData.append("is_active", productInputedData.is_active ? 1 : 0)
 
   storeModelAxios('products', formData)
     .then(res => {
-      inputedTitle.value = ''
-      selectedImageFile.value = null
+      productInputedData.initialize(productInputedData.category_id)
       document.getElementById('imageInput').value = '' //очищаем инпут чтобы реагировал на добавление той же картинки
-      inputedDescriptionShort.value = ''
-      inputedDescriptionFull.value = ''
-      inputedPriceDefault.value = ''
-      inputedIsActive.value = true
-
       textDone.value = res.messageForVue.text
     })
-    .catch(err => {
-      if (err.response.data.errors.title) {
-        textErrorInputTitle.value = err.response.data.errors.title[0]
-      }
-      if (err.response.data.errors.category_id) {
-        textErrorSelectCategory.value = err.response.data.errors.category_id[0]
-      }
-      if (err.response.data.errors.image_file) {
-        textErrorSelectImageFile.value = err.response.data.errors.image_file[0]
-      }
-      if (err.response.data.errors.description_short) {
-        textErrorInputDescriptionShort.value = err.response.data.errors.description_short[0]
-      }
-      if (err.response.data.errors.description_full) {
-        textErrorInputDescriptionFull.value = err.response.data.errors.description_full[0]
-      }
-      if (err.response.data.errors.price_default) {
-        textErrorInputPriceDefault.value = err.response.data.errors.price_default[0]
-      }
-      if (err.response.data.errors.is_active) {
-        textErrorInputIsActive.value = err.response.data.errors.is_active[0]
-      }
+    .catch(err => {     
+      validationErrors.value = err.response.data.errors
+      transformValidateErrorsForUI(validationErrors.value)
     })
 }
 
 function imageFileChange(e) {
-  selectedImageFile.value = e.target.files[0];
+  productInputedData.image_file = e.target.files[0];
 }
 
 function changeImageBtnPressed() {
@@ -121,61 +83,80 @@ function changeImageBtnPressed() {
 </script>
 
 <template>
+
   <h2>Добавление товара</h2>
-  <form v-show="categories" class="admin-forms">
+
+  <form v-show="categories"
+        class="admin-forms">
+
     <label class="required">Наименование</label>
-    <input ref="fieldInputTitle" type="text" v-model="inputedTitle" placeholder="Введите название товара"
-      @click.prevent="textErrorInputTitle = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputTitle }}</div>
+    <input ref="fieldInputTitle"
+           type="text"
+           v-model="productInputedData.title"
+           placeholder="Введите название товара"
+           @click.prevent="validationErrors.title = ''; textDone = ''">
+    <div class="invalid-text">{{ validationErrors.title }}</div>
 
     <label class="required">Категория</label>
-    <select v-model="selectedCategory" @click.prevent="textErrorSelectCategory = ''; textDone = ''">
-      <option v-for="category in categories" :value="category">{{ category.title }}</option>
+    <select v-model="productInputedData.category_id"
+            @click.prevent="validationErrors.category_id = ''; textDone = ''">
+      <option v-for="category in categories"
+              :value="category.id">{{ category.title }}</option>
     </select>
-    <div class="invalid-text">{{ textErrorSelectCategory }}</div>
+    <div class="invalid-text">{{ validationErrors.category_id }}</div>
 
     <label class="required">Изображение</label>
     <div class="admin-forms__div-img-btn">
-      <img class="admin-forms__div-img-btn__product" :src="imageUrl" alt="">
-      <input type="file" @click="textErrorSelectImageFile = ''; textDone = ''" @change="imageFileChange"
-        style="display:none;" id="imageInput" accept="image/*">
-      <button id="admin-forms__div-img-btn__btn" class="btn btn-view"
-        @click.prevent="changeImageBtnPressed">Добавить</button>
+      <img class="admin-forms__div-img-btn__product"
+           :src="imageUrl"
+           alt="">
+      <input type="file"
+             @click="validationErrors.image_file = ''; textDone = ''"
+             @change="imageFileChange"
+             style="display:none;"
+             id="imageInput"
+             accept="image/*">
+      <button id="admin-forms__div-img-btn__btn"
+              class="btn btn-view"
+              @click.prevent="changeImageBtnPressed">Добавить</button>
     </div>
-    <div class="invalid-text">{{ textErrorSelectImageFile }}</div>
+    <div class="invalid-text">{{ validationErrors.image_file }}</div>
 
     <label>Короткое описание</label>
-    <textarea v-model="inputedDescriptionShort" placeholder="Введите короткое описание товара до 150 символов"
-      @click.prevent="textErrorInputDescriptionShort = ''; textDone = ''"></textarea>
-    <div class="invalid-text">{{ textErrorInputDescriptionShort }}</div>
+    <textarea v-model="productInputedData.description_short"
+              placeholder="Введите короткое описание товара до 150 символов"
+              @click.prevent="validationErrors.description_short = ''; textDone = ''"></textarea>
+    <div class="invalid-text">{{ validationErrors.description_short }}</div>
 
     <label>Полное описание</label>
-    <textarea v-model="inputedDescriptionFull" placeholder="Введите полное описание товара до 1000 символов"
-      @click.prevent="textErrorInputDescriptionFull = ''; textDone = ''"></textarea>
-    <div class="invalid-text">{{ textErrorInputDescriptionFull }}</div>
+    <textarea v-model="productInputedData.description_full"
+              placeholder="Введите полное описание товара до 1000 символов"
+              @click.prevent="validationErrors.description_full = ''; textDone = ''"></textarea>
+    <div class="invalid-text">{{ validationErrors.description_full }}</div>
 
     <label class="required">Цена по умолчанию</label>
-    <input type="number" min="1" step="any" v-model="inputedPriceDefault"
-      @click.prevent="textErrorInputPriceDefault = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputPriceDefault }}</div>
+    <input type="number"
+           min="1"
+           step="any"
+           v-model="productInputedData.price_default"
+           @click.prevent="validationErrors.price_default = ''; textDone = ''">
+    <div class="invalid-text">{{ validationErrors.price_default }}</div>
 
     <span class="required">Показывать товар на сайте:</span>
-    <input type="checkbox" v-model="inputedIsActive" @click="textErrorInputIsActive = ''; textDone = ''">
-    <div class="invalid-text">{{ textErrorInputIsActive }}</div>
+    <input type="checkbox"
+           v-model="productInputedData.is_active"
+           @click="validationErrors.is_active = ''; textDone = ''">
+    <div class="invalid-text">{{ validationErrors.is_active }}</div>
 
     <div class="done-text">{{ textDone }}</div>
-    <button class="btn btn-view" @click.prevent="storeProduct({
-      title: inputedTitle,
-      category_id: selectedCategory.id,
-      image_file: selectedImageFile,
-      description_short: inputedDescriptionShort,
-      description_full: inputedDescriptionFull,
-      price_default: inputedPriceDefault,
-      is_active: inputedIsActive
-    })">Добавить</button>
+    <button class="btn btn-view"
+            @click.prevent="storeProduct()">Добавить</button>
+
   </form>
-  <div v-show="categories == null" class="admin-view-model-load">
+
+  <div v-show="categories == null"
+       class="admin-view-model-load">
     {{ textLoadOrFailForVue }}
   </div>
-</template>
 
+</template>

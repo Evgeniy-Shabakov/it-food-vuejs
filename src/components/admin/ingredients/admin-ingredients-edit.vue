@@ -41,6 +41,7 @@ function updateIngredient() {
   const formData = new FormData();
 
   ingredientInputedData.id = currentIngredient.value.id
+  
   formData.append("id", ingredientInputedData.id);
   formData.append("title", ingredientInputedData.title);
   if (ingredientInputedData.image_file) formData.append("image_file", ingredientInputedData.image_file); //без условия не видит валидацию required в Ларавел
