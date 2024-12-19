@@ -1,9 +1,11 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue';
-import { storeModelAxios } from '/src/store/axios-helper.js'
+import { ingredients, storeModelAxios } from '/src/store/axios-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 
 const fieldInputTitle = ref(null)
+const addingIngredientDialog = ref()
+const closeAddingIngredientDialog = ref()
 
 const ingredientInputedData = reactive({
   initialize() {
@@ -11,6 +13,7 @@ const ingredientInputedData = reactive({
     this.image_file = null
     this.description = ''
     this.price_default = null
+    this.ingredient_ids = []
     this.is_active = null
   }
 })
@@ -40,8 +43,11 @@ function storeIngredient() {
   formData.append("description", ingredientInputedData.description);
   if (ingredientInputedData.price_default)
     formData.append("price_default", ingredientInputedData.price_default); //без условия не видит валидацию required в Ларавел
+  ingredientInputedData.ingredient_ids.forEach(id => {
+    formData.append("ingredient_ids[]", id); // Добавить каждый id по отдельности
+  });
   formData.append("is_active", ingredientInputedData.is_active ? 1 : 0)
-  
+
   storeModelAxios('ingredients', formData)
     .then(res => {
       ingredientInputedData.initialize()
@@ -107,11 +113,30 @@ function changeImageBtnPressed() {
            @click.prevent="validationErrors.price_default = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.price_default }}</div>
 
-    <span class="required">Показывать ингредиент на сайте:</span>
-    <input type="checkbox"
-           v-model="ingredientInputedData.is_active"
-           @click="validationErrors.is_active = ''; textDone = ''">
-    <div class="invalid-text">{{ validationErrors.is_active }}</div>
+    <label>Ингредиенты для замены по умолчанию</label>
+    <div class="ingredients-for-replace">
+      <template v-for="ingredient in ingredients">
+        <div v-if="ingredientInputedData.ingredient_ids.includes(ingredient.id)"
+             class="ingredients-for-replace__item">
+          <img class="ingredients-for-replace__img"
+               :src="ingredient.image_url"
+               alt="">
+          <div class="ingredients-for-replace__title">{{ ingredient.title }}</div>
+        </div>
+      </template>
+    </div>
+    <button class="btn btn-view ingredients-editor-btn"
+            @click.prevent="addingIngredientDialog.showModal()">Редактор
+      ингредиентов</button>
+    <div class="invalid-text">{{ validationErrors.ingredient_ids }}</div>
+
+    <div>
+      <span class="required">Показывать ингредиент на сайте:</span>
+      <input type="checkbox"
+             v-model="ingredientInputedData.is_active"
+             @click="validationErrors.is_active = ''; textDone = ''">
+      <div class="invalid-text">{{ validationErrors.is_active }}</div>
+    </div>
 
     <div class="done-text">{{ textDone }}</div>
     <button class="btn btn-view"
@@ -119,4 +144,79 @@ function changeImageBtnPressed() {
 
   </form>
 
+  <dialog ref="addingIngredientDialog"
+          class="dialog">
+
+    <p class="dialog__title">Выбирите ингредиенты для замены</p>
+
+    <table class="admin-index-table">
+
+      <tr v-for="ingredient in ingredients">
+        <td>
+          <img class=""
+               :src="ingredient.image_url"
+               alt="">
+          <h5>{{ ingredient.title }}</h5>
+        </td>
+        <td>
+          <span class="color-done"
+                v-if="ingredient.is_active">Активен</span>
+          <span class="color-error"
+                v-else>Не активен</span>
+        </td>
+        <td>
+          {{ ingredient.price_default }} р.
+        </td>
+        <td>
+          <input type="checkbox"
+                 v-model="ingredientInputedData.ingredient_ids"
+                 :value="ingredient.id"
+                 class="dialog__chekbox">
+        </td>
+      </tr>
+
+    </table>
+
+    <div class="dialog__btn-wrapper">
+      <button class="btn btn-view"
+              @click.prevent="addingIngredientDialog.close()">Сохранить</button>
+    </div>
+
+    <button ref="closeAddingIngredientDialog"
+            class="dialog__btn-close"
+            @click.prevent="addingIngredientDialog.close()">x</button>
+
+  </dialog>
+
 </template>
+
+<style scoped>
+.ingredients-editor-btn {
+  margin-top: 0;
+}
+
+.ingredients-table-font {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.ingredients-for-replace {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.ingredients-for-replace__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredients-for-replace__img {
+  width: 50px;
+}
+
+.ingredients-for-replace__title {
+  width: max-content;
+}
+</style>

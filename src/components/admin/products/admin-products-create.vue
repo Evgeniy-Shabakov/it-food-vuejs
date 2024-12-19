@@ -1,13 +1,15 @@
 <script setup>
-import { ref, reactive, onMounted, computed, watch } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { categories, ingredients, textLoadOrFailForVue, storeModelAxios } from '/src/store/axios-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
-import { loadCategories } from '/src/store/loading-helper.js'
+import { loadCategories, loadIngredients } from '/src/store/loading-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 
 let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
 const fieldInputTitle = ref(null)
+const addingIngredientDialog = ref()
+const closeAddingIngredientDialog = ref()
 
 const productInputedData = reactive({
   initialize(categoryId) {
@@ -17,6 +19,7 @@ const productInputedData = reactive({
     this.description_short = ''
     this.description_full = ''
     this.price_default = null
+    this.ingredients_for_products = []
     this.is_active = false
   }
 })
@@ -33,6 +36,7 @@ const textDone = ref(null)
 
 onMounted(async () => {
   dataForComponentLoadingType.value = await loadCategories()
+  dataForComponentLoadingType.value = await loadIngredients()
 
   if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
 
@@ -67,7 +71,7 @@ function storeProduct() {
       document.getElementById('imageInput').value = '' //очищаем инпут чтобы реагировал на добавление той же картинки
       textDone.value = res.messageForVue.text
     })
-    .catch(err => {     
+    .catch(err => {
       validationErrors.value = err.response.data.errors
       transformValidateErrorsForUI(validationErrors.value)
     })
@@ -142,6 +146,22 @@ function changeImageBtnPressed() {
            @click.prevent="validationErrors.price_default = ''; textDone = ''">
     <div class="invalid-text">{{ validationErrors.price_default }}</div>
 
+
+
+    <label>Базовые и дополнительные игредиенты
+      <br>Базовые игредиенты - игредиенты, которые уже по умолчанию есть в товаре. Базовый ингредиент можно заменить
+      или удалить, стоимость продукта при изменении может только увеличится.
+      <br>Дополнительные ингредиенты - ингредиенты которые можно добавлять к товару. Стоимость товара увеличится в
+      зависимости от стоимости ингредиента.
+      <br>Один и тот же ингредиент может быть как базовым так и доболнительным.
+    </label>
+    <button class="btn btn-view ingredients-editor-btn"
+            @click.prevent="addingIngredientDialog.showModal()">Редактор ингредиентов</button>
+
+    <div class="invalid-text">{{ validationErrors.ingredient_ids }}</div>
+
+
+
     <span class="required">Показывать товар на сайте:</span>
     <input type="checkbox"
            v-model="productInputedData.is_active"
@@ -159,4 +179,89 @@ function changeImageBtnPressed() {
     {{ textLoadOrFailForVue }}
   </div>
 
+  <dialog ref="addingIngredientDialog"
+          class="dialog">
+
+    <p class="dialog__title">Редактор игредиентов</p>
+
+    <table class="admin-index-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th class="ingredients-table-font">Базовый</th>
+          <th class="ingredients-table-font">Можно удалять (только для базового)</th>
+          <th class="ingredients-table-font">Можно заменить (только для базового)</th>
+          <th class="ingredients-table-font">Варианыты замены (только для базового)</th>
+          <th class="ingredients-table-font">Дополнительный</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr v-for="ingredient in ingredients">
+          <td>
+            <img class=""
+                 :src="ingredient.image_url"
+                 alt="">
+            <h5>{{ ingredient.title }}</h5>
+          </td>
+          <td>
+            <span class="color-done"
+                  v-if="ingredient.is_active">Активен</span>
+            <span class="color-error"
+                  v-else>Не активен</span>
+          </td>
+          <td>
+            {{ ingredient.price_default }} р.
+          </td>
+          <td>
+            <input type="checkbox"
+                   class="dialog__chekbox">
+          </td>
+          <td>
+            <input type="checkbox"
+                   class="dialog__chekbox">
+          </td>
+          <td>
+            <input type="checkbox"
+                   class="dialog__chekbox">
+          </td>
+          <td>
+            <button class="btn btn-view"
+              @click.prevent="">Выбрать</button>
+          </td>
+          <td>
+            <input type="checkbox"
+                   class="dialog__chekbox">
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <div class="dialog__btn-wrapper">
+      <button class="btn btn-view"
+              @click.prevent="">Сохранить</button>
+    </div>
+
+    <button ref="closeAddingIngredientDialog"
+            class="dialog__btn-close"
+            @click.prevent="addingIngredientDialog.close()">x</button>
+
+  </dialog>
+
 </template>
+
+<style scoped>
+.ingredients-editor-btn {
+  margin-top: 0;
+}
+
+.ingredients-table-font {
+  font-size: 14px;
+  font-weight: 400;
+}
+</style>

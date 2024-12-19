@@ -49,6 +49,11 @@ function deleteIngredient(ingredient) {
           <h5>{{ ingredient.title }}</h5>
         </td>
         <td>
+          <img v-for="ingredient in ingredient.replacements"
+               class="ingredients-for-replace__img"
+               :src="ingredient.image_url">
+        </td>
+        <td>
           <span class="color-done"
                 v-if="ingredient.is_active">Активен</span>
           <span class="color-error"
@@ -87,3 +92,10 @@ function deleteIngredient(ingredient) {
   </div>
 
 </template>
+
+<style scoped>
+.ingredients-for-replace__img {
+  width: 30px;
+  padding: 0px 3px;
+}
+</style>

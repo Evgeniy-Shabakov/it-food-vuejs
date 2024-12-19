@@ -9,7 +9,8 @@ import {
 //проверка если роут загружается из закладки или обновления страницы
 if (currentIngredient.value == null) {
   getModelAxios('ingredients', useRoute().params.id)
-    .then((res) => {  console.log(currentIngredient.value)
+    .then((res) => {
+      console.log(currentIngredient.value)
     })
     .catch((err) => { })
 }
@@ -69,6 +70,16 @@ function deleteIngredient() {
       </tr>
       <tr>
         <td>
+          Ингредиенты для замены по умолчанию:
+        </td>
+        <td>
+          <img v-for="ingredient in currentIngredient.replacements"
+               class="ingredients-for-replace__img"
+               :src="ingredient.image_url">
+        </td>
+      </tr>
+      <tr>
+        <td>
           Активен для кастомизации товаров:
         </td>
         <td>
@@ -97,3 +108,11 @@ function deleteIngredient() {
     {{ textLoadOrFailForVue }}
   </div>
 </template>
+
+<style scoped>
+.ingredients-for-replace__img {
+  width: 60px;
+  height: 60px;
+  padding: 0px 3px;
+}
+</style>

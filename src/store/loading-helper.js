@@ -1,6 +1,6 @@
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import {
-	company, countries, cities, categories, restaurants, authUser, getAuthUser,
+	company, countries, cities, categories, restaurants, ingredients, authUser, getAuthUser,
 	getModelsAxios, getModelAxios, currentRestaurant, currentProduct, getOrdersToday,
 	activeDesign, getActiveDesign
 } from '/src/store/axios-helper.js'
@@ -104,6 +104,30 @@ export async function loadRestaurants() {
 	while (retryCount < MAX_RETRIES) {
 		try {
 			await getModelsAxios('restaurants')
+			return LOADING_TYPE.complete;
+		} catch (err) {
+			console.log(`Error loading restaurants (attempt ${retryCount + 1}/${MAX_RETRIES}):`, err)
+
+			retryCount++
+			if (retryCount === MAX_RETRIES) {
+				throw err
+			}
+
+			await new Promise(resolve => setTimeout(resolve, 1000)) // Задержка перед следующей попыткой
+		}
+	}
+
+
+}
+
+export async function loadIngredients() {
+	if (ingredients.value) return LOADING_TYPE.complete;
+
+	let retryCount = 0
+
+	while (retryCount < MAX_RETRIES) {
+		try {
+			await getModelsAxios('ingredients')
 			return LOADING_TYPE.complete;
 		} catch (err) {
 			console.log(`Error loading restaurants (attempt ${retryCount + 1}/${MAX_RETRIES}):`, err)
