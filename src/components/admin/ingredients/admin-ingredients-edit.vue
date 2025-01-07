@@ -178,10 +178,10 @@ function changeImageBtnPressed() {
         </td>
         <td>
           <input type="checkbox"
-                 :disabled="currentIngredient.id == ingredient.id"
+                 class="dialog__chekbox"
                  v-model="ingredientInputedData.ingredient_ids"
                  :value="ingredient.id"
-                 class="dialog__chekbox">
+                 :disabled="currentIngredient.id == ingredient.id">
         </td>
       </tr>
 

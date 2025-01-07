@@ -28,3 +28,8 @@
     width: 25px;
     aspect-ratio: 1/1;
   }
+
+  .dialog__img {
+    width: 75px;
+    aspect-ratio: 1/1;
+  }

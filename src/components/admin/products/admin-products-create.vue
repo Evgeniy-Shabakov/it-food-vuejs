@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { categories, ingredients, textLoadOrFailForVue, storeModelAxios } from '/src/store/axios-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { loadCategories, loadIngredients } from '/src/store/loading-helper.js'
@@ -8,8 +8,8 @@ import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
 const fieldInputTitle = ref(null)
-const addingIngredientDialog = ref()
-const closeAddingIngredientDialog = ref()
+
+const addingBaseIngredientsDialog = ref()
 
 const productInputedData = reactive({
   initialize(categoryId) {
@@ -19,10 +19,49 @@ const productInputedData = reactive({
     this.description_short = ''
     this.description_full = ''
     this.price_default = null
-    this.ingredients_for_products = []
+    this.base_ingredients = []
+    this.additional_ingredients = []
     this.is_active = false
   }
 })
+
+const baseIngredientInputedData = reactive({
+  initialize() {
+    this.ingredient = 0
+    this.can_delete = false
+    this.can_replace = false
+    this.replacements = []
+  }
+})
+
+watch(() => baseIngredientInputedData.ingredient, (newValue, oldValue) => {
+  if (newValue)
+    baseIngredientInputedData.replacements = [...newValue.replacements]
+})
+
+baseIngredientInputedData.initialize()
+
+function addBaseIngredient() {
+  if(!baseIngredientInputedData.ingredient) return
+  
+  productInputedData.base_ingredients.push({
+    ingredient: baseIngredientInputedData.ingredient,
+    can_delete: baseIngredientInputedData.can_delete,
+    can_replace: baseIngredientInputedData.can_replace,
+    replacements: baseIngredientInputedData.replacements,
+  }
+  )
+
+  baseIngredientInputedData.initialize()
+  addingBaseIngredientsDialog.value.close()
+}
+
+function deleteBaseIngredient(id) {
+  const index = productInputedData.base_ingredients.findIndex(obj => obj.ingredient.id === id)
+  if (index !== -1) { // Проверяем, найден ли объект
+    productInputedData.base_ingredients.splice(index, 1); // Удаляем объект из массива
+  }
+}
 
 const imageUrl = computed(() => {
   if (productInputedData.image_file) return URL.createObjectURL(productInputedData.image_file)
@@ -55,6 +94,9 @@ function storeProduct() {
   validationErrors.value = {}
   textDone.value = null
 
+  console.log(productInputedData);
+
+
   const formData = new FormData();
 
   formData.append("title", productInputedData.title);
@@ -84,6 +126,7 @@ function imageFileChange(e) {
 function changeImageBtnPressed() {
   document.getElementById('imageInput').click()
 }
+
 </script>
 
 <template>
@@ -148,17 +191,34 @@ function changeImageBtnPressed() {
 
 
 
-    <label>Базовые и дополнительные игредиенты
-      <br>Базовые игредиенты - игредиенты, которые уже по умолчанию есть в товаре. Базовый ингредиент можно заменить
+    <label>Базовые игредиенты
+      <br>Игредиенты, которые уже по умолчанию есть в товаре. Базовый ингредиент можно заменить
       или удалить, стоимость продукта при изменении может только увеличится.
-      <br>Дополнительные ингредиенты - ингредиенты которые можно добавлять к товару. Стоимость товара увеличится в
+    </label>
+    <div>
+      <template v-for="item in productInputedData.base_ingredients">
+        <img class="dialog__img"
+             :src="item.ingredient.image_url">
+        <template v-for="replacement in item.replacements">
+          <img class="size-30px"
+               :src="replacement.image_url">
+        </template>
+        <button @click.prevent="deleteBaseIngredient(item.ingredient.id)">Удалить</button>
+      </template>
+    </div>
+    <button class="btn btn-view ingredients-editor-btn"
+            @click.prevent="addingBaseIngredientsDialog.showModal()">Добавить
+      базовый ингредиент</button>
+    <div class="invalid-text">{{ validationErrors.base_ingredients }}</div>
+
+    <label>Дополнительные игредиенты
+      <br>Ингредиенты которые можно добавлять к товару. Стоимость товара увеличится в
       зависимости от стоимости ингредиента.
       <br>Один и тот же ингредиент может быть как базовым так и доболнительным.
     </label>
     <button class="btn btn-view ingredients-editor-btn"
-            @click.prevent="addingIngredientDialog.showModal()">Редактор ингредиентов</button>
-
-    <div class="invalid-text">{{ validationErrors.ingredient_ids }}</div>
+            @click.prevent="">Добавление дополнительного ингредиента</button>
+    <div class="invalid-text">{{ validationErrors.additional_ingredients }}</div>
 
 
 
@@ -179,77 +239,57 @@ function changeImageBtnPressed() {
     {{ textLoadOrFailForVue }}
   </div>
 
-  <dialog ref="addingIngredientDialog"
+  <dialog ref="addingBaseIngredientsDialog"
           class="dialog">
 
-    <p class="dialog__title">Редактор игредиентов</p>
+    <p class="dialog__title">Добавление базового ингредиента</p>
 
-    <table class="admin-index-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th class="ingredients-table-font">Базовый</th>
-          <th class="ingredients-table-font">Можно удалять (только для базового)</th>
-          <th class="ingredients-table-font">Можно заменить (только для базового)</th>
-          <th class="ingredients-table-font">Варианыты замены (только для базового)</th>
-          <th class="ingredients-table-font">Дополнительный</th>
-        </tr>
-      </thead>
+    <img class="dialog__img adding-base-ingredient-dialog__main-img"
+         :src="baseIngredientInputedData.ingredient.image_url ?
+          baseIngredientInputedData.ingredient.image_url : '/src/assets/images/image_empty.png'">
 
-      <tbody>
+    <form class="adding-base-ingredient-dialog__form">
 
-        <tr v-for="ingredient in ingredients">
-          <td>
-            <img class=""
-                 :src="ingredient.image_url"
-                 alt="">
-            <h5>{{ ingredient.title }}</h5>
-          </td>
-          <td>
-            <span class="color-done"
-                  v-if="ingredient.is_active">Активен</span>
-            <span class="color-error"
-                  v-else>Не активен</span>
-          </td>
-          <td>
-            {{ ingredient.price_default }} р.
-          </td>
-          <td>
-            <input type="checkbox"
-                   class="dialog__chekbox">
-          </td>
-          <td>
-            <input type="checkbox"
-                   class="dialog__chekbox">
-          </td>
-          <td>
-            <input type="checkbox"
-                   class="dialog__chekbox">
-          </td>
-          <td>
-            <button class="btn btn-view"
-              @click.prevent="">Выбрать</button>
-          </td>
-          <td>
-            <input type="checkbox"
-                   class="dialog__chekbox">
-          </td>
-        </tr>
+      <div>
+        <label class="required label">Выберите ингредиент</label>
+        <select v-model="baseIngredientInputedData.ingredient">
+          <option v-for="ingredient in ingredients"
+                  :value="ingredient">{{ ingredient.title }}</option>
+        </select>
+      </div>
 
-      </tbody>
+      <div class="label-chekbox">
+        <label class="required label">Можно удалить</label>
+        <input type="checkbox"
+               class="dialog__chekbox"
+               v-model="baseIngredientInputedData.can_delete">
+      </div>
 
-    </table>
+      <div class="label-chekbox">
+        <label class="required label">Можно заменить</label>
+        <input type="checkbox"
+               class="dialog__chekbox"
+               v-model="baseIngredientInputedData.can_replace">
+      </div>
 
-    <div class="dialog__btn-wrapper">
-      <button class="btn btn-view"
-              @click.prevent="">Сохранить</button>
-    </div>
+      <div class="adding-base-ingredient-dialog__replacements">
+        <label class="required label">Замены</label>
+        <template v-for="item in baseIngredientInputedData.replacements">
+          <img class="adding-base-ingredient-dialog__replacements-img"
+               :src="item.image_url">
+        </template>
+        <button @click.prevent="">Редактировать</button>
+      </div>
 
-    <button ref="closeAddingIngredientDialog"
-            class="dialog__btn-close"
-            @click.prevent="addingIngredientDialog.close()">x</button>
+      <div class="dialog__btn-wrapper">
+        <button class="btn btn-view"
+                @click.prevent="addBaseIngredient()">Добавить ингредиент</button>
+      </div>
+
+    </form>
+
+    <button class="dialog__btn-close"
+            @click.prevent="addingBaseIngredientsDialog.close()">x</button>
 
   </dialog>
 
@@ -260,8 +300,52 @@ function changeImageBtnPressed() {
   margin-top: 0;
 }
 
-.ingredients-table-font {
-  font-size: 14px;
-  font-weight: 400;
+.adding-base-ingredient-dialog__form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.adding-base-ingredient-dialog__main-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.adding-base-ingredient-dialog__replacements {
+  display: flex;
+  align-items: center;
+}
+
+.adding-base-ingredient-dialog__replacements-img {
+  width: 50px;
+  margin-right: 15px;
+}
+
+.label {
+  display: inline-block;
+  width: 250px;
+
+}
+
+.label-chekbox {
+  display: flex;
+  align-items: center;
+}
+
+.size-50px {
+  width: 50px;
+  height: 50px;
+}
+
+.size-40px {
+  width: 40px;
+  height: 40px;
+}
+
+.size-30px {
+  width: 30px;
+  height: 30px;
 }
 </style>
