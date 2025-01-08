@@ -5,7 +5,7 @@ import {
 	activeDesign, getActiveDesign
 } from '/src/store/axios-helper.js'
 
-const MAX_RETRIES = 3; // Максимальное количество попыток загрузки
+const MAX_RETRIES = 10; // Максимальное количество попыток загрузки
 
 export async function loadCompany() {
 	if (company.value) return LOADING_TYPE.complete;
