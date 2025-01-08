@@ -49,10 +49,9 @@ function btnTopPressed() {
 
   <cookies></cookies>
 
-  <!-- <router-view v-if="dataForComponentLoadingType === LOADING_TYPE.complete"></router-view> -->
-  <router-view></router-view>
+  <router-view v-if="dataForComponentLoadingType === LOADING_TYPE.complete"></router-view>
 
-  <!-- <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading"
+  <div v-else-if="dataForComponentLoadingType === LOADING_TYPE.loading"
        class="spinner-centr-display">
     <div class="spinner"></div>
   </div>
@@ -64,7 +63,7 @@ function btnTopPressed() {
     <button class="btn btn-submit"
             @click.prevent="reloadPage()"
             type="button">Обновить</button>
-  </div> -->
+  </div>
 
   <div class="bottom-device-menu">
     <div class="container">
