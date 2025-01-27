@@ -10,6 +10,7 @@ let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 const fieldInputTitle = ref(null)
 
 const addingBaseIngredientsDialog = ref()
+const replacementsIngredientDialog = ref()
 
 const productInputedData = reactive({
   initialize(categoryId) {
@@ -30,25 +31,25 @@ const baseIngredientInputedData = reactive({
     this.ingredient = 0
     this.can_delete = false
     this.can_replace = false
-    this.replacements = []
+    this.replacements_ids = []
   }
 })
 
 watch(() => baseIngredientInputedData.ingredient, (newValue, oldValue) => {
   if (newValue)
-    baseIngredientInputedData.replacements = [...newValue.replacements]
+    baseIngredientInputedData.replacements_ids = [...newValue.replacements].map(obj => obj.id)
 })
 
 baseIngredientInputedData.initialize()
 
 function addBaseIngredient() {
-  if(!baseIngredientInputedData.ingredient) return
-  
+  if (!baseIngredientInputedData.ingredient) return
+
   productInputedData.base_ingredients.push({
     ingredient: baseIngredientInputedData.ingredient,
     can_delete: baseIngredientInputedData.can_delete,
     can_replace: baseIngredientInputedData.can_replace,
-    replacements: baseIngredientInputedData.replacements,
+    replacements_ids: baseIngredientInputedData.replacements_ids
   }
   )
 
@@ -76,6 +77,7 @@ const textDone = ref(null)
 onMounted(async () => {
   dataForComponentLoadingType.value = await loadCategories()
   dataForComponentLoadingType.value = await loadIngredients()
+  dataForComponentLoadingType.value = await loadIngredients()
 
   if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
 
@@ -94,9 +96,6 @@ function storeProduct() {
   validationErrors.value = {}
   textDone.value = null
 
-  console.log(productInputedData);
-
-
   const formData = new FormData();
 
   formData.append("title", productInputedData.title);
@@ -105,6 +104,16 @@ function storeProduct() {
   formData.append("description_short", productInputedData.description_short);
   formData.append("description_full", productInputedData.description_full);
   if (productInputedData.price_default) formData.append("price_default", productInputedData.price_default); //без условия не видит валидацию required в Ларавел
+
+  productInputedData.base_ingredients.forEach((base_ingredient, index) => {
+    formData.append(`base_ingredients[${index}][ingredient_id]`, base_ingredient.ingredient.id)
+    formData.append(`base_ingredients[${index}][can_delete]`, base_ingredient.can_delete ? 1 : 0)
+    formData.append(`base_ingredients[${index}][can_replace]`, base_ingredient.can_replace ? 1 : 0)
+    base_ingredient.replacements_ids.forEach((id, idIndex) => {
+      formData.append(`base_ingredients[${index}][replacements_ids][${idIndex}]`, id)
+    })
+  })
+
   formData.append("is_active", productInputedData.is_active ? 1 : 0)
 
   storeModelAxios('products', formData)
@@ -133,7 +142,7 @@ function changeImageBtnPressed() {
 
   <h2>Добавление товара</h2>
 
-  <form v-show="categories"
+  <form v-show="categories && ingredients"
         class="admin-forms">
 
     <label class="required">Наименование</label>
@@ -195,15 +204,26 @@ function changeImageBtnPressed() {
       <br>Игредиенты, которые уже по умолчанию есть в товаре. Базовый ингредиент можно заменить
       или удалить, стоимость продукта при изменении может только увеличится.
     </label>
-    <div>
+    <div class="base-ingredients">
       <template v-for="item in productInputedData.base_ingredients">
-        <img class="dialog__img"
-             :src="item.ingredient.image_url">
-        <template v-for="replacement in item.replacements">
-          <img class="size-30px"
-               :src="replacement.image_url">
-        </template>
-        <button @click.prevent="deleteBaseIngredient(item.ingredient.id)">Удалить</button>
+        <div>
+          <img class="dialog__img"
+               :src="item.ingredient.image_url">
+          <div v-if="item.can_delete">можно удалять</div>
+          <div v-else>нельзя удалять</div>
+          <div v-if="item.can_replace">можно заменять</div>
+          <div v-else>нельзя заменять</div>
+          <template v-if="item.can_replace">
+            <template v-for="ingredient in ingredients">
+              <img class="size-30px"
+                   v-if="item.replacements_ids.includes(ingredient.id)"
+                   :src="ingredient.image_url">
+            </template>
+          </template>
+          <div>
+            <button @click.prevent="deleteBaseIngredient(item.ingredient.id)">Удалить</button>
+          </div>
+        </div>
       </template>
     </div>
     <button class="btn btn-view ingredients-editor-btn"
@@ -274,11 +294,12 @@ function changeImageBtnPressed() {
 
       <div class="adding-base-ingredient-dialog__replacements">
         <label class="required label">Замены</label>
-        <template v-for="item in baseIngredientInputedData.replacements">
+        <template v-for="ingredient in ingredients">
           <img class="adding-base-ingredient-dialog__replacements-img"
-               :src="item.image_url">
+               v-if="baseIngredientInputedData.replacements_ids.includes(ingredient.id)"
+               :src="ingredient.image_url">
         </template>
-        <button @click.prevent="">Редактировать</button>
+        <button @click.prevent="replacementsIngredientDialog.showModal()">Редактировать</button>
       </div>
 
       <div class="dialog__btn-wrapper">
@@ -290,6 +311,48 @@ function changeImageBtnPressed() {
 
     <button class="dialog__btn-close"
             @click.prevent="addingBaseIngredientsDialog.close()">x</button>
+
+  </dialog>
+
+  <dialog ref="replacementsIngredientDialog"
+          class="dialog">
+
+    <p class="dialog__title">Выбирите ингредиенты для замены</p>
+
+    <table class="admin-index-table">
+
+      <tr v-for="ingredient in ingredients">
+        <td>
+          <img :src="ingredient.image_url">
+          <h5>{{ ingredient.title }}</h5>
+        </td>
+        <td>
+          <span class="color-done"
+                v-if="ingredient.is_active">Активен</span>
+          <span class="color-error"
+                v-else>Не активен</span>
+        </td>
+        <td>
+          {{ ingredient.price_default }} р.
+        </td>
+        <td>
+          <input type="checkbox"
+                 v-model="baseIngredientInputedData.replacements_ids"
+                 :value="ingredient.id"
+                 class="dialog__chekbox">
+        </td>
+      </tr>
+
+    </table>
+
+    <div class="dialog__btn-wrapper">
+      <button class="btn btn-view"
+              @click.prevent="replacementsIngredientDialog.close()">Сохранить</button>
+    </div>
+
+    <button ref="closeAddingIngredientDialog"
+            class="dialog__btn-close"
+            @click.prevent="replacementsIngredientDialog.close()">x</button>
 
   </dialog>
 
@@ -347,5 +410,11 @@ function changeImageBtnPressed() {
 .size-30px {
   width: 30px;
   height: 30px;
+}
+
+.base-ingredients {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 </style>

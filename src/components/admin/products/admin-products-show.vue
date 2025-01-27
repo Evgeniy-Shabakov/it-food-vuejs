@@ -81,6 +81,29 @@ function deleteProduct() {
       </tr>
       <tr>
         <td>
+          Базовые ингредиенты:
+        </td>
+        <td>
+          <div v-for="base_ingredient in currentProduct.base_ingredients">
+                    <div class="ingredient-img-allowers">
+                      <img class="ingredient-img"
+                           :src="base_ingredient.image_url">
+                      <div>
+                        <div v-if="base_ingredient.can_delete">можно удалять</div>
+                        <div v-else>нельзя удалять</div>
+                        <div v-if="base_ingredient.can_replace">можно заменять</div>
+                        <div v-else>нельзя заменять</div>
+                      </div>
+                    </div>
+                    <template v-for="base_ingredient_replacement in base_ingredient.replacements">
+                      <img class="ingredient-img-mini"
+                           :src="base_ingredient_replacement.image_url">
+                    </template>
+                  </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
           Активен для приема заказов:
         </td>
         <td>
@@ -102,4 +125,24 @@ function deleteProduct() {
     {{ textLoadOrFailForVue }}
   </div>
 </template>
+
+<style scoped>
+
+.ingredient-img {
+  width: 55px;
+  height: 55px;
+  padding: 10px 15px 10px 10px;
+}
+
+.ingredient-img-mini {
+  width: 35px;
+  height: 35px;
+  padding: 5px 5px 5px 5px;
+}
+
+.ingredient-img-allowers {
+  display: flex;
+  font-size: 15px;
+}
+</style>
 
