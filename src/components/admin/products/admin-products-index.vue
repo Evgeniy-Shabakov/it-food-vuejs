@@ -49,6 +49,7 @@ function deleteProduct(product) {
                     <img :src="product.image_url">
                     <h5>{{ product.title }}</h5>
                   </div>
+                  <div v-if="product.base_ingredients.length > 0">Базовые ингредиенты:</div>
                   <div v-for="base_ingredient in product.base_ingredients">
                     <div class="ingredient-img-allowers">
                       <img class="ingredient-img"
@@ -64,6 +65,16 @@ function deleteProduct(product) {
                       <img class="ingredient-img-mini"
                            :src="base_ingredient_replacement.image_url">
                     </template>
+                  </div>
+                  <div v-if="product.additional_ingredients.length > 0">Дополнительные ингредиенты:</div>
+                  <div v-for="additional_ingredient in product.additional_ingredients">
+                    <div class="ingredient-img-allowers">
+                      <img class="ingredient-img"
+                           :src="additional_ingredient.image_url">
+                      <div>
+                        {{ additional_ingredient.max_quantity }}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </td>

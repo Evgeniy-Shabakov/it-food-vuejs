@@ -13,6 +13,8 @@ let dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 const addingBaseIngredientsDialog = ref()
 const replacementsIngredientDialog = ref()
 
+const addingAdditionalIngredientsDialog = ref()
+
 const productInputedData = reactive({
   initialize(product) {
     this.title = product.title
@@ -29,7 +31,12 @@ const productInputedData = reactive({
         replacements_ids: item.replacements.map(obj => { return obj.id })
       }
     })
-    this.additional_ingredients = []
+    this.additional_ingredients = product.additional_ingredients.map(item => {
+      return {
+        ingredient: item,
+        max_quantity: item.max_quantity,
+      }
+    })
     this.is_active = Boolean(product.is_active)
   }
 })
@@ -48,7 +55,15 @@ watch(() => baseIngredientInputedData.ingredient, (newValue, oldValue) => {
     baseIngredientInputedData.replacements_ids = [...newValue.replacements].map(obj => obj.id)
 })
 
+const additionalIngredientInputedData = reactive({
+  initialize() {
+    this.ingredient = 0
+    this.max_quantity = 1
+  }
+})
+
 baseIngredientInputedData.initialize()
+additionalIngredientInputedData.initialize()
 
 function addBaseIngredient() {
   if (!baseIngredientInputedData.ingredient) return
@@ -72,6 +87,26 @@ function deleteBaseIngredient(id) {
   }
 }
 
+function addAdditionalIngredient() {
+  if (!additionalIngredientInputedData.ingredient) return
+
+  productInputedData.additional_ingredients.push({
+    ingredient: additionalIngredientInputedData.ingredient,
+    max_quantity: additionalIngredientInputedData.max_quantity,
+  }
+  )
+
+  additionalIngredientInputedData.initialize()
+  addingAdditionalIngredientsDialog.value.close()
+}
+
+function deleteAdditionalIngredient(id) {
+  const index = productInputedData.additional_ingredients.findIndex(obj => obj.ingredient.id === id)
+  if (index !== -1) { // Проверяем, найден ли объект
+    productInputedData.additional_ingredients.splice(index, 1); // Удаляем объект из массива
+  }
+}
+
 const imageUrl = computed(() => {
   if (productInputedData.image_file) return URL.createObjectURL(productInputedData.image_file)
   else return currentProduct.value.image_url
@@ -89,6 +124,7 @@ onMounted(async () => {
   dataForComponentLoadingType.value = await loadCurrentProduct(currentProductId)
 
   if (dataForComponentLoadingType.value === LOADING_TYPE.error) return
+
   productInputedData.initialize(currentProduct.value)
 })
 
@@ -115,6 +151,11 @@ function updateProduct() {
     base_ingredient.replacements_ids.forEach((id, idIndex) => {
       formData.append(`base_ingredients[${index}][replacements_ids][${idIndex}]`, id)
     })
+  })
+
+  productInputedData.additional_ingredients.forEach((additional_ingredient, index) => {
+    formData.append(`additional_ingredients[${index}][ingredient_id]`, additional_ingredient.ingredient.id)
+    formData.append(`additional_ingredients[${index}][max_quantity]`, additional_ingredient.max_quantity)
   })
 
   formData.append("is_active", productInputedData.is_active ? 1 : 0)
@@ -234,8 +275,23 @@ function changeImageBtnPressed() {
       зависимости от стоимости ингредиента.
       <br>Один и тот же ингредиент может быть как базовым так и доболнительным.
     </label>
+    <div class="base-ingredients">
+      <template v-for="item in productInputedData.additional_ingredients">
+        <div>
+          <img class="dialog__img"
+               :src="item.ingredient.image_url">
+          <div>{{ item.max_quantity }}</div>
+
+          <div>
+            <button @click.prevent="deleteAdditionalIngredient(item.ingredient.id)">Удалить</button>
+          </div>
+        </div>
+      </template>
+    </div>
     <button class="btn btn-view ingredients-editor-btn"
-            @click.prevent="">Добавление дополнительного ингредиента</button>
+            @click.prevent="addingAdditionalIngredientsDialog.showModal()">
+      Добавление дополнительного ингредиента
+    </button>
     <div class="invalid-text">{{ validationErrors.additional_ingredients }}</div>
 
 
@@ -261,8 +317,7 @@ function changeImageBtnPressed() {
     <p class="dialog__title">Добавление базового ингредиента</p>
 
     <img class="dialog__img adding-base-ingredient-dialog__main-img"
-         :src="baseIngredientInputedData.ingredient.image_url ?
-          baseIngredientInputedData.ingredient.image_url : '/src/assets/images/image_empty.png'">
+         :src="baseIngredientInputedData.ingredient.image_url || '/src/assets/images/image_empty.png'">
 
     <form class="adding-base-ingredient-dialog__form">
 
@@ -349,6 +404,42 @@ function changeImageBtnPressed() {
     <button ref="closeAddingIngredientDialog"
             class="dialog__btn-close"
             @click.prevent="replacementsIngredientDialog.close()">x</button>
+
+  </dialog>
+
+  <dialog ref="addingAdditionalIngredientsDialog"
+          class="dialog">
+
+    <p class="dialog__title">Добавление дополнительного ингредиента</p>
+
+    <img class="dialog__img adding-base-ingredient-dialog__main-img"
+         :src="additionalIngredientInputedData.ingredient.image_url || '/src/assets/images/image_empty.png'">
+
+    <form class="adding-base-ingredient-dialog__form">
+
+      <div>
+        <label class="required label">Выберите ингредиент</label>
+        <select v-model="additionalIngredientInputedData.ingredient">
+          <option v-for="ingredient in ingredients"
+                  :value="ingredient">{{ ingredient.title }}</option>
+        </select>
+      </div>
+
+      <div class="label-chekbox">
+        <label class="required label">Максимальное количество</label>
+        <input type="number"
+               v-model="additionalIngredientInputedData.max_quantity">
+      </div>
+
+      <div class="dialog__btn-wrapper">
+        <button class="btn btn-view"
+                @click.prevent="addAdditionalIngredient()">Добавить ингредиент</button>
+      </div>
+
+    </form>
+
+    <button class="dialog__btn-close"
+            @click.prevent="addingAdditionalIngredientsDialog.close()">x</button>
 
   </dialog>
 
