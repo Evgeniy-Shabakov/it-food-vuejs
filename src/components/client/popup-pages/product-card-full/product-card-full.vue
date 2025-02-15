@@ -67,9 +67,7 @@ async function saveConfig() {
     await nextTick()
     await nextTick()
 
-    setTimeout(scrollToNewProductUserConfig, 10)
-
-    // scrollToNewProductUserConfig()
+    scrollToNewProductUserConfig()
 }
 
 function scrollToNewProductUserConfig() {
