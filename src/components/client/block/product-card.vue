@@ -28,7 +28,7 @@ const price = computed(() => {
         total += Number(element.ingredient.additionalPrice)
     })
 
-    total += props.product.price_default
+    total += Number(props.product.price_default)
 
     return total
 })
