@@ -81,7 +81,7 @@ function deleteUserConfig() {
                 изменить
             </router-link>
 
-            <button @click="console.log(product)">лог</button>
+            <!-- <button @click="console.log(product)">лог</button> -->
 
         </div>
 
