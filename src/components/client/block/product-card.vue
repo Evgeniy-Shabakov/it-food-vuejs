@@ -21,11 +21,11 @@ const price = computed(() => {
     let total = 0
 
     props.userConfig.additionalIngredients.forEach(element => {
-        total += element.ingredient.price_default * element.quantity
+        total += Number(element.ingredient.price_default) * element.quantity
     })
 
     props.userConfig.baseIngredients.forEach(element => {
-        total += element.ingredient.additionalPrice
+        total += Number(element.ingredient.additionalPrice)
     })
 
     total += props.product.price_default

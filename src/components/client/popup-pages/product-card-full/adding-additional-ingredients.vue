@@ -53,7 +53,7 @@ function save() {
                         <img class="adding-additional-ingredients__additional-ingredients-item-image"
                              :src="additonalIngredient.ingredient.image_url"
                              alt="">
-                        <span>{{ additonalIngredient.ingredient.price_default }}р.</span>
+                        <span>{{ Number(additonalIngredient.ingredient.price_default) }}р.</span>
                         <span class="adding-additional-ingredients__additional-ingredients-item-title ">
                             {{ additonalIngredient.ingredient.title }}
                         </span>

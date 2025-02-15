@@ -40,7 +40,7 @@ const totalPrice = computed(() => {
 
     if (product.userBaseIngredientsTemporary) {
         product.userBaseIngredientsTemporary.forEach(element => {
-            total += element.ingredient.additionalPrice
+            total += Number(element.ingredient.additionalPrice)
         })
     }
 
