@@ -13,6 +13,7 @@ import { ORDER_IN_RESTAURANT_TYPE } from '/src/store/data-types/order-in-restaur
 import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
 import { adjustColor } from '/src/store/color'
+import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
 
 export async function initialize() {
 
@@ -29,6 +30,7 @@ export async function initialize() {
         initializeCart()
         initializeOrderType()
         initializeOrderInRestaurantType()
+        initializeUserConfigsForProducts()
 
         return LOADING_TYPE.complete
     }

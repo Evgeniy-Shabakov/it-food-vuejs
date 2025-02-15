@@ -2,7 +2,6 @@
 import { ref, onMounted, onUpdated } from 'vue'
 
 import { company, categories, authUser } from '/src/store/axios-helper.js'
-import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
 import { activateSwipeController } from '/src/store/helpers/swipe-controller.js'
 import {
   activateSelecteMenuController, activateMoveMenuController, getIndexCentrSection
@@ -10,6 +9,7 @@ import {
 
 import CartPanel from '/src/components/client/modules/client-menu-cart-panel.vue'
 import CitySelecte from '/src/components/client/modules/city-selecte-component.vue'
+import ProductCard from './block/product-card.vue'
 
 const categoriesMenu = ref()
 const categoriesMenuInner = ref()
@@ -94,7 +94,6 @@ function formatPhone(value) {
 
   return `+7 (${phoneNumber.slice(1, 4)}) ${phoneNumber.slice(4, 7)}-${phoneNumber.slice(7, 9)}-${phoneNumber.slice(9)}`
 }
-
 
 </script>
 
@@ -210,7 +209,7 @@ function formatPhone(value) {
 
         <router-link class="burger-menu__link"
                      :to="{ name: 'client.menu.popup.legal-documents' }"
-                     @click="burgerMenu.hidden=true">
+                     @click="burgerMenu.hidden = true">
           Правовая информация
         </router-link>
 
@@ -261,34 +260,19 @@ function formatPhone(value) {
 
           <div class="content__category-products">
 
-            <article class="product-card"
-                     v-for="product in category.products">
+            <template v-for="product in category.products">
 
-              <img class="product-card__image"
-                   :src="product.image_url"
-                   alt="">
-              <p class="product-card__title"> {{ product.title }}</p>
-              <p class="product-card__description-short"> {{ product.description_short }}</p>
-              <div class="product-card__price-and-btn">
-                <p class="product-card__price"> {{ Number(product.price_default) }} р.</p>
-                <button v-if="product.countInCart == 0 || product.countInCart == undefined"
-                        class="btn btn-submit"
-                        @click="plusProductToCart(product)"
-                        type="button">В корзину
-                </button>
-                <div v-else
-                     class="product-card__plus-count-minus">
-                  <button class="btn btn-submit"
-                          @click="minusProductInCartForMenuPage(product)">
-                    <i class="fa-solid fa-minus"></i></button>
-                  <div>{{ product.countInCart }}</div>
-                  <button class="btn btn-submit"
-                          @click="plusProductToCart(product)">
-                    <i class="fa-solid fa-plus"></i></button>
-                </div>
-              </div>
+              <ProductCard :product="product" />
 
-            </article>
+              <template v-for="(userConfig, index) in product.userConfigs">
+
+                <ProductCard :product="product"
+                             :userConfig="userConfig"
+                             :index="index" />
+
+              </template>
+
+            </template>
 
           </div>
 

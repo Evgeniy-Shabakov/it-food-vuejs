@@ -1,0 +1,148 @@
+.product-card {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    border-radius: .5rem;
+    --tw-shadow: 0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.product-card__product-image {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+/*чтобы работало только на компе с мышкой */
+@media (hover: hover) {
+    .product-card__btn-delete:hover {
+        color: var(--brand-color-hover);
+    }
+}
+
+.product-card__btn-delete:active {
+    color: var(--brand-color-active);
+}
+
+.product-card__ingredient-image {
+    width: 15%;
+    aspect-ratio: 1/1;
+    margin-right: 5px;
+}
+
+.product-card__ingredient-image--deleted {
+    filter: grayscale(100%);
+}
+
+.product-card__btn-edit {
+    display: inline-block;
+    text-decoration: none;
+    border: 2px solid var(--brand-color);
+    border-radius: 15px;
+    background-color: var(--text-color-on-brand-color);
+    color: var(--brand-color);
+    font-size: 14px;
+    padding: 5px;
+}
+
+@media (hover: hover) {
+    .product-card__btn-edit:hover {
+        color: var(--brand-color-hover);
+        border-color: var(--brand-color-hover);
+    }
+}
+
+.product-card__btn-edit:active {
+    color: var(--brand-color-hover);
+    border-color: var(--brand-color-hover);
+}
+
+.product-card__title-btn-delete {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    /* border: 1px solid; */
+}
+
+.product-card__title {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 550;
+    /* border: 1px solid; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.product-card__btn-delete {
+    border: 0;
+    background-color: transparent;
+    color: red;
+    font-size: 16px;
+    padding: 5px 5px 5px 5px;
+    width: max-content;
+    height: max-content;
+}
+
+.product-card__description-short {
+    margin-top: 10px;
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 30px;
+}
+
+.product-card__description-short--user-config {
+    color: green;
+    font-weight: 500;
+}
+
+.product-card__price-and-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.product-card__price {
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+.product-card__plus-count-minus {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 17px;
+}
+
+@media (max-width: 500px) {
+    .product-card {
+        padding: 15px 8px;
+        display: grid;
+        column-gap: 15px;
+        row-gap: 5px;
+        grid-template-columns: 40% calc(60% - 15px);
+        grid-template-rows: max-content max-content 1fr;
+    }
+
+    .product-card__image-and-ingredients {
+        grid-row: span 3;
+    }
+
+    .product-card__title-btn-delete {
+        margin-top: 0px;
+    }
+
+    .product-card__description-short {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .product-card__price-and-btn {
+        margin-top: 0;
+        align-self: flex-end;
+    }
+}

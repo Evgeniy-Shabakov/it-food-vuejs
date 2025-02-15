@@ -1,0 +1,5 @@
+.hide {
+    opacity: 0;
+    position: absolute;
+    margin-left: -9999px;
+}
