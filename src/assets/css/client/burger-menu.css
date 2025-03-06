@@ -1,7 +1,7 @@
 .burger-menu {
     position: fixed;
     right: 5%;
-    z-index: 10;
+    z-index: 100;
 
     background-color: var(--brand-color);
     color: var(--text-color-on-brand-color);
