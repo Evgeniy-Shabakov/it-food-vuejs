@@ -30,8 +30,8 @@ watch(selectedOrderInRestaurantType, () => {
 watch(selectedAddressForDelivery, () => {
     // не перезаписывать куки, когда не удалость установть адрес
     // установка адреса происходит в order-panel.vue
-    if (selectedAddressForDelivery.value == null) return 
-    
+    if (selectedAddressForDelivery.value == null) return
+
     localStorage.setItem(COOKIE_NAME.ADDRESS_DELIVERY_ID, selectedAddressForDelivery.value.id)
 })
 
@@ -150,48 +150,81 @@ export const totalPrice = computed(() => {
     return Number(totalProductPrice.value + deliveryPrice.value)
 })
 
-export function plusProductToCart(product, quantity) {
-    if (typeof quantity === 'undefined') {
-        // Если параметр не передан, устанавливаем значение по умолчанию
-        quantity = 1;
-    }
+export function plusProductToCart(product, userConfig, quantity = 1) {
+    if (userConfig) {
+        if (productsInCart.value.includes(userConfig)) {
+            userConfig.countInCart += quantity
+        }
+        else {
+            userConfig.countInCart = quantity
 
-    if (productsInCart.value.includes(product)) {
-        product.countInCart += quantity
+            userConfig.productID = product.id
+            userConfig.title = product.title
+            userConfig.image_url = product.image_url
+            userConfig.isUserConfig = true
+
+            productsInCart.value.push(userConfig)
+        }
     }
     else {
-        product.countInCart = quantity
-        productsInCart.value.push(product)
+        if (productsInCart.value.includes(product)) {
+            product.countInCart += quantity
+        }
+        else {
+            product.countInCart = quantity
+            productsInCart.value.push(product)
+        }
     }
 
     localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
-export function minusProductInCartForCartPanel(product) {
-    if (product.countInCart == 0) return
-    product.countInCart--
+export function minusProductInCartForCartPanel(product, userConfig) {
+    if (userConfig) {
+        if (userConfig.countInCart == 0) return
+        userConfig.countInCart--
+    }
+    else {
+        if (product.countInCart == 0) return
+        product.countInCart--
+    }
 
     localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
-export function minusProductInCartForMenuPage(product) {
-    product.countInCart--
+export function minusProductInCartForMenuPage(product, userConfig) {
+    if (userConfig) {
+        userConfig.countInCart--
 
-    if (product.countInCart <= 0) removeProductFromCart(product)
+        if (userConfig.countInCart <= 0) removeProductFromCart(product, userConfig)
+    }
+    else {
+        product.countInCart--
+
+        if (product.countInCart <= 0) removeProductFromCart(product)
+    }
+
 
     localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
-export function removeProductFromCart(product) {
-    product.countInCart = 0;
-    let index = productsInCart.value.indexOf(product)
-    if (index !== -1) productsInCart.value.splice(index, 1);
+export function removeProductFromCart(product, userConfig) {
+    if (userConfig) {
+        userConfig.countInCart = 0;
+        let index = productsInCart.value.indexOf(userConfig)
+        if (index !== -1) productsInCart.value.splice(index, 1);
+    }
+    else {
+        product.countInCart = 0;
+        let index = productsInCart.value.indexOf(product)
+        if (index !== -1) productsInCart.value.splice(index, 1);
+    }
 
     localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))
 }
 
 export function removeAllProductsFromCart() {
-    productsInCart.value.forEach(product => product.countInCart = 0)
+    productsInCart.value.forEach(el => el.countInCart = 0)
 
     productsInCart.value.length = 0
     localStorage.setItem(COOKIE_NAME.CART, JSON.stringify(productsInCart.value))

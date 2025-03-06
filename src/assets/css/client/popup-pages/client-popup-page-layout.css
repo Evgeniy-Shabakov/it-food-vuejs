@@ -1,5 +1,6 @@
 .client-popup-page-layout-backdrop {
     position: fixed;
+    z-index: 100;
     top: 0;
     width: 100vw;
     height: 100vh;
@@ -69,6 +70,11 @@
 }
 
 @media (max-width: 1300px) {
+    .client-popup-page-layout-backdrop {
+        width: 100%;
+        height: calc(100% - 48px);
+    }
+
     .client-popup-page-layout {
         position: fixed;
         top: 0;
@@ -96,5 +102,3 @@
         padding-right: 0px;
     }
 }
-
-@media (max-width: 522px) {}

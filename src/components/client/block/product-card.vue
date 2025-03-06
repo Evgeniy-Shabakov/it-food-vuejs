@@ -1,19 +1,15 @@
 <script setup>
 import { defineProps, computed } from 'vue'
-import { minusProductInCartForMenuPage, plusProductToCart } from '/src/store/client-helper.js'
+import { minusProductInCartForMenuPage, plusProductToCart, removeProductFromCart } from '/src/store/client-helper.js'
 import { rerecordProductWithUserConfigs } from '/src/store/client/save/user-configs-products.js'
+
+import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
 
 const props = defineProps(['product', 'userConfig', 'index'])
 
-const baseIngredients = computed(() => props.userConfig
-    ? props.userConfig.baseIngredients
-    : props.product.base_ingredients)
+const baseIngredients = props.userConfig ? props.userConfig.baseIngredients : props.product.base_ingredients
 
-const additionalIngredients = computed(() => {
-    if (!props.userConfig) return []
-
-    return props.userConfig.additionalIngredients.filter(el => el.quantity > 0)
-})
+const additionalIngredients = props.userConfig ? props.userConfig.additionalIngredients : []
 
 const price = computed(() => {
     if (!props.userConfig) return props.product.price_default
@@ -30,10 +26,14 @@ const price = computed(() => {
 
     total += Number(props.product.price_default)
 
+    props.userConfig.price_default = total //записываем цену в userConfig для корзины
+
     return total
 })
 
 function deleteUserConfig() {
+    removeProductFromCart(null, props.userConfig)
+
     props.product.userConfigs.splice(props.index, 1)
 
     rerecordProductWithUserConfigs(props.product)
@@ -53,20 +53,8 @@ function deleteUserConfig() {
                  :src="product.image_url"
                  alt="">
 
-            <div>
-                <img v-for="baseIngredient in baseIngredients"
-                     class="product-card__ingredient-image"
-                     :class="{ 'product-card__ingredient-image--deleted': baseIngredient.isDelete }"
-                     :src="baseIngredient.image_url || baseIngredient.ingredient.image_url"
-                     alt="">
-            </div>
-
-            <div>
-                <img v-for="additionalIngredient in additionalIngredients"
-                     class="product-card__ingredient-image"
-                     :src="additionalIngredient.ingredient.image_url"
-                     alt="">
-            </div>
+            <IngredientsMini :baseIngredients="baseIngredients"
+                             :additionalIngredients="additionalIngredients" />
 
             <router-link v-if="product.base_ingredients.length > 0 || product.additional_ingredients.length > 0"
                          class="product-card__btn-edit"
@@ -80,8 +68,6 @@ function deleteUserConfig() {
                         }">
                 изменить
             </router-link>
-
-            <!-- <button @click="console.log(product)">лог</button> -->
 
         </div>
 
@@ -106,20 +92,26 @@ function deleteUserConfig() {
         <div class="product-card__price-and-btn">
 
             <p class="product-card__price"> {{ Number(price) }} р.</p>
-            <button v-if="product.countInCart == 0 || product.countInCart == undefined"
-                    class="btn btn-submit"
-                    @click="plusProductToCart(product)"
+
+            <button v-if="
+                (userConfig && (userConfig.countInCart == 0 || userConfig.countInCart == undefined))
+                ||
+                (!userConfig && (product.countInCart == 0 || product.countInCart == undefined))"
+                    class="product-card__btn-in-cart btn btn-submit"
+                    @click="plusProductToCart(product, userConfig)"
                     type="button">В корзину
             </button>
+
             <div v-else
                  class="product-card__plus-count-minus">
-                <button class="btn btn-submit"
-                        @click="minusProductInCartForMenuPage(product)">
+                <button class="product-card__btn-plus-minus btn btn-submit"
+                        @click="minusProductInCartForMenuPage(product, userConfig)">
                     <i class="fa-solid fa-minus"></i>
                 </button>
-                <div>{{ product.countInCart }}</div>
-                <button class="btn btn-submit"
-                        @click="plusProductToCart(product)">
+                <div v-if="userConfig">{{ userConfig.countInCart }}</div>
+                <div v-else>{{ product.countInCart }}</div>
+                <button class="product-card__btn-plus-minus btn btn-submit"
+                        @click="plusProductToCart(product, userConfig)">
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>

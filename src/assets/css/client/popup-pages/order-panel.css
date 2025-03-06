@@ -81,7 +81,7 @@
 .order-panel__products-section {
     display: grid;
     gap: 10px;
-    grid-template-columns: 25px 2fr 1fr 1fr;
+    grid-template-columns: 4fr 1fr 1fr;
     align-items: center;
     font-size: 15px;
     overflow-x: hidden;
@@ -91,12 +91,20 @@
     margin-bottom: 15px;
 }
 
+.order-panel__product-img-and-title {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
 .order-panel__product-img {
-    width: 25px;
+    width: 35px;
 }
 
 .order-panel__count-price {
     justify-self: center;
+    white-space: nowrap;
 }
 
 .order-panel__product-total {

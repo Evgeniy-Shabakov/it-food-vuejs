@@ -1,7 +1,7 @@
 import { categories, cities, activeDesign } from '/src/store/axios-helper.js'
 import {
     selectedCity, productsInCart, selectedRestaurant, selectedOrderType,
-    selectedOrderInRestaurantType
+    selectedOrderInRestaurantType, plusProductToCart
 }
     from '/src/store/client-helper.js'
 import {
@@ -14,6 +14,7 @@ import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
 import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
+import { breakpointsSematic } from '@vueuse/core'
 
 export async function initialize() {
 
@@ -27,10 +28,11 @@ export async function initialize() {
         loadCompany()
         loadCurrentAuthUser()
 
+        initializeUserConfigsForProducts()
+
         initializeCart()
         initializeOrderType()
         initializeOrderInRestaurantType()
-        initializeUserConfigsForProducts()
 
         return LOADING_TYPE.complete
     }
@@ -100,22 +102,86 @@ export async function initializeRestaurant() {
 }
 
 function initializeCart() {
-    //обновляем массив для корзины, если есть данные в localStorage
     if (localStorage.getItem(COOKIE_NAME.CART) == null) return
 
     let oldProductsInCart = JSON.parse(localStorage.getItem(COOKIE_NAME.CART))
 
-    oldProductsInCart.forEach(el => {
-        categories.value.forEach(category => {
-            category.products.forEach(product => {
-                if (product.id == el.id) {
-                    product.countInCart = el.countInCart
-                    productsInCart.value.push(product)
-                }
+    oldProductsInCart.forEach(oldProduct => {
+
+        if (!oldProduct.isUserConfig) {
+            categories.value.forEach(category => {
+
+                const product = category.products.find(product => product.id == oldProduct.id)
+
+                if (product) plusProductToCart(product, null, oldProduct.countInCart)
             })
-        })
+        }
+        else {
+            categories.value.forEach(category => {
+
+                const product = category.products.find(product => product.id == oldProduct.productID)
+
+                if (product) {
+                    let userConfig = findUserConfigInProduct(product, oldProduct)
+                    if (userConfig) {
+                        plusProductToCart(product, userConfig, oldProduct.countInCart)
+                    }
+                }
+
+            })
+        }
+
     })
 
+}
+
+function findUserConfigInProduct(product, savedUserConfig) {
+    if (!product.userConfigs || product.userConfigs.length === 0) return null
+
+    for (let productUserConfig of product.userConfigs) {
+
+        let isNeededUserConfig = true
+
+        //сравниваем базовые игредиенты
+        if (savedUserConfig.baseIngredients.length != productUserConfig.baseIngredients.length)
+            continue
+
+
+        for (let [index, baseIngredient] of savedUserConfig.baseIngredients.entries()) {
+            if (baseIngredient.ingredient.id != productUserConfig.baseIngredients[index].ingredient.id ||
+                baseIngredient.isDelete != productUserConfig.baseIngredients[index].isDelete) {
+                isNeededUserConfig = false
+                break
+            }
+        }
+
+        if (isNeededUserConfig == false) continue
+
+        //сравниваем доп игредиенты
+        const productUserConfigAdditionalIngredientsFiltered =
+            productUserConfig.additionalIngredients.filter(el => el.quantity > 0)
+
+        const savesUserConfigAdditionalIngredientsFiltered =
+            savedUserConfig.additionalIngredients.filter(el => el.quantity > 0)
+
+        if (productUserConfigAdditionalIngredientsFiltered.length != savesUserConfigAdditionalIngredientsFiltered.length)
+            continue
+
+        for (let additionalIngredient of savesUserConfigAdditionalIngredientsFiltered) {
+            const ingredient = productUserConfigAdditionalIngredientsFiltered.
+                find(el => el.ingredient.id == additionalIngredient.ingredient.id)
+
+            if (!ingredient || ingredient.quantity != additionalIngredient.quantity)
+                isNeededUserConfig = false
+            break
+        }
+
+        //возвращаем userConfig если все ингредиенты в сохраненном конфиге совпали с существующим
+        if (isNeededUserConfig) return productUserConfig
+
+    }
+
+    return null
 }
 
 function initializeOrderType() {

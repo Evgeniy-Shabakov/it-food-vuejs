@@ -1,4 +1,6 @@
 .product-card {
+    position: relative; /* для того чтобы сделать всю карточку ссылкой*/
+
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -26,16 +28,6 @@
     color: var(--brand-color-active);
 }
 
-.product-card__ingredient-image {
-    width: 15%;
-    aspect-ratio: 1/1;
-    margin-right: 5px;
-}
-
-.product-card__ingredient-image--deleted {
-    filter: grayscale(100%);
-}
-
 .product-card__btn-edit {
     display: inline-block;
     text-decoration: none;
@@ -45,6 +37,19 @@
     color: var(--brand-color);
     font-size: 14px;
     padding: 5px;
+    margin-top: 5px;
+}
+
+.product-card__btn-edit::after { /* для того чтобы сделать всю карточку ссылкой*/
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+.product-card__btn-delete,
+.product-card__btn-in-cart,
+.product-card__btn-plus-minus {
+    position: relative;
 }
 
 @media (hover: hover) {

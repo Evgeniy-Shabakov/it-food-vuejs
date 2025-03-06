@@ -18,6 +18,7 @@ import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
 
 import RestaurantSelecte from '/src/components/client/modules/restaurant-selecte.vue'
+import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
 
 const orderData = reactive({})
 
@@ -134,14 +135,16 @@ async function sendOrder() {
 
   <div class="client-popup-page-layout__main-section">
 
-    <h1 v-if="selectedCity" class="client-popup-page-layout__h1">
+    <h1 v-if="selectedCity"
+        class="client-popup-page-layout__h1">
       <div>{{ selectedCity.title }} - {{ selectedOrderType }}</div>
       <div class="order-panel__text-description">(оформление заказа)</div>
       <div class="invalid-text order-panel__other-errors-text">{{ otherErrors }}</div>
     </h1>
 
 
-    <div v-if="selectedCity" class="order-panel">
+    <div v-if="selectedCity"
+         class="order-panel">
 
       <template v-if="selectedOrderType == ORDER_TYPE.delivery">
 
@@ -149,8 +152,10 @@ async function sendOrder() {
           <label class="order-panel__label">Выбирите адрес или добавьте новый</label>
           <div class="order-panel__selecte-address-btn-add-section">
 
-            <select v-model="selectedAddressForDelivery" class="order-panel__selecte-address">
-              <option v-for="address in addressesInSelectedCity" :value="address">
+            <select v-model="selectedAddressForDelivery"
+                    class="order-panel__selecte-address">
+              <option v-for="address in addressesInSelectedCity"
+                      :value="address">
 
                 <span v-if="address.title">{{ address.title }} -</span>
                 {{ address.street }}
@@ -169,7 +174,8 @@ async function sendOrder() {
           <div class="invalid-text order-panel__invalid-text">{{ validationErrors.user_address_id }}</div>
         </div>
 
-        <div v-else class="order-panel__btn-add-address-full">
+        <div v-else
+             class="order-panel__btn-add-address-full">
           <router-link :to="{ name: 'client.menu.popup.address-create' }">
             <button class="btn btn-submit">
               Добавить адрес доставки
@@ -182,10 +188,12 @@ async function sendOrder() {
 
       <div v-else>
 
-        <label v-if="selectedOrderType == ORDER_TYPE.pickUp" class="order-panel__label">
+        <label v-if="selectedOrderType == ORDER_TYPE.pickUp"
+               class="order-panel__label">
           Выберите точку самовывоза
         </label>
-        <label v-else-if="selectedOrderType == ORDER_TYPE.inRestaurant" class="order-panel__label">
+        <label v-else-if="selectedOrderType == ORDER_TYPE.inRestaurant"
+               class="order-panel__label">
           Выберите ресторан
         </label>
         <restaurant-selecte></restaurant-selecte>
@@ -195,14 +203,19 @@ async function sendOrder() {
 
       </div>
 
-      <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant" class="order-panel__in-restaurant-settings">
+      <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant"
+           class="order-panel__in-restaurant-settings">
 
         <div v-if="selectedRestaurant">
 
           <input :disabled="!selectedRestaurant.pick_up_at_counter_available"
-            class="order-settings__radio-button__input" type="radio" id="option1"
-            :value=ORDER_IN_RESTAURANT_TYPE.COUNTER v-model="selectedOrderInRestaurantType">
-          <label class="order-settings__radio-button__label" for="option1">
+                 class="order-settings__radio-button__input"
+                 type="radio"
+                 id="option1"
+                 :value=ORDER_IN_RESTAURANT_TYPE.COUNTER
+                 v-model="selectedOrderInRestaurantType">
+          <label class="order-settings__radio-button__label"
+                 for="option1">
             Заберу у бара
             <template v-if="!selectedRestaurant.pick_up_at_counter_available">
               <br>(не доступно)
@@ -214,9 +227,13 @@ async function sendOrder() {
         <div v-if="selectedRestaurant">
 
           <input :disabled="!selectedRestaurant.at_restaurant_to_table_available"
-            class="order-settings__radio-button__input" type="radio" id="option2" :value=ORDER_IN_RESTAURANT_TYPE.TABLE
-            v-model="selectedOrderInRestaurantType">
-          <label class="order-settings__radio-button__label" for="option2">
+                 class="order-settings__radio-button__input"
+                 type="radio"
+                 id="option2"
+                 :value=ORDER_IN_RESTAURANT_TYPE.TABLE
+                 v-model="selectedOrderInRestaurantType">
+          <label class="order-settings__radio-button__label"
+                 for="option2">
             Принести к столику
             <template v-if="!selectedRestaurant.at_restaurant_to_table_available">
               <br>(не доступно)
@@ -228,11 +245,14 @@ async function sendOrder() {
       </div>
 
       <div v-if="selectedOrderType == ORDER_TYPE.inRestaurant &&
-        selectedOrderInRestaurantType == ORDER_IN_RESTAURANT_TYPE.TABLE" class="order-panel__table-section">
+        selectedOrderInRestaurantType == ORDER_IN_RESTAURANT_TYPE.TABLE"
+           class="order-panel__table-section">
 
         <label class="order-panel__label">Введите номер столика</label>
-        <input type="text" class="order-panel__table-input" v-model="orderData.table_number"
-          @click.prevent="validationErrors.table_number = ''">
+        <input type="text"
+               class="order-panel__table-input"
+               v-model="orderData.table_number"
+               @click.prevent="validationErrors.table_number = ''">
         <div class="invalid-text order-panel__invalid-text">
           {{ validationErrors.table_number }}
         </div>
@@ -240,7 +260,8 @@ async function sendOrder() {
 
       <div>
         <label class="order-panel__label">Способ оплаты</label>
-        <select v-model="orderData.payment_type" class="order-panel__payment-type">
+        <select v-model="orderData.payment_type"
+                class="order-panel__payment-type">
           <option :value="PAYMENT_TYPE.cardOffline"> {{ PAYMENT_TYPE.cardOffline }}</option>
           <option :value="PAYMENT_TYPE.cash"> {{ PAYMENT_TYPE.cash }}</option>
         </select>
@@ -255,11 +276,23 @@ async function sendOrder() {
 
           <template v-for="product in productsInOrder">
 
-            <img class="order-panel__product-img" :src="product.image_url" alt="">
-            <div>{{ product.title }}</div>
+            <div>
+
+              <div class="order-panel__product-img-and-title">
+                <img class="order-panel__product-img"
+                     :src="product.image_url"
+                     alt="">
+                <span>{{ product.title }}</span>
+              </div>
+
+              <IngredientsMini v-if="product.isUserConfig"
+                               :baseIngredients="product.baseIngredients"
+                               :additionalIngredients="product.additionalIngredients" />
+
+            </div>
+
             <div class="order-panel__count-price">
-              <span>{{ product.countInCart }}</span>
-              <span> x {{ Number(product.price_default) }}р</span>
+              {{ product.countInCart }} x {{ Number(product.price_default) }}р
             </div>
             <div class="order-panel__product-total">
               {{ Number(product.countInCart) * Number(product.price_default) }}р
@@ -272,11 +305,13 @@ async function sendOrder() {
 
         <div class="order-panel__block-total">
           <span v-if="selectedOrderType == ORDER_TYPE.delivery">Товары: </span>
-          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="order-panel__block-total_item-right">
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery"
+                class="order-panel__block-total_item-right">
             {{ totalProductPrice }}р.
           </span>
           <span v-if="selectedOrderType == ORDER_TYPE.delivery">Доставка: </span>
-          <span v-if="selectedOrderType == ORDER_TYPE.delivery" class="order-panel__block-total_item-right">
+          <span v-if="selectedOrderType == ORDER_TYPE.delivery"
+                class="order-panel__block-total_item-right">
             {{ deliveryPrice }}р.
           </span>
           <span>Итого: </span>
@@ -287,13 +322,15 @@ async function sendOrder() {
 
       <div>
         <label class="order-panel__label">Комментарий к заказу</label>
-        <textarea v-model="orderData.comment" class="order-panel__comment"></textarea>
+        <textarea v-model="orderData.comment"
+                  class="order-panel__comment"></textarea>
         <div class="invalid-text order-panel__invalid-text">{{ validationErrors.comment }}</div>
       </div>
 
     </div>
 
-    <div v-if="blockSendOrder" class="spinner-centr-display">
+    <div v-if="blockSendOrder"
+         class="spinner-centr-display">
       <div class="spinner"></div>
     </div>
 
@@ -304,11 +341,13 @@ async function sendOrder() {
 
     <template v-if="selectedCity">
 
-      <button v-if="blockSendOrder == false" class="btn btn-submit client-popup-page-layout__btn-w-100"
-        @click.prevent="sendOrder()">
+      <button v-if="blockSendOrder == false"
+              class="btn btn-submit client-popup-page-layout__btn-w-100"
+              @click.prevent="sendOrder()">
         Оформить за {{ totalPrice }}р.
       </button>
-      <button v-else class="btn btn-submit client-popup-page-layout__btn-w-100">
+      <button v-else
+              class="btn btn-submit client-popup-page-layout__btn-w-100">
         Отправляем заказ в ресторан...
       </button>
 
