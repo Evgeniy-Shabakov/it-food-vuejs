@@ -123,13 +123,13 @@ function openUserEditPanel() {
 
         <template v-else-if="lastOrderLoadingType == LOADING_TYPE.complete">
 
-          <div v-if="lastOrderForUser" class="order-panel__products-section">
+          <div v-if="lastOrderForUser" class="user-panel__products-section">
 
             <template v-for="product in lastOrderForUser.products">
 
-              <img class="order-panel__product-img" :src="product.image_url" alt="">
+              <img class="user-panel__product-img" :src="product.image_url" alt="">
               <span>{{ product.title }}</span>
-              <span class="order-panel__count-price"> {{ product.quantity }} </span>
+              <span class="user-panel__count-price"> {{ product.quantity }} </span>
               <span> шт. </span>
 
             </template>
