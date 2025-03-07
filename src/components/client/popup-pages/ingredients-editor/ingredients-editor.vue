@@ -333,15 +333,19 @@ function scrollToNewProductUserConfig() {
     position: absolute;
     bottom: 0;
     right: -10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
     width: 20px;
     height: 20px;
-    text-align: center;
+
     font-size: 10px;
-    font-weight: 500;
-    color: white;
+    /* font-weight: 500; */
+    color: var(--text-color-on-brand-color);
     background-color: var(--brand-color);
-    border-radius: 50%;
-    padding-top: 2px;
 }
 
 .ingredients-editor__price-and-btn {
