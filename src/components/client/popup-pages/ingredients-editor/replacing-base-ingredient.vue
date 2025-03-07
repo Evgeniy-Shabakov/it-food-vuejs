@@ -16,7 +16,6 @@ const product = getProductById(productID)
 if (!product.userBaseIngredientsTemporary) {
     initializeUserBaseIngredientsForProductTemporary(product, userConfigIndex)
 }
-    
 
 const userBaseIngredient = product.userBaseIngredientsTemporary[position]
 
@@ -54,7 +53,7 @@ function save() {
                  class="flex items-center justify-between mb-15px text-16px">
 
                 <label class="flex items-center gap-10px grow"
-                       :for="`${ingredient.id}`">
+                       :for="ingredient.id + ' - id-base-ingredient'">
                     <img class="w-50px aspect-square"
                          :src="ingredient.image_url"
                          alt="">
@@ -64,8 +63,8 @@ function save() {
 
                 <input class="w-25px aspect-square"
                        type="radio"
-                       :id="`${ingredient.id}`"
-                       :value="`${ingredient.id}`"
+                       :id="ingredient.id + ' - id-base-ingredient'"
+                       :value="ingredient.id"
                        v-model="selectedIngredientID">
 
             </div>
