@@ -59,7 +59,7 @@ function deleteUserConfig() {
             <router-link v-if="product.base_ingredients.length > 0 || product.additional_ingredients.length > 0"
                          class="product-card__btn-edit"
                          :to="{
-                            name: 'client.menu.popup.product-card-full',
+                            name: 'client.menu.popup.ingredients-editor',
                             params:
                             {
                                 id: product.id,

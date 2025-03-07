@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from "/src/router.js"
 import { getProductById, initializeUserAdditonalIngredientsForProductTemporary }
-    from '/src/store/client/popup-pages/product-card-full'
+    from '/src/store/client/popup-pages/ingredients-editor'
 
 const productID = Number(useRoute().params.id)
 const userConfigIndex = useRoute().params.userConfigIndex

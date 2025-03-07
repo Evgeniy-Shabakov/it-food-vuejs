@@ -7,7 +7,7 @@ import {
     initializeUserBaseIngredientsForProductTemporary,
     initializeUserAdditonalIngredientsForProductTemporary,
     resetCurrentConfig
-} from '/src/store/client/popup-pages/product-card-full'
+} from '/src/store/client/popup-pages/ingredients-editor.js'
 import { rerecordProductWithUserConfigs } from '/src/store/client/save/user-configs-products.js'
 
 
@@ -87,29 +87,31 @@ function scrollToNewProductUserConfig() {
         </h1>
 
 
-        <article class="product-card-full">
+        <article class="ingredients-editor">
 
-            <img class="product-card-full__product-image"
+            <img class="ingredients-editor__product-image"
                  :src="product.image_url"
                  alt="">
-            <p class="product-card-full__description"> {{ product.description_short }}</p>
+            <p class="ingredients-editor__description">
+                Настрой ингредиенты по своему вкусу
+            </p>
 
-            <button class="product-card-full__btn-reset btn--secondary"
+            <button class="ingredients-editor__btn-reset btn--secondary"
                     @click="resetCurrentConfig(product, userConfigIndex)">
-                Сбросить
+                Сбросить изменения
             </button>
 
             <section v-if="product.userBaseIngredientsTemporary.length > 0"
-                     class="product-card-full__base-ingredients">
-                <div class="product-card-full__base-ingredients-title">Базовые ингредиенты</div>
+                     class="ingredients-editor__base-ingredients">
+                <div class="ingredients-editor__base-ingredients-title">Базовые ингредиенты</div>
                 <div v-for="(baseIngredient, index) in product.userBaseIngredientsTemporary"
-                     class="product-card-full__base-ingredients-item">
-                    <div class="product-card-full__base-ingredients-item-image-and-title">
-                        <img class="product-card-full__base-ingredients-item-image"
+                     class="ingredients-editor__base-ingredients-item">
+                    <div class="ingredients-editor__base-ingredients-item-image-and-title">
+                        <img class="ingredients-editor__base-ingredients-item-image"
                              :class="{ 'image-gray': baseIngredient.isDelete }"
                              :src="baseIngredient.ingredient.image_url"
                              alt="">
-                        <span class="product-card-full__base-ingredients-item-title"
+                        <span class="ingredients-editor__base-ingredients-item-title"
                               :class="{ 'text-line-through': baseIngredient.isDelete }">
                             {{ baseIngredient.ingredient.title }}
                         </span>
@@ -117,7 +119,7 @@ function scrollToNewProductUserConfig() {
 
                     <div>
                         <button v-if="baseIngredient.ingredient.can_delete"
-                                class="product-card-full__base-ingredients-item-btn-delete"
+                                class="ingredients-editor__base-ingredients-item-btn-delete"
                                 @click="baseIngredient.isDelete = !baseIngredient.isDelete">
                             <span v-if="baseIngredient.isDelete">восстановить</span>
                             <span v-else>удалить</span>
@@ -125,14 +127,14 @@ function scrollToNewProductUserConfig() {
 
                         <router-link v-if="baseIngredient.ingredient.can_replace && !baseIngredient.isDelete"
                                      :to="{
-                                        name: 'client.menu.popup.product-card-full.replacing-base-ingredient',
+                                        name: 'client.menu.popup.ingredients-editor.replacing-base-ingredient',
                                         params: {
                                             id: productID,
                                             userConfigIndex: userConfigIndex,
                                             position: index
                                         }
                                     }"
-                                     class="product-card-full__base-ingredients-item-btn-edit">
+                                     class="ingredients-editor__base-ingredients-item-btn-edit">
                             заменить
                         </router-link>
 
@@ -141,26 +143,26 @@ function scrollToNewProductUserConfig() {
             </section>
 
             <section v-if="product.additional_ingredients.length > 0"
-                     class="product-card-full__additional-ingredients">
+                     class="ingredients-editor__additional-ingredients">
                 <router-link :to="{
-                    name: 'client.menu.popup.product-card-full.adding-additional-ingredients',
+                    name: 'client.menu.popup.ingredients-editor.adding-additional-ingredients',
                     params: {
                         id: productID,
                         userConfigIndex: userConfigIndex,
                     }
                 }"
-                             class="product-card-full__additional-ingredients-btn-add btn--secondary">
+                             class="ingredients-editor__additional-ingredients-btn-add btn--secondary">
                     Добавить дополнительные ингредиенты
                 </router-link>
 
-                <div class="product-card-full__additional-ingredients-list">
+                <div class="ingredients-editor__additional-ingredients-list">
                     <template v-for="additionalIngredient in product.userAdditionalIngredientsTemporary">
                         <div v-if="additionalIngredient.quantity > 0"
-                             class="product-card-full__additional-ingredients-item">
-                            <img class="product-card-full__additional-ingredients-item-image"
+                             class="ingredients-editor__additional-ingredients-item">
+                            <img class="ingredients-editor__additional-ingredients-item-image"
                                  :src="additionalIngredient.ingredient.image_url"
                                  alt="">
-                            <span class="product-card-full__additional-ingredients-item-quantity ">
+                            <span class="ingredients-editor__additional-ingredients-item-quantity ">
                                 {{ additionalIngredient.quantity }}
                             </span>
                         </div>
@@ -168,15 +170,13 @@ function scrollToNewProductUserConfig() {
                 </div>
             </section>
 
-
-
         </article>
 
     </div>
 
     <div class="client-popup-page-layout__btn-section">
 
-        <div class="product-card__price-and-btn product-card-full__price-and-btn">
+        <div class="product-card__price-and-btn ingredients-editor__price-and-btn">
             <p class="product-card__price"> {{ Number(totalPrice) }} р.</p>
             <button class="btn btn-submit"
                     @click="saveConfig()">
@@ -188,36 +188,37 @@ function scrollToNewProductUserConfig() {
 
 </template>
 <style scoped>
-.product-card-full__product-image {
+.ingredients-editor__product-image {
     display: block;
     margin: auto;
-    width: 80%;
+    width: 100px;
     aspect-ratio: 1/1;
     margin-bottom: 15px;
 }
 
-.product-card-full__description {
+.ingredients-editor__description {
     font-size: 14px;
     color: grey;
+    text-align: center;
     margin-bottom: 10px;
 }
 
-.product-card-full__btn-reset {
+.ingredients-editor__btn-reset {
     display: block;
-    margin-left: auto;
+    margin: auto;
 }
 
-.product-card-full__base-ingredients {
+.ingredients-editor__base-ingredients {
     margin-top: 10px;
     font-size: 16px;
     margin-bottom: 25px;
 }
 
-.product-card-full__base-ingredients-title {
+.ingredients-editor__base-ingredients-title {
     margin-bottom: 10px;
 }
 
-.product-card-full__base-ingredients-item {
+.ingredients-editor__base-ingredients-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -225,18 +226,18 @@ function scrollToNewProductUserConfig() {
     margin-bottom: 10px;
 }
 
-.product-card-full__base-ingredients-item-image-and-title {
+.ingredients-editor__base-ingredients-item-image-and-title {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.product-card-full__base-ingredients-item-image {
+.ingredients-editor__base-ingredients-item-image {
     width: 25px;
     aspect-ratio: 1/1;
 }
 
-.product-card-full__base-ingredients-item-title {
+.ingredients-editor__base-ingredients-item-title {
     font-size: 14px;
     color: grey;
 }
@@ -249,7 +250,7 @@ function scrollToNewProductUserConfig() {
     text-decoration: line-through;
 }
 
-.product-card-full__base-ingredients-item-btn-edit {
+.ingredients-editor__base-ingredients-item-btn-edit {
     font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
     text-decoration: none;
@@ -263,18 +264,18 @@ function scrollToNewProductUserConfig() {
 }
 
 @media (hover: hover) {
-    .product-card-full__base-ingredients-item-btn-edit:hover {
+    .ingredients-editor__base-ingredients-item-btn-edit:hover {
         color: var(--brand-color-hover);
         border-color: var(--brand-color-hover);
     }
 }
 
-.product-card-full__base-ingredients-item-btn-edit:active {
+.ingredients-editor__base-ingredients-item-btn-edit:active {
     color: var(--brand-color-hover);
     border-color: var(--brand-color-hover);
 }
 
-.product-card-full__base-ingredients-item-btn-delete {
+.ingredients-editor__base-ingredients-item-btn-delete {
     display: inline-block;
     text-decoration: none;
     border: 2px solid red;
@@ -286,22 +287,22 @@ function scrollToNewProductUserConfig() {
 }
 
 @media (hover: hover) {
-    .product-card-full__base-ingredients-item-btn-delete:hover {
+    .ingredients-editor__base-ingredients-item-btn-delete:hover {
         color: var(--brand-color-hover);
         border-color: var(--brand-color-hover);
     }
 }
 
-.product-card-full__base-ingredients-item-btn-delete:active {
+.ingredients-editor__base-ingredients-item-btn-delete:active {
     color: var(--brand-color-hover);
     border-color: var(--brand-color-hover);
 }
 
-.product-card-full__additional-ingredients {
+.ingredients-editor__additional-ingredients {
     font-size: 16px;
 }
 
-.product-card-full__additional-ingredients-btn-add {
+.ingredients-editor__additional-ingredients-btn-add {
     display: block;
     text-decoration: none;
     text-align: center;
@@ -309,22 +310,22 @@ function scrollToNewProductUserConfig() {
     margin-bottom: 10px;
 }
 
-.product-card-full__additional-ingredients-list {
+.ingredients-editor__additional-ingredients-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.product-card-full__additional-ingredients-item {
+.ingredients-editor__additional-ingredients-item {
     position: relative;
 }
 
-.product-card-full__additional-ingredients-item-image {
+.ingredients-editor__additional-ingredients-item-image {
     width: 40px;
     aspect-ratio: 1/1;
 }
 
-.product-card-full__additional-ingredients-item-quantity {
+.ingredients-editor__additional-ingredients-item-quantity {
     position: absolute;
     bottom: 0;
     right: -10px;
@@ -339,7 +340,7 @@ function scrollToNewProductUserConfig() {
     padding-top: 2px;
 }
 
-.product-card-full__price-and-btn {
+.ingredients-editor__price-and-btn {
     align-self: normal;
     width: 100%;
 }

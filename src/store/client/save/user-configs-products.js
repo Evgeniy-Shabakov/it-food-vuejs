@@ -3,7 +3,7 @@ import {
     getProductById,
     initializeUserBaseIngredientsForProductTemporary,
     initializeUserAdditonalIngredientsForProductTemporary,
-} from '/src/store/client/popup-pages/product-card-full'
+} from '/src/store/client/popup-pages/ingredients-editor'
 
 const productsWithUserConfigsForCookies = []
 

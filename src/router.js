@@ -83,19 +83,19 @@ const routes = [
                                 name: 'client.menu.popup.legal-documents.show'
                             },
                             {
-                                path: '/popup/product-card-full/:id/:userConfigIndex?',
-                                component: () => import('./components/client/popup-pages/product-card-full/product-card-full.vue'),
-                                name: 'client.menu.popup.product-card-full'
+                                path: '/popup/ingredients-editor/:id/:userConfigIndex?',
+                                component: () => import('./components/client/popup-pages/ingredients-editor/ingredients-editor.vue'),
+                                name: 'client.menu.popup.ingredients-editor'
                             },
                             {
-                                path: '/popup/product-card-full/:id/:userConfigIndex?/replacing-base-ingredient/:position',
-                                component: () => import('./components/client/popup-pages/product-card-full/replacing-base-ingredient.vue'),
-                                name: 'client.menu.popup.product-card-full.replacing-base-ingredient'
+                                path: '/popup/ingredients-editor/:id/:userConfigIndex?/replacing-base-ingredient/:position',
+                                component: () => import('./components/client/popup-pages/ingredients-editor/replacing-base-ingredient.vue'),
+                                name: 'client.menu.popup.ingredients-editor.replacing-base-ingredient'
                             },
                             {
-                                path: '/popup/product-card-full/:id/:userConfigIndex?/adding-additional-ingredients',
-                                component: () => import('./components/client/popup-pages/product-card-full/adding-additional-ingredients.vue'),
-                                name: 'client.menu.popup.product-card-full.adding-additional-ingredients'
+                                path: '/popup/ingredients-editor/:id/:userConfigIndex?/adding-additional-ingredients',
+                                component: () => import('./components/client/popup-pages/ingredients-editor/adding-additional-ingredients.vue'),
+                                name: 'client.menu.popup.ingredients-editor.adding-additional-ingredients'
                             },
                         ]
                     },
