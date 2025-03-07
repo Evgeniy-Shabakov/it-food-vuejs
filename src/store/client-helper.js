@@ -158,7 +158,6 @@ export function plusProductToCart(product, userConfig, quantity = 1) {
         else {
             userConfig.countInCart = quantity
 
-            userConfig.productID = product.id
             userConfig.title = product.title
             userConfig.image_url = product.image_url
             userConfig.isUserConfig = true

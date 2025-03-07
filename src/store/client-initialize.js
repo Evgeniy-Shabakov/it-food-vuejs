@@ -122,7 +122,8 @@ function initializeCart() {
                 const product = category.products.find(product => product.id == oldProduct.productID)
 
                 if (product) {
-                    let userConfig = findUserConfigInProduct(product, oldProduct)
+                    let userConfig = product.userConfigs.find(el=> el.id == oldProduct.id)
+
                     if (userConfig) {
                         plusProductToCart(product, userConfig, oldProduct.countInCart)
                     }
@@ -133,55 +134,6 @@ function initializeCart() {
 
     })
 
-}
-
-function findUserConfigInProduct(product, savedUserConfig) {
-    if (!product.userConfigs || product.userConfigs.length === 0) return null
-
-    for (let productUserConfig of product.userConfigs) {
-
-        let isNeededUserConfig = true
-
-        //сравниваем базовые игредиенты
-        if (savedUserConfig.baseIngredients.length != productUserConfig.baseIngredients.length)
-            continue
-
-
-        for (let [index, baseIngredient] of savedUserConfig.baseIngredients.entries()) {
-            if (baseIngredient.ingredient.id != productUserConfig.baseIngredients[index].ingredient.id ||
-                baseIngredient.isDelete != productUserConfig.baseIngredients[index].isDelete) {
-                isNeededUserConfig = false
-                break
-            }
-        }
-
-        if (isNeededUserConfig == false) continue
-
-        //сравниваем доп игредиенты
-        const productUserConfigAdditionalIngredientsFiltered =
-            productUserConfig.additionalIngredients.filter(el => el.quantity > 0)
-
-        const savesUserConfigAdditionalIngredientsFiltered =
-            savedUserConfig.additionalIngredients.filter(el => el.quantity > 0)
-
-        if (productUserConfigAdditionalIngredientsFiltered.length != savesUserConfigAdditionalIngredientsFiltered.length)
-            continue
-
-        for (let additionalIngredient of savesUserConfigAdditionalIngredientsFiltered) {
-            const ingredient = productUserConfigAdditionalIngredientsFiltered.
-                find(el => el.ingredient.id == additionalIngredient.ingredient.id)
-
-            if (!ingredient || ingredient.quantity != additionalIngredient.quantity)
-                isNeededUserConfig = false
-            break
-        }
-
-        //возвращаем userConfig если все ингредиенты в сохраненном конфиге совпали с существующим
-        if (isNeededUserConfig) return productUserConfig
-
-    }
-
-    return null
 }
 
 function initializeOrderType() {

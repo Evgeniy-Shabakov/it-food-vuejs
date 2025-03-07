@@ -264,7 +264,7 @@ function formatPhone(value) {
 
               <ProductCard :product="product" />
 
-              <template v-for="(userConfig, index) in product.userConfigs">
+              <template v-for="(userConfig, index) in product.userConfigs" :key="userConfig.id">
 
                 <ProductCard :product="product"
                              :userConfig="userConfig"

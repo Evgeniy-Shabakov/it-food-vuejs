@@ -53,6 +53,8 @@ async function saveConfig() {
     if (!product.userConfigs) product.userConfigs = []
 
     product.userConfigs.push({
+        id: Date.now(),
+        productID: productID,
         baseIngredients: JSON.parse(JSON.stringify(product.userBaseIngredientsTemporary)),
         additionalIngredients: JSON.parse(JSON.stringify(product.userAdditionalIngredientsTemporary))
     })
@@ -71,7 +73,9 @@ async function saveConfig() {
 }
 
 function scrollToNewProductUserConfig() {
-    const element = document.getElementById(`${product.id}-${product.userConfigs.length - 1}`)
+    const element = document
+        .getElementById(`${product.id}-${product.userConfigs[product.userConfigs.length - 1].id}`)
+        
     if (!element) return
 
     element.scrollIntoView({ block: "center" })

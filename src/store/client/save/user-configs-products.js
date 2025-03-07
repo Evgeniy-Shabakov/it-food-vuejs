@@ -72,6 +72,8 @@ export function initializeUserConfigsForProducts() {
             if (needContinue) continue
 
             product.userConfigs.push({
+                id: savedUserConfig.id,
+                productID: product.id,
                 baseIngredients: JSON.parse(JSON.stringify(product.userBaseIngredientsTemporary)),
                 additionalIngredients: JSON.parse(JSON.stringify(product.userAdditionalIngredientsTemporary))
             })
@@ -121,7 +123,12 @@ function prepareUserConfigsForCookies(product) {
             }
         })
 
-        userConfigs.push({ baseIngredients, additionalIngredients })
+        userConfigs.push({ 
+            id: userConfig.id,
+            productID: product.id,
+            baseIngredients, 
+            additionalIngredients 
+        })
     })
 
     return userConfigs
