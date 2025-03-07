@@ -343,7 +343,7 @@ function scrollToNewProductUserConfig() {
     height: 20px;
 
     font-size: 10px;
-    /* font-weight: 500; */
+    font-weight: 500;
     color: var(--text-color-on-brand-color);
     background-color: var(--brand-color);
 }
