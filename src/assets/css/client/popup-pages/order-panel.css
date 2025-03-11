@@ -85,7 +85,7 @@
     align-items: center;
     font-size: 15px;
     overflow-x: hidden;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--brand-color);
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;

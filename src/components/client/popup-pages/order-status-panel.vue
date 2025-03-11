@@ -3,6 +3,8 @@ import router from "/src/router.js"
 import { currentOrder } from '/src/store/client-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
 
+import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
+
 if (currentOrder.value == null) {
   router.push({ name: 'client.menu' })
 }
@@ -13,12 +15,16 @@ if (currentOrder.value == null) {
 
   <div class="client-popup-page-layout__main-section">
 
-    <h1 v-if="currentOrder" class="client-popup-page-layout__h1">
-      {{ currentOrder.city.title }} - {{ currentOrder.order_type }}
+    <h1 v-if="currentOrder"
+        class="client-popup-page-layout__h1">
+      <span>{{ currentOrder.city.title }}</span> 
+      <br> 
+      <span class="order-status-panel__h1-type-delivery">({{ currentOrder.order_type }})</span>
     </h1>
 
 
-    <div class="order-status-panel" v-if="currentOrder">
+    <div class="order-status-panel"
+         v-if="currentOrder">
 
       <div class="order-status-panel__text-top">
         Ваш заказ оформлен! <br>
@@ -66,7 +72,7 @@ if (currentOrder.value == null) {
           </span>
 
           <div v-if="currentOrder.order_type == ORDER_TYPE.inRestaurant">
-            Тип подачи: 
+            Тип подачи:
             <template v-if="currentOrder.table_number">
               Принести к столику № {{ currentOrder.table_number }}
             </template>
@@ -98,11 +104,23 @@ if (currentOrder.value == null) {
 
         <template v-for="product in currentOrder.products">
 
-          <img class="order-panel__product-img" :src="product.image_url" alt="">
-          <div>{{ product.title }}</div>
+          <div>
+
+            <div class="order-panel__product-img-and-title">
+              <img class="order-panel__product-img"
+                   :src="product.image_url"
+                   alt="">
+              <span>{{ product.title }}</span>
+            </div>
+
+            <IngredientsMini v-if="product.is_user_config"
+                             :baseIngredients="product.user_config_base_ingredients"
+                             :additionalIngredients="product.user_config_additional_ingredients" />
+
+          </div>
+
           <div class="order-panel__count-price">
-            <span>{{ product.quantity }}</span>
-            <span> x {{ Number(product.price) }}р</span>
+            {{ product.quantity }} x {{ Number(product.price) }}р
           </div>
           <div class="order-panel__product-total">
             {{ Number(product.quantity) * Number(product.price) }}р
@@ -112,16 +130,13 @@ if (currentOrder.value == null) {
 
       </div>
 
-
-
     </div>
-
 
   </div>
 
   <div class="client-popup-page-layout__btn-section">
     <button class="btn btn-submit order-status-panel__btn-order"
-      @click.prevent="router.push({ name: 'client.menu.popup.user-panel' })">
+            @click.prevent="router.push({ name: 'client.menu.popup.user-panel' })">
       OK
     </button>
   </div>

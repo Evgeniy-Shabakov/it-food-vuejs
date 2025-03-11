@@ -6,6 +6,8 @@ import { allOrdersForUser, getAllOrdersForUser, authUser }
 import { repeatOrder } from '/src/store/client/user-panel'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type'
 
+import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
+
 const orderHistoryLoadingType = ref(LOADING_TYPE.loading)
 
 if (authUser.value) { // проверка нужна при заходе на страницу при обновлении
@@ -31,7 +33,8 @@ else {
 
         <div class="orders-history">
 
-            <div v-if="orderHistoryLoadingType == LOADING_TYPE.loading" class="spinner-centr-object">
+            <div v-if="orderHistoryLoadingType == LOADING_TYPE.loading"
+                 class="spinner-centr-object">
                 <div class="spinner"> </div>
             </div>
 
@@ -46,13 +49,24 @@ else {
                         </p>
                         <p class="orders-history__order-status">({{ order.order_status }})</p>
 
-                        <div class="user-panel__products-section">
+                        <div class="user-panel__last-order-section">
 
                             <template v-for="product in order.products">
 
-                                <img class="user-panel__product-img" :src="product.image_url" alt="">
-                                <span>{{ product.title }}</span>
-                                <span class="user-panel__count-price"> {{ product.quantity }} </span>
+                                <div>
+                                    <div class="user-panel__last-order-section-img-and-title">
+                                        <img class="user-panel__last-order-section-product-img"
+                                             :src="product.image_url"
+                                             alt="">
+                                        <span>{{ product.title }}</span>
+                                    </div>
+
+                                    <IngredientsMini v-if="product.is_user_config"
+                                                     :baseIngredients="product.user_config_base_ingredients"
+                                                     :additionalIngredients="product.user_config_additional_ingredients" />
+                                </div>
+
+                                <span class="user-panel__last-order-section-count-price"> {{ product.quantity }} </span>
                                 <span> шт. </span>
 
                             </template>
@@ -60,7 +74,7 @@ else {
                         </div>
 
                         <button @click.prevent="repeatOrder(order)"
-                            class="btn--secondary orders-history__btn-repeat-order">
+                                class="btn--secondary orders-history__btn-repeat-order">
                             Повторить заказ
                         </button>
 
@@ -77,8 +91,10 @@ else {
     </div>
 
     <div class="client-popup-page-layout__btn-section">
-        <router-link :to="{ name: 'client.menu.popup.user-panel' }" class="orders-history__btn-back">
-            <button @click="" class="btn btn-submit orders-history__btn-back">
+        <router-link :to="{ name: 'client.menu.popup.user-panel' }"
+                     class="orders-history__btn-back">
+            <button @click=""
+                    class="btn btn-submit orders-history__btn-back">
                 Назад
             </button>
         </router-link>

@@ -111,6 +111,8 @@ async function sendOrder() {
     const res = await axios.post(`/orders`, orderData)
     currentOrder.value = res.data.data
 
+    console.log(currentOrder.value)
+
     lastOrderForUser.value = res.data.data
 
     removeAllProductsFromCart()
@@ -137,7 +139,7 @@ async function sendOrder() {
 
     <h1 v-if="selectedCity"
         class="client-popup-page-layout__h1">
-      <div>{{ selectedCity.title }} - {{ selectedOrderType }}</div>
+      <div>{{ selectedCity.title }} <br> {{ selectedOrderType }}</div>
       <div class="order-panel__text-description">(оформление заказа)</div>
       <div class="invalid-text order-panel__other-errors-text">{{ otherErrors }}</div>
     </h1>

@@ -17,13 +17,8 @@ onMounted(() => {
 
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - START
 watch(authUser, () => {
-  if (authUser.value) {
-    if (loginForOrder.value) {
-      loginForOrder.value = false
-      router.push({ name: 'client.menu.popup.order-panel' })
-    }
-    else
-      router.push({ name: 'client.menu.popup.user-panel' })
+  if (authUser.value && !loginForOrder.value) {
+    router.push({ name: 'client.menu.popup.user-panel' })
   }
 })
 //проверка если зашли на страницу и данные о текущем пользователе еще не загрузились - END
@@ -107,33 +102,71 @@ function loginVue() {
 
     <div class="login-panel">
 
-      <h1 class="client-popup-page-layout__h1">
-        <template v-if="openCode == false">
-          Введите номер телефона
-        </template>
+      <!-- пустой для space-between -->
+      <div></div>
+
+      <div>
+
+        <h1 class="client-popup-page-layout__h1">
+          <template v-if="openCode == false">
+            Введите номер телефона
+          </template>
+          <template v-else>
+            Введите код
+          </template>
+        </h1>
+
+
+        <p v-if="openCode == false"
+           class="login-panel__text">
+          для входа в личный кабинет или <br>оформления заказа
+        </p>
+        <p v-else
+           class="login-panel__text">
+          код отправили сообщением на <br>{{ phoneNumberForServer }}
+        </p>
+
+        <PhoneInput v-if="openCode == false"
+                    class="login-panel__phone-input" />
+
         <template v-else>
-          Введите код
+          <CodeInput class="login-panel__phone-input" />
+          <div v-if="codeError"
+               class="login-panel__code-error">данные не совпадают</div>
         </template>
-      </h1>
-
-      <p v-if="openCode == false"
-         class="login-panel__text">
-        для входа в личный кабинет или <br>оформления заказа
-      </p>
-      <p v-else
-         class="login-panel__text">
-        код отправили сообщением на <br>{{ phoneNumberForServer }}
-      </p>
-
-      <div v-if="openCode == false"
-           class="login-panel__phone-input">
-        <PhoneInput></PhoneInput>
       </div>
 
+      <template v-if="openCode == false">
+
+        <p v-if="timerForSendVerifyCodeAllowed == null"
+           class="login-panel__soglasie">
+          Продолжая вы соглашаетесь со
+          <router-link class="cookies__link"
+                       :to="{ name: 'client.menu.popup.legal-documents' }">
+            сбором, обработкой персональных данных и
+            Пользовательским соглашением
+          </router-link>
+        </p>
+
+        <p v-else
+           class="login-panel__soglasie">
+          Повторно отправить код можно через
+          {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
+        </p>
+
+      </template>
+
       <template v-else>
-        <CodeInput class="login-panel__phone-input"></CodeInput>
-        <div v-if="codeError"
-             class="login-panel__code-error">данные не совпадают</div>
+
+        <p v-if="timerForSendVerifyCodeAllowed"
+           class="login-panel__soglasie">
+          Если код не придет, его можно будет отправить
+          повторно через {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
+        </p>
+
+        <!-- пустой для space-between -->
+        <p v-else></p>
+
       </template>
 
     </div>
@@ -143,52 +176,24 @@ function loginVue() {
 
   <div class="client-popup-page-layout__btn-section">
 
+    <template v-if="openCode == false">
 
-    <div class="login-panel__soglasie-parent">
+      <template v-if="timerForSendVerifyCodeAllowed == null">
 
-      <template v-if="openCode == false">
+        <template v-if="phoneNumberForServer.length == 12">
 
-        <template v-if="timerForSendVerifyCodeAllowed == null">
-
-          <p class="login-panel__soglasie">
-            Продолжая вы соглашаетесь со
-            <router-link class="cookies__link"
-                         :to="{ name: 'client.menu.popup.legal-documents' }">
-              сбором, обработкой персональных данных и
-              Пользовательским соглашением
-            </router-link>
-          </p>
-
-          <template v-if="phoneNumberForServer.length == 12">
-
-            <button class="btn btn-submit login-panel__btn-submit"
-                    @click.prevent="sendVerifyCodeVue()">
-              ПРОДОЛЖИТЬ
-            </button>
-
-          </template>
-
-          <template v-else>
-
-            <button class="btn btn-inactive login-panel__btn-submit"
-                    @click.prevent="">
-              ПРОДОЛЖИТЬ
-            </button>
-
-          </template>
+          <button class="btn btn-submit login-panel__btn-submit"
+                  @click.prevent="sendVerifyCodeVue()">
+            ПРОДОЛЖИТЬ
+          </button>
 
         </template>
 
         <template v-else>
 
-          <p class="login-panel__soglasie">
-            Повторно отправить код можно через
-            {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
-          </p>
-
           <button class="btn btn-inactive login-panel__btn-submit"
                   @click.prevent="">
-            Отправить код повторно
+            ПРОДОЛЖИТЬ
           </button>
 
         </template>
@@ -197,46 +202,49 @@ function loginVue() {
 
       <template v-else>
 
-        <template v-if="inputedCode.length == 4">
+        <button class="btn btn-inactive login-panel__btn-submit"
+                @click.prevent="">
+          Отправить код повторно
+        </button>
 
-          <button class="btn btn-submit login-panel__btn-submit"
-                  @click.prevent="loginVue()">
-            Подтвердить код
+      </template>
+
+    </template>
+
+    <template v-else>
+
+      <template v-if="inputedCode.length == 4">
+
+        <button class="btn btn-submit login-panel__btn-submit"
+                @click.prevent="loginVue()">
+          Подтвердить код
+        </button>
+
+      </template>
+
+      <template v-else>
+
+        <template v-if="timerForSendVerifyCodeAllowed">
+
+          <button class="btn btn-inactive login-panel__btn-submit"
+                  @click.prevent="">
+            Отправить код повторно
           </button>
 
         </template>
 
         <template v-else>
 
-          <template v-if="timerForSendVerifyCodeAllowed">
-
-            <p class="login-panel__soglasie">
-              Если код не придет, его можно будет отправить
-              повторно через {{ currentSecBeforeSendVerifyCodeAllowed }}сек.
-            </p>
-
-            <button class="btn btn-inactive login-panel__btn-submit"
-                    @click.prevent="">
-              Отправить код повторно
-            </button>
-
-          </template>
-
-          <template v-else>
-
-            <button class="btn btn-submit login-panel__btn-submit"
-                    @click.prevent="sendVerifyCodeVue()">
-              Отправить код повторно
-            </button>
-
-          </template>
+          <button class="btn btn-submit login-panel__btn-submit"
+                  @click.prevent="sendVerifyCodeVue()">
+            Отправить код повторно
+          </button>
 
         </template>
 
       </template>
 
-    </div>
-
+    </template>
 
   </div>
 

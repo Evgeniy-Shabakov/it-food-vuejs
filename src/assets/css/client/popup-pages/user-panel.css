@@ -41,24 +41,31 @@
     gap: 10px;
 }
 
-.user-panel__products-section {
+.user-panel__last-order-section {
     display: grid;
     gap: 10px;
-    grid-template-columns: max-content 1fr max-content max-content;
+    grid-template-columns: 1fr max-content max-content;
     align-items: center;
     font-size: 15px;
     overflow-x: hidden;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--brand-color);
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;
 }
 
-.user-panel__product-img {
+.user-panel__last-order-section-img-and-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.user-panel__last-order-section-product-img {
     width: 35px;
 }
 
-.user-panel__count-price {
+.user-panel__last-order-section-count-price {
     justify-self: center;
     white-space: nowrap;
 }
