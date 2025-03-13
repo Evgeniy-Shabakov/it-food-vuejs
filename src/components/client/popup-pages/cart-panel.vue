@@ -120,10 +120,10 @@ function generateRandomNumber() {
       <div v-if="selectedOrderType == ORDER_TYPE.delivery"
            class="cart-panel__preview-order-message">
         <div v-if="totalProductPrice < selectedCity.min_order_value_for_delivery">
-          Минимальная сумма товаров для заказа {{ selectedCity.min_order_value_for_delivery }}р.
+          Минимальная сумма товаров для заказа {{ Number(selectedCity.min_order_value_for_delivery) }}р.
         </div>
         <div v-else-if="totalProductPrice < selectedCity.order_value_for_free_delivery">
-          Бесплатная доставка от {{ selectedCity.order_value_for_free_delivery }}р.
+          Бесплатная доставка от {{ Number(selectedCity.order_value_for_free_delivery) }}р.
         </div>
         <div v-else-if="totalProductPrice >= selectedCity.order_value_for_free_delivery"
              class="cart-panel__text-free-delivery">

@@ -1,7 +1,8 @@
 import router from "/src/router.js"
 import { getActiveOrdersForUser, categories } from '/src/store/axios-helper.js'
-import { plusProductToCart, removeAllProductsFromCart }
+import { plusProductToCart, removeAllProductsFromCart, productsInCart }
     from '/src/store/client-helper.js'
+import { activateDialogMini } from '/src/store/client/block/dialog-mini'
 
 //загрузка статусов активных заказов через запрос в бэк - START
 export let intervalLoadActiveOrders
@@ -30,10 +31,31 @@ export function repeatOrder(order) {
             product = category.products.find(el => el.id === productInOrder.id)
         })
 
-        if (product)
-            plusProductToCart(product, productInOrder.quantity)
+        if (product && !productInOrder.user_config_id) {
+            plusProductToCart(product, null, productInOrder.quantity)
+        }
+
+        if (product && productInOrder.user_config_id && product.userConfigs) {
+            let userConfig = product.userConfigs.find(el => el.id == productInOrder.user_config_id)
+
+            if (userConfig) {
+                plusProductToCart(product, userConfig, productInOrder.quantity)
+            }
+        }
+
     })
 
-    //сделать окно корзины тоже попап, чтобы совпадало поведение на мониторе и мобиле
-    router.push({ name: 'client.menu.popup.cart' })
+    if (productsInCart.value.length == order.products.length) {
+        router.push({ name: 'client.menu.popup.cart' })
+    }
+
+    else if (productsInCart.value.length > 0) {
+        router.push({ name: 'client.menu.popup.cart' })
+
+        activateDialogMini(['Не все товары добавлены в корзину, возможно некоторые товары временно недоступны, попробуйте добавить их из меню'])
+    }
+
+    else {
+        activateDialogMini(['Товары не добавлены в корзину, возможно они временно недоступны, попробуйте добавить их из меню'])
+    }
 }

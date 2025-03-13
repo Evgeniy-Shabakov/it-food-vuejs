@@ -21,10 +21,6 @@
     align-items: center;
 }
 
-.order-manager-full-order__btn-next-status {
-    /* height: max-content; */
-}
-
 .order-manager-full-order__btn-actions-menu  {
     position: relative;
     padding: 5px;
@@ -65,7 +61,6 @@
 }
 
 .order-manager-full-order__status {
-    /* font-size: 16px; */
     color: green;
 }
 
@@ -86,18 +81,22 @@
 
 .order-manager-full-order__products-section {
     display: grid;
-    gap: 10px;
-    grid-template-columns: 25px 2fr 1fr 1fr;
+    gap: 20px;
+    grid-template-columns: 1fr max-content max-content;
     align-items: center;
     font-size: 15px;
-    /* max-height: 200px; */
     overflow-x: hidden;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--brand-color);
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;
 }
 
+.order-manager-full-order__product-img-and-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 .order-manager-full-order__product-img {
     width: 25px;
 }

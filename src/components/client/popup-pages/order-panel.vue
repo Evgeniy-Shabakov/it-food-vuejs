@@ -3,7 +3,7 @@ import { reactive, ref, watch } from 'vue';
 import axios from 'axios'
 
 import router from "/src/router.js"
-import { authUser, lastOrderForUser } from '/src/store/axios-helper.js'
+import { authUser, lastOrderForUser, company } from '/src/store/axios-helper.js'
 import {
   selectedCity, productsInCart, totalProductPrice, deliveryPrice, totalPrice, currentOrder,
   selectedOrderType, selectedAddressForDelivery, totalCountInCart, removeAllProductsFromCart,
@@ -16,6 +16,7 @@ import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
+import { checkTimeAndActivateDialog } from '/src/store/client/open-close-time'
 
 import RestaurantSelecte from '/src/components/client/modules/restaurant-selecte.vue'
 import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
@@ -96,6 +97,11 @@ async function sendOrder() {
   if (blockSendOrder.value) return
   blockSendOrder.value = true
 
+  if(!checkTimeAndActivateDialog()) {
+    blockSendOrder.value = false
+    return
+  }
+
   if (selectedOrderType.value == ORDER_TYPE.delivery) {
     orderData.restaurant_id = null
   }
@@ -110,8 +116,6 @@ async function sendOrder() {
   try {
     const res = await axios.post(`/orders`, orderData)
     currentOrder.value = res.data.data
-
-    console.log(currentOrder.value)
 
     lastOrderForUser.value = res.data.data
 

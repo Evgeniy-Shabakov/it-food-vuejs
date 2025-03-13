@@ -1,6 +1,6 @@
-import { categories, cities, activeDesign } from '/src/store/axios-helper.js'
+import { categories, cities, activeDesign, company } from '/src/store/axios-helper.js'
 import {
-    selectedCity, productsInCart, selectedRestaurant, selectedOrderType,
+    selectedCity, selectedRestaurant, selectedOrderType,
     selectedOrderInRestaurantType, plusProductToCart
 }
     from '/src/store/client-helper.js'
@@ -14,7 +14,7 @@ import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
 import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
-import { breakpointsSematic } from '@vueuse/core'
+import { checkTimeAndActivateDialog } from '/src/store/client/open-close-time'
 
 export async function initialize() {
 
@@ -25,7 +25,8 @@ export async function initialize() {
 
         initializeCity().then(() => initializeRestaurant())
 
-        loadCompany()
+        loadCompany().then(() => checkTimeAndActivateDialog())
+
         loadCurrentAuthUser()
 
         initializeUserConfigsForProducts()
@@ -122,7 +123,7 @@ function initializeCart() {
                 const product = category.products.find(product => product.id == oldProduct.productID)
 
                 if (product) {
-                    let userConfig = product.userConfigs.find(el=> el.id == oldProduct.id)
+                    let userConfig = product.userConfigs.find(el => el.id == oldProduct.id)
 
                     if (userConfig) {
                         plusProductToCart(product, userConfig, oldProduct.countInCart)
@@ -150,7 +151,7 @@ function initializeOrderInRestaurantType() {
         selectedOrderInRestaurantType.value = ORDER_IN_RESTAURANT_TYPE.COUNTER
 }
 
-async function initializeDesign() {
+export async function initializeDesign() {
     try {
         await loadActiveDesign()
 

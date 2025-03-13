@@ -61,7 +61,7 @@ else {
                                         <span>{{ product.title }}</span>
                                     </div>
 
-                                    <IngredientsMini v-if="product.is_user_config"
+                                    <IngredientsMini v-if="product.user_config_id"
                                                      :baseIngredients="product.user_config_base_ingredients"
                                                      :additionalIngredients="product.user_config_additional_ingredients" />
                                 </div>

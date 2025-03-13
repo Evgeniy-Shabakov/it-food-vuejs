@@ -44,19 +44,22 @@ function openFullOrder(order) {
 
 <template>
 
-    <div class="order-manager-mini-order" :class="{
-        'order-manager-mini-order__completed-orders':
-            order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL,
-        'order-manager-mini-order__selected-order ':
-            fullOrder != null && order.id == fullOrder.id,
-        'order-manager-mini-order__completed-selected-order':
-            fullOrder != null && order.id == fullOrder.id &&
-            (order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL),
-    }">
+    <div class="order-manager-mini-order"
+         :class="{
+            'order-manager-mini-order__completed-orders':
+                order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL,
+            'order-manager-mini-order__selected-order ':
+                fullOrder != null && order.id == fullOrder.id,
+            'order-manager-mini-order__completed-selected-order':
+                fullOrder != null && order.id == fullOrder.id &&
+                (order.order_status == ORDER_STATUS.COMPLETED || order.order_status == ORDER_STATUS.CANSEL),
+        }">
 
-        <button @click="openFullOrder(order)" class="order-manager-mini-order__btn-full-order">
+        <button @click="openFullOrder(order)"
+                class="order-manager-mini-order__btn-full-order">
 
-            <p v-if="order.order_status === ORDER_STATUS.CANSEL" style="color: red;">
+            <p v-if="order.order_status === ORDER_STATUS.CANSEL"
+               style="color: red;">
                 отменен
             </p>
 
@@ -69,25 +72,31 @@ function openFullOrder(order) {
             <p :class="{
                 'order-manager-mini-order__timer-color-orange': timer >= 60 * 45 && timer < 60 * 60,
                 'order-manager-mini-order__timer-color-red': timer >= 60 * 60,
-            }" class="order-manager-mini-order__timer">
+            }"
+               class="order-manager-mini-order__timer">
                 {{ formatTimer(timer) }}
             </p>
 
             <div class="order-manager-mini-order__products">
-                <img v-for="product in order.products" class="order-manager-mini-order__product-img"
-                    :src="product.image_url" alt="">
+                <img v-for="product in order.products"
+                     class="order-manager-mini-order__product-img"
+                     :class="{ 'order-manager-mini-order__product-img--selected': product.user_config_id }"
+                     :src="product.image_url"
+                     alt="">
             </div>
 
-            <p class="order-manager-mini-order__total">{{ order.total_price }}р.</p>
+            <p class="order-manager-mini-order__total">{{ Number(order.total_price) }}р.</p>
 
         </button>
 
         <button v-if="order.order_status !== ORDER_STATUS.COMPLETED && order.order_status !== ORDER_STATUS.CANSEL"
-            class="order-manager-mini-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(order)">
+                class="order-manager-mini-order__btn-next-status btn btn-submit"
+                @click.prevent="nextStatus(order)">
             <i class="fa-solid fa-arrow-right"></i>
         </button>
 
-        <div v-if="blockOrderActions[order.id]" class="spinner-centr-object">
+        <div v-if="blockOrderActions[order.id]"
+             class="spinner-centr-object">
             <div class="spinner"></div>
         </div>
 

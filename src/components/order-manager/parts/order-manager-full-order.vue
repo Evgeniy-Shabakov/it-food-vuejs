@@ -7,6 +7,9 @@ import {
     fullOrder, blockOrderActions, nextStatus, previousStatus, setCanselStatus
 } from '/src/store/order-manager/order-manager-order-helper.js'
 
+import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
+import IngredientsDescription from '/src/components/order-manager/parts/ingredients-description.vue'
+
 function actionForClose() {
     fullOrder.value = null
 }
@@ -59,7 +62,8 @@ onMounted(() => {
                 {{ new Date(fullOrder.created_at).toLocaleDateString() }}
             </p>
 
-            <div v-if="fullOrder.comment" class="order-manager-full-order__comment">
+            <div v-if="fullOrder.comment"
+                 class="order-manager-full-order__comment">
                 Комментарий:
                 <span class="order-manager-full-order__comment_text">{{ fullOrder.comment }}
                 </span>
@@ -69,12 +73,28 @@ onMounted(() => {
 
                 <template v-for="product in fullOrder.products">
 
-                    <img class="order-manager-full-order__product-img" :src="product.image_url" alt="">
-                    <div>{{ product.title }}</div>
+                    <div>
+                        <div class="order-manager-full-order__product-img-and-title">
+                            <img class="order-manager-full-order__product-img"
+                                 :src="product.image_url">
+                            <span>{{ product.title }}</span>
+                        </div>
+
+                        <IngredientsMini v-if="product.user_config_id"
+                                         :baseIngredients="product.user_config_base_ingredients"
+                                         :additionalIngredients="product.user_config_additional_ingredients" />
+
+                        <IngredientsDescription v-if="product.user_config_id"
+                                                :baseIngredients="product.user_config_base_ingredients"
+                                                :additionalIngredients="product.user_config_additional_ingredients" />
+
+                    </div>
+
                     <div class="order-manager-full-order__count-price">
                         <span class="order-manager-full-order__count">{{ product.quantity }}</span>
                         <span> x {{ Number(product.price) }}р</span>
                     </div>
+
                     <div class="order-manager-full-order__product-total">
                         {{ Number(product.quantity) * Number(product.price) }}р
                     </div>
@@ -85,18 +105,19 @@ onMounted(() => {
 
             <div class="order-manager-full__block__total">
                 <p>Товары:</p>
-                <p class="">{{ fullOrder.total_products_price }}р.</p>
+                <p class="">{{ Number(fullOrder.total_products_price) }}р.</p>
                 <p>Доставка:</p>
-                <p class="">{{ fullOrder.delivery_price }}р.</p>
+                <p class="">{{ Number(fullOrder.delivery_price) }}р.</p>
                 <p>Итого:</p>
-                <p class="order-manager-full-order__total">{{ fullOrder.total_price }}р.</p>
+                <p class="order-manager-full-order__total">{{ Number(fullOrder.total_price) }}р.</p>
             </div>
 
             <div class="order-manager-full__phone">
                 Телефон: {{ fullOrder.user.phone }}
             </div>
 
-            <div v-if="fullOrder.order_type == ORDER_TYPE.delivery" class="order-manager-full__address">
+            <div v-if="fullOrder.order_type == ORDER_TYPE.delivery"
+                 class="order-manager-full__address">
 
                 <span>Адрес: </span>
                 {{ fullOrder.user_address.city.title }},
@@ -111,13 +132,15 @@ onMounted(() => {
                 <span v-if="fullOrder.user_address.entrance_code">
                     , код подьезда: {{ fullOrder.user_address.entrance_code }}
                 </span>
-                <div v-if="fullOrder.user_address.comment" class="order-manager-full__address__comment">
+                <div v-if="fullOrder.user_address.comment"
+                     class="order-manager-full__address__comment">
                     Комментарий: {{ fullOrder.user_address.comment }}
                 </div>
 
             </div>
 
-            <div v-else class="order-manager-full__address">
+            <div v-else
+                 class="order-manager-full__address">
                 <span>
                     Ресторан: {{ fullOrder.restaurant.title }}
                     ({{ fullOrder.restaurant.street }}
@@ -141,12 +164,15 @@ onMounted(() => {
             <div class="order-manager-full__payment-data">
                 <div> Тип оплаты: {{ fullOrder.payment_type }}</div>
                 Статус оплаты:
-                <span v-if="fullOrder.is_payment" class="order-manager-full__payment-data__payment">оплачен</span>
-                <span v-else class="order-manager-full__payment-data__not-payment">не оплачен</span>
+                <span v-if="fullOrder.is_payment"
+                      class="order-manager-full__payment-data__payment">оплачен</span>
+                <span v-else
+                      class="order-manager-full__payment-data__not-payment">не оплачен</span>
             </div>
 
 
-            <div v-if="blockOrderActions[fullOrder.id]" class="spinner-centr-object">
+            <div v-if="blockOrderActions[fullOrder.id]"
+                 class="spinner-centr-object">
                 <div class="spinner"></div>
             </div>
 
@@ -154,25 +180,27 @@ onMounted(() => {
 
         <div class="order-manager-full-order__actions">
 
-            <button class="order-manager-full-order__btn-next-status btn btn-submit"
-                @click.prevent="previousStatus(fullOrder)">
+            <button class="btn btn-submit"
+                    @click.prevent="previousStatus(fullOrder)">
 
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button
-                v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED && fullOrder.order_status !== ORDER_STATUS.CANSEL"
-                class="order-manager-full-order__btn-next-status btn btn-submit" @click.prevent="nextStatus(fullOrder)">
+            <button v-if="fullOrder.order_status !== ORDER_STATUS.COMPLETED && fullOrder.order_status !== ORDER_STATUS.CANSEL"
+                    class="btn btn-submit"
+                    @click.prevent="nextStatus(fullOrder)">
 
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
 
-            <button ref="btnActionsMenu" class="order-manager-full-order__btn-actions-menu">
+            <button ref="btnActionsMenu"
+                    class="order-manager-full-order__btn-actions-menu">
                 Доп. действия
 
-                <div ref="actionsMenu" class="order-manager-full-order__actions-menu">
+                <div ref="actionsMenu"
+                     class="order-manager-full-order__actions-menu">
                     <button class="order-manager-full-order__actions-menu__btn-cansel"
-                        @click.prevent="setCanselStatus(fullOrder)">
+                            @click.prevent="setCanselStatus(fullOrder)">
                         Отменить заказ
                     </button>
                     <button class="order-manager-full-order__actions-menu__btn">
@@ -183,7 +211,8 @@ onMounted(() => {
 
         </div>
 
-        <button class="order-manager-full-order__btn-close" @click.prevent="actionForClose()">
+        <button class="order-manager-full-order__btn-close"
+                @click.prevent="actionForClose()">
             <i class="fa-solid fa-xmark"></i>
         </button>
 

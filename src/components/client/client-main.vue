@@ -9,8 +9,9 @@ import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { setBrowserTitleForClient } from '/src/store/vue-use-helper.js'
 
 import Cookies from '/src/components/client/block/cookies.vue'
+import DialogMini from '/src/components/client/block/dialog-mini.vue'
 
-const route = useRoute(); // Инициализация useRoute на верхнем уровне
+const route = useRoute()
 
 const dataForComponentLoadingType = ref(LOADING_TYPE.loading)
 
@@ -93,5 +94,7 @@ function btnTopPressed() {
       </div>
     </div>
   </div>
+
+  <DialogMini />
 
 </template>

@@ -1,7 +1,7 @@
-import { loadCurrentAuthUser, loadOrdersToday } from '/src/store/loading-helper.js'
+import { loadCurrentAuthUser } from '/src/store/loading-helper.js'
 import { LOADING_TYPE } from '/src/store/data-types/loading-type.js'
 import { initializeCity, initializeRestaurant } from '/src/store/client-initialize.js'
-
+import { initializeDesign } from '/src/store/client-initialize'
 export async function initialize() {
 
     try {
@@ -9,6 +9,8 @@ export async function initialize() {
             initializeCityAndRestaurant(),
             loadCurrentAuthUser(),
         ])
+
+        initializeDesign()
 
         return LOADING_TYPE.complete
 

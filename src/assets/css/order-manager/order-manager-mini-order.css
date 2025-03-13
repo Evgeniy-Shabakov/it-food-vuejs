@@ -61,7 +61,13 @@
 }
 
 .order-manager-mini-order__product-img {
-    height: 25px;
+    height: 40px;
+    padding: 2px;
+}
+
+.order-manager-mini-order__product-img--selected {
+    border: 2px solid var(--brand-color);
+    border-radius: 5px;
 }
 
 .order-manager-mini-order__completed-orders {
