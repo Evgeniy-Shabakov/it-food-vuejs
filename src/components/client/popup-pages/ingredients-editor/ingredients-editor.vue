@@ -210,6 +210,7 @@ function scrollToNewProductUserConfig() {
 .ingredients-editor__btn-reset {
     display: block;
     margin: auto;
+    margin-bottom: 15px;
 }
 
 .ingredients-editor__base-ingredients {

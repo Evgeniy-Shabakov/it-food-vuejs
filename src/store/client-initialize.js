@@ -107,34 +107,43 @@ function initializeCart() {
 
     let oldProductsInCart = JSON.parse(localStorage.getItem(COOKIE_NAME.CART))
 
-    oldProductsInCart.forEach(oldProduct => {
+    //т.к. инициализация корзины сложный процесс, учитывая изменения в товарах и ингредиентах
+    //то оборачиваем в try catch
+    try {
+        oldProductsInCart.forEach(oldProduct => {
 
-        if (!oldProduct.isUserConfig) {
-            categories.value.forEach(category => {
+            if (!oldProduct.isUserConfig) {
+                categories.value.forEach(category => {
 
-                const product = category.products.find(product => product.id == oldProduct.id)
+                    const product = category.products.find(product => product.id == oldProduct.id)
 
-                if (product) plusProductToCart(product, null, oldProduct.countInCart)
-            })
-        }
-        else {
-            categories.value.forEach(category => {
+                    if (product) plusProductToCart(product, null, oldProduct.countInCart)
+                })
+            }
+            else {
+                categories.value.forEach(category => {
 
-                const product = category.products.find(product => product.id == oldProduct.productID)
+                    const product = category.products.find(product => product.id == oldProduct.productID)
 
-                if (product) {
-                    let userConfig = product.userConfigs.find(el => el.id == oldProduct.id)
+                    if (product) {
+                        let userConfig = product.userConfigs.find(el => el.id == oldProduct.id)
 
-                    if (userConfig) {
-                        plusProductToCart(product, userConfig, oldProduct.countInCart)
+                        if (userConfig) {
+                            plusProductToCart(product, userConfig, oldProduct.countInCart)
+                        }
                     }
-                }
 
-            })
-        }
+                })
+            }
 
-    })
-
+        })
+    }
+    catch (error) {
+        console.log(error)
+        localStorage.removeItem(COOKIE_NAME.CART)
+        //throw error - ошибку не выбрасываем, чтобы не прерывать работу приложения, 
+        //а просто удаляем все с корзины
+    }
 }
 
 function initializeOrderType() {

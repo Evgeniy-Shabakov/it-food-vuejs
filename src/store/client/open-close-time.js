@@ -15,10 +15,13 @@ function isTimeForRestaurantIsOpen() {
 
     const openTimeInMinutes = openHours * 60 + openMinutes; // время открытия в минутах
     const closeTimeInMinutes = closeHours * 60 + closeMinutes; // время закрытия в минутах
-
-    const isOpen = currentTime >= openTimeInMinutes && currentTime < closeTimeInMinutes;
-
-    return isOpen
+        
+    if(openTimeInMinutes < closeTimeInMinutes) {
+        return currentTime >= openTimeInMinutes && currentTime < closeTimeInMinutes;
+    }
+    else {
+        return currentTime >= openTimeInMinutes || currentTime < closeTimeInMinutes;
+    }
 }
 
 export function checkTimeAndActivateDialog() {
