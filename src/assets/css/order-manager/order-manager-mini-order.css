@@ -1,91 +1,91 @@
 .order-manager-mini-order {
-    /* position: relative; для спиннера в центре*/
-    position: relative;
-    background-color: rgb(28, 170, 28);
-    border-radius: 15px;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+   /* position: relative; для спиннера в центре*/
+   position: relative;
+   background-color: rgb(28, 170, 28);
+   border-radius: 15px;
+   padding: 10px;
+   margin-top: 5px;
+   margin-bottom: 15px;
 }
 
 .order-manager-mini-order__btn-full-order {
-    background-color: transparent;
-    border: 0px;
-    width: 100%;
+   background-color: transparent;
+   border: 0px;
+   width: 100%;
 }
 
 .order-manager-mini-order__number {
-    margin-bottom: 5px;
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
+   margin-bottom: 5px;
+   font-size: 20px;
+   font-weight: 700;
+   text-align: center;
 }
 
 .order-manager-mini-order__type {
-    margin-bottom: 5px;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
+   margin-bottom: 5px;
+   font-size: 15px;
+   font-weight: 700;
+   text-align: center;
 }
 
 .order-manager-mini-order__time {
-    margin-bottom: 5px;
-    font-size: 15px;
-    text-align: center;
+   margin-bottom: 5px;
+   font-size: 15px;
+   text-align: center;
 }
 
 .order-manager-mini-order__timer {
-    margin-bottom: 5px;
-    font-size: 18px;
-    color: white;
-    font-weight: 700;
-    text-align: center;
+   margin-bottom: 5px;
+   font-size: 18px;
+   color: white;
+   font-weight: 700;
+   text-align: center;
 }
 
 .order-manager-mini-order__total {
-    margin-bottom: 5px;
-    font-size: 20px;
-    text-align: center;
+   margin-bottom: 5px;
+   font-size: 20px;
+   text-align: center;
 }
 
 .order-manager-mini-order__btn-next-status {
-    width: 100%;
+   width: 100%;
 }
 
 .order-manager-mini-order__products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 5px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 5px;
+   margin-bottom: 5px;
 }
 
 .order-manager-mini-order__product-img {
-    height: 40px;
-    padding: 2px;
+   height: 40px;
+   padding: 2px;
 }
 
 .order-manager-mini-order__product-img--selected {
-    border: 2px solid var(--brand-color);
-    border-radius: 5px;
+   border: 2px solid var(--brand-color);
+   border-radius: 5px;
 }
 
 .order-manager-mini-order__completed-orders {
-    background-color: grey;
+   background-color: grey;
 }
 
 .order-manager-mini-order__selected-order {
-    background-color: rgb(3, 224, 3);
+   background-color: rgb(3, 224, 3);
 }
 
-.order-manager-mini-order__completed-selected-order{
-    background-color: rgb(175, 174, 174);
+.order-manager-mini-order__completed-selected-order {
+   background-color: rgb(175, 174, 174);
 }
 
 .order-manager-mini-order__timer-color-red {
-    color: rgb(150, 0, 0);
+   color: rgb(150, 0, 0);
 }
 
 .order-manager-mini-order__timer-color-orange {
-    color: orange;
+   color: orange;
 }

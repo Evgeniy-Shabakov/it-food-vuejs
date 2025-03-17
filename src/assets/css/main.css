@@ -18,7 +18,9 @@ button:hover {
     cursor: pointer;
 }
 
-button,label,a:active {
+button,
+label,
+a:active {
     /*убирает базовое синие выделение при клике на телефоне */
     -webkit-tap-highlight-color: transparent;
 }
@@ -36,14 +38,3 @@ button,label,a:active {
 .loading-event {
     text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-

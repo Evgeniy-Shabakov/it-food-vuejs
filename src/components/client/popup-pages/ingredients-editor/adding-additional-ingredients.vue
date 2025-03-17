@@ -2,14 +2,15 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from "/src/router.js"
-import { getProductById, initializeUserAdditonalIngredientsForProductTemporary }
+import { initializeUserAdditonalIngredientsForProductTemporary }
     from '/src/store/client/popup-pages/ingredients-editor'
+import { findProductById } from '/src/store/models/product'
 
 const productID = Number(useRoute().params.id)
 const userConfigIndex = useRoute().params.userConfigIndex
     ? Number(useRoute().params.userConfigIndex)
     : useRoute().params.userConfigIndex
-const product = getProductById(productID)
+const product = findProductById(productID)
 
 if (!product.userAdditionalIngredientsTemporary) {
     initializeUserAdditonalIngredientsForProductTemporary(product, userConfigIndex)

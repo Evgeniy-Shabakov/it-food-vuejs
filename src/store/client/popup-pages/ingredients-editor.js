@@ -1,14 +1,3 @@
-import { categories } from '/src/store/axios-helper.js'
-
-export function getProductById(id) {
-    for (const category of categories.value) {
-        const product = category.products.find(product => product.id === id)
-        if (product) {
-            return product
-        }
-    }
-    return null;
-}
 
 export function initializeUserBaseIngredientsForProductTemporary(product, userConfigIndex = null) {
     const temporaryArray = []

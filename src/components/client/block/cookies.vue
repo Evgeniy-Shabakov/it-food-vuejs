@@ -42,5 +42,4 @@ function btnCloseCookiesPressed() {
         </div>
 
     </div>
-
 </template>
