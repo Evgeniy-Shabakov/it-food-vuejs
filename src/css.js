@@ -53,7 +53,6 @@ import './assets/css/client/blocks/cookies.css'
 import './assets/css/client/blocks/product-card.css'
 import './assets/css/client/blocks/ingredients-mini.css'
 
-import './assets/css/order-manager/order-manager-main.css'
 import './assets/css/order-manager/order-manager-mini-order.css'
 import './assets/css/order-manager/order-manager-full-order.css'
 

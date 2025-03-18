@@ -8,57 +8,68 @@ import { loadOrdersToday } from '/src/store/loading-helper.js'
 export let intervalLoadOrders
 
 export async function loadOrdersTodayAndRestartInterval(restaurantID) {
-    clearInterval(intervalLoadOrders)
+   clearInterval(intervalLoadOrders)
 
-    await loadOrdersToday(restaurantID)
+   await loadOrdersToday(restaurantID)
 
-    intervalLoadOrders = setInterval(() => {
-        loadOrdersToday(restaurantID)
-    }, 15000)
+   intervalLoadOrders = setInterval(() => {
+      loadOrdersToday(restaurantID)
+   }, 15000)
 }
 //загрузка ordersToday через запрос в бэк - END
 
 
 export const ordersNew = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.CREATED)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.CREATED)
 })
 
 export const ordersAccepted = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.ACCEPTED)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.ACCEPTED)
 })
 
 export const ordersCooking = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COOKING)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.COOKING)
 })
 
 export const ordersPacking = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.PACKING)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.PACKING)
 })
 
 export const ordersWaitingCourier = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.WAITING_COURIER)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.WAITING_COURIER)
 })
 
 export const ordersInTransit = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.IN_TRANSIT)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.IN_TRANSIT)
 })
 
 export const ordersAwaitingPickup = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.AWAITING_PICKUP)
+   if (ordersToday.value)
+      return ordersToday.value.filter(order => order.order_status === ORDER_STATUS.AWAITING_PICKUP)
 })
 
 export const ordersCompletedOrCansel = computed(() => {
-    if (ordersToday.value)
-        return ordersToday.value
-            .filter(order => order.order_status === ORDER_STATUS.COMPLETED ||
-                order.order_status === ORDER_STATUS.CANSEL)
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+   if (ordersToday.value)
+      return ordersToday.value
+         .filter(order => order.order_status === ORDER_STATUS.COMPLETED ||
+            order.order_status === ORDER_STATUS.CANSEL)
+         .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+})
+
+export const ordersActive = computed(() => {
+   if (ordersToday.value)
+      return ordersNew.value.length
+         + ordersAccepted.value.length
+         + ordersCooking.value.length
+         + ordersPacking.value.length
+         + ordersWaitingCourier.value.length
+         + ordersInTransit.value.length
+         + ordersAwaitingPickup.value.length
 })
 

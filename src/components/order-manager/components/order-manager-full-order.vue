@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 import { ORDER_STATUS } from '/src/store/data-types/order-status'
 import { ORDER_TYPE } from '/src/store/data-types/order-type'
@@ -8,7 +8,7 @@ import {
 } from '/src/store/order-manager/order-manager-order-helper.js'
 
 import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
-import IngredientsDescription from '/src/components/order-manager/parts/ingredients-description.vue'
+import IngredientsDescription from '/src/components/order-manager/components/ingredients-description.vue'
 
 function actionForClose() {
    fullOrder.value = null
@@ -43,6 +43,15 @@ onMounted(() => {
 })
 //выпадающее меню - END 
 
+
+const productTotalQuantityInOrder = computed(() => {
+    let total = 0
+    fullOrder.value.products.forEach(element => {
+        total += element.quantity
+    })
+    return total
+})
+
 </script>
 
 <template>
@@ -61,6 +70,8 @@ onMounted(() => {
             {{ new Date(fullOrder.created_at).toLocaleTimeString() }}
             {{ new Date(fullOrder.created_at).toLocaleDateString() }}
          </p>
+
+         <p class="order-manager-full-order__time">Товары - {{ productTotalQuantityInOrder }} шт.</p>
 
          <div v-if="fullOrder.comment"
               class="order-manager-full-order__comment">
