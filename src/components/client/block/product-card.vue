@@ -51,6 +51,7 @@ function deleteUserConfig() {
       <div class="product-card__image-and-ingredients">
 
          <img class="product-card__product-image"
+              :class="product.stop_list ? 'product-card__product-image--stop-list' : ''"
               :src="product.image_url"
               alt="">
 
@@ -97,29 +98,35 @@ function deleteUserConfig() {
 
          <p class="product-card__price"> {{ Number(price) }} р.</p>
 
-         <button v-if="
-            (userConfig && (userConfig.countInCart == 0 || userConfig.countInCart == undefined))
-            ||
-            (!userConfig && (product.countInCart == 0 || product.countInCart == undefined))"
-                 class="product-card__btn-in-cart btn btn-submit"
-                 @click="plusProductToCart(product, userConfig)"
-                 type="button">В корзину
-         </button>
+         <template v-if="!product.stop_list">
+            <button v-if="
+               (userConfig && (userConfig.countInCart == 0 || userConfig.countInCart == undefined))
+               ||
+               (!userConfig && (product.countInCart == 0 || product.countInCart == undefined))"
+                    class="product-card__btn-in-cart btn btn-submit"
+                    @click="plusProductToCart(product, userConfig)"
+                    type="button">В корзину
+            </button>
+
+            <div v-else
+                 class="product-card__plus-count-minus">
+               <button class="product-card__btn-plus-minus btn btn-submit"
+                       @click="minusProductInCartForMenuPage(product, userConfig)">
+                  <i class="fa-solid fa-minus"></i>
+               </button>
+               <div v-if="userConfig">{{ userConfig.countInCart }}</div>
+               <div v-else>{{ product.countInCart }}</div>
+               <button class="product-card__btn-plus-minus btn btn-submit"
+                       @click="plusProductToCart(product, userConfig)">
+                  <i class="fa-solid fa-plus"></i>
+               </button>
+            </div>
+         </template>
 
          <div v-else
-              class="product-card__plus-count-minus">
-            <button class="product-card__btn-plus-minus btn btn-submit"
-                    @click="minusProductInCartForMenuPage(product, userConfig)">
-               <i class="fa-solid fa-minus"></i>
-            </button>
-            <div v-if="userConfig">{{ userConfig.countInCart }}</div>
-            <div v-else>{{ product.countInCart }}</div>
-            <button class="product-card__btn-plus-minus btn btn-submit"
-                    @click="plusProductToCart(product, userConfig)">
-               <i class="fa-solid fa-plus"></i>
-            </button>
+              class="product-card__text-for-stop-list">
+            Будет позже
          </div>
-
       </div>
 
    </article>

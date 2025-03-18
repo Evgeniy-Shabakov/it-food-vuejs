@@ -18,6 +18,9 @@
    aspect-ratio: 1/1;
 }
 
+.product-card__product-image--stop-list {
+   filter: grayscale(80%);
+}
 /*чтобы работало только на компе с мышкой */
 @media (hover: hover) {
    .product-card__btn-delete:hover {
@@ -123,6 +126,13 @@
    align-items: center;
    gap: 5px;
    font-size: 17px;
+}
+
+.product-card__text-for-stop-list {
+   font-size: 15px;
+   background-color: rgba(128, 128, 128, 0.4);
+   padding: 8px 12px;
+   border-radius: 30px;
 }
 
 @media (max-width: 500px) {

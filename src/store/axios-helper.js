@@ -196,9 +196,9 @@ export async function getActiveDesign() {
    }
 }
 
-export async function updateStopListForProduct(productID, statusStopList) {
+export async function toggleStopListForProduct(productID) {
    try {
-      const res = await axios.patch(`/products/${productID}/stop-list`, { stop_list: statusStopList })
+      const res = await axios.patch(`/products/${productID}/stop-list`)
 
       return res
    } catch (error) {
