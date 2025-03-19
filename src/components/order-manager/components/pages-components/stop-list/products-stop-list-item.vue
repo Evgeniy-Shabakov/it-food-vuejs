@@ -1,25 +1,21 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps } from 'vue'
 import { toggleStopListForProduct } from '/src/store/axios-helper.js'
+import { useBlockBtnForAsyncRequest } from '/src/store/composables/useBlockBtnForAsyncRequest'
 
 const props = defineProps(['product'])
 
-const allowedChangeStopListStatus = ref(true)
+const { isRequestRunning, controlClick } = useBlockBtnForAsyncRequest()
 
-async function changeStopListStatus() {
-   if (allowedChangeStopListStatus.value == false) return
-   allowedChangeStopListStatus.value = false
-
+async function handleClick() {
    try {
       await toggleStopListForProduct(props.product.id)
-      
+
       props.product.stop_list = !props.product.stop_list
-      
+
    } catch (error) {
       console.log(error)
    }
-
-   allowedChangeStopListStatus.value = true
 }
 </script>
 
@@ -37,13 +33,13 @@ async function changeStopListStatus() {
 
    <button class="btn"
            :class="product.stop_list ? 'btn-view' : 'btn-delete'"
-           @click="changeStopListStatus()">
-      <span v-if="allowedChangeStopListStatus">
+           @click="controlClick(handleClick)">
+
+      <div v-if="isRequestRunning"
+           class="products-stop-list-item__spinner spinner"></div>
+      <span v-else>
          {{ product.stop_list ? 'Удалить из стоп-листа' : 'Добавить в стоп лист' }}
       </span>
-
-      <div v-else
-           class="products-stop-list-item__spinner spinner"></div>
 
    </button>
 
