@@ -23,23 +23,23 @@ const burgerMenu = ref(null)
 onMounted(() => {
   activateSelecteMenuController(contentSections.value, categoriesItems.value)
   activateMoveMenuController(contentSections.value, categoriesItems.value, categoriesMenuInner.value)
-  activateSwipeController(contentInner.value,
-    () => {
-      let index = getIndexCentrSection(contentSections.value)
-      index++
-      if (index < categoriesItems.value.length) scrollToCategory(index)
-    },
-    () => {
-      let index = getIndexCentrSection(contentSections.value)
-      index--
-      if (index > 0) scrollToCategory(index)
-      else {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }
-    })
+//   activateSwipeController(contentInner.value,
+//     () => {
+//       let index = getIndexCentrSection(contentSections.value)
+//       index++
+//       if (index < categoriesItems.value.length) scrollToCategory(index)
+//     },
+//     () => {
+//       let index = getIndexCentrSection(contentSections.value)
+//       index--
+//       if (index > 0) scrollToCategory(index)
+//       else {
+//         window.scrollTo({
+//           top: 0,
+//           behavior: "smooth",
+//         });
+//       }
+//     })
 
   // Блок управления бургер меню - Start
   burgerMenu.value.hidden = true
