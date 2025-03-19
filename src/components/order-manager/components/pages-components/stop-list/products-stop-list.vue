@@ -1,10 +1,6 @@
 <script setup>
 import { categories } from '/src/store/axios-helper.js'
-import { initializeStopList } from '/src/store/order-manager/stop-list'
-
-import StopListItem from '/src/components/order-manager/components/pages-components/stop-list/stop-list-item.vue'
-
-initializeStopList()
+import ProductsStopListItem from '/src/components/order-manager/components/pages-components/stop-list/products-stop-list-item.vue'
 
 </script>
 
@@ -17,7 +13,7 @@ initializeStopList()
 
          <div class="products-stop-list__items">
 
-            <StopListItem v-for="product in category.products"
+            <ProductsStopListItem v-for="product in category.products"
                           :key="product.id"
                           :product="product" />
 
@@ -41,6 +37,7 @@ initializeStopList()
 
 .products-stop-list__items {
    display: grid;
+   height: max-content;
    grid-template-columns: max-content 300px 100px 200px;
    align-items: center;
    gap: 15px;
