@@ -14,7 +14,7 @@ import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
 import { restaurants } from './axios-helper'
 import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
-import { checkTimeAndActivateDialog } from '/src/store/client/open-close-time'
+import { checkOperatingModeAndActivateDialog } from '/src/store/client/open-close-time'
 import { findProductById } from '/src/store/models/product'
 
 export async function initialize() {
@@ -26,7 +26,7 @@ export async function initialize() {
 
       initializeCity().then(() => initializeRestaurant())
 
-      loadCompany().then(() => checkTimeAndActivateDialog())
+      loadCompany().then(() => checkOperatingModeAndActivateDialog())
 
       loadCurrentAuthUser()
 

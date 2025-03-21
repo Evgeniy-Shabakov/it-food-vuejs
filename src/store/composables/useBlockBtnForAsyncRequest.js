@@ -21,7 +21,7 @@ export function useBlockBtnForAsyncRequest() {
    }
 }
 
-//как использовать
+// как использовать
 // import { useBlockBtnForAsyncRequest } from '/src/store/composables/useBlockBtnForAsyncRequest'
 
 // const { isRequestRunning, controlClick } = useBlockBtnForAsyncRequest()

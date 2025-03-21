@@ -24,7 +24,7 @@ function isTimeForRestaurantIsOpen() {
     }
 }
 
-export function checkTimeAndActivateDialog() {
+export function checkOperatingModeAndActivateDialog() {
     if (isTimeForRestaurantIsOpen()) return true
 
     activateDialogMini(['Мы принимаем заказы',

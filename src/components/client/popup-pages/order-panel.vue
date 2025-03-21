@@ -16,7 +16,7 @@ import { PAYMENT_TYPE } from '/src/store/data-types/payment-type'
 import { setAddressForDelivery } from '/src/store/order-panel-helper.js'
 import { transformValidateErrorsForUI } from '/src/store/validation-helper.js'
 import { userAddresses } from '/src/store/client/popup-pages/address-index.js'
-import { checkTimeAndActivateDialog } from '/src/store/client/open-close-time'
+import { checkOperatingModeAndActivateDialog } from '/src/store/client/open-close-time'
 
 import RestaurantSelecte from '/src/components/client/modules/restaurant-selecte.vue'
 import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
@@ -97,7 +97,7 @@ async function sendOrder() {
   if (blockSendOrder.value) return
   blockSendOrder.value = true
 
-  if(!checkTimeAndActivateDialog()) {
+  if(!checkOperatingModeAndActivateDialog()) {
     blockSendOrder.value = false
     return
   }
