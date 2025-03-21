@@ -11,7 +11,7 @@ async function handleClick() {
    try {
       await toggleStopListForProduct(props.product.id)
 
-      props.product.stop_list = !props.product.stop_list
+      props.product.is_in_stop_list = !props.product.is_in_stop_list
 
    } catch (error) {
       console.log(error)
@@ -25,20 +25,20 @@ async function handleClick() {
         :src="product.image_url">
 
    <h5 class="products-stop-list-item__title"
-       :class="product.stop_list ? 'products-stop-list-item__title--in-stop-list' : ''">
+       :class="product.is_in_stop_list ? 'products-stop-list-item__title--in-stop-list' : ''">
       {{ product.title }}
    </h5>
 
    <span>{{ Number(product.price_default) }} р.</span>
 
    <button class="btn"
-           :class="product.stop_list ? 'btn-view' : 'btn-delete'"
+           :class="product.is_in_stop_list ? 'btn-view' : 'btn-delete'"
            @click="controlClick(handleClick)">
 
       <div v-if="isRequestRunning"
            class="products-stop-list-item__spinner spinner"></div>
       <span v-else>
-         {{ product.stop_list ? 'Удалить из стоп-листа' : 'Добавить в стоп лист' }}
+         {{ product.is_in_stop_list ? 'Удалить из стоп-листа' : 'Добавить в стоп лист' }}
       </span>
 
    </button>

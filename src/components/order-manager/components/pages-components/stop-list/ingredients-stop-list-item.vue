@@ -11,7 +11,7 @@ async function handleClick() {
    try {
       await toggleStopListForIngredient(props.ingredient.id)
 
-      props.ingredient.stop_list = !props.ingredient.stop_list
+      props.ingredient.is_in_stop_list = !props.ingredient.is_in_stop_list
 
    } catch (error) {
       console.log(error)
@@ -25,20 +25,20 @@ async function handleClick() {
         :src="ingredient.image_url">
 
    <h5 class="ingredients-stop-list-item__title"
-       :class="ingredient.stop_list ? 'ingredients-stop-list-item__title--in-stop-list' : ''">
+       :class="ingredient.is_in_stop_list ? 'ingredients-stop-list-item__title--in-stop-list' : ''">
       {{ ingredient.title }}
    </h5>
 
    <span>{{ Number(ingredient.price_default) }} р.</span>
 
    <button class="btn"
-           :class="ingredient.stop_list ? 'btn-view' : 'btn-delete'"
+           :class="ingredient.is_in_stop_list ? 'btn-view' : 'btn-delete'"
            @click="controlClick(handleClick)">
 
       <div v-if="isRequestRunning"
            class="ingredients-stop-list-item__spinner spinner"></div>
       <span v-else>
-         {{ ingredient.stop_list ? 'Удалить из стоп-листа' : 'Добавить в стоп лист' }}
+         {{ ingredient.is_in_stop_list ? 'Удалить из стоп-листа' : 'Добавить в стоп лист' }}
       </span>
 
    </button>

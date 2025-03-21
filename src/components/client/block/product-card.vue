@@ -51,7 +51,7 @@ function deleteUserConfig() {
       <div class="product-card__image-and-ingredients">
 
          <img class="product-card__product-image"
-              :class="product.stop_list ? 'product-card__product-image--stop-list' : ''"
+              :class="product.is_in_stop_list ? 'product-card__product-image--stop-list' : ''"
               :src="product.image_url"
               alt="">
 
@@ -98,7 +98,7 @@ function deleteUserConfig() {
 
          <p class="product-card__price"> {{ Number(price) }} р.</p>
 
-         <template v-if="!product.stop_list">
+         <template v-if="!product.is_in_stop_list">
             <button v-if="
                (userConfig && (userConfig.countInCart == 0 || userConfig.countInCart == undefined))
                ||

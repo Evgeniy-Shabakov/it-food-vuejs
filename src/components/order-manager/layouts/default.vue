@@ -1,13 +1,12 @@
 <script setup>
 import { onUnmounted, watch, computed } from 'vue'
 
-import { categories, getModelsAxios } from '/src/store/axios-helper.js'
+import { categories, ingredients, getModelsAxios, authUser, logout } from '/src/store/axios-helper.js'
 import { setBrowserTitleForOrderManager } from '/src/store/vue-use-helper'
 import { initialize } from '/src/store/order-manager/order-manager-initialize.js'
 import {
    loadOrdersTodayAndRestartInterval, intervalLoadOrders, ordersActive
 } from '/src/store/order-manager/order-manager-helper.js'
-import { authUser, logout } from '/src/store/axios-helper.js'
 import { selectedRestaurant } from '/src/store/client-helper.js'
 import router from "/src/router.js"
 
@@ -27,16 +26,22 @@ getModelsAxios('categories').then(() => {
    categories.value = categories.value.filter(category => category.products.length > 0)
 })
 
-const quantityProductsInStopList = computed(() => {
-   if(!categories.value) return
+getModelsAxios('ingredients')
 
+const quantityProductsInStopList = computed(() => {
    let total = 0
-   categories.value.forEach(category => {
+   categories.value?.forEach(category => {
       category.products.forEach(product => {
-         if(product.stop_list) {
-            total +=1
+         if (product.is_in_stop_list) {
+            total += 1
          }
       })
+   })
+
+   ingredients.value?.forEach(ingredient => {
+      if (ingredient.is_in_stop_list) {
+         total += 1
+      }
    })
 
    return total
@@ -84,11 +89,20 @@ function logoutInManagerPanel() {
             </button>
 
             <router-link :to="{ name: 'order-manager.index' }">
-               Заказы ({{ ordersActive }} шт.)
+               Заказы (
+               <span :class="ordersActive > 0 ? 'order-manager-layout-default__header-text-attention' : ''">
+                  {{ ordersActive }}
+               </span>
+               шт.)
             </router-link>
 
             <router-link :to="{ name: 'order-manager.stop-list' }">
-               Стоп-лист ({{ quantityProductsInStopList }} шт.)
+               Стоп-лист (
+               <span
+                     :class="quantityProductsInStopList > 0 ? 'order-manager-layout-default__header-text-attention' : ''">
+                  {{ quantityProductsInStopList }}
+               </span>
+               шт.)
             </router-link>
          </div>
 
@@ -133,6 +147,11 @@ function logoutInManagerPanel() {
 
 .order-manager-layout-default__header__btn-exit {
    font-size: 20px;
+}
+
+.order-manager-layout-default__header-text-attention {
+   color: red;
+   font-weight: 700;
 }
 
 .order-manager-layout-default__header__time {

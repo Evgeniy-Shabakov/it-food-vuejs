@@ -198,7 +198,7 @@ export async function getActiveDesign() {
 
 export async function toggleStopListForProduct(productID) {
    try {
-      const res = await axios.patch(`/products/${productID}/toggle-stop-list`)
+      const res = await axios.patch(`/products/${productID}/toggle-is-in-stop-list`)
 
       return res
    } catch (error) {
@@ -209,7 +209,7 @@ export async function toggleStopListForProduct(productID) {
 
 export async function toggleStopListForIngredient(ingredientID) {
    try {
-      const res = await axios.patch(`/ingredients/${ingredientID}/toggle-stop-list`)
+      const res = await axios.patch(`/ingredients/${ingredientID}/toggle-is-in-stop-list`)
 
       return res
    } catch (error) {
