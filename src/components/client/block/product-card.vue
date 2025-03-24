@@ -34,7 +34,7 @@ const price = computed(() => {
 function deleteUserConfig() {
    removeProductFromCart(null, props.userConfig)
 
-   const index = props.product.userConfigs.findIndex(config => config.id == props.userConfig.id)
+   const index = props.product.userConfigs.findIndex(config => config.userConfigID == props.userConfig.userConfigID)
    props.product.userConfigs.splice(index, 1)
 
    rerecordProductWithUserConfigs(props.product)
@@ -45,7 +45,7 @@ function deleteUserConfig() {
 <template>
 
    <!-- id нужен для прокрутки к новой карточке продукта после создания новой конфигурации -->
-   <article :id="`${product.id}${userConfig ? '-' + userConfig.id : ''}`"
+   <article :id="`${product.id}${userConfig ? '-' + userConfig.userConfigID : ''}`"
             class="product-card">
 
       <div class="product-card__image-and-ingredients">

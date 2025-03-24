@@ -1,10 +1,9 @@
 
-export function createUserConfigForProduct(product, baseIngredients, additionalIngredients, id) {
+export function createUserConfigForProduct(product, baseIngredients, additionalIngredients, userConfigID) {
    if (!product.userConfigs) product.userConfigs = []
 
    product.userConfigs.push({
-      id: id || Date.now(),
-      productID: product.id,
+      userConfigID: userConfigID || Date.now(),
       baseIngredients: JSON.parse(JSON.stringify(baseIngredients)),
       additionalIngredients: JSON.parse(JSON.stringify(additionalIngredients))
    })

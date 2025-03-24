@@ -16,6 +16,7 @@ import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
 import { checkOperatingModeAndActivateDialog } from '/src/store/client/open-close-time'
 import { findProductById } from '/src/store/models/product'
+import { cheсkProductAvailabilityForCart } from '/src/store/models/product'
 
 export async function initialize() {
 
@@ -111,26 +112,26 @@ function initializeCart() {
    //т.к. инициализация корзины сложный процесс, учитывая изменения в товарах и ингредиентах
    //то оборачиваем в try catch
    try {
-      oldProductsInCart.forEach(oldProduct => {
+      for (const oldProduct of oldProductsInCart) {
 
-         if (!oldProduct.isUserConfig) {
-               const product = findProductById(oldProduct.id) 
+         const product = findProductById(oldProduct.id)
 
-               if (product) plusProductToCart(product, null, oldProduct.countInCart)
+         if (!cheсkProductAvailabilityForCart(product)) continue
+
+         if (!oldProduct.userConfigID) {
+            if (product) plusProductToCart(product, null, oldProduct.countInCart)
          }
          else {
-               const product = findProductById(oldProduct.productID) 
+            if (product && Array.isArray(product.userConfigs)) {
+               let userConfig = product.userConfigs.find(el => el.userConfigID == oldProduct.userConfigID)
 
-               if (product && Array.isArray(product.userConfigs)) {
-                  let userConfig = product.userConfigs.find(el => el.id == oldProduct.id)
-
-                  if (userConfig) {
-                     plusProductToCart(product, userConfig, oldProduct.countInCart)
-                  }
+               if (userConfig) {
+                  plusProductToCart(product, userConfig, oldProduct.countInCart)
                }
+            }
          }
 
-      })
+      }
    }
    catch (error) {
       console.log(error)

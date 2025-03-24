@@ -77,7 +77,7 @@ export function initializeUserConfigsForProducts() {
             createUserConfigForProduct(product,
                product.userBaseIngredientsTemporary,
                product.userAdditionalIngredientsTemporary,
-               savedUserConfig.id)
+               savedUserConfig.userConfigID)
 
             rerecordProductWithUserConfigs(product)
          }
@@ -133,8 +133,7 @@ function prepareUserConfigsForCookies(product) {
       })
 
       userConfigsForCookies.push({
-         id: userConfig.id,
-         productID: product.id,
+         userConfigID: userConfig.userConfigID,
          baseIngredients,
          additionalIngredients
       })

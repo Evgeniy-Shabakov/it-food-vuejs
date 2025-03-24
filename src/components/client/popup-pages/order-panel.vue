@@ -284,7 +284,7 @@ async function sendOrder() {
                         <span>{{ product.title }}</span>
                      </div>
 
-                     <IngredientsMini v-if="product.isUserConfig"
+                     <IngredientsMini v-if="product.userConfigID"
                                       :baseIngredients="product.baseIngredients"
                                       :additionalIngredients="product.additionalIngredients" />
 

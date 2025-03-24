@@ -21,7 +21,7 @@ defineProps(['productOrUserConfig'])
                  :src="productOrUserConfig.image_url"
                  alt="">
 
-            <IngredientsMini v-if="productOrUserConfig.isUserConfig"
+            <IngredientsMini v-if="productOrUserConfig.userConfigID"
                              :baseIngredients="productOrUserConfig.baseIngredients"
                              :additionalIngredients="productOrUserConfig.additionalIngredients" />
 

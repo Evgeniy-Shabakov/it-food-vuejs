@@ -260,12 +260,13 @@ function formatPhone(value) {
 
                <div class="content__category-products">
 
-                  <template v-for="product in category.products">
+                  <template v-for="product in category.products"
+                            :key="product.id">
 
                      <ProductCard :product="product" />
 
                      <template v-for="(userConfig, index) in product.userConfigs"
-                               :key="userConfig.id">
+                               :key="userConfig.userConfigID">
 
                         <ProductCard :product="product"
                                      :userConfig="userConfig"

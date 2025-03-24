@@ -68,7 +68,7 @@ async function saveConfig() {
 
 function scrollToNewProductUserConfig() {
    const element = document
-      .getElementById(`${product.id}-${product.userConfigs[product.userConfigs.length - 1].id}`)
+      .getElementById(`${product.id}-${product.userConfigs[product.userConfigs.length - 1].userConfigID}`)
 
    if (!element) return
 
