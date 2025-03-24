@@ -3,7 +3,7 @@ import { getActiveOrdersForUser, categories } from '/src/store/axios-helper.js'
 import { plusProductToCart, removeAllProductsFromCart, productsInCart }
    from '/src/store/client-helper.js'
 import { activateDialogMini } from '/src/store/client/block/dialog-mini'
-import { findProductById, cheсkProductAvailabilityForCart } from '/src/store/models/product'
+import { findProductById, checkProductAvailabilityForCart } from '/src/store/models/product'
 
 //загрузка статусов активных заказов через запрос в бэк - START
 export let intervalLoadActiveOrders
@@ -29,7 +29,7 @@ export function repeatOrder(order) {
       const product = findProductById(productInOrder.id)
 
       if (!product) continue
-      if (!cheсkProductAvailabilityForCart(product)) continue
+      if (!checkProductAvailabilityForCart(product)) continue
 
       if (!productInOrder.user_config_id) {
          plusProductToCart(product, null, productInOrder.quantity)

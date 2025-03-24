@@ -2,7 +2,7 @@ import { ref, computed, watch } from 'vue';
 import { restaurants, logout, lastOrderForUser } from '/src/store/axios-helper.js'
 import { ORDER_TYPE } from '/src/store/data-types/order-type.js'
 import { COOKIE_NAME } from '/src/store/strings/cookie-name.js'
-import { cheсkProductAvailabilityForCart } from '/src/store/models/product'
+import { checkProductAvailabilityForCart } from '/src/store/models/product'
 
 export const selectedCity = ref()
 export const selectedRestaurant = ref()
@@ -152,7 +152,7 @@ export const totalPrice = computed(() => {
 })
 
 export function plusProductToCart(product, userConfig, quantity = 1) {
-   if(!cheсkProductAvailabilityForCart(product)) return
+   if(!checkProductAvailabilityForCart(product)) return
 
    if (userConfig) {
       if (productsInCart.value.includes(userConfig)) {

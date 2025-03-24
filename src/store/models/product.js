@@ -10,7 +10,7 @@ export function findProductById(id) {
    return null;
 }
 
-export function cheсkProductAvailabilityForCart(product) {
+export function checkProductAvailabilityForCart(product) {
    if (!product) return false
    if (!product.is_active) return false
    if (product.is_in_stop_list) return false

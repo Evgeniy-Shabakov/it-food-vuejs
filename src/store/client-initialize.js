@@ -16,7 +16,7 @@ import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
 import { checkOperatingModeAndActivateDialog } from '/src/store/client/open-close-time'
 import { findProductById } from '/src/store/models/product'
-import { cheсkProductAvailabilityForCart } from '/src/store/models/product'
+import { checkProductAvailabilityForCart } from '/src/store/models/product'
 
 export async function initialize() {
 
@@ -117,7 +117,7 @@ function initializeCart() {
          const product = findProductById(oldProduct.id)
 
          if (!product) continue
-         if (!cheсkProductAvailabilityForCart(product)) continue
+         if (!checkProductAvailabilityForCart(product)) continue
 
          if (!oldProduct.userConfigID) {
             plusProductToCart(product, null, oldProduct.countInCart)
