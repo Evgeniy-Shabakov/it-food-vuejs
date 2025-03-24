@@ -116,13 +116,14 @@ function initializeCart() {
 
          const product = findProductById(oldProduct.id)
 
+         if (!product) continue
          if (!cheсkProductAvailabilityForCart(product)) continue
 
          if (!oldProduct.userConfigID) {
-            if (product) plusProductToCart(product, null, oldProduct.countInCart)
+            plusProductToCart(product, null, oldProduct.countInCart)
          }
          else {
-            if (product && Array.isArray(product.userConfigs)) {
+            if (Array.isArray(product.userConfigs)) {
                let userConfig = product.userConfigs.find(el => el.userConfigID == oldProduct.userConfigID)
 
                if (userConfig) {

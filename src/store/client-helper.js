@@ -161,11 +161,10 @@ export function plusProductToCart(product, userConfig, quantity = 1) {
       else {
          userConfig.countInCart = quantity
 
-         userConfig.id = product.id //для передачи на бэк и нициализации
+         userConfig.id = product.id //для передачи на бэк и инициализации
 
          userConfig.title = product.title
          userConfig.image_url = product.image_url
-         // userConfig.isUserConfig = true
 
          productsInCart.value.push(userConfig)
       }

@@ -28,13 +28,14 @@ export function repeatOrder(order) {
 
       const product = findProductById(productInOrder.id)
 
+      if (!product) continue
       if (!cheсkProductAvailabilityForCart(product)) continue
 
-      if (product && !productInOrder.user_config_id) {
+      if (!productInOrder.user_config_id) {
          plusProductToCart(product, null, productInOrder.quantity)
       }
 
-      if (product && productInOrder.user_config_id && product.userConfigs) {
+      if (productInOrder.user_config_id && product.userConfigs) {
          let userConfig = product.userConfigs.find(el => el.userConfigID == productInOrder.user_config_id)
 
          if (userConfig) {
