@@ -117,7 +117,7 @@ async function sendOrder() {
       removeAllProductsFromCart()
       router.push({ name: 'client.menu.popup.order-status-panel' })
    } catch (error) {
-      console.log(error);
+      console.log(error)
 
       if (error.response.status === 422) {
          validationErrors.value = error.response.data.errors
@@ -273,7 +273,7 @@ async function sendOrder() {
 
             <div class="order-panel__products-section">
 
-               <template v-for="product in productsInOrder">
+               <template v-for="(product, index) in productsInOrder">
 
                   <div>
 
@@ -287,6 +287,10 @@ async function sendOrder() {
                      <IngredientsMini v-if="product.userConfigID"
                                       :baseIngredients="product.baseIngredients"
                                       :additionalIngredients="product.additionalIngredients" />
+
+                     <div class="invalid-text order-panel__invalid-text">
+                        {{ validationErrors[`products_in_order.${index}.id`] }}
+                     </div>
 
                   </div>
 
