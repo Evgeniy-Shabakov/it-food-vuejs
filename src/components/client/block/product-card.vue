@@ -72,8 +72,8 @@ function deleteUserConfig() {
             изменить
          </router-link>
 
-         <button class="product-card__btn-in-cart"
-                 @click="console.log(product, userConfig)">log</button>
+         <!-- <button class="product-card__btn-in-cart"
+                 @click="console.log(product, userConfig)">log</button> -->
 
       </div>
 
