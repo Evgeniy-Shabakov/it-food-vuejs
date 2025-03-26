@@ -67,7 +67,7 @@ function save() {
          <div v-for="ingredient in userBaseIngredient.ingredient.replacements"
               class="flex items-center justify-between mb-15px text-16px">
 
-            <label class="flex items-center gap-10px grow"
+            <label class="flex items-center gap-7px grow"
                    :for="ingredient.id + ' - id-base-ingredient'">
                <img class="w-50px aspect-square"
                     :class="ingredient.is_in_stop_list ? 'replacing-base-ingredient__item-image--stop-list' : ''"
@@ -117,5 +117,6 @@ function save() {
    background-color: rgba(128, 128, 128, 0.4);
    padding: 4px 6px;
    border-radius: 30px;
+   white-space: nowrap;
 }
 </style>
