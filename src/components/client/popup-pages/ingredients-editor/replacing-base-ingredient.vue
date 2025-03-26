@@ -20,7 +20,21 @@ if (!product.userBaseIngredientsTemporary) {
 
 const userBaseIngredient = product.userBaseIngredientsTemporary[position]
 
-const selectedIngredientID = ref(userBaseIngredient.ingredient.id)
+// const selectedIngredientID = ref(userBaseIngredient.ingredient.id)
+const selectedIngredientID = ref(setSelectedIngredientID())
+
+function setSelectedIngredientID() {
+   if (userBaseIngredient.ingredient.is_active && !userBaseIngredient.ingredient.is_in_stop_list) {
+      return userBaseIngredient.ingredient.id
+   }
+
+   for (let ingredient of userBaseIngredient.ingredient.replacements) {
+      if (ingredient.is_active && !ingredient.is_in_stop_list)
+         return ingredient.id
+   }
+
+   return null
+}
 
 function save() {
    if (userBaseIngredient.ingredient.id != selectedIngredientID.value) {
@@ -56,13 +70,21 @@ function save() {
             <label class="flex items-center gap-10px grow"
                    :for="ingredient.id + ' - id-base-ingredient'">
                <img class="w-50px aspect-square"
+                    :class="ingredient.is_in_stop_list ? 'replacing-base-ingredient__item-image--stop-list' : ''"
                     :src="ingredient.image_url"
                     alt="">
                <span>(+{{ ingredient.additionalPrice }}р.)</span>
                <span>{{ ingredient.title }}</span>
             </label>
 
-            <input class="w-25px aspect-square"
+            <div v-if="ingredient.is_in_stop_list"
+                 class="replacing-base-ingredient__item-text-for-stop-list">
+               Будет позже
+            </div>
+            
+            <!-- v-show чтобы не было ошибки что указан for label для несуществующего input  -->
+            <input v-show="!ingredient.is_in_stop_list"
+                   class="w-25px aspect-square"
                    type="radio"
                    :id="ingredient.id + ' - id-base-ingredient'"
                    :value="ingredient.id"
@@ -84,3 +106,16 @@ function save() {
    </div>
 
 </template>
+
+<style scoped>
+.replacing-base-ingredient__item-image--stop-list {
+   filter: grayscale(80%);
+}
+
+.replacing-base-ingredient__item-text-for-stop-list {
+   font-size: 14px;
+   background-color: rgba(128, 128, 128, 0.4);
+   padding: 4px 6px;
+   border-radius: 30px;
+}
+</style>

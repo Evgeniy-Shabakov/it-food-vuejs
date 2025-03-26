@@ -16,12 +16,15 @@ import { adjustColor } from '/src/store/color'
 import { initializeUserConfigsForProducts } from '/src/store/client/save/user-configs-products'
 import { checkOperatingModeAndActivateDialog } from '/src/store/client/open-close-time'
 import { findProductById } from '/src/store/models/product'
-import { checkProductAvailabilityForCart } from '/src/store/models/product'
+import { checkProductAvailabilityForCart, setStatusAllIngredientsIsAvailableForProdacts }
+   from '/src/store/models/product'
 
 export async function initialize() {
 
    try {
       await initializeCategories()
+
+      setStatusAllIngredientsIsAvailableForProdacts()
 
       initializeDesign()
 

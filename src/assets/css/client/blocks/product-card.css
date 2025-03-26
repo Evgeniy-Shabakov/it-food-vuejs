@@ -135,6 +135,24 @@
    border-radius: 30px;
 }
 
+.product-card__icon-info {
+   position: relative;
+   font-size: 25px;
+   color: var(--brand-color);
+   background-color: transparent;
+   border: 0;
+}
+
+@media (hover: hover) {
+   .product-card__icon-info:hover {
+      color: var(--brand-color-hover);
+   }
+}
+
+.product-card__icon-info:active {
+   color: var(--brand-color-active);
+}
+
 @media (max-width: 500px) {
    .product-card {
       padding: 15px 8px;

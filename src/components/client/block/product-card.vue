@@ -1,9 +1,10 @@
 <script setup>
-import { defineProps, computed } from 'vue'
+import { defineProps, computed, ref } from 'vue'
 import { minusProductInCartForMenuPage, plusProductToCart, removeProductFromCart } from '/src/store/client-helper.js'
 import { rerecordProductWithUserConfigs } from '/src/store/client/save/user-configs-products.js'
 
 import IngredientsMini from '/src/components/client/block/ingredients-mini.vue'
+import DialogMiniInfo from '/src/components/client/block//dialog-mini-info.vue'
 
 const props = defineProps(['product', 'userConfig', 'index'])
 
@@ -71,8 +72,8 @@ function deleteUserConfig() {
             изменить
          </router-link>
 
-         <!-- <button class="product-card__btn-in-cart"
-                    @click="console.log(product, userConfig)">log</button> -->
+         <button class="product-card__btn-in-cart"
+                 @click="console.log(product, userConfig)">log</button>
 
       </div>
 
@@ -98,7 +99,21 @@ function deleteUserConfig() {
 
          <p class="product-card__price"> {{ Number(price) }} р.</p>
 
-         <template v-if="!product.is_in_stop_list">
+         <div v-if="product.is_in_stop_list"
+              class="product-card__text-for-stop-list">
+            Будет позже
+         </div>
+
+         <button v-else-if="!product.allIngredientIsAvailable && !userConfig"
+                 class="product-card__icon-info">
+            <i class="fas fa-info-circle"></i>
+            <DialogMiniInfo right = 0 bottom=0>
+               Не все ингредиенты доступны для заказа.
+               Но вы можете изменить ингредиенты и добавить в корзину товары с новыми ингредиентами
+            </DialogMiniInfo>
+         </button>
+
+         <template v-else>
             <button v-if="
                (userConfig && (userConfig.countInCart == 0 || userConfig.countInCart == undefined))
                ||
@@ -123,10 +138,6 @@ function deleteUserConfig() {
             </div>
          </template>
 
-         <div v-else
-              class="product-card__text-for-stop-list">
-            Будет позже
-         </div>
       </div>
 
    </article>

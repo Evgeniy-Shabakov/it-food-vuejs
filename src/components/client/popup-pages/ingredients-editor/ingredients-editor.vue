@@ -10,8 +10,7 @@ import {
 import { rerecordProductWithUserConfigs } from '/src/store/client/save/user-configs-products.js'
 import { findProductById } from '/src/store/models/product'
 import { createUserConfigForProduct } from '/src/store/models/user-config'
-
-
+import DialogMiniInfo from '/src/components/client/block//dialog-mini-info.vue'
 
 const productID = Number(useRoute().params.id)
 const userConfigIndex = useRoute().params.userConfigIndex
@@ -75,15 +74,17 @@ function scrollToNewProductUserConfig() {
    element.scrollIntoView({ block: "center" })
 }
 
-
 </script>
 
 <template>
    <div class="client-popup-page-layout__main-section">
 
-      <h1 class="client-popup-page-layout__h1">
-         {{ product.title }}
+      <h1 class="client-popup-page-layout__h1 ingredients-editor__h1">
+         <span>{{ product.title }} </span>
+         <br>
+
       </h1>
+      <div class="ingredients-editor__h1-description">(редактор ингредиентов)</div>
 
       <article class="ingredients-editor">
 
@@ -94,10 +95,21 @@ function scrollToNewProductUserConfig() {
             Настрой ингредиенты по своему вкусу
          </p>
 
-         <button class="ingredients-editor__btn-reset btn--secondary"
-                 @click="resetCurrentConfig(product, userConfigIndex)">
-            Сбросить изменения
-         </button>
+         <div class="ingredients-editor__btn-reset-and-btn-info">
+            <button class="btn--secondary"
+                    @click="resetCurrentConfig(product, userConfigIndex)">
+               Сбросить изменения
+            </button>
+
+            <button class="ingredients-editor__btn-info">
+               <i class="fas fa-info-circle"></i>
+               <DialogMiniInfo right=0>
+                  Базовые игредиенты - ингредиенты, которые уже есть в продуке и которые можно удалить или заменить.
+                  Изменение ингредиентов может повлиять на стоимость продукта.
+               </DialogMiniInfo>
+            </button>
+         </div>
+
 
          <section v-if="product.userBaseIngredientsTemporary.length > 0"
                   class="ingredients-editor__base-ingredients">
@@ -106,16 +118,22 @@ function scrollToNewProductUserConfig() {
                  class="ingredients-editor__base-ingredients-item">
                <div class="ingredients-editor__base-ingredients-item-image-and-title">
                   <img class="ingredients-editor__base-ingredients-item-image"
-                       :class="{ 'image-gray': baseIngredient.isDelete }"
+                       :class="{
+                        'image-gray': baseIngredient.isDelete
+                           || baseIngredient.ingredient.is_in_stop_list
+                           || !baseIngredient.ingredient.is_active
+                     }"
                        :src="baseIngredient.ingredient.image_url"
                        alt="">
                   <span class="ingredients-editor__base-ingredients-item-title"
                         :class="{ 'text-line-through': baseIngredient.isDelete }">
                      {{ baseIngredient.ingredient.title }}
+                     <span v-if="baseIngredient.ingredient.is_in_stop_list">(будет позже)</span>
+                     <span v-if="!baseIngredient.ingredient.is_active">(недоступен)</span>
                   </span>
                </div>
 
-               <div>
+               <div class="ingredients-editor__base-ingredients-item-btns-section">
                   <button v-if="baseIngredient.ingredient.can_delete"
                           class="ingredients-editor__base-ingredients-item-btn-delete"
                           @click="baseIngredient.isDelete = !baseIngredient.isDelete">
@@ -186,6 +204,16 @@ function scrollToNewProductUserConfig() {
 
 </template>
 <style scoped>
+.ingredients-editor__h1 {
+   margin-bottom: 0;
+}
+
+.ingredients-editor__h1-description {
+   font-size: 14px;
+   text-align: center;
+   margin-bottom: 15px;
+}
+
 .ingredients-editor__product-image {
    display: block;
    margin: auto;
@@ -201,10 +229,30 @@ function scrollToNewProductUserConfig() {
    margin-bottom: 10px;
 }
 
-.ingredients-editor__btn-reset {
-   display: block;
-   margin: auto;
-   margin-bottom: 15px;
+.ingredients-editor__btn-reset-and-btn-info {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.ingredients-editor__btn-info {
+   position: relative;
+   font-size: 25px;
+   color: var(--brand-color);
+   background-color: transparent;
+   border: 0;
+
+   display: flex;
+}
+
+@media (hover: hover) {
+   .ingredients-editor__btn-info:hover {
+      color: var(--brand-color-hover);
+   }
+}
+
+.ingredients-editor__btn-info:active {
+   color: var(--brand-color-active);
 }
 
 .ingredients-editor__base-ingredients {
@@ -229,6 +277,11 @@ function scrollToNewProductUserConfig() {
    display: flex;
    align-items: center;
    gap: 5px;
+}
+
+.ingredients-editor__base-ingredients-item-btns-section {
+   /* для запрета переноса кнопок при длинном имени ингредиента   */
+   display: flex;
 }
 
 .ingredients-editor__base-ingredients-item-image {

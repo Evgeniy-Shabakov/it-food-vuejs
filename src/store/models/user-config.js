@@ -8,3 +8,14 @@ export function createUserConfigForProduct(product, baseIngredients, additionalI
       additionalIngredients: JSON.parse(JSON.stringify(additionalIngredients))
    })
 }
+
+// export function checkUserConfigAvailabilityForCart(userConfig) {
+//    if (!userConfig) return false
+
+//    userConfig.baseIngredients.forEach(ingredient => {
+//       if (!ingredient.is_active) return false
+//       if (ingredient.is_in_stop_list) return false
+//    })
+
+//    return true
+// }
